@@ -4,11 +4,8 @@
  */
 
 // ============ SUPABASE CONFIGURATION ============
-const SUPABASE_CONFIG = {
-  url: 'https://mcbxbaggjaxqfdvmrqsc.supabase.co',
-  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MDE4NDYsImV4cCI6MjA3ODA3Nzg0Nn0.agjLGl7uW0S1tGgivGBVthHWAgw0YxHjJNLHkhsViO0',
-  serviceRoleKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjUwMTg0NiwiZXhwIjoyMDc4MDc3ODQ2fQ.dTRFNjBrZHsLERsjzqSckpJ1oaQcCjIw98_UvgKyQJU'
-};
+// Import configuration from config.js (handles environment variables)
+import { SUPABASE_CONFIG } from './config.js';
 
 // ============ SUPABASE CLIENT INITIALIZATION ============
 class SupabaseClient {
@@ -393,11 +390,11 @@ class SupabaseClient {
 const supabase = new SupabaseClient(SUPABASE_CONFIG);
 
 // Auto-restore session on page load
-window.addEventListener('DOMContentLoaded', async () => {
-  await supabase.getCurrentUser();
-});
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', async () => {
+    await supabase.getCurrentUser();
+  });
+}
 
 // Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { supabase, SupabaseClient, SUPABASE_CONFIG };
-}
+export { supabase, SupabaseClient };
