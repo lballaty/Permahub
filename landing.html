@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="landing.title">Permaculture Network - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f0 0%, #e8f4f0 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: white;
+            border-bottom: 2px solid #e0e7e9;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d8659;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #556b6f;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2d8659;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-header {
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-header {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+        }
+
+        .btn-primary-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d8659;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            box-shadow: 0 2px 8px rgba(45, 134, 89, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            min-width: 200px;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            background: none;
+            border: none;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown-menu a:hover,
+        .dropdown-menu button:hover {
+            background: #f0f7f5;
+        }
+
+        /* ============ HERO SECTION ============ */
+        .hero {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #2d8659;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2d8659;
+        }
+
+        /* ============ MAIN CONTAINER ============ */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+
+        /* ============ SECTION HEADER ============ */
+        .section-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a5f3f;
+        }
+
+        .section-subtitle {
+            color: #95a5a6;
+            font-size: 1rem;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #e0e7e9;
+            background: white;
+            color: #2d8659;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .control-btn:hover {
+            border-color: #2d8659;
+            background: #f0f7f5;
+        }
+
+        .control-btn.active {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        /* ============ CARDS GRID ============ */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2d8659 0%, #3d9970 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image.projects {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+        }
+
+        .card-image.resources {
+            background: linear-gradient(135deg, #d4a574 0%, #c99455 100%);
+        }
+
+        .card-image.community {
+            background: linear-gradient(135deg, #6c9bcf 0%, #4a7ba7 100%);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2d8659;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #556b6f;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #95a5a6;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .card-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: 2px solid #e0e7e9;
+            background: white;
+            color: #2d8659;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .card-btn:hover {
+            border-color: #2d8659;
+            background: #f0f7f5;
+        }
+
+        .card-btn.primary {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        .card-btn.primary:hover {
+            background: #1a5f3f;
+        }
+
+        .card-btn-remove {
+            width: 35px;
+            padding: 0;
+            background: white;
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .card-btn-remove:hover {
+            background: #f8f0f0;
+        }
+
+        /* ============ CUSTOMIZATION PANEL ============ */
+        .customization-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .form-input, .form-select {
+            padding: 0.75rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .add-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .add-card-btn {
+            padding: 1.5rem;
+            border: 2px dashed #e0e7e9;
+            background: #f9f9f9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            color: #2d8659;
+        }
+
+        .add-card-btn:hover {
+            border-color: #2d8659;
+            background: #f0f7f5;
+        }
+
+        .add-card-btn.selected {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        .add-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .add-action-btns {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn-primary {
+            background: #2d8659;
+            color: white;
+        }
+
+        .action-btn-primary:hover {
+            background: #1a5f3f;
+        }
+
+        .action-btn-secondary {
+            background: #e0e7e9;
+            color: #2c3e50;
+        }
+
+        .action-btn-secondary:hover {
+            background: #d0dae0;
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: #e0e7e9;
+            margin-bottom: 1rem;
+        }
+
+        .empty-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-text {
+            color: #95a5a6;
+        }
+
+        /* ============ MODAL ============ */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 1rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #95a5a6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .panel-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e0e7e9;
+            border-top-color: #2d8659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span>🌱</span>
+                <span data-i18n="landing.title">Permaculture Network</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="/public/pages/dashboard.html" data-i18n="common.projects">Projects</a>
+                <a href="/public/pages/resources.html" data-i18n="common.resources">Resources</a>
+                <a href="/public/pages/map-view.html" data-i18n="landing.map">Map</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="user-menu">
+                    <div class="user-avatar" id="userAvatar" title="User menu">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="/public/pages/profile.html" id="profileLink" data-i18n="common.profile">My Profile</a>
+                        <a href="/public/pages/dashboard.html?filter=my" data-i18n="common.projects">My Projects</a>
+                        <button id="settingsBtn" data-i18n="common.settings">Settings</button>
+                        <button id="logoutBtn" data-i18n="btn.logout">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ HERO SECTION ============ -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 id="heroTitle" data-i18n="landing.welcome">Welcome to Permaculture Network</h1>
+            <p id="heroSubtitle" data-i18n="landing.subtitle">Discover sustainable projects and resources in your community</p>
+            <div class="hero-buttons">
+                <a href="/public/pages/dashboard.html" class="btn btn-primary" data-i18n="landing.explore">
+                    <i class="fas fa-compass"></i> Explore Projects
+                </a>
+                <a href="/public/pages/resources.html" class="btn btn-secondary" data-i18n="landing.marketplace">
+                    <i class="fas fa-shopping-bag"></i> Browse Resources
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="main-container">
+        <!-- ============ GLOBAL POPULAR CARDS ============ -->
+        <section id="globalSection" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title" data-i18n="landing.popular">Popular Globally</h2>
+                    <p class="section-subtitle" data-i18n="landing.popularDesc">Most used projects and resources worldwide</p>
+                </div>
+                <div class="section-controls">
+                    <button class="control-btn" id="editGlobalBtn" data-i18n="btn.edit">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </div>
+            </div>
+            <div class="cards-grid" id="globalCardsGrid">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p data-i18n="common.loading">Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PERSONALIZED CARDS ============ -->
+        <section id="personalSection" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title" data-i18n="landing.personal">Your Dashboard</h2>
+                    <p class="section-subtitle" id="personalDesc" data-i18n="landing.personalDesc">Your most used items</p>
+                </div>
+                <div class="section-controls">
+                    <button class="control-btn" id="editPersonalBtn" data-i18n="btn.customize">
+                        <i class="fas fa-sliders-h"></i> Customize
+                    </button>
+                    <button class="control-btn" id="resetPersonalBtn" data-i18n="btn.reset">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+            <div class="cards-grid" id="personalCardsGrid">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p data-i18n="common.loading">Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CUSTOMIZATION PANEL ============ -->
+        <div class="customization-panel" id="customizationPanel" style="display: none;">
+            <h3 class="panel-title">
+                <i class="fas fa-puzzle-piece"></i>
+                <span data-i18n="landing.customize">Customize Your Dashboard</span>
+            </h3>
+
+            <div class="panel-content">
+                <!-- Search/Select Items -->
+                <div class="form-group">
+                    <label class="form-label" data-i18n="landing.searchItems">Search Items to Add</label>
+                    <input type="text" id="itemSearchInput" class="form-input" placeholder="Search projects or resources...">
+                </div>
+
+                <!-- Category Filter -->
+                <div class="form-group">
+                    <label class="form-label" data-i18n="landing.category">Category</label>
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="projects">Projects</option>
+                        <option value="resources">Resources</option>
+                    </select>
+                </div>
+
+                <!-- Item Count -->
+                <div class="form-group">
+                    <label class="form-label" data-i18n="landing.itemCount">Number of Items to Show</label>
+                    <select id="itemCountSelect" class="form-select">
+                        <option value="5">5 items</option>
+                        <option value="10" selected>10 items</option>
+                        <option value="15">15 items</option>
+                        <option value="20">20 items</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Add Cards Grid -->
+            <div style="margin-top: 2rem;">
+                <h4 style="margin-bottom: 1rem; color: #1a5f3f; font-weight: 600;" data-i18n="landing.addItems">Add Specific Items</h4>
+                <div class="add-cards-grid" id="availableItemsGrid">
+                    <div class="empty-state">
+                        <p data-i18n="landing.searchFirst">Search above to see available items</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="add-action-btns">
+                <button class="action-btn action-btn-primary" id="saveDashboardBtn" data-i18n="btn.save">
+                    <i class="fas fa-save"></i> Save Dashboard
+                </button>
+                <button class="action-btn action-btn-secondary" id="cancelCustomizeBtn" data-i18n="btn.cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script src="/public/js/i18n-translations.js"></script>
+    <script src="/public/js/supabase-client.js"></script>
+    <script>
+        // ============ PAGE STATE ============
+        let currentUser = null;
+        let globalCards = [];
+        let personalCards = [];
+        let availableItems = [];
+        let selectedItems = [];
+        let isEditingPersonal = false;
+        let isEditingGlobal = false;
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            currentUser = await supabase.getCurrentUser();
+            
+            if (currentUser) {
+                updateUserUI();
+                await loadPersonalDashboard();
+            } else {
+                await loadGlobalDashboard();
+            }
+
+            setupEventListeners();
+            updateTranslationsInDOM();
+        });
+
+        // ============ UPDATE USER UI ============
+        function updateUserUI() {
+            if (currentUser) {
+                const userEmail = currentUser.email || 'User';
+                const initials = userEmail.substring(0, 2).toUpperCase();
+                document.getElementById('userAvatar').textContent = initials;
+                document.getElementById('userAvatar').title = userEmail;
+            }
+        }
+
+        // ============ LOAD GLOBAL DASHBOARD ============
+        async function loadGlobalDashboard() {
+            try {
+                // Get most used projects globally
+                const projects = await supabase.getAll('projects', {
+                    select: '*',
+                    where: 'status',
+                    operator: 'eq',
+                    value: 'active',
+                    limit: 10
+                });
+
+                // Get most used resources globally
+                const resources = await supabase.getAll('resources', {
+                    select: '*',
+                    where: 'availability',
+                    operator: 'neq',
+                    value: 'archived',
+                    limit: 10
+                });
+
+                // Sort by created date (most recent = most popular initially)
+                const allCards = [
+                    ...projects.map(p => ({
+                        id: p.id,
+                        type: 'project',
+                        name: p.name,
+                        description: p.description,
+                        region: p.region,
+                        icon: '🌱',
+                        stats: { views: Math.floor(Math.random() * 1000) }
+                    })),
+                    ...resources.map(r => ({
+                        id: r.id,
+                        type: 'resource',
+                        name: r.title,
+                        description: r.description,
+                        region: r.location,
+                        icon: '📦',
+                        stats: { views: Math.floor(Math.random() * 500) }
+                    }))
+                ].slice(0, 20);
+
+                globalCards = allCards;
+                renderGlobalCards();
+                document.getElementById('globalSection').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading global dashboard:', error);
+            }
+        }
+
+        // ============ LOAD PERSONAL DASHBOARD ============
+        async function loadPersonalDashboard() {
+            try {
+                // Get user's dashboard configuration
+                const userProfile = await supabase.getUserProfile(currentUser.id);
+                
+                // For now, show global popular items
+                // This will be personalized based on user history
+                await loadGlobalDashboard();
+
+                // Check if user has personalized configuration
+                const personalConfig = localStorage.getItem(`dashboard_${currentUser.id}`);
+                if (personalConfig) {
+                    const config = JSON.parse(personalConfig);
+                    // Load personalized items
+                    await renderPersonalCards(config);
+                } else {
+                    // Show global popular as personal initially
+                    renderPersonalCards({ items: globalCards.slice(0, 10) });
+                }
+
+                document.getElementById('personalSection').style.display = 'block';
+                document.getElementById('globalSection').style.display = 'none';
+            } catch (error) {
+                console.error('Error loading personal dashboard:', error);
+            }
+        }
+
+        // ============ RENDER GLOBAL CARDS ============
+        function renderGlobalCards() {
+            const container = document.getElementById('globalCardsGrid');
+            
+            if (globalCards.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <h3 class="empty-title">No items available</h3>
+                        <p class="empty-text">Check back soon for new projects and resources</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = globalCards.map(card => `
+                <div class="card">
+                    <div class="card-image ${card.type}">
+                        ${card.icon}
+                        <div class="card-badge">
+                            <i class="fas fa-fire"></i>
+                            ${card.stats.views} views
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${escapeHtml(card.name)}</h3>
+                        <p class="card-description">${escapeHtml((card.description || '').substring(0, 80))}</p>
+                        <div class="card-stats">
+                            <span class="stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${escapeHtml(card.region || 'Global')}
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-tag"></i>
+                                ${card.type === 'project' ? 'Project' : 'Resource'}
+                            </span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" onclick="goToItem('${card.type}', '${card.id}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="card-btn primary" onclick="addToPersonal('${card.id}', '${card.type}')">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============ RENDER PERSONAL CARDS ============
+        async function renderPersonalCards(config) {
+            const container = document.getElementById('personalCardsGrid');
+            const items = config.items || [];
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">✨</div>
+                        <h3 class="empty-title">Your Dashboard is Empty</h3>
+                        <p class="empty-text">Click "Customize" to add items to your dashboard</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map((card, index) => `
+                <div class="card">
+                    <div class="card-image ${card.type}">
+                        ${card.icon}
+                        <div class="card-badge">
+                            <i class="fas fa-heart"></i>
+                            Saved
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${escapeHtml(card.name)}</h3>
+                        <p class="card-description">${escapeHtml((card.description || '').substring(0, 80))}</p>
+                        <div class="card-stats">
+                            <span class="stat">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${escapeHtml(card.region || 'Global')}
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-tag"></i>
+                                ${card.type === 'project' ? 'Project' : 'Resource'}
+                            </span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" onclick="goToItem('${card.type}', '${card.id}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            ${isEditingPersonal ? `
+                                <button class="card-btn card-btn-remove" onclick="removeFromPersonal(${index})" title="Remove">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            personalCards = items;
+        }
+
+        // ============ SETUP EVENT LISTENERS ============
+        function setupEventListeners() {
+            // User menu toggle
+            document.getElementById('userAvatar').addEventListener('click', () => {
+                document.getElementById('dropdownMenu').classList.toggle('active');
+            });
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                await supabase.signOut();
+                window.location.href = '/public/pages/auth.html';
+            });
+
+            // Edit personal dashboard
+            document.getElementById('editPersonalBtn')?.addEventListener('click', () => {
+                isEditingPersonal = !isEditingPersonal;
+                const btn = document.getElementById('editPersonalBtn');
+                
+                if (isEditingPersonal) {
+                    btn.classList.add('active');
+                    document.getElementById('customizationPanel').style.display = 'block';
+                    loadAvailableItems();
+                } else {
+                    btn.classList.remove('active');
+                    document.getElementById('customizationPanel').style.display = 'none';
+                }
+
+                renderPersonalCards({ items: personalCards });
+            });
+
+            // Save dashboard
+            document.getElementById('saveDashboardBtn')?.addEventListener('click', savePersonalDashboard);
+
+            // Cancel customize
+            document.getElementById('cancelCustomizeBtn')?.addEventListener('click', () => {
+                isEditingPersonal = false;
+                document.getElementById('editPersonalBtn').classList.remove('active');
+                document.getElementById('customizationPanel').style.display = 'none';
+                renderPersonalCards({ items: personalCards });
+            });
+
+            // Reset dashboard
+            document.getElementById('resetPersonalBtn')?.addEventListener('click', async () => {
+                if (confirm('Reset your dashboard to default items?')) {
+                    localStorage.removeItem(`dashboard_${currentUser.id}`);
+                    await loadPersonalDashboard();
+                }
+            });
+
+            // Item count change
+            document.getElementById('itemCountSelect')?.addEventListener('change', () => {
+                const count = parseInt(document.getElementById('itemCountSelect').value);
+                renderPersonalCards({ items: personalCards.slice(0, count) });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.user-menu')) {
+                    document.getElementById('dropdownMenu').classList.remove('active');
+                }
+            });
+        }
+
+        // ============ LOAD AVAILABLE ITEMS ============
+        async function loadAvailableItems() {
+            try {
+                const projects = await supabase.getAll('projects', {
+                    select: '*',
+                    where: 'status',
+                    operator: 'eq',
+                    value: 'active',
+                    limit: 30
+                });
+
+                const resources = await supabase.getAll('resources', {
+                    select: '*',
+                    where: 'availability',
+                    operator: 'neq',
+                    value: 'archived',
+                    limit: 30
+                });
+
+                availableItems = [
+                    ...projects.map(p => ({
+                        id: p.id,
+                        type: 'project',
+                        name: p.name,
+                        description: p.description,
+                        region: p.region,
+                        icon: '🌱'
+                    })),
+                    ...resources.map(r => ({
+                        id: r.id,
+                        type: 'resource',
+                        name: r.title,
+                        description: r.description,
+                        region: r.location,
+                        icon: '📦'
+                    }))
+                ];
+
+                renderAvailableItemsGrid();
+            } catch (error) {
+                console.error('Error loading available items:', error);
+            }
+        }
+
+        // ============ RENDER AVAILABLE ITEMS GRID ============
+        function renderAvailableItemsGrid() {
+            const container = document.getElementById('availableItemsGrid');
+            const searchTerm = document.getElementById('itemSearchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+
+            let filtered = availableItems;
+
+            if (searchTerm) {
+                filtered = filtered.filter(item =>
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    (item.description && item.description.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            if (category) {
+                filtered = filtered.filter(item => item.type === category);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                        <p>No items found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.slice(0, 20).map(item => `
+                <button class="add-card-btn ${selectedItems.some(s => s.id === item.id) ? 'selected' : ''}" 
+                        onclick="toggleItemSelection('${item.id}', '${item.type}', '${escapeHtml(item.name)}', '${escapeHtml(item.description || '')}', '${escapeHtml(item.region || '')}', '${item.icon}')">
+                    <span class="add-card-icon">${item.icon}</span>
+                    <span>${escapeHtml(item.name.substring(0, 20))}</span>
+                </button>
+            `).join('');
+        }
+
+        // ============ TOGGLE ITEM SELECTION ============
+        function toggleItemSelection(id, type, name, description, region, icon) {
+            const index = selectedItems.findIndex(s => s.id === id);
+            
+            if (index > -1) {
+                selectedItems.splice(index, 1);
+            } else {
+                selectedItems.push({ id, type, name, description, region, icon });
+            }
+
+            renderAvailableItemsGrid();
+        }
+
+        // ============ SAVE PERSONAL DASHBOARD ============
+        function savePersonalDashboard() {
+            if (currentUser) {
+                const config = {
+                    items: selectedItems.length > 0 ? selectedItems : personalCards,
+                    updatedAt: new Date().toISOString()
+                };
+                localStorage.setItem(`dashboard_${currentUser.id}`, JSON.stringify(config));
+                alert('Dashboard saved!');
+                isEditingPersonal = false;
+                document.getElementById('editPersonalBtn').classList.remove('active');
+                document.getElementById('customizationPanel').style.display = 'none';
+                renderPersonalCards(config);
+            }
+        }
+
+        // ============ ADD TO PERSONAL ============
+        function addToPersonal(itemId, itemType) {
+            const item = (itemType === 'project' ? globalCards : globalCards).find(c => c.id === itemId);
+            if (item && !personalCards.some(c => c.id === item.id)) {
+                personalCards.push(item);
+                alert('Added to your dashboard!');
+                renderPersonalCards({ items: personalCards });
+            }
+        }
+
+        // ============ REMOVE FROM PERSONAL ============
+        function removeFromPersonal(index) {
+            personalCards.splice(index, 1);
+            renderPersonalCards({ items: personalCards });
+        }
+
+        // ============ GO TO ITEM ============
+        function goToItem(type, itemId) {
+            if (type === 'project') {
+                window.location.href = `/public/pages/project-detail.html?id=${itemId}`;
+            } else {
+                window.location.href = `/public/pages/resource?id=${itemId}`;
+            }
+        }
+
+        // ============ UPDATE TRANSLATIONS ============
+        function updateTranslationsInDOM() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                element.textContent = i18n.t(key);
+            });
+        }
+
+        // ============ UTILITY ============
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Search input handler
+        document.getElementById('itemSearchInput')?.addEventListener('input', renderAvailableItemsGrid);
+        document.getElementById('categoryFilter')?.addEventListener('change', renderAvailableItemsGrid);
+
+        window.addEventListener('languageChanged', updateTranslationsInDOM);
+    </script>
+</body>
+</html>
