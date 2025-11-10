@@ -57,6 +57,16 @@ This is a lightweight community wiki system designed for small groups (initially
 - Benefits of creating an account
 - Privacy and security information
 
+### 7. **My Favorites** (`wiki-favorites.html`) ⭐ NEW
+- Personalized landing page for registered users
+- View all saved guides, events, and locations
+- Organize favorites into custom collections
+- Quick stats dashboard (saved items, upcoming events)
+- Tab interface to filter by content type
+- Export favorites as PDF or CSV
+- Share curated collections with others
+- Add/remove items from favorites with one click
+
 ## Features
 
 ### Current (Mockup Stage)
@@ -76,6 +86,10 @@ This is a lightweight community wiki system designed for small groups (initially
 - 🔄 Comments system
 - 🔄 Notifications
 - 🔄 Health check monitoring
+- 🔄 Favorites system (save guides, events, locations)
+- 🔄 Custom collections (organize favorites)
+- 🔄 Personalized landing pages
+- 🔄 Export/share favorites
 
 ## Content Types
 
@@ -153,6 +167,7 @@ src/wiki/
 ├── wiki-editor.html       # Content editor
 ├── wiki-events.html       # Events calendar
 ├── wiki-map.html          # Location map
+├── wiki-favorites.html    # User favorites (NEW)
 ├── wiki-login.html        # Authentication
 └── README.md              # This file
 ```
@@ -198,8 +213,11 @@ The wiki is designed to:
 
 2. **Database Schema**
    - Design tables for guides, events, locations
+   - Add favorites table (user_id, content_id, content_type, created_at)
+   - Add collections table (id, user_id, name, description, icon)
+   - Add collection_items table (collection_id, content_id, content_type)
    - Set up Row Level Security (RLS)
-   - Create indexes for search
+   - Create indexes for search and favorites lookup
 
 3. **Authentication Integration**
    - Connect to existing Supabase auth

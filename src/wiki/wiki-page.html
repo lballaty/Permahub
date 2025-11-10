@@ -19,7 +19,14 @@
         <li><a href="wiki-home.html">Home</a></li>
         <li><a href="wiki-events.html">Events</a></li>
         <li><a href="wiki-map.html">Locations</a></li>
-        <li><a href="wiki-login.html">Login</a></li>
+        <li><a href="wiki-favorites.html"><i class="fas fa-star"></i> My Favorites</a></li>
+        <li>
+          <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+              JD
+            </div>
+          </a>
+        </li>
         <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
       </ul>
     </nav>
@@ -53,12 +60,55 @@
           <span class="tag">Permaculture Design</span>
         </div>
 
-        <!-- Edit Button for Logged In Users -->
-        <div style="margin-top: 1rem; padding: 1rem; background-color: var(--wiki-bg); border-radius: 6px;">
-          <a href="wiki-editor.html" class="btn btn-outline btn-small">
-            <i class="fas fa-edit"></i> Edit This Page
-          </a>
+        <!-- Action Buttons for Logged In Users -->
+        <div style="margin-top: 1rem; padding: 1rem; background-color: var(--wiki-bg); border-radius: 6px; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="wiki-editor.html" class="btn btn-outline btn-small">
+              <i class="fas fa-edit"></i> Edit This Page
+            </a>
+            <button id="favoriteBtn" class="btn btn-primary btn-small" onclick="toggleFavorite()" style="display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-star" id="favoriteIcon"></i>
+              <span id="favoriteText">Save to Favorites</span>
+            </button>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button class="btn btn-outline btn-small" title="Share">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="btn btn-outline btn-small" title="Print">
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
         </div>
+
+        <script>
+          function toggleFavorite() {
+            const btn = document.getElementById('favoriteBtn');
+            const icon = document.getElementById('favoriteIcon');
+            const text = document.getElementById('favoriteText');
+
+            if (icon.classList.contains('far')) {
+              // Add to favorites
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#ffc107';
+              text.textContent = 'Saved!';
+              btn.classList.remove('btn-primary');
+              btn.classList.add('btn-secondary');
+              setTimeout(() => {
+                text.textContent = 'Remove from Favorites';
+              }, 1000);
+            } else {
+              // Remove from favorites
+              icon.classList.remove('fas');
+              icon.classList.add('far');
+              icon.style.color = '';
+              text.textContent = 'Save to Favorites';
+              btn.classList.remove('btn-secondary');
+              btn.classList.add('btn-primary');
+            }
+          }
+        </script>
 
         <!-- Article Body -->
         <div style="margin-top: 2rem;">
