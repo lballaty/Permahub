@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Locations - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-map.html" class="active">Locations</a></li>
+        <li><a href="wiki-login.html">Login</a></li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Locations</h1>
+          <p class="text-muted">Discover farms, gardens, and permaculture sites in our region</p>
+        </div>
+        <a href="wiki-editor.html" class="btn btn-primary">
+          <i class="fas fa-map-pin"></i> Add Location
+        </a>
+      </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="card">
+      <div style="display: grid; gap: 1rem;">
+        <!-- Search -->
+        <div class="search-bar" style="margin-bottom: 0;">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search locations..."
+            id="locationSearch"
+          >
+        </div>
+
+        <!-- Filters -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <div>
+            <strong>Filter by type:</strong>
+          </div>
+          <div class="tags">
+            <a href="#" class="tag filter-tag" data-filter="all" style="background-color: var(--wiki-primary); color: white;">
+              All Locations
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="farm">
+              🌾 Farms
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="garden">
+              🏡 Gardens
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="education">
+              📚 Education Centers
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="community">
+              👥 Community Spaces
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="business">
+              🏪 Businesses
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map and List Layout -->
+    <div style="display: grid; grid-template-columns: 1fr 400px; gap: 1.5rem; margin-bottom: 2rem;">
+      <!-- Map -->
+      <div class="map-container" style="height: 700px;">
+        <div id="map"></div>
+      </div>
+
+      <!-- Location List Sidebar -->
+      <div style="overflow-y: auto; max-height: 700px;">
+        <div style="background-color: var(--wiki-white); border-radius: 8px; padding: 1rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+            <i class="fas fa-list"></i> Locations (<span id="locationCount">18</span>)
+          </h3>
+
+          <div id="locationList">
+            <!-- Location 1 -->
+            <div class="location-item" data-type="farm" data-lat="40.7128" data-lng="-74.0060">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🌳 Green Valley Farm</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">3.2 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  15-acre permaculture demonstration site with food forest, market garden, and natural building examples.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Farm</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Education</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 2 -->
+            <div class="location-item" data-type="garden" data-lat="40.7580" data-lng="-73.9855">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🏡 Urban Homestead Hub</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">5.7 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Small-scale urban permaculture with aquaponics, rooftop garden, and rainwater harvesting systems.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Garden</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Urban</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 3 -->
+            <div class="location-item" data-type="education" data-lat="40.6782" data-lng="-73.9442">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🌾 Sunset Permaculture</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">12.4 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Educational center offering PDC courses, workshops, and farm stays on 50 acres of regenerative farmland.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Farm</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Education</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Accommodation</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 4 -->
+            <div class="location-item" data-type="farm" data-lat="40.7489" data-lng="-73.9680">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">💧 River Bend Gardens</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">8.1 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Specialty in water management techniques including swales, ponds, and greywater systems.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Farm</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Water Systems</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 5 -->
+            <div class="location-item" data-type="community" data-lat="40.7306" data-lng="-73.9352">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🌻 Community Seed Bank</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">1.5 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Free seed library at the local library. Borrow seeds, grow them, save seeds, and return.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Community</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Free</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 6 -->
+            <div class="location-item" data-type="education" data-lat="40.7589" data-lng="-73.9851">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🏗️ Natural Building Collective</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">6.9 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Workshop space showcasing cob, straw bale, and earthbag building techniques. Open days monthly.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Education</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Natural Building</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 7 -->
+            <div class="location-item" data-type="business" data-lat="40.7411" data-lng="-73.9897">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🌱 The Seedling Shop</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">4.3 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Local nursery specializing in heirloom vegetables, native plants, and permaculture staples.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Business</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Nursery</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location 8 -->
+            <div class="location-item" data-type="garden" data-lat="40.7282" data-lng="-74.0776">
+              <div style="padding: 1rem; border-bottom: 1px solid var(--wiki-border); cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='var(--wiki-bg)'" onmouseout="this.style.backgroundColor='transparent'">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                  <h4 style="margin: 0; color: var(--wiki-primary);">🌿 Rooftop Eden</h4>
+                  <span style="font-size: 0.85rem; color: var(--wiki-text-muted);">7.2 km</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+                  Innovative rooftop garden demonstrating intensive vertical growing and green roof systems.
+                </p>
+                <div class="tags">
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Garden</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Urban</span>
+                  <span class="tag" style="font-size: 0.75rem; padding: 0.15rem 0.5rem;">Vertical</span>
+                </div>
+                <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+                  <a href="#" style="color: var(--wiki-primary); margin-right: 1rem;">
+                    <i class="fas fa-info-circle"></i> Details
+                  </a>
+                  <a href="#" style="color: var(--wiki-primary);">
+                    <i class="fas fa-directions"></i> Directions
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- More locations would continue here -->
+            <div style="padding: 1rem; text-align: center; color: var(--wiki-text-muted);">
+              <i class="fas fa-ellipsis-h"></i> 10 more locations
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Stats -->
+    <div class="card">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">Location Statistics</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div style="text-align: center;">
+          <div style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-primary);">18</div>
+          <div class="text-muted">Total Locations</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-secondary);">8</div>
+          <div class="text-muted">Farms & Gardens</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-accent);">5</div>
+          <div class="text-muted">Education Centers</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-primary);">3</div>
+          <div class="text-muted">Community Spaces</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-secondary);">2</div>
+          <div class="text-muted">Businesses</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Initialize map
+    const map = L.map('map').setView([40.7128, -74.0060], 12);
+
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Sample locations data
+    const locations = [
+      { name: 'Green Valley Farm', lat: 40.7128, lng: -74.0060, type: 'farm', icon: '🌳' },
+      { name: 'Urban Homestead Hub', lat: 40.7580, lng: -73.9855, type: 'garden', icon: '🏡' },
+      { name: 'Sunset Permaculture', lat: 40.6782, lng: -73.9442, type: 'education', icon: '🌾' },
+      { name: 'River Bend Gardens', lat: 40.7489, lng: -73.9680, type: 'farm', icon: '💧' },
+      { name: 'Community Seed Bank', lat: 40.7306, lng: -73.9352, type: 'community', icon: '🌻' },
+      { name: 'Natural Building Collective', lat: 40.7589, lng: -73.9851, type: 'education', icon: '🏗️' },
+      { name: 'The Seedling Shop', lat: 40.7411, lng: -73.9897, type: 'business', icon: '🌱' },
+      { name: 'Rooftop Eden', lat: 40.7282, lng: -74.0776, type: 'garden', icon: '🌿' }
+    ];
+
+    // Add markers
+    locations.forEach(location => {
+      const marker = L.marker([location.lat, location.lng], {
+        icon: L.divIcon({
+          html: `<div style="font-size: 24px;">${location.icon}</div>`,
+          className: 'custom-marker',
+          iconSize: [30, 30],
+          iconAnchor: [15, 15]
+        })
+      }).addTo(map);
+
+      marker.bindPopup(`
+        <div style="min-width: 200px;">
+          <h3 style="margin: 0 0 0.5rem 0; color: var(--wiki-primary);">${location.name}</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Click for more details</p>
+          <a href="#" style="color: var(--wiki-primary);">View Details →</a>
+        </div>
+      `);
+    });
+
+    // Filter functionality (mockup)
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+      tag.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.filter-tag').forEach(t => {
+          t.style.backgroundColor = '';
+          t.style.color = '';
+        });
+        this.style.backgroundColor = 'var(--wiki-primary)';
+        this.style.color = 'white';
+      });
+    });
+
+    // Make map responsive on mobile
+    window.addEventListener('resize', function() {
+      if (window.innerWidth < 768) {
+        map.invalidateSize();
+      }
+    });
+  </script>
+
+  <style>
+    @media (max-width: 768px) {
+      main > div:nth-child(3) {
+        grid-template-columns: 1fr !important;
+      }
+      .map-container {
+        height: 400px !important;
+      }
+      #locationList {
+        max-height: none !important;
+      }
+    }
+  </style>
+</body>
+</html>

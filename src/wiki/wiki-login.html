@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-map.html">Locations</a></li>
+        <li><a href="wiki-login.html" class="active">Login</a></li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div style="max-width: 500px; margin: 4rem auto;">
+      <div class="card">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="font-size: 4rem; margin-bottom: 1rem;">🌱</div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Welcome Back</h1>
+          <p class="text-muted">Login to contribute to our community knowledge base</p>
+        </div>
+
+        <!-- Login Tabs -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--wiki-border);">
+          <button
+            id="emailTabBtn"
+            class="tab-btn active"
+            style="flex: 1; padding: 1rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid var(--wiki-primary); color: var(--wiki-primary);"
+          >
+            Email Login
+          </button>
+          <button
+            id="magicLinkTabBtn"
+            class="tab-btn"
+            style="flex: 1; padding: 1rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted);"
+          >
+            Magic Link
+          </button>
+        </div>
+
+        <!-- Email/Password Login Form -->
+        <form id="emailLoginForm">
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              placeholder="your@email.com"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">
+              Password
+              <a href="#" style="float: right; color: var(--wiki-primary); font-size: 0.9rem; font-weight: normal;">
+                Forgot password?
+              </a>
+            </label>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              placeholder="••••••••"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="remember">
+              <span>Remember me for 30 days</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </button>
+
+          <div style="text-align: center; margin: 1.5rem 0; color: var(--wiki-text-muted); position: relative;">
+            <span style="background: var(--wiki-white); padding: 0 1rem; position: relative; z-index: 1;">or continue with</span>
+            <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--wiki-border); z-index: 0;"></div>
+          </div>
+
+          <!-- Social Login Buttons -->
+          <div style="display: grid; gap: 0.5rem;">
+            <button type="button" class="btn btn-outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              <i class="fab fa-google"></i> Google
+            </button>
+            <button type="button" class="btn btn-outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              <i class="fab fa-github"></i> GitHub
+            </button>
+          </div>
+        </form>
+
+        <!-- Magic Link Form (Hidden by default) -->
+        <form id="magicLinkForm" style="display: none;">
+          <div style="background-color: var(--wiki-accent); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+            <div style="display: flex; gap: 0.5rem; align-items: start;">
+              <i class="fas fa-info-circle" style="color: var(--wiki-primary); margin-top: 0.25rem;"></i>
+              <div style="font-size: 0.9rem;">
+                <strong>Magic link login:</strong> We'll send you a secure link to your email. Click the link to instantly log in without a password.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="magicEmail">Email Address</label>
+            <input
+              type="email"
+              id="magicEmail"
+              class="form-input"
+              placeholder="your@email.com"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+            <i class="fas fa-paper-plane"></i> Send Magic Link
+          </button>
+
+          <div style="text-align: center; font-size: 0.9rem; color: var(--wiki-text-muted);">
+            <i class="fas fa-lock"></i> Secure, passwordless authentication
+          </div>
+        </form>
+
+        <!-- Sign Up Link -->
+        <div style="margin-top: 2rem; text-align: center; padding-top: 2rem; border-top: 1px solid var(--wiki-border);">
+          <p class="text-muted">
+            Don't have an account?
+            <a href="#" style="color: var(--wiki-primary); font-weight: 500;">Sign up for free</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Benefits of Creating Account -->
+      <div class="card" style="margin-top: 2rem;">
+        <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">Why create an account?</h3>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 1.5rem;">✍️</div>
+            <div>
+              <strong>Create & Edit Content</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+                Share your knowledge through guides, events, and location listings
+              </p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 1.5rem;">💬</div>
+            <div>
+              <strong>Join Discussions</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+                Comment on articles and connect with community members
+              </p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 1.5rem;">🔔</div>
+            <div>
+              <strong>Get Notifications</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+                Stay updated on new content, events, and topics you follow
+              </p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 1.5rem;">📚</div>
+            <div>
+              <strong>Save Favorites</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+                Bookmark articles and locations to reference later
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Privacy Note -->
+      <div style="margin-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--wiki-text-muted);">
+        <p>
+          By signing in, you agree to our
+          <a href="#" style="color: var(--wiki-primary);">Terms of Service</a> and
+          <a href="#" style="color: var(--wiki-primary);">Privacy Policy</a>
+        </p>
+        <p style="margin-top: 0.5rem;">
+          <i class="fas fa-shield-alt"></i> Your data is secure and will never be sold to third parties
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching
+    const emailTabBtn = document.getElementById('emailTabBtn');
+    const magicLinkTabBtn = document.getElementById('magicLinkTabBtn');
+    const emailLoginForm = document.getElementById('emailLoginForm');
+    const magicLinkForm = document.getElementById('magicLinkForm');
+
+    emailTabBtn.addEventListener('click', function() {
+      emailTabBtn.style.borderBottomColor = 'var(--wiki-primary)';
+      emailTabBtn.style.color = 'var(--wiki-primary)';
+      magicLinkTabBtn.style.borderBottomColor = 'transparent';
+      magicLinkTabBtn.style.color = 'var(--wiki-text-muted)';
+      emailLoginForm.style.display = 'block';
+      magicLinkForm.style.display = 'none';
+    });
+
+    magicLinkTabBtn.addEventListener('click', function() {
+      magicLinkTabBtn.style.borderBottomColor = 'var(--wiki-primary)';
+      magicLinkTabBtn.style.color = 'var(--wiki-primary)';
+      emailTabBtn.style.borderBottomColor = 'transparent';
+      emailTabBtn.style.color = 'var(--wiki-text-muted)';
+      magicLinkForm.style.display = 'block';
+      emailLoginForm.style.display = 'none';
+    });
+
+    // Form submissions (mockup)
+    emailLoginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('This is a mockup. In production, this would authenticate via Supabase.');
+    });
+
+    magicLinkForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('This is a mockup. In production, this would send a magic link via Supabase Auth.');
+    });
+  </script>
+</body>
+</html>
