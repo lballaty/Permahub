@@ -5,6 +5,12 @@
  * In production, this will integrate with Supabase for backend operations.
  */
 
+// Import i18n if available
+let wikiI18n = null;
+if (typeof window.wikiI18n !== 'undefined') {
+  wikiI18n = window.wikiI18n;
+}
+
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Community Wiki initialized');
@@ -12,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize any common functionality here
   initializeSearch();
   initializeMobileMenu();
+  initializeLanguageSelector();
+
+  // Initialize i18n if available
+  if (wikiI18n) {
+    wikiI18n.init();
+    updatePageLanguage();
+  }
 });
 
 /**
@@ -134,9 +147,131 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+/**
+ * Initialize language selector dropdown
+ */
+function initializeLanguageSelector() {
+  const langBtn = document.getElementById('langSelectorBtn');
+  const langDropdown = document.getElementById('langDropdown');
+
+  if (!langBtn || !langDropdown) {
+    console.log('Language selector not found on this page');
+    return;
+  }
+
+  // Toggle dropdown on button click
+  langBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langDropdown.classList.toggle('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!langDropdown.contains(e.target) && !langBtn.contains(e.target)) {
+      langDropdown.classList.remove('active');
+    }
+  });
+
+  // Handle language selection
+  const langOptions = langDropdown.querySelectorAll('.lang-option');
+  langOptions.forEach(option => {
+    option.addEventListener('click', function(e) {
+      e.preventDefault();
+      const lang = this.dataset.lang;
+      changeLanguage(lang);
+      langDropdown.classList.remove('active');
+    });
+  });
+
+  // Update active language in dropdown
+  updateActiveLanguage();
+}
+
+/**
+ * Change the current language
+ */
+function changeLanguage(lang) {
+  if (!wikiI18n) {
+    console.error('i18n not loaded');
+    return;
+  }
+
+  wikiI18n.setLanguage(lang);
+  updatePageLanguage();
+  updateActiveLanguage();
+  showNotification(wikiI18n.t('wiki.common.language_changed'), 'info');
+}
+
+/**
+ * Update all text on the page based on current language
+ */
+function updatePageLanguage() {
+  if (!wikiI18n) return;
+
+  // Update all elements with data-i18n attribute
+  const elements = document.querySelectorAll('[data-i18n]');
+  elements.forEach(el => {
+    const key = el.dataset.i18n;
+    const translation = wikiI18n.t(key);
+
+    // Update text content or placeholder
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      if (el.placeholder) {
+        el.placeholder = translation;
+      }
+    } else {
+      el.textContent = translation;
+    }
+  });
+
+  // Update language selector button text
+  const langBtn = document.getElementById('langSelectorBtn');
+  if (langBtn) {
+    const currentLang = wikiI18n.getLanguage();
+    const langNames = {
+      en: 'English',
+      pt: 'Português',
+      es: 'Español',
+      fr: 'Français',
+      de: 'Deutsch',
+      it: 'Italiano',
+      nl: 'Nederlands',
+      pl: 'Polski',
+      ja: '日本語',
+      zh: '中文',
+      ko: '한국어'
+    };
+
+    const langText = langBtn.querySelector('.lang-current');
+    if (langText) {
+      langText.textContent = langNames[currentLang] || 'English';
+    }
+  }
+}
+
+/**
+ * Update active state in language dropdown
+ */
+function updateActiveLanguage() {
+  if (!wikiI18n) return;
+
+  const currentLang = wikiI18n.getLanguage();
+  const langOptions = document.querySelectorAll('.lang-option');
+
+  langOptions.forEach(option => {
+    if (option.dataset.lang === currentLang) {
+      option.classList.add('active');
+    } else {
+      option.classList.remove('active');
+    }
+  });
+}
+
 // Export functions for use in other scripts
 window.WikiUtils = {
   formatDate,
   showNotification,
-  healthCheck
+  healthCheck,
+  changeLanguage,
+  updatePageLanguage
 };

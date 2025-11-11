@@ -6,6 +6,7 @@
   <title>Community Events - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" src="js/wiki-i18n.js"></script>
 </head>
 <body>
   <!-- Header -->
@@ -20,6 +21,62 @@
         <li><a href="wiki-events.html" class="active">Events</a></li>
         <li><a href="wiki-map.html">Locations</a></li>
         <li><a href="wiki-login.html">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+            </div>
+          </div>
+        </li>
         <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
       </ul>
     </nav>

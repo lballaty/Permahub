@@ -539,3 +539,80 @@ body {
 .gap-1 { gap: 0.5rem; }
 .gap-2 { gap: 1rem; }
 .gap-3 { gap: 1.5rem; }
+
+/* Language Selector */
+.lang-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid var(--wiki-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--wiki-text);
+  transition: all 0.2s;
+}
+
+.lang-selector-btn:hover {
+  background-color: var(--wiki-accent);
+  border-color: var(--wiki-primary);
+}
+
+.lang-selector-btn i {
+  font-size: 0.75rem;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 180px;
+  background-color: var(--wiki-white);
+  border: 1px solid var(--wiki-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px var(--wiki-shadow);
+  display: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.lang-dropdown.active {
+  display: block;
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: var(--wiki-text);
+  text-decoration: none;
+}
+
+.lang-option:hover {
+  background-color: var(--wiki-accent);
+}
+
+.lang-option.active {
+  background-color: var(--wiki-accent);
+  font-weight: 600;
+  color: var(--wiki-primary);
+}
+
+.lang-flag {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.lang-name {
+  flex: 1;
+}
