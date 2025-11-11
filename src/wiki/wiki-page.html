@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a Swale System for Water Retention - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" src="js/wiki-i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.brand">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-favorites.html"><i class="fas fa-star"></i> My Favorites</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+              JD
+            </div>
+          </a>
+        </li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="two-column">
+      <!-- Article Content -->
+      <article class="wiki-content">
+        <!-- Breadcrumb -->
+        <div style="margin-bottom: 1rem; color: var(--wiki-text-muted); font-size: 0.9rem;">
+          <a href="wiki-home.html" style="color: var(--wiki-primary);">Home</a> /
+          <a href="#" style="color: var(--wiki-primary);">Water Management</a> /
+          <span>Building a Swale System</span>
+        </div>
+
+        <!-- Article Header -->
+        <h1>Building a Swale System for Water Retention</h1>
+
+        <div class="card-meta" style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--wiki-border);">
+          <span><i class="fas fa-user"></i> Sarah Chen</span>
+          <span><i class="fas fa-calendar"></i> November 7, 2025</span>
+          <span><i class="fas fa-clock"></i> 15 min read</span>
+          <span><i class="fas fa-eye"></i> 127 views</span>
+        </div>
+
+        <div class="tags mt-2">
+          <span class="tag">Water Management</span>
+          <span class="tag">Earthworks</span>
+          <span class="tag">Permaculture Design</span>
+        </div>
+
+        <!-- Action Buttons for Logged In Users -->
+        <div style="margin-top: 1rem; padding: 1rem; background-color: var(--wiki-bg); border-radius: 6px; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="wiki-editor.html" class="btn btn-outline btn-small">
+              <i class="fas fa-edit"></i> Edit This Page
+            </a>
+            <button id="favoriteBtn" class="btn btn-primary btn-small" onclick="toggleFavorite()" style="display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-star" id="favoriteIcon"></i>
+              <span id="favoriteText">Save to Favorites</span>
+            </button>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button class="btn btn-outline btn-small" title="Share">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="btn btn-outline btn-small" title="Print">
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
+        </div>
+
+        <script>
+          function toggleFavorite() {
+            const btn = document.getElementById('favoriteBtn');
+            const icon = document.getElementById('favoriteIcon');
+            const text = document.getElementById('favoriteText');
+
+            if (icon.classList.contains('far')) {
+              // Add to favorites
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#ffc107';
+              text.textContent = 'Saved!';
+              btn.classList.remove('btn-primary');
+              btn.classList.add('btn-secondary');
+              setTimeout(() => {
+                text.textContent = 'Remove from Favorites';
+              }, 1000);
+            } else {
+              // Remove from favorites
+              icon.classList.remove('fas');
+              icon.classList.add('far');
+              icon.style.color = '';
+              text.textContent = 'Save to Favorites';
+              btn.classList.remove('btn-secondary');
+              btn.classList.add('btn-primary');
+            }
+          }
+        </script>
+
+        <!-- Article Body -->
+        <div style="margin-top: 2rem;">
+          <p style="font-size: 1.1rem; line-height: 1.8; color: var(--wiki-text-muted);">
+            Swales are one of the most powerful water harvesting techniques in permaculture. These on-contour ditches with berms capture, slow, and infiltrate runoff water into the landscape, recharging groundwater and supporting deep-rooted vegetation.
+          </p>
+
+          <h2>What is a Swale?</h2>
+          <p>
+            A swale is a level ditch dug on contour (following the land's natural level lines) with a raised berm on the downhill side. Unlike ditches designed to move water away, swales are designed to slow water down and allow it to infiltrate into the soil. This makes them invaluable in:
+          </p>
+          <ul>
+            <li>Drought-prone areas for water retention</li>
+            <li>Sloped land to prevent erosion</li>
+            <li>Food forests and orchards for deep watering</li>
+            <li>Regenerating degraded landscapes</li>
+          </ul>
+
+          <div style="background-color: var(--wiki-accent); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+            <strong>💡 Key Principle:</strong> Water is the most important resource in permaculture design. Swales help us harvest this precious resource where it falls, rather than letting it run off and erode our land.
+          </div>
+
+          <!-- Placeholder for image -->
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 400px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; margin: 2rem 0;">
+            📷 Image: Cross-section diagram of swale system showing water flow
+          </div>
+
+          <h2>Site Assessment</h2>
+          <p>
+            Before building any swales, you need to understand your landscape. Here's what to assess:
+          </p>
+
+          <h3>1. Contour Mapping</h3>
+          <p>
+            Use an A-frame level, laser level, or surveying equipment to map contour lines. Swales must be perfectly level along their length to prevent water from flowing to one end and breaking through.
+          </p>
+
+          <h3>2. Water Flow Patterns</h3>
+          <p>
+            Observe where water flows during rain events. Look for:
+          </p>
+          <ul>
+            <li>Existing erosion channels</li>
+            <li>Areas of water accumulation</li>
+            <li>Fast-flowing runoff paths</li>
+            <li>Soil moisture patterns after rain</li>
+          </ul>
+
+          <h3>3. Soil Type and Infiltration Rate</h3>
+          <p>
+            Different soils absorb water at different rates. Perform a simple percolation test:
+          </p>
+          <ol>
+            <li>Dig a hole 30cm deep and wide</li>
+            <li>Fill it with water and let it drain completely</li>
+            <li>Fill it again and measure how long it takes to drain</li>
+            <li>Ideal infiltration: 5-15 cm per hour</li>
+          </ol>
+
+          <blockquote>
+            "I spent a full month just observing water patterns on our property before we dug a single swale. That observation saved us from making costly mistakes and helped us place swales exactly where they'd be most effective." - Sarah Chen
+          </blockquote>
+
+          <!-- Placeholder for image -->
+          <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); height: 350px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; margin: 2rem 0;">
+            📷 Image: Using an A-frame to mark contour lines
+          </div>
+
+          <h2>Design Principles</h2>
+
+          <h3>Swale Dimensions</h3>
+          <p>Size your swales based on your rainfall, slope, and catchment area:</p>
+          <ul>
+            <li><strong>Width:</strong> Typically 1-3 meters at the top</li>
+            <li><strong>Depth:</strong> 0.5-1 meter depending on scale</li>
+            <li><strong>Berm height:</strong> 0.3-0.6 meters above grade</li>
+            <li><strong>Length:</strong> As long as possible while staying on contour</li>
+            <li><strong>Spacing:</strong> 10-30 meters apart vertically, depending on slope</li>
+          </ul>
+
+          <h3>Overflow Planning</h3>
+          <p>
+            Every swale needs planned overflow points for extreme rain events. Design spillways that:
+          </p>
+          <ul>
+            <li>Are armored with rocks or vegetation to prevent erosion</li>
+            <li>Connect to the next swale downslope when possible</li>
+            <li>Spread water rather than concentrating flow</li>
+          </ul>
+
+          <h2>Construction Steps</h2>
+
+          <h3>Step 1: Mark Your Contour Lines</h3>
+          <p>
+            Using your A-frame or level, mark the contour with stakes and string. This line should be perfectly level - any variation will cause problems.
+          </p>
+
+          <h3>Step 2: Excavate the Ditch</h3>
+          <p>
+            You can dig by hand for small swales or use machinery for larger systems. Keep the following in mind:
+          </p>
+          <ul>
+            <li>Store topsoil separately to replace on the berm</li>
+            <li>Create a flat bottom, not V-shaped</li>
+            <li>Maintain consistent depth along the entire length</li>
+            <li>Slope the sides gently (3:1 ratio) for stability</li>
+          </ul>
+
+          <h3>Step 3: Build the Berm</h3>
+          <p>
+            Place excavated soil on the downhill side to create the berm:
+          </p>
+          <ol>
+            <li>Compact subsoil layers as you build up</li>
+            <li>Top with saved topsoil</li>
+            <li>Shape with gentle slopes to prevent erosion</li>
+            <li>Extend the berm past each end of the swale</li>
+          </ol>
+
+          <!-- Placeholder for image -->
+          <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); height: 350px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; margin: 2rem 0;">
+            📷 Image: Excavator digging swale with berm formation
+          </div>
+
+          <h3>Step 4: Plant the System</h3>
+          <p>
+            Vegetation stabilizes your swale and maximizes its benefits:
+          </p>
+          <ul>
+            <li><strong>On the berm:</strong> Deep-rooted trees and shrubs (fruit trees, nitrogen-fixers)</li>
+            <li><strong>Along swale edges:</strong> Vetiver grass or other erosion control plants</li>
+            <li><strong>In the swale bed:</strong> Initially, leave bare to maximize infiltration, then plant after first season</li>
+          </ul>
+
+          <h2>Maintenance</h2>
+          <p>
+            Swales are relatively low-maintenance, but they do need attention:
+          </p>
+          <ul>
+            <li>Check for erosion after major rain events</li>
+            <li>Remove sediment buildup annually</li>
+            <li>Repair any breaches immediately</li>
+            <li>Trim vegetation to prevent root systems from compromising the berm</li>
+            <li>Add mulch to swale bottoms to improve infiltration</li>
+          </ul>
+
+          <h2>Common Mistakes to Avoid</h2>
+          <div style="background-color: #fff3cd; border-left: 4px solid var(--wiki-warning); padding: 1.5rem; border-radius: 6px; margin: 1.5rem 0;">
+            <h3 style="margin-top: 0; color: var(--wiki-text);">⚠️ Watch Out For These Issues:</h3>
+            <ul style="margin-bottom: 0;">
+              <li><strong>Not staying on contour:</strong> Even a 1% grade will cause water to flow to one end</li>
+              <li><strong>Building too steep of sides:</strong> Will erode and collapse over time</li>
+              <li><strong>No overflow planning:</strong> Leads to catastrophic washouts</li>
+              <li><strong>Swales too close together:</strong> Can saturate soil and cause landslides on steep slopes</li>
+              <li><strong>Ignoring soil type:</strong> Clay soils need wider, shallower swales</li>
+            </ul>
+          </div>
+
+          <h2>Expected Results</h2>
+          <p>
+            When properly designed and installed, swales deliver impressive benefits:
+          </p>
+          <ul>
+            <li><strong>First year:</strong> Visible increase in vegetation health within 10m of swale</li>
+            <li><strong>2-3 years:</strong> Groundwater levels rise, springs may emerge downslope</li>
+            <li><strong>5+ years:</strong> Dramatic landscape transformation with lush vegetation</li>
+            <li><strong>Long term:</strong> Soil building, erosion reversal, microclimate improvement</li>
+          </ul>
+
+          <!-- Placeholder for image -->
+          <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); height: 350px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; margin: 2rem 0;">
+            📷 Image: Before and after comparison showing lush vegetation along swales
+          </div>
+
+          <h2>Resources & Further Reading</h2>
+          <ul>
+            <li><a href="#" style="color: var(--wiki-primary);">Video: Geoff Lawton's Swale Construction Masterclass</a></li>
+            <li><a href="#" style="color: var(--wiki-primary);">PDF: Swale Calculation Worksheet</a></li>
+            <li><a href="#" style="color: var(--wiki-primary);">Related: Calculating Water Catchment Areas</a></li>
+            <li><a href="#" style="color: var(--wiki-primary);">Related: Plant Selection for Swale Systems</a></li>
+          </ul>
+
+          <div style="background-color: var(--wiki-accent); padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+            <h3 style="margin-top: 0;">🤝 Have Experience with Swales?</h3>
+            <p style="margin-bottom: 1rem;">Share your insights, photos, or questions in the comments below, or <a href="wiki-editor.html" style="color: var(--wiki-primary-dark); font-weight: bold;">edit this page</a> to add your knowledge!</p>
+            <a href="wiki-login.html" class="btn btn-primary btn-small">Login to Comment</a>
+          </div>
+        </div>
+
+        <!-- Page Footer Meta -->
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
+          <div class="flex-between">
+            <div>
+              <strong>Last edited:</strong> November 8, 2025 by Emma Wilson
+            </div>
+            <div>
+              <strong>Contributors:</strong> 3 people
+            </div>
+          </div>
+          <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--wiki-text-muted);">
+            This page has been viewed 127 times | <a href="#" style="color: var(--wiki-primary);">View edit history</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside>
+        <!-- Table of Contents -->
+        <div class="sidebar mb-3">
+          <h3 class="sidebar-title">On This Page</h3>
+          <ul class="sidebar-list">
+            <li><a href="#what">What is a Swale?</a></li>
+            <li><a href="#assessment">Site Assessment</a></li>
+            <li><a href="#design">Design Principles</a></li>
+            <li><a href="#construction">Construction Steps</a></li>
+            <li><a href="#maintenance">Maintenance</a></li>
+            <li><a href="#mistakes">Common Mistakes</a></li>
+            <li><a href="#results">Expected Results</a></li>
+            <li><a href="#resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <!-- Author Info -->
+        <div class="sidebar mb-3">
+          <h3 class="sidebar-title">About the Author</h3>
+          <div style="text-align: center;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+              SC
+            </div>
+            <h4 style="margin-bottom: 0.5rem;">Sarah Chen</h4>
+            <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 1rem;">
+              Permaculture designer with 12 years experience in water systems
+            </p>
+            <div style="font-size: 0.85rem;">
+              <div style="margin-bottom: 0.25rem;">📝 8 articles</div>
+              <div>📍 Green Valley Farm</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Pages -->
+        <div class="sidebar mb-3">
+          <h3 class="sidebar-title">Related Guides</h3>
+          <ul class="sidebar-list">
+            <li><a href="#">Rainwater Harvesting Basics</a></li>
+            <li><a href="#">Installing Drip Irrigation</a></li>
+            <li><a href="#">Food Forest Design</a></li>
+            <li><a href="#">Keyline Design Principles</a></li>
+            <li><a href="#">Pond Construction Guide</a></li>
+          </ul>
+        </div>
+
+        <!-- Categories -->
+        <div class="sidebar">
+          <h3 class="sidebar-title">Categories</h3>
+          <div class="tags">
+            <a href="#" class="tag">Water Management</a>
+            <a href="#" class="tag">Earthworks</a>
+            <a href="#" class="tag">Permaculture Design</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+</body>
+</html>

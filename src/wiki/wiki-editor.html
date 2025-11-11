@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Guide - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+  <script type="module" src="js/wiki-i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.brand">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+              <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+              <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+              <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+              <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+              <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-name">Polski</span></div>
+              <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
+              <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+              <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+            </div>
+          </div>
+        </li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small active" data-i18n="wiki.nav.create">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="card" style="max-width: 900px; margin: 0 auto;">
+      <div class="card-header">
+        <h1 class="card-title">Create New Guide</h1>
+        <div class="flex gap-2">
+          <button class="btn btn-outline btn-small" id="previewBtn">
+            <i class="fas fa-eye"></i> Preview
+          </button>
+          <button class="btn btn-secondary btn-small" id="saveDraftBtn">
+            <i class="fas fa-save"></i> Save Draft
+          </button>
+          <button class="btn btn-primary btn-small" id="publishBtn">
+            <i class="fas fa-check"></i> Publish
+          </button>
+        </div>
+      </div>
+
+      <form id="editorForm">
+        <!-- Content Type Selection -->
+        <div class="form-group">
+          <label class="form-label">Content Type</label>
+          <div style="display: flex; gap: 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="contentType" value="guide" checked>
+              <span><i class="fas fa-book"></i> Guide/Article</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="contentType" value="event">
+              <span><i class="fas fa-calendar"></i> Event</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="contentType" value="location">
+              <span><i class="fas fa-map-marker-alt"></i> Location</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label class="form-label" for="title">
+            Title <span style="color: var(--wiki-danger);">*</span>
+          </label>
+          <input
+            type="text"
+            id="title"
+            class="form-input"
+            placeholder="e.g., Building a Swale System for Water Retention"
+            required
+          >
+          <small class="text-muted">A clear, descriptive title helps others find your content</small>
+        </div>
+
+        <!-- Summary -->
+        <div class="form-group">
+          <label class="form-label" for="summary">
+            Summary <span style="color: var(--wiki-danger);">*</span>
+          </label>
+          <textarea
+            id="summary"
+            class="form-input"
+            rows="3"
+            placeholder="Write a brief 1-2 sentence summary that will appear in search results and previews..."
+            required
+            style="resize: vertical;"
+          ></textarea>
+        </div>
+
+        <!-- Categories/Tags -->
+        <div class="form-group">
+          <label class="form-label">Categories</label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="gardening">
+              <span>🌱 Gardening</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="water">
+              <span>💧 Water Management</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="composting">
+              <span>♻️ Composting</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="energy">
+              <span>☀️ Renewable Energy</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="food">
+              <span>🥕 Food Production</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="agroforestry">
+              <span>🌳 Agroforestry</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="building">
+              <span>🏡 Natural Building</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="waste">
+              <span>♻️ Waste Management</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="community">
+              <span>👥 Community</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="category" value="circular-economy">
+              <span>🔄 Circular Economy</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Rich Text Editor -->
+        <div class="form-group">
+          <label class="form-label">
+            Content <span style="color: var(--wiki-danger);">*</span>
+          </label>
+
+          <!-- Quill Editor Container -->
+          <div id="editor" style="min-height: 400px; background: white;"></div>
+
+          <!-- Hidden field to store content for form submission -->
+          <input type="hidden" id="content" name="content">
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
+            <span>💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
+            <span id="charCount">0 characters</span>
+          </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label class="form-label">Featured Image</label>
+          <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="imageUploadZone">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
+            <p><strong>Click to upload</strong> or drag and drop</p>
+            <p class="text-muted" style="font-size: 0.9rem;">PNG, JPG, GIF up to 5MB</p>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+          </div>
+          <div id="imagePreview" style="margin-top: 1rem; display: none;">
+            <img id="previewImg" style="max-width: 100%; border-radius: 8px;">
+            <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage">
+              <i class="fas fa-times"></i> Remove Image
+            </button>
+          </div>
+        </div>
+
+        <!-- Additional Fields (shown based on content type) -->
+        <div id="eventFields" style="display: none;">
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">Event Details</h3>
+
+          <div class="form-group">
+            <label class="form-label" for="eventDate">Event Date</label>
+            <input type="date" id="eventDate" class="form-input">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="eventStartTime">Start Time</label>
+              <input type="time" id="eventStartTime" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eventEndTime">End Time</label>
+              <input type="time" id="eventEndTime" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="eventLocation">Location</label>
+            <input type="text" id="eventLocation" class="form-input" placeholder="e.g., Green Valley Farm, 123 Farm Road">
+          </div>
+        </div>
+
+        <div id="locationFields" style="display: none;">
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">Location Details</h3>
+
+          <div class="form-group">
+            <label class="form-label" for="address">Address</label>
+            <input type="text" id="address" class="form-input" placeholder="123 Farm Road, City, Country">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="latitude">Latitude</label>
+              <input type="text" id="latitude" class="form-input" placeholder="e.g., 40.7128">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="longitude">Longitude</label>
+              <input type="text" id="longitude" class="form-input" placeholder="e.g., -74.0060">
+            </div>
+          </div>
+
+          <p class="text-muted" style="font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a>
+          </p>
+        </div>
+
+        <!-- Settings -->
+        <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+          <h3 style="margin-bottom: 1rem;">Publishing Settings</h3>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="allowComments" checked>
+              <span>Allow comments on this page</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="allowEdits" checked>
+              <span>Allow other registered users to suggest edits</span>
+            </label>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="notifyGroup">
+              <span>Notify WhatsApp group about this content</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
+          <button type="button" class="btn btn-outline" onclick="history.back()">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button type="button" class="btn btn-secondary" id="saveDraftBtn2">
+            <i class="fas fa-save"></i> Save as Draft
+          </button>
+          <button type="submit" class="btn btn-primary" id="publishBtn2">
+            <i class="fas fa-check"></i> Publish Now
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Help Sidebar -->
+    <div class="card" style="max-width: 900px; margin: 2rem auto 0;">
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+        <i class="fas fa-question-circle"></i> Writing Tips
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">✍️ Be Clear & Concise</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+            Write in simple language. Break complex topics into sections with clear headings.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">📸 Use Images</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+            Visual aids help readers understand. Include photos, diagrams, and charts where relevant.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">🔗 Link to Related Content</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+            Reference other guides and resources to help readers dive deeper into topics.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">📋 Add Practical Steps</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+            Include actionable instructions, materials lists, and troubleshooting tips.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="js/wiki.js"></script>
+  <script>
+    // Initialize Quill editor
+    let quill = null;
+
+    // Simple mockup interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Quill WYSIWYG editor
+      quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video'],
+            [{ 'align': [] }],
+            [{ 'color': [] }, { 'background': [] }],
+            ['clean']
+          ]
+        },
+        placeholder: 'Start writing your guide here... Type naturally and use the toolbar above to format your text.',
+      });
+
+      // Update character counter with Quill content
+      const charCount = document.getElementById('charCount');
+      quill.on('text-change', function() {
+        const text = quill.getText();
+        charCount.textContent = text.trim().length + ' characters';
+
+        // Update hidden field for form submission
+        document.getElementById('content').value = quill.root.innerHTML;
+      });
+
+      // Content type switching
+      const contentTypeRadios = document.querySelectorAll('input[name="contentType"]');
+      const eventFields = document.getElementById('eventFields');
+      const locationFields = document.getElementById('locationFields');
+
+      contentTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          eventFields.style.display = this.value === 'event' ? 'block' : 'none';
+          locationFields.style.display = this.value === 'location' ? 'block' : 'none';
+        });
+      });
+
+      // Image upload mockup
+      const imageUploadZone = document.getElementById('imageUploadZone');
+      const imageUpload = document.getElementById('imageUpload');
+      const imagePreview = document.getElementById('imagePreview');
+      const previewImg = document.getElementById('previewImg');
+      const removeImage = document.getElementById('removeImage');
+
+      imageUploadZone.addEventListener('click', () => imageUpload.click());
+
+      imageUpload.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            imagePreview.style.display = 'block';
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      removeImage.addEventListener('click', function() {
+        imageUpload.value = '';
+        imagePreview.style.display = 'none';
+        previewImg.src = '';
+      });
+
+      // Form submission
+      document.getElementById('editorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Ensure content is captured from Quill
+        document.getElementById('content').value = quill.root.innerHTML;
+
+        // Get form data
+        const title = document.getElementById('title').value;
+        const summary = document.getElementById('summary').value;
+        const content = quill.root.innerHTML;
+
+        console.log('Form data:', { title, summary, content });
+        alert('This is a mockup. In production, this would save your content to the database.\n\nContent preview:\n' + quill.getText().substring(0, 100) + '...');
+      });
+
+      // Save draft buttons
+      document.getElementById('saveDraftBtn').addEventListener('click', function() {
+        alert('Draft saved! (mockup)');
+      });
+      document.getElementById('saveDraftBtn2').addEventListener('click', function() {
+        alert('Draft saved! (mockup)');
+      });
+
+      // Preview button
+      document.getElementById('previewBtn').addEventListener('click', function() {
+        alert('Preview mode (mockup) - would show how your content will look when published');
+      });
+    });
+  </script>
+</body>
+</html>
