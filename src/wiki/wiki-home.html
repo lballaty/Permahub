@@ -14,13 +14,13 @@
     <nav class="wiki-nav">
       <a href="wiki-home.html" class="wiki-logo">
         <span class="wiki-logo-icon">🌱</span>
-        <span>Community Wiki</span>
+        <span data-i18n="wiki.nav.brand">Community Wiki</span>
       </a>
       <ul class="wiki-menu">
-        <li><a href="wiki-home.html" class="active">Home</a></li>
-        <li><a href="wiki-events.html">Events</a></li>
-        <li><a href="wiki-map.html">Locations</a></li>
-        <li><a href="wiki-login.html">Login</a></li>
+        <li><a href="wiki-home.html" class="active" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
         <li>
           <!-- Language Selector -->
           <div class="lang-selector">
@@ -77,7 +77,7 @@
             </div>
           </div>
         </li>
-        <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">Create Page</a></li>
       </ul>
     </nav>
   </header>
@@ -87,8 +87,8 @@
     <!-- Hero Section -->
     <div class="card">
       <div class="text-center">
-        <h1 style="color: var(--wiki-primary); margin-bottom: 0.5rem;">Welcome to Our Community Knowledge Base</h1>
-        <p style="font-size: 1.1rem; color: var(--wiki-text-muted); margin-bottom: 2rem;">
+        <h1 style="color: var(--wiki-primary); margin-bottom: 0.5rem;" data-i18n="wiki.home.welcome">Welcome to Our Community Knowledge Base</h1>
+        <p style="font-size: 1.1rem; color: var(--wiki-text-muted); margin-bottom: 2rem;" data-i18n="wiki.home.tagline">
           Share guides, locations, events, and resources with our permaculture community
         </p>
       </div>
@@ -99,6 +99,7 @@
         <input
           type="text"
           class="search-input"
+          data-i18n="wiki.home.search_placeholder"
           placeholder="Search for guides, events, locations..."
           id="searchInput"
         >
@@ -108,26 +109,26 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">42</div>
-          <div class="text-muted">Guides</div>
+          <div class="text-muted" data-i18n="wiki.home.stats_guides">Guides</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">18</div>
-          <div class="text-muted">Locations</div>
+          <div class="text-muted" data-i18n="wiki.home.stats_locations">Locations</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">8</div>
-          <div class="text-muted">Upcoming Events</div>
+          <div class="text-muted" data-i18n="wiki.home.stats_events">Upcoming Events</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">34</div>
-          <div class="text-muted">Contributors</div>
+          <div class="text-muted" data-i18n="wiki.home.stats_contributors">Contributors</div>
         </div>
       </div>
     </div>
 
     <!-- Categories -->
     <div class="mb-3">
-      <h2 style="margin-bottom: 1rem;">Browse by Category</h2>
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.browse_categories">Browse by Category</h2>
       <div class="tags">
         <a href="#" class="tag"><i class="fas fa-seedling"></i> Gardening</a>
         <a href="#" class="tag"><i class="fas fa-water"></i> Water Management</a>
@@ -145,8 +146,8 @@
     <!-- Recent Guides -->
     <section class="mb-3">
       <div class="flex-between mb-2">
-        <h2>Recent Guides</h2>
-        <a href="#" class="text-muted">View All →</a>
+        <h2 data-i18n="wiki.home.recent_guides">Recent Guides</h2>
+        <a href="#" class="text-muted" data-i18n="wiki.common.view_all">View All →</a>
       </div>
 
       <div class="grid grid-2">
@@ -281,8 +282,8 @@
     <!-- Upcoming Events -->
     <section class="mb-3">
       <div class="flex-between mb-2">
-        <h2>Upcoming Events</h2>
-        <a href="wiki-events.html" class="text-muted">View All →</a>
+        <h2 data-i18n="wiki.home.upcoming_events">Upcoming Events</h2>
+        <a href="wiki-events.html" class="text-muted" data-i18n="wiki.common.view_all">View All →</a>
       </div>
 
       <div class="grid grid-2">
@@ -342,8 +343,8 @@
     <!-- Featured Locations -->
     <section class="mb-3">
       <div class="flex-between mb-2">
-        <h2>Featured Locations</h2>
-        <a href="wiki-map.html" class="text-muted">View Map →</a>
+        <h2 data-i18n="wiki.home.featured_locations">Featured Locations</h2>
+        <a href="wiki-map.html" class="text-muted" data-i18n="wiki.home.view_map">View Map →</a>
       </div>
 
       <div class="grid grid-3">
@@ -417,19 +418,19 @@
 
     <!-- Call to Action -->
     <div class="card text-center">
-      <h2 style="margin-bottom: 1rem;">Contribute to Our Community Knowledge</h2>
-      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.contribute_title">Contribute to Our Community Knowledge</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.home.contribute_text">
         Share your permaculture experiences, tips, and projects with the community. Every contribution helps us grow!
       </p>
       <div class="flex gap-2" style="justify-content: center;">
         <a href="wiki-editor.html" class="btn btn-primary">
-          <i class="fas fa-plus"></i> Create a Guide
+          <i class="fas fa-plus"></i> <span data-i18n="wiki.home.create_guide">Create a Guide</span>
         </a>
         <a href="wiki-events.html" class="btn btn-secondary">
-          <i class="fas fa-calendar-plus"></i> Add an Event
+          <i class="fas fa-calendar-plus"></i> <span data-i18n="wiki.home.add_event">Add an Event</span>
         </a>
         <a href="wiki-map.html" class="btn btn-outline">
-          <i class="fas fa-map-pin"></i> Add a Location
+          <i class="fas fa-map-pin"></i> <span data-i18n="wiki.home.add_location">Add a Location</span>
         </a>
       </div>
     </div>
