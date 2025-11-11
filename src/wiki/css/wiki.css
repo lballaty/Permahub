@@ -240,6 +240,16 @@ body {
   color: var(--wiki-white);
 }
 
+.tag.active {
+  background-color: var(--wiki-primary);
+  color: var(--wiki-white);
+}
+
+.category-filter {
+  cursor: pointer;
+  user-select: none;
+}
+
 /* Content/Article */
 .wiki-content {
   background-color: var(--wiki-white);

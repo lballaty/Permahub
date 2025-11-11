@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeSearch();
   initializeMobileMenu();
   initializeLanguageSelector();
+  setActiveNavigationState();
 
   // Initialize i18n if available
   if (wikiI18n) {
@@ -356,11 +357,34 @@ function updateActiveLanguage() {
   });
 }
 
+/**
+ * Set active state on navigation based on current page
+ */
+function setActiveNavigationState() {
+  const currentPage = window.location.pathname.split('/').pop() || 'wiki-home.html';
+  const navLinks = document.querySelectorAll('.wiki-menu a[href]');
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+
+    // Remove existing active class
+    link.classList.remove('active');
+
+    // Add active class if href matches current page
+    if (href === currentPage ||
+        (currentPage === '' && href === 'wiki-home.html') ||
+        (currentPage === 'index.html' && href === 'wiki-home.html')) {
+      link.classList.add('active');
+    }
+  });
+}
+
 // Export functions for use in other scripts
 window.WikiUtils = {
   formatDate,
   showNotification,
   healthCheck,
   changeLanguage,
-  updatePageLanguage
+  updatePageLanguage,
+  setActiveNavigationState
 };
