@@ -130,16 +130,17 @@
     <div class="mb-3">
       <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.browse_categories">Browse by Category</h2>
       <div class="tags">
-        <a href="#" class="tag"><i class="fas fa-seedling"></i> Gardening</a>
-        <a href="#" class="tag"><i class="fas fa-water"></i> Water Management</a>
-        <a href="#" class="tag"><i class="fas fa-leaf"></i> Composting</a>
-        <a href="#" class="tag"><i class="fas fa-sun"></i> Renewable Energy</a>
-        <a href="#" class="tag"><i class="fas fa-carrot"></i> Food Production</a>
-        <a href="#" class="tag"><i class="fas fa-tree"></i> Agroforestry</a>
-        <a href="#" class="tag"><i class="fas fa-building"></i> Natural Building</a>
-        <a href="#" class="tag"><i class="fas fa-recycle"></i> Waste Management</a>
-        <a href="#" class="tag"><i class="fas fa-tint"></i> Irrigation</a>
-        <a href="#" class="tag"><i class="fas fa-users"></i> Community</a>
+        <a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> All</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="gardening"><i class="fas fa-seedling"></i> Gardening</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="water"><i class="fas fa-water"></i> Water Management</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="composting"><i class="fas fa-leaf"></i> Composting</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="energy"><i class="fas fa-sun"></i> Renewable Energy</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="food"><i class="fas fa-carrot"></i> Food Production</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="agroforestry"><i class="fas fa-tree"></i> Agroforestry</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="building"><i class="fas fa-building"></i> Natural Building</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="waste"><i class="fas fa-recycle"></i> Waste Management</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="irrigation"><i class="fas fa-tint"></i> Irrigation</a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="community"><i class="fas fa-users"></i> Community</a>
       </div>
     </div>
 
@@ -147,135 +148,11 @@
     <section class="mb-3">
       <div class="flex-between mb-2">
         <h2 data-i18n="wiki.home.recent_guides">Recent Guides</h2>
-        <a href="#" class="text-muted" data-i18n="wiki.common.view_all">View All →</a>
+        <span class="text-muted" id="guideCount">Showing all guides</span>
       </div>
 
-      <div class="grid grid-2">
-        <!-- Guide 1 -->
-        <div class="card">
-          <div class="card-meta">
-            <span><i class="fas fa-user"></i> Sarah Chen</span>
-            <span><i class="fas fa-calendar"></i> 3 days ago</span>
-            <span><i class="fas fa-eye"></i> 127 views</span>
-          </div>
-          <h3 class="card-title">
-            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
-              Building a Swale System for Water Retention
-            </a>
-          </h3>
-          <p class="text-muted">
-            Learn how to design and construct swales to capture and distribute rainwater across your property. This comprehensive guide covers site assessment, design principles, and construction techniques.
-          </p>
-          <div class="tags">
-            <span class="tag">Water Management</span>
-            <span class="tag">Earthworks</span>
-          </div>
-        </div>
-
-        <!-- Guide 2 -->
-        <div class="card">
-          <div class="card-meta">
-            <span><i class="fas fa-user"></i> Miguel Torres</span>
-            <span><i class="fas fa-calendar"></i> 5 days ago</span>
-            <span><i class="fas fa-eye"></i> 89 views</span>
-          </div>
-          <h3 class="card-title">
-            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
-              Companion Planting Guide for Vegetable Gardens
-            </a>
-          </h3>
-          <p class="text-muted">
-            Discover which vegetables grow best together and why. This guide includes detailed companion planting charts and explains the science behind beneficial plant relationships.
-          </p>
-          <div class="tags">
-            <span class="tag">Gardening</span>
-            <span class="tag">Food Production</span>
-          </div>
-        </div>
-
-        <!-- Guide 3 -->
-        <div class="card">
-          <div class="card-meta">
-            <span><i class="fas fa-user"></i> Emma Wilson</span>
-            <span><i class="fas fa-calendar"></i> 1 week ago</span>
-            <span><i class="fas fa-eye"></i> 203 views</span>
-          </div>
-          <h3 class="card-title">
-            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
-              Hot Composting: A Step-by-Step Guide
-            </a>
-          </h3>
-          <p class="text-muted">
-            Master the art of hot composting to turn kitchen scraps and yard waste into rich, dark compost in just 18 days. Includes troubleshooting tips and material ratios.
-          </p>
-          <div class="tags">
-            <span class="tag">Composting</span>
-            <span class="tag">Waste Management</span>
-          </div>
-        </div>
-
-        <!-- Guide 4 -->
-        <div class="card">
-          <div class="card-meta">
-            <span><i class="fas fa-user"></i> James O'Brien</span>
-            <span><i class="fas fa-calendar"></i> 1 week ago</span>
-            <span><i class="fas fa-eye"></i> 156 views</span>
-          </div>
-          <h3 class="card-title">
-            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
-              Installing Drip Irrigation for Food Gardens
-            </a>
-          </h3>
-          <p class="text-muted">
-            Save water and time with an efficient drip irrigation system. This practical guide covers materials, layout design, and maintenance for home garden installations.
-          </p>
-          <div class="tags">
-            <span class="tag">Irrigation</span>
-            <span class="tag">Water Management</span>
-          </div>
-        </div>
-
-        <!-- Guide 5 -->
-        <div class="card">
-          <div class="card-meta">
-            <span><i class="fas fa-user"></i> Priya Sharma</span>
-            <span><i class="fas fa-calendar"></i> 2 weeks ago</span>
-            <span><i class="fas fa-eye"></i> 178 views</span>
-          </div>
-          <h3 class="card-title">
-            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
-              Starting a Community Seed Library
-            </a>
-          </h3>
-          <p class="text-muted">
-            Learn how to organize and run a community seed library to preserve heirloom varieties and promote seed sovereignty. Includes organizational tips and catalog systems.
-          </p>
-          <div class="tags">
-            <span class="tag">Community</span>
-            <span class="tag">Food Production</span>
-          </div>
-        </div>
-
-        <!-- Guide 6 -->
-        <div class="card">
-          <div class="card-meta">
-            <span><i class="fas fa-user"></i> Tom Anderson</span>
-            <span><i class="fas fa-calendar"></i> 2 weeks ago</span>
-            <span><i class="fas fa-eye"></i> 92 views</span>
-          </div>
-          <h3 class="card-title">
-            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
-              Building with Cob: Natural Building Basics
-            </a>
-          </h3>
-          <p class="text-muted">
-            Introduction to cob building techniques using clay, sand, and straw. Learn about material preparation, wall construction, and finishing techniques for this sustainable building method.
-          </p>
-          <div class="tags">
-            <span class="tag">Natural Building</span>
-            <span class="tag">DIY</span>
-          </div>
-        </div>
+      <div class="grid grid-2" id="guidesGrid">
+        <!-- Guides will be dynamically inserted here by JavaScript -->
       </div>
     </section>
 
@@ -441,13 +318,14 @@
     <div class="wiki-container">
       <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a>
+        <a href="wiki-home.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
+        <a href="../pages/legal.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
+        <a href="../pages/legal.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a>
       </p>
     </div>
   </footer>
 
   <script src="js/wiki.js"></script>
+  <script src="js/wiki-home.js"></script>
 </body>
 </html>

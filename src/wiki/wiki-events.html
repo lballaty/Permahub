@@ -104,12 +104,12 @@
           <strong>Filter by:</strong>
         </div>
         <div class="tags">
-          <a href="#" class="tag" style="background-color: var(--wiki-primary); color: white;">All Events</a>
-          <a href="#" class="tag">Workshops</a>
-          <a href="#" class="tag">Meetups</a>
-          <a href="#" class="tag">Tours</a>
-          <a href="#" class="tag">Courses</a>
-          <a href="#" class="tag">Work Days</a>
+          <a href="javascript:void(0)" class="tag event-filter active" data-filter="all">All Events</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workshop">Workshops</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="meetup">Meetups</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="tour">Tours</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="course">Courses</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workday">Work Days</a>
         </div>
       </div>
     </div>
@@ -130,9 +130,9 @@
         <i class="fas fa-calendar-day"></i> This Month - November 2025
       </h2>
 
-      <div class="grid grid-2">
+      <div class="grid grid-2" id="eventsGrid">
         <!-- Event 1 -->
-        <div class="event-card">
+        <div class="event-card" data-event-type="workshop">
           <div class="event-date">
             <div class="event-day">12</div>
             <div class="event-month">Nov</div>
@@ -532,5 +532,6 @@
   </footer>
 
   <script src="js/wiki.js"></script>
+  <script src="js/wiki-events.js"></script>
 </body>
 </html>
