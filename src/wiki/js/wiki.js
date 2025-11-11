@@ -48,12 +48,101 @@ function initializeSearch() {
  * Mobile menu toggle
  */
 function initializeMobileMenu() {
-  // Add mobile menu toggle button if needed
   const nav = document.querySelector('.wiki-nav');
-  if (nav && window.innerWidth < 768) {
-    console.log('Mobile view detected');
-    // Mobile menu implementation would go here
+  const menu = document.querySelector('.wiki-menu');
+
+  if (!nav || !menu) return;
+
+  // Create mobile menu toggle button
+  let toggleBtn = document.querySelector('.mobile-menu-toggle');
+  if (!toggleBtn) {
+    toggleBtn = document.createElement('button');
+    toggleBtn.className = 'mobile-menu-toggle';
+    toggleBtn.setAttribute('aria-label', 'Toggle menu');
+    toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    nav.appendChild(toggleBtn);
   }
+
+  // Create overlay for mobile menu
+  let overlay = document.querySelector('.mobile-menu-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'mobile-menu-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  // Toggle menu on button click
+  toggleBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const isActive = menu.classList.contains('active');
+
+    if (isActive) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Close menu when clicking overlay
+  overlay.addEventListener('click', closeMenu);
+
+  // Close menu when clicking menu links (except language selector)
+  const menuLinks = menu.querySelectorAll('a:not(.lang-selector-btn)');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Only close on mobile
+      if (window.innerWidth <= 768) {
+        closeMenu();
+      }
+    });
+  });
+
+  // Handle window resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      // Close menu if switching to desktop view
+      if (window.innerWidth > 768 && menu.classList.contains('active')) {
+        closeMenu();
+      }
+    }, 250);
+  });
+
+  // Update toggle button icon
+  function updateToggleIcon() {
+    const icon = toggleBtn.querySelector('i');
+    if (menu.classList.contains('active')) {
+      icon.className = 'fas fa-times';
+    } else {
+      icon.className = 'fas fa-bars';
+    }
+  }
+
+  // Open menu
+  function openMenu() {
+    menu.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scroll
+    updateToggleIcon();
+  }
+
+  // Close menu
+  function closeMenu() {
+    menu.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scroll
+    updateToggleIcon();
+  }
+
+  // Initialize icon
+  updateToggleIcon();
+
+  // Make functions available globally for other scripts
+  window.WikiMobileMenu = {
+    open: openMenu,
+    close: closeMenu
+  };
 }
 
 /**
