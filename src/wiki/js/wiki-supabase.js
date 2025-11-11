@@ -27,6 +27,7 @@ class WikiAPI {
 
   async getGuides(options = {}) {
     try {
+      const language = options.language || 'en';
       const queryOptions = {
         select: '*',
         where: 'status',
@@ -36,14 +37,21 @@ class WikiAPI {
         order: options.order || 'created_at.desc'
       };
 
-      return await this.client.getAll('wiki_guides', queryOptions);
+      const guides = await this.client.getAll('wiki_guides', queryOptions);
+
+      // Fetch translations for each guide if language is not default
+      if (language !== 'en' && guides.length > 0) {
+        return await this._attachGuideTranslations(guides, language);
+      }
+
+      return guides;
     } catch (error) {
       console.error('Error fetching guides:', error);
       return [];
     }
   }
 
-  async getGuide(slugOrId) {
+  async getGuide(slugOrId, language = 'en') {
     try {
       const field = slugOrId.includes('-') ? 'slug' : 'id';
       const result = await this.client.getAll('wiki_guides', {
@@ -55,12 +63,47 @@ class WikiAPI {
       if (result && result.length > 0) {
         // Increment view count
         await this.incrementGuideViews(result[0].id);
+
+        // Fetch translation if language is not English
+        if (language !== 'en') {
+          const translated = await this._attachGuideTranslations([result[0]], language);
+          return translated[0];
+        }
+
         return result[0];
       }
       return null;
     } catch (error) {
       console.error('Error fetching guide:', error);
       return null;
+    }
+  }
+
+  async _attachGuideTranslations(guides, language) {
+    try {
+      const guideIds = guides.map(g => g.id);
+      const { data: translations } = await this.client.supabase
+        .from('wiki_guide_translations')
+        .select('*')
+        .in('guide_id', guideIds)
+        .eq('language_code', language);
+
+      return guides.map(guide => {
+        const translation = translations?.find(t => t.guide_id === guide.id);
+        if (translation) {
+          return {
+            ...guide,
+            title: translation.title,
+            summary: translation.summary,
+            content: translation.content,
+            language_code: translation.language_code
+          };
+        }
+        return { ...guide, language_code: 'en' };
+      });
+    } catch (error) {
+      console.error('Error fetching guide translations:', error);
+      return guides.map(g => ({ ...g, language_code: 'en' }));
     }
   }
 
