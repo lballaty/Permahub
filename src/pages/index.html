@@ -155,26 +155,33 @@
         .hero {
             background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
             color: white;
-            padding: 4rem 2rem;
+            padding: 3rem 2rem;
             text-align: center;
             margin-bottom: 2rem;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
         .hero h1 {
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-instruction {
+            font-size: 1rem;
+            opacity: 0.95;
             margin-bottom: 2rem;
+            font-weight: 500;
         }
 
         .hero-buttons {
@@ -182,6 +189,150 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+        }
+
+        /* ============ ECO-THEMES GRID ============ */
+        .eco-themes-section {
+            background: white;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+        }
+
+        .eco-themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .eco-theme-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .eco-theme-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+        }
+
+        .eco-theme-card.selected {
+            transform: scale(1.05);
+        }
+
+        .eco-theme-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .eco-theme-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .eco-theme-description {
+            font-size: 0.85rem;
+            color: #556b6f;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .eco-theme-stats {
+            font-size: 0.75rem;
+            color: #95a5a6;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e0e7e9;
+        }
+
+        .eco-theme-stats-item {
+            display: inline-block;
+            margin: 0 0.5rem;
+        }
+
+        /* Dynamic theme colors */
+        .eco-theme-card[data-theme="permaculture"] {
+            border-left-color: #2d8659;
+        }
+
+        .eco-theme-card[data-theme="permaculture"].selected {
+            border-color: #2d8659;
+            background: linear-gradient(135deg, #f0f7f5 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="agroforestry"] {
+            border-left-color: #556b2f;
+        }
+
+        .eco-theme-card[data-theme="agroforestry"].selected {
+            border-color: #556b2f;
+            background: linear-gradient(135deg, #f8f7f0 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="sustainable-fishing"] {
+            border-left-color: #0077be;
+        }
+
+        .eco-theme-card[data-theme="sustainable-fishing"].selected {
+            border-color: #0077be;
+            background: linear-gradient(135deg, #f0f7ff 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="sustainable-farming"] {
+            border-left-color: #7cb342;
+        }
+
+        .eco-theme-card[data-theme="sustainable-farming"].selected {
+            border-color: #7cb342;
+            background: linear-gradient(135deg, #f5f9f0 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="natural-farming"] {
+            border-left-color: #d4a574;
+        }
+
+        .eco-theme-card[data-theme="natural-farming"].selected {
+            border-color: #d4a574;
+            background: linear-gradient(135deg, #faf7f3 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="circular-economy"] {
+            border-left-color: #6b5b95;
+        }
+
+        .eco-theme-card[data-theme="circular-economy"].selected {
+            border-color: #6b5b95;
+            background: linear-gradient(135deg, #f6f5f9 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="sustainable-energy"] {
+            border-left-color: #f39c12;
+        }
+
+        .eco-theme-card[data-theme="sustainable-energy"].selected {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #fffaf0 0%, white 100%);
+        }
+
+        .eco-theme-card[data-theme="water-management"] {
+            border-left-color: #3498db;
+        }
+
+        .eco-theme-card[data-theme="water-management"].selected {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #f0f8ff 0%, white 100%);
         }
 
         .btn {
@@ -720,6 +871,19 @@
                 <a href="/public/pages/resources.html" class="btn btn-secondary" data-i18n="landing.marketplace">
                     <i class="fas fa-shopping-bag"></i> Browse Resources
                 </a>
+            </div>
+            <p class="hero-instruction" data-i18n="landing.chooseTheme">Select your sustainability focus area to personalize your experience:</p>
+        </div>
+    </div>
+
+    <!-- ============ ECO-THEMES SECTION ============ -->
+    <div class="eco-themes-section">
+        <div class="main-container">
+            <div class="eco-themes-grid" id="ecoThemesGrid">
+                <div class="empty-state">
+                    <div class="loading"></div>
+                    <p data-i18n="common.loading">Loading themes...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1270,11 +1434,296 @@
             return text.replace(/[&<>"']/g, m => map[m]);
         }
 
+        // ============ ECO-THEMES FUNCTIONALITY ============
+        let ecoThemesData = [];
+        let selectedEcoTheme = localStorage.getItem('selectedEcoTheme') || null;
+
+        /**
+         * Load eco-themes from Supabase database
+         * Fetches all 8 eco-themes with their metadata
+         */
+        async function loadEcoThemes() {
+            try {
+                const themes = await supabase.getAll('eco_themes', {
+                    select: '*'
+                });
+                ecoThemesData = themes;
+                renderEcoThemesGrid();
+            } catch (error) {
+                console.error('Error loading eco-themes:', error);
+                // Fallback to static themes if database fails
+                loadStaticEcoThemes();
+            }
+        }
+
+        /**
+         * Fallback static eco-themes data if database unavailable
+         */
+        function loadStaticEcoThemes() {
+            ecoThemesData = [
+                {
+                    id: '1',
+                    name: 'Permaculture',
+                    slug: 'permaculture',
+                    icon_emoji: '🌱',
+                    color_primary: '#2d8659',
+                    description: 'Designing sustainable ecosystems based on natural patterns',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 1
+                },
+                {
+                    id: '2',
+                    name: 'Agroforestry',
+                    slug: 'agroforestry',
+                    icon_emoji: '🌳',
+                    color_primary: '#556b2f',
+                    description: 'Integrating trees and crops for productive landscapes',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 2
+                },
+                {
+                    id: '3',
+                    name: 'Sustainable Fishing',
+                    slug: 'sustainable-fishing',
+                    icon_emoji: '🐟',
+                    color_primary: '#0077be',
+                    description: 'Marine and aquatic conservation practices',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 3
+                },
+                {
+                    id: '4',
+                    name: 'Sustainable Farming',
+                    slug: 'sustainable-farming',
+                    icon_emoji: '🥬',
+                    color_primary: '#7cb342',
+                    description: 'Regenerative and organic farming techniques',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 4
+                },
+                {
+                    id: '5',
+                    name: 'Natural Farming',
+                    slug: 'natural-farming',
+                    icon_emoji: '🌾',
+                    color_primary: '#d4a574',
+                    description: 'Zero-chemical farming methods and soil health',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 5
+                },
+                {
+                    id: '6',
+                    name: 'Circular Economy',
+                    slug: 'circular-economy',
+                    icon_emoji: '♻️',
+                    color_primary: '#6b5b95',
+                    description: 'Waste reduction and resource cycling systems',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 6
+                },
+                {
+                    id: '7',
+                    name: 'Sustainable Energy',
+                    slug: 'sustainable-energy',
+                    icon_emoji: '⚡',
+                    color_primary: '#f39c12',
+                    description: 'Renewable energy and efficiency solutions',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 7
+                },
+                {
+                    id: '8',
+                    name: 'Water Management',
+                    slug: 'water-management',
+                    icon_emoji: '💧',
+                    color_primary: '#3498db',
+                    description: 'Conservation and sustainable water use',
+                    projects_count: 0,
+                    resources_count: 0,
+                    discussions_count: 0,
+                    display_order: 8
+                }
+            ];
+            renderEcoThemesGrid();
+        }
+
+        /**
+         * Render eco-themes grid with all 8 theme cards
+         */
+        function renderEcoThemesGrid() {
+            const container = document.getElementById('ecoThemesGrid');
+
+            if (!ecoThemesData || ecoThemesData.length === 0) {
+                container.innerHTML = '<p>Unable to load eco-themes</p>';
+                return;
+            }
+
+            // Sort by display_order
+            const sortedThemes = ecoThemesData.sort((a, b) =>
+                (a.display_order || 0) - (b.display_order || 0)
+            );
+
+            container.innerHTML = sortedThemes.map(theme => `
+                <div class="eco-theme-card ${selectedEcoTheme === theme.slug ? 'selected' : ''}"
+                     data-theme="${theme.slug}"
+                     onclick="selectEcoTheme('${theme.slug}', '${theme.name}', ${theme.id})">
+                    <div class="eco-theme-icon">${theme.icon_emoji}</div>
+                    <h3 class="eco-theme-name">${escapeHtml(theme.name)}</h3>
+                    <p class="eco-theme-description">${escapeHtml(theme.description || '')}</p>
+                    <div class="eco-theme-stats">
+                        <span class="eco-theme-stats-item">
+                            <i class="fas fa-project-diagram"></i>
+                            ${theme.projects_count || 0}
+                        </span>
+                        <span class="eco-theme-stats-item">
+                            <i class="fas fa-box"></i>
+                            ${theme.resources_count || 0}
+                        </span>
+                        <span class="eco-theme-stats-item">
+                            <i class="fas fa-comments"></i>
+                            ${theme.discussions_count || 0}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /**
+         * Handle eco-theme selection
+         * Stores selection, tracks analytics, filters content
+         */
+        async function selectEcoTheme(slug, name, themeId) {
+            try {
+                // Update selected theme
+                selectedEcoTheme = slug;
+                localStorage.setItem('selectedEcoTheme', slug);
+                localStorage.setItem('selectedEcoThemeId', themeId);
+
+                // Re-render cards to show selection state
+                renderEcoThemesGrid();
+
+                // Track analytics
+                await trackThemeSelection(themeId, name);
+
+                // Load theme-specific content
+                await loadThemeContent(slug, themeId);
+
+                // Smooth scroll to main content
+                document.getElementById('globalSection').scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error selecting eco-theme:', error);
+            }
+        }
+
+        /**
+         * Track theme selection in landing_page_analytics table
+         */
+        async function trackThemeSelection(themeId, themeName) {
+            try {
+                if (!currentUser) {
+                    // Log anonymous analytics
+                    console.log('Anonymous user selected theme:', themeName);
+                    return;
+                }
+
+                // Record analytics
+                await supabase.insert('landing_page_analytics', {
+                    user_id: currentUser.id,
+                    eco_theme_id: themeId,
+                    action: 'theme_selected',
+                    theme_name: themeName,
+                    timestamp: new Date().toISOString()
+                });
+
+                console.log('Analytics tracked for theme:', themeName);
+            } catch (error) {
+                console.error('Error tracking theme selection:', error);
+                // Non-critical error, continue
+            }
+        }
+
+        /**
+         * Load content filtered by selected eco-theme
+         */
+        async function loadThemeContent(slug, themeId) {
+            try {
+                // Update global section to show theme-filtered content
+                const projects = await supabase.getAll('projects', {
+                    select: '*',
+                    where: 'eco_theme_id',
+                    operator: 'eq',
+                    value: themeId,
+                    limit: 10
+                });
+
+                const resources = await supabase.getAll('resources', {
+                    select: '*',
+                    where: 'eco_theme_id',
+                    operator: 'eq',
+                    value: themeId,
+                    limit: 10
+                });
+
+                // Update global cards with theme-filtered content
+                globalCards = [
+                    ...projects.map(p => ({
+                        id: p.id,
+                        type: 'project',
+                        name: p.name,
+                        description: p.description,
+                        region: p.region,
+                        icon: '🌱',
+                        stats: { views: Math.floor(Math.random() * 1000) }
+                    })),
+                    ...resources.map(r => ({
+                        id: r.id,
+                        type: 'resource',
+                        name: r.title,
+                        description: r.description,
+                        region: r.location,
+                        icon: '📦',
+                        stats: { views: Math.floor(Math.random() * 500) }
+                    }))
+                ];
+
+                // Update section title to show selected theme
+                const sectionTitle = document.querySelector('.section-title');
+                const themeName = ecoThemesData.find(t => t.id === themeId)?.name || 'Popular';
+                if (sectionTitle) {
+                    sectionTitle.textContent = `${themeName} Projects & Resources`;
+                }
+
+                renderGlobalCards();
+                document.getElementById('globalSection').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading theme content:', error);
+                // Still show global popular content on error
+                renderGlobalCards();
+            }
+        }
+
         // Search input handler
         document.getElementById('itemSearchInput')?.addEventListener('input', renderAvailableItemsGrid);
         document.getElementById('categoryFilter')?.addEventListener('change', renderAvailableItemsGrid);
 
         window.addEventListener('languageChanged', updateTranslationsInDOM);
+
+        // Load eco-themes on page load
+        window.addEventListener('DOMContentLoaded', loadEcoThemes);
     </script>
 </body>
 </html>
