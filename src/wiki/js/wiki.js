@@ -5,12 +5,6 @@
  * In production, this will integrate with Supabase for backend operations.
  */
 
-// Import i18n if available
-let wikiI18n = null;
-if (typeof window.wikiI18n !== 'undefined') {
-  wikiI18n = window.wikiI18n;
-}
-
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Community Wiki initialized');
@@ -21,8 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeLanguageSelector();
 
   // Initialize i18n if available
-  if (wikiI18n) {
-    wikiI18n.init();
+  if (window.wikiI18n) {
+    window.wikiI18n.init();
+
+    // Set HTML lang attribute to match current language
+    const currentLang = window.wikiI18n.getLanguage();
+    document.documentElement.lang = currentLang;
+
     updatePageLanguage();
   }
 });
@@ -191,28 +190,32 @@ function initializeLanguageSelector() {
  * Change the current language
  */
 function changeLanguage(lang) {
-  if (!wikiI18n) {
+  if (!window.wikiI18n) {
     console.error('i18n not loaded');
     return;
   }
 
-  wikiI18n.setLanguage(lang);
+  window.wikiI18n.setLanguage(lang);
+
+  // Update HTML lang attribute
+  document.documentElement.lang = lang;
+
   updatePageLanguage();
   updateActiveLanguage();
-  showNotification(wikiI18n.t('wiki.common.language_changed'), 'info');
+  showNotification(window.wikiI18n.t('wiki.common.language_changed'), 'info');
 }
 
 /**
  * Update all text on the page based on current language
  */
 function updatePageLanguage() {
-  if (!wikiI18n) return;
+  if (!window.wikiI18n) return;
 
   // Update all elements with data-i18n attribute
   const elements = document.querySelectorAll('[data-i18n]');
   elements.forEach(el => {
     const key = el.dataset.i18n;
-    const translation = wikiI18n.t(key);
+    const translation = window.wikiI18n.t(key);
 
     // Update text content or placeholder
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
@@ -228,7 +231,7 @@ function updatePageLanguage() {
   const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
   placeholderElements.forEach(el => {
     const key = el.dataset.i18nPlaceholder;
-    const translation = wikiI18n.t(key);
+    const translation = window.wikiI18n.t(key);
     if (el.placeholder !== undefined) {
       el.placeholder = translation;
     }
@@ -237,7 +240,7 @@ function updatePageLanguage() {
   // Update language selector button text
   const langBtn = document.getElementById('langSelectorBtn');
   if (langBtn) {
-    const currentLang = wikiI18n.getLanguage();
+    const currentLang = window.wikiI18n.getLanguage();
     const langNames = {
       en: 'English',
       pt: 'Português',
@@ -267,9 +270,9 @@ function updatePageLanguage() {
  * Update active state in language dropdown
  */
 function updateActiveLanguage() {
-  if (!wikiI18n) return;
+  if (!window.wikiI18n) return;
 
-  const currentLang = wikiI18n.getLanguage();
+  const currentLang = window.wikiI18n.getLanguage();
   const langOptions = document.querySelectorAll('.lang-option');
 
   langOptions.forEach(option => {
