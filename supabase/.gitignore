@@ -1,0 +1,22 @@
+# Supabase local development
+.env.local
+.env.local.json
+.env.*.local
+.env
+
+# Supabase CLI
+supabase/.branches
+supabase/debug.log
+supabase/functions/.env.local
+
+# OS files
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+
+# Local development
+node_modules/
+dist/
+build/

@@ -1,0 +1,28 @@
+# Supabase Project Configuration
+# File: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/config.toml
+# Description: Supabase CLI configuration for Permahub project
+# Author: Libor Ballaty <libor@arionetworks.com>
+# Created: 2025-11-12
+
+[db]
+port = 5432
+major_version = 17
+
+[api]
+enabled = true
+port = 3000
+
+[realtime]
+enabled = true
+
+[storage]
+file_size_limit = 52428800
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = []
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
