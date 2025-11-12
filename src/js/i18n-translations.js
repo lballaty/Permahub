@@ -25,6 +25,7 @@ const i18n = {
     'en': { name: 'English', nativeName: 'English', flag: '🇬🇧' },
     'pt': { name: 'Portuguese', nativeName: 'Português', flag: '🇵🇹' },
     'es': { name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
+    'cs': { name: 'Czech', nativeName: 'Čeština', flag: '🇨🇿' },
     'fr': { name: 'French', nativeName: 'Français', flag: '🇫🇷' },
     'de': { name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
     'it': { name: 'Italian', nativeName: 'Italiano', flag: '🇮🇹' },
@@ -528,6 +529,170 @@ const i18n = {
       'a11y.open_menu': 'Abrir menú',
       'a11y.loading': 'Cargando',
       'a11y.required_field': 'Campo obligatorio',
+    },
+
+    // ============ CZECH (cs) ============
+    cs: {
+      // ============ SPLASH SCREEN ============
+      'splash.title': 'Síť permakulturních komunit',
+      'splash.subtitle': 'Budujeme propojení pro udržitelné životní prostředí',
+      'splash.loading': 'Připojujeme se ke globální permakulturní komunitě...',
+
+      // ============ AUTHENTICATION - GENERAL ============
+      'auth.logo': '🌿',
+      'auth.logo_splash': '🌱',
+
+      // ============ LOGIN ============
+      'auth.login_welcome': 'Vítejte zpět',
+      'auth.login_subtitle': 'Přihlaste se ke svému účtu',
+      'auth.magic_link': 'Magický odkaz',
+      'auth.password': 'Heslo',
+      'auth.email': 'E-mailová adresa',
+      'auth.email_placeholder': 'vas@email.cz',
+      'auth.send_magic_link': 'Odeslat magický odkaz',
+      'auth.sign_in': 'Přihlásit se',
+      'auth.forgot_password': 'Zapomněli jste heslo?',
+      'auth.no_account': 'Nemáte účet?',
+      'auth.create_one': 'Vytvořte si ho',
+
+      // ============ REGISTRATION ============
+      'auth.register_join': 'Připojte se k nám',
+      'auth.register_create': 'Vytvořte si svůj účet',
+      'auth.password_label': 'Heslo',
+      'auth.password_placeholder': 'Minimálně 6 znaků',
+      'auth.password_hint': 'Použijte silné heslo obsahující písmena a čísla',
+      'auth.confirm_password': 'Potvrdit heslo',
+      'auth.confirm_password_placeholder': 'Potvrďte heslo',
+      'auth.terms_agreement': 'Souhlasím s podmínkami použití a zásadami ochrany osobních údajů',
+      'auth.create_account': 'Vytvořit účet',
+      'auth.have_account': 'Již máte účet?',
+      'auth.sign_in_link': 'Přihlásit se',
+
+      // ============ PASSWORD RESET ============
+      'auth.reset_title': 'Obnovit heslo',
+      'auth.reset_subtitle': 'Zašleme vám odkaz pro obnovení hesla',
+      'auth.send_reset_link': 'Odeslat odkaz pro obnovení',
+      'auth.back_to_login': 'Zpět na přihlášení',
+
+      // ============ NEW PASSWORD ============
+      'auth.new_password_title': 'Vytvořit nové heslo',
+      'auth.new_password_subtitle': 'Zadejte své nové heslo',
+      'auth.new_password_label': 'Nové heslo',
+      'auth.new_password_placeholder': 'Minimálně 6 znaků',
+      'auth.new_confirm_password': 'Potvrdit heslo',
+      'auth.update_password': 'Aktualizovat heslo',
+
+      // ============ PROFILE COMPLETION ============
+      'auth.profile_title': 'Dokončete svůj profil',
+      'auth.profile_subtitle': 'Pomozte nám vás poznat',
+      'auth.basic_info': 'Základní informace',
+      'auth.full_name': 'Celé jméno',
+      'auth.full_name_placeholder': 'Vaše jméno',
+      'auth.location': 'Umístění',
+      'auth.location_placeholder': 'Město, region',
+      'auth.bio': 'O mně',
+      'auth.bio_placeholder': 'Řekněte nám o sobě a svých zájmech...',
+      'auth.skills_interests': 'Dovednosti a zájmy',
+      'auth.skills': 'Dovednosti',
+      'auth.skills_placeholder': 'Přidat dovednosti (stiskněte Enter)',
+      'auth.skills_hint': 'Např. Permakulturní design, Uchovávání semen, Kompostování',
+      'auth.interests': 'Zájmy',
+      'auth.interests_placeholder': 'Přidat zájmy (stiskněte Enter)',
+      'auth.interests_hint': 'Např. Agrolesnictví, Vodní systémy, Budování komunity',
+      'auth.looking_for': 'Co hledáte?',
+      'auth.looking_for_placeholder': 'Přidat, co hledáte (stiskněte Enter)',
+      'auth.looking_for_hint': 'Např. Spolupráce, Mentorství, Vzdělávání, Zaměstnání',
+      'auth.visibility': 'Viditelnost',
+      'auth.public_profile': 'Zveřejnit můj profil, aby mě ostatní mohli najít',
+      'auth.complete_profile': 'Dokončit profil',
+      'auth.skip_for_now': 'Přeskočit prozatím',
+
+      // ============ MAGIC LINK ============
+      'auth.check_email': 'Zkontrolujte svůj e-mail',
+      'auth.magic_link_sent': 'Odeslali jsme vám magický odkaz pro přihlášení',
+      'auth.magic_link_instructions': 'Klikněte na odkaz v e-mailu pro přihlášení. Odkaz platí 24 hodin.',
+      'auth.didnt_receive': 'Neobdrželi jste e-mail?',
+      'auth.resend_link': 'Odeslat znovu',
+
+      // ============ SUCCESS ============
+      'auth.success': 'Vítejte!',
+      'auth.account_ready': 'Váš účet je připraven',
+      'auth.redirecting': 'Vše je připraveno. Přesměrováváme vás na nástěnku...',
+
+      // ============ ALERTS & MESSAGES ============
+      'alert.success': 'Úspěch!',
+      'alert.error': 'Chyba',
+      'alert.info': 'Informace',
+      'alert.magic_link_sent': 'Magický odkaz odeslán! Zkontrolujte svůj e-mail.',
+      'alert.account_created': 'Účet vytvořen! Dokončujeme váš profil...',
+      'alert.passwords_match': 'Hesla se neshodují',
+      'alert.password_short': 'Heslo musí mít alespoň 6 znaků',
+      'alert.reset_link_sent': 'Odkaz pro obnovení odeslán! Zkontrolujte svůj e-mail.',
+      'alert.password_updated': 'Heslo bylo úspěšně aktualizováno!',
+      'alert.profile_completed': 'Profil dokončen! Přesměrováváme...',
+      'alert.signing_in': 'Přihlašování...',
+      'alert.link_resent': 'Odkaz odeslán znovu! Zkontrolujte svůj e-mail.',
+      'alert.invalid_credentials': 'Neplatný e-mail nebo heslo',
+
+      // ============ FORM VALIDATION ============
+      'validation.required': 'Toto pole je povinné',
+      'validation.invalid_email': 'Zadejte platnou e-mailovou adresu',
+      'validation.password_too_short': 'Heslo musí mít alespoň 6 znaků',
+      'validation.passwords_dont_match': 'Hesla se neshodují',
+      'validation.fill_all_fields': 'Vyplňte všechna povinná pole',
+
+      // ============ BUTTONS & ACTIONS ============
+      'btn.submit': 'Odeslat',
+      'btn.cancel': 'Zrušit',
+      'btn.save': 'Uložit',
+      'btn.delete': 'Smazat',
+      'btn.edit': 'Upravit',
+      'btn.back': 'Zpět',
+      'btn.next': 'Další',
+      'btn.previous': 'Předchozí',
+      'btn.logout': 'Odhlásit se',
+      'btn.close': 'Zavřít',
+      'btn.continue': 'Pokračovat',
+
+      // ============ LEGAL & FOOTER ============
+      'legal.privacy_policy': 'Zásady ochrany osobních údajů',
+      'legal.terms_service': 'Podmínky použití',
+      'legal.cookie_policy': 'Zásady používání cookies',
+      'legal.contact': 'Kontaktujte nás',
+      'legal.copyright': '© 2025 Síť permakulturních komunit. Všechna práva vyhrazena.',
+      'legal.agree_terms': 'Registrací souhlasíte s našimi podmínkami použití a zásadami ochrany osobních údajů',
+
+      // ============ LANGUAGE SELECTOR ============
+      'lang.select': 'Vybrat jazyk',
+      'lang.current': 'Aktuální jazyk',
+      'lang.change': 'Změnit jazyk',
+
+      // ============ COMMON TERMS ============
+      'common.email': 'E-mail',
+      'common.password': 'Heslo',
+      'common.name': 'Jméno',
+      'common.location': 'Umístění',
+      'common.bio': 'O mně',
+      'common.skills': 'Dovednosti',
+      'common.interests': 'Zájmy',
+      'common.projects': 'Projekty',
+      'common.resources': 'Zdroje',
+      'common.community': 'Komunita',
+      'common.dashboard': 'Nástěnka',
+      'common.settings': 'Nastavení',
+      'common.profile': 'Profil',
+      'common.search': 'Hledat',
+      'common.filter': 'Filtrovat',
+      'common.loading': 'Načítání...',
+      'common.error': 'Vyskytla se chyba',
+      'common.success': 'Úspěch!',
+
+      // ============ ACCESSIBILITY ============
+      'a11y.skip_to_content': 'Přeskočit na hlavní obsah',
+      'a11y.close_menu': 'Zavřít menu',
+      'a11y.open_menu': 'Otevřít menu',
+      'a11y.loading': 'Načítání',
+      'a11y.required_field': 'Povinné pole',
     },
 
     // Add more languages here following the same pattern...
