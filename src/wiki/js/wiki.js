@@ -224,6 +224,16 @@ function updatePageLanguage() {
     }
   });
 
+  // Update all elements with data-i18n-placeholder attribute
+  const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+  placeholderElements.forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    const translation = wikiI18n.t(key);
+    if (el.placeholder !== undefined) {
+      el.placeholder = translation;
+    }
+  });
+
   // Update language selector button text
   const langBtn = document.getElementById('langSelectorBtn');
   if (langBtn) {
