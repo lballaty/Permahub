@@ -241,20 +241,26 @@ const wikiI18n = {
       'wiki.common.view_more': 'View More',
       'wiki.common.show_less': 'Show Less',
       'wiki.common.read_more': 'Read More',
+      'wiki.common.language_changed': 'Language changed successfully',
 
       // Categories
-      'wiki.category.subtropical_gardening': 'Subtropical Gardening',
+      'wiki.category.gardening': 'Gardening',
       'wiki.category.water_management': 'Water Management',
       'wiki.category.composting': 'Composting',
       'wiki.category.renewable_energy': 'Renewable Energy',
+      'wiki.category.food_production': 'Food Production',
+      'wiki.category.agroforestry': 'Agroforestry',
+      'wiki.category.natural_building': 'Natural Building',
+      'wiki.category.waste_management': 'Waste Management',
+      'wiki.category.irrigation': 'Irrigation',
+      'wiki.category.earthworks': 'Earthworks',
+      'wiki.category.diy': 'DIY',
+      'wiki.category.community': 'Community',
+      'wiki.category.subtropical_gardening': 'Subtropical Gardening',
       'wiki.category.food_forests': 'Food Forests',
       'wiki.category.terracing': 'Terracing',
-      'wiki.category.natural_building': 'Natural Building',
       'wiki.category.circular_economy': 'Circular Economy',
       'wiki.category.native_species': 'Native Species',
-      'wiki.category.community': 'Community',
-      'wiki.category.agroforestry': 'Agroforestry',
-      'wiki.category.irrigation': 'Irrigation',
 
       // Time
       'wiki.time.today': 'Today',
@@ -360,17 +366,25 @@ const wikiI18n = {
       'wiki.common.cancel': 'Cancelar',
       'wiki.common.edit': 'Editar',
       'wiki.common.search': 'Procurar',
+      'wiki.common.language_changed': 'Idioma alterado com sucesso',
 
       // Categories
-      'wiki.category.subtropical_gardening': 'Jardinagem Subtropical',
+      'wiki.category.gardening': 'Jardinagem',
       'wiki.category.water_management': 'Gestão de Água',
       'wiki.category.composting': 'Compostagem',
+      'wiki.category.renewable_energy': 'Energia Renovável',
+      'wiki.category.food_production': 'Produção de Alimentos',
+      'wiki.category.agroforestry': 'Agrofloresta',
+      'wiki.category.natural_building': 'Construção Natural',
+      'wiki.category.waste_management': 'Gestão de Resíduos',
+      'wiki.category.irrigation': 'Irrigação',
+      'wiki.category.earthworks': 'Terraplanagem',
+      'wiki.category.diy': 'Faça Você Mesmo',
+      'wiki.category.community': 'Comunidade',
+      'wiki.category.subtropical_gardening': 'Jardinagem Subtropical',
       'wiki.category.food_forests': 'Florestas Alimentares',
       'wiki.category.terracing': 'Socalcos',
-      'wiki.category.natural_building': 'Construção Natural',
       'wiki.category.native_species': 'Espécies Nativas',
-      'wiki.category.community': 'Comunidade',
-      'wiki.category.agroforestry': 'Agrofloresta',
 
       // Time
       'wiki.time.today': 'Hoje',
@@ -407,6 +421,11 @@ const wikiI18n = {
       'wiki.home.upcoming_events': 'Próximos Eventos',
       'wiki.home.featured_locations': 'Ubicaciones Destacadas',
       'wiki.home.view_all': 'Ver Todos',
+      'wiki.home.contribute_title': 'Contribuye a Nuestro Conocimiento Comunitario',
+      'wiki.home.contribute_subtitle': 'Comparte tus experiencias, consejos y proyectos de permacultura con la comunidad. ¡Cada contribución nos ayuda a crecer!',
+      'wiki.home.create_guide': 'Crear una Guía',
+      'wiki.home.add_event': 'Añadir un Evento',
+      'wiki.home.add_location': 'Añadir una Ubicación',
 
       // Common
       'wiki.common.loading': 'Cargando...',
@@ -416,14 +435,23 @@ const wikiI18n = {
       'wiki.common.cancel': 'Cancelar',
       'wiki.common.edit': 'Editar',
       'wiki.common.search': 'Buscar',
+      'wiki.common.language_changed': 'Idioma cambiado exitosamente',
 
       // Categories
-      'wiki.category.subtropical_gardening': 'Jardinería Subtropical',
+      'wiki.category.gardening': 'Jardinería',
       'wiki.category.water_management': 'Gestión del Agua',
       'wiki.category.composting': 'Compostaje',
-      'wiki.category.food_forests': 'Bosques Comestibles',
-      'wiki.category.community': 'Comunidad',
+      'wiki.category.renewable_energy': 'Energía Renovable',
+      'wiki.category.food_production': 'Producción de Alimentos',
       'wiki.category.agroforestry': 'Agroforestería',
+      'wiki.category.natural_building': 'Construcción Natural',
+      'wiki.category.waste_management': 'Gestión de Residuos',
+      'wiki.category.irrigation': 'Riego',
+      'wiki.category.earthworks': 'Movimientos de Tierra',
+      'wiki.category.diy': 'Hazlo Tú Mismo',
+      'wiki.category.community': 'Comunidad',
+      'wiki.category.subtropical_gardening': 'Jardinería Subtropical',
+      'wiki.category.food_forests': 'Bosques Comestibles',
 
       // Time
       'wiki.time.today': 'Hoy',
@@ -435,9 +463,261 @@ const wikiI18n = {
       'wiki.footer.for': 'para la comunidad global de permacultura',
     },
 
-    // Placeholder structures for other languages
-    // Add full translations as needed
-    fr: {}, de: {}, it: {}, nl: {}, pl: {}, ja: {}, zh: {}, ko: {}
+    // ============ FRENCH (fr) ============
+    fr: {
+      'wiki.common.language_changed': 'Langue changée avec succès',
+    },
+
+    // ============ GERMAN (de) ============
+    de: {
+      'wiki.common.language_changed': 'Sprache erfolgreich geändert',
+    },
+
+    // ============ ITALIAN (it) ============
+    it: {
+      'wiki.common.language_changed': 'Lingua cambiata con successo',
+    },
+
+    // ============ DUTCH (nl) ============
+    nl: {
+      'wiki.common.language_changed': 'Taal succesvol gewijzigd',
+    },
+
+    // ============ POLISH (pl) ============
+    pl: {
+      'wiki.common.language_changed': 'Język zmieniony pomyślnie',
+    },
+
+    // ============ JAPANESE (ja) ============
+    ja: {
+      'wiki.common.language_changed': '言語が正常に変更されました',
+    },
+
+    // ============ CHINESE (zh) ============
+    zh: {
+      'wiki.common.language_changed': '语言更改成功',
+    },
+
+    // ============ KOREAN (ko) ============
+    ko: {
+      'wiki.common.language_changed': '언어가 성공적으로 변경되었습니다',
+    },
+
+    // ============ CZECH (cs) ============
+    cs: {
+      // Navigation
+      'wiki.nav.logo': 'Komunitní Wiki',
+      'wiki.nav.home': 'Domů',
+      'wiki.nav.events': 'Události',
+      'wiki.nav.locations': 'Lokality',
+      'wiki.nav.login': 'Přihlásit se',
+      'wiki.nav.create': 'Vytvořit stránku',
+
+      // Home page
+      'wiki.home.welcome': 'Vítejte v naší komunitní znalostní bázi',
+      'wiki.home.subtitle': 'Sdílejte průvodce, lokality, události a zdroje s naší permakulturní komunitou',
+      'wiki.home.search': 'Hledat průvodce, události, lokality...',
+      'wiki.home.stats.guides': 'Průvodci',
+      'wiki.home.stats.locations': 'Lokality',
+      'wiki.home.stats.events': 'Nadcházející události',
+      'wiki.home.stats.contributors': 'Přispěvatelé',
+      'wiki.home.categories': 'Procházet podle kategorií',
+      'wiki.home.recent_guides': 'Nedávné průvodce',
+      'wiki.home.upcoming_events': 'Nadcházející události',
+      'wiki.home.featured_locations': 'Doporučené lokality',
+      'wiki.home.view_all': 'Zobrazit vše →',
+      'wiki.home.contribute_title': 'Přispějte do našich komunitních znalostí',
+      'wiki.home.contribute_subtitle': 'Sdílejte své zkušenosti, tipy a projekty permakulturní s komunitou. Každý příspěvek nám pomáhá růst!',
+      'wiki.home.create_guide': 'Vytvořit průvodce',
+      'wiki.home.add_event': 'Přidat událost',
+      'wiki.home.add_location': 'Přidat lokalitu',
+
+      // Common
+      'wiki.common.loading': 'Načítání...',
+      'wiki.common.error': 'Chyba',
+      'wiki.common.success': 'Úspěch',
+      'wiki.common.save': 'Uložit',
+      'wiki.common.cancel': 'Zrušit',
+      'wiki.common.edit': 'Upravit',
+      'wiki.common.search': 'Hledat',
+      'wiki.common.language_changed': 'Jazyk byl úspěšně změněn',
+
+      // Categories
+      'wiki.category.gardening': 'Zahradnictví',
+      'wiki.category.water_management': 'Hospodaření s vodou',
+      'wiki.category.composting': 'Kompostování',
+      'wiki.category.renewable_energy': 'Obnovitelná energie',
+      'wiki.category.food_production': 'Produkce potravin',
+      'wiki.category.agroforestry': 'Agrolesnický systém',
+      'wiki.category.natural_building': 'Přírodní stavebnictví',
+      'wiki.category.waste_management': 'Nakládání s odpady',
+      'wiki.category.irrigation': 'Zavlažování',
+      'wiki.category.earthworks': 'Terénní úpravy',
+      'wiki.category.diy': 'Kutilství',
+      'wiki.category.community': 'Komunita',
+    },
+
+    // ============ SLOVAK (sk) ============
+    sk: {
+      // Navigation
+      'wiki.nav.logo': 'Komunitná Wiki',
+      'wiki.nav.home': 'Domov',
+      'wiki.nav.events': 'Udalosti',
+      'wiki.nav.locations': 'Lokality',
+      'wiki.nav.login': 'Prihlásiť sa',
+      'wiki.nav.create': 'Vytvoriť stránku',
+
+      // Home page
+      'wiki.home.welcome': 'Vitajte v našej komunitnej vedomostnej databáze',
+      'wiki.home.subtitle': 'Zdieľajte príručky, lokality, udalosti a zdroje s naším permakultúrnym spoločenstvom',
+      'wiki.home.search': 'Hľadať príručky, udalosti, lokality...',
+      'wiki.home.stats.guides': 'Príručky',
+      'wiki.home.stats.locations': 'Lokality',
+      'wiki.home.stats.events': 'Nadchádzajúce udalosti',
+      'wiki.home.stats.contributors': 'Prispievatelia',
+      'wiki.home.categories': 'Prechádzať podľa kategórie',
+      'wiki.home.recent_guides': 'Nedávne príručky',
+      'wiki.home.upcoming_events': 'Nadchádzajúce udalosti',
+      'wiki.home.featured_locations': 'Odporúčané lokality',
+      'wiki.home.view_all': 'Zobraziť všetko →',
+      'wiki.home.contribute_title': 'Prispejte do našich komunitných vedomostí',
+      'wiki.home.contribute_subtitle': 'Zdieľajte svoje skúsenosti, tipy a projekty permakultúry so spoločenstvom. Každý príspevok nám pomáha rásť!',
+      'wiki.home.create_guide': 'Vytvoriť príručku',
+      'wiki.home.add_event': 'Pridať udalosť',
+      'wiki.home.add_location': 'Pridať lokalitu',
+
+      // Common
+      'wiki.common.loading': 'Načítava sa...',
+      'wiki.common.error': 'Chyba',
+      'wiki.common.success': 'Úspech',
+      'wiki.common.save': 'Uložiť',
+      'wiki.common.cancel': 'Zrušiť',
+      'wiki.common.edit': 'Upraviť',
+      'wiki.common.search': 'Hľadať',
+      'wiki.common.language_changed': 'Jazyk bol úspešne zmenený',
+
+      // Categories
+      'wiki.category.gardening': 'Záhradníctvo',
+      'wiki.category.water_management': 'Hospodárenie s vodou',
+      'wiki.category.composting': 'Kompostovanie',
+      'wiki.category.renewable_energy': 'Obnoviteľná energia',
+      'wiki.category.food_production': 'Produkcia potravín',
+      'wiki.category.agroforestry': 'Agrolesnícky systém',
+      'wiki.category.natural_building': 'Prírodné stavebníctvo',
+      'wiki.category.waste_management': 'Nakladanie s odpadom',
+      'wiki.category.irrigation': 'Zavlažovanie',
+      'wiki.category.earthworks': 'Terénne úpravy',
+      'wiki.category.diy': 'Urob si sám',
+      'wiki.category.community': 'Komunita',
+    },
+
+    // ============ UKRAINIAN (uk) ============
+    uk: {
+      // Navigation
+      'wiki.nav.logo': 'Спільнота Wiki',
+      'wiki.nav.home': 'Головна',
+      'wiki.nav.events': 'Події',
+      'wiki.nav.locations': 'Локації',
+      'wiki.nav.login': 'Увійти',
+      'wiki.nav.create': 'Створити сторінку',
+
+      // Home page
+      'wiki.home.welcome': 'Ласкаво просимо до нашої спільної бази знань',
+      'wiki.home.subtitle': 'Діліться посібниками, локаціями, подіями та ресурсами з нашою пермакультурною спільнотою',
+      'wiki.home.search': 'Шукати посібники, події, локації...',
+      'wiki.home.stats.guides': 'Посібники',
+      'wiki.home.stats.locations': 'Локації',
+      'wiki.home.stats.events': 'Майбутні події',
+      'wiki.home.stats.contributors': 'Учасники',
+      'wiki.home.categories': 'Переглядати за категоріями',
+      'wiki.home.recent_guides': 'Останні посібники',
+      'wiki.home.upcoming_events': 'Майбутні події',
+      'wiki.home.featured_locations': 'Рекомендовані локації',
+      'wiki.home.view_all': 'Переглянути всі →',
+      'wiki.home.contribute_title': 'Долучіться до наших спільних знань',
+      'wiki.home.contribute_subtitle': 'Діліться своїм досвідом, порадами та проєктами пермакультури зі спільнотою. Кожен внесок допомагає нам рости!',
+      'wiki.home.create_guide': 'Створити посібник',
+      'wiki.home.add_event': 'Додати подію',
+      'wiki.home.add_location': 'Додати локацію',
+
+      // Common
+      'wiki.common.loading': 'Завантаження...',
+      'wiki.common.error': 'Помилка',
+      'wiki.common.success': 'Успіх',
+      'wiki.common.save': 'Зберегти',
+      'wiki.common.cancel': 'Скасувати',
+      'wiki.common.edit': 'Редагувати',
+      'wiki.common.search': 'Шукати',
+      'wiki.common.language_changed': 'Мову успішно змінено',
+
+      // Categories
+      'wiki.category.gardening': 'Садівництво',
+      'wiki.category.water_management': 'Управління водою',
+      'wiki.category.composting': 'Компостування',
+      'wiki.category.renewable_energy': 'Відновлювана енергія',
+      'wiki.category.food_production': 'Виробництво їжі',
+      'wiki.category.agroforestry': 'Агролісівництво',
+      'wiki.category.natural_building': 'Природне будівництво',
+      'wiki.category.waste_management': 'Управління відходами',
+      'wiki.category.irrigation': 'Зрошення',
+      'wiki.category.earthworks': 'Земляні роботи',
+      'wiki.category.diy': 'Зроби сам',
+      'wiki.category.community': 'Спільнота',
+    },
+
+    // ============ RUSSIAN (ru) ============
+    ru: {
+      // Navigation
+      'wiki.nav.logo': 'Сообщество Wiki',
+      'wiki.nav.home': 'Главная',
+      'wiki.nav.events': 'События',
+      'wiki.nav.locations': 'Локации',
+      'wiki.nav.login': 'Войти',
+      'wiki.nav.create': 'Создать страницу',
+
+      // Home page
+      'wiki.home.welcome': 'Добро пожаловать в нашу общую базу знаний',
+      'wiki.home.subtitle': 'Делитесь руководствами, локациями, событиями и ресурсами с нашим пермакультурным сообществом',
+      'wiki.home.search': 'Искать руководства, события, локации...',
+      'wiki.home.stats.guides': 'Руководства',
+      'wiki.home.stats.locations': 'Локации',
+      'wiki.home.stats.events': 'Предстоящие события',
+      'wiki.home.stats.contributors': 'Участники',
+      'wiki.home.categories': 'Просмотр по категориям',
+      'wiki.home.recent_guides': 'Недавние руководства',
+      'wiki.home.upcoming_events': 'Предстоящие события',
+      'wiki.home.featured_locations': 'Рекомендуемые локации',
+      'wiki.home.view_all': 'Посмотреть все →',
+      'wiki.home.contribute_title': 'Внесите вклад в наши общие знания',
+      'wiki.home.contribute_subtitle': 'Делитесь своим опытом, советами и проектами пермакультуры с сообществом. Каждый вклад помогает нам расти!',
+      'wiki.home.create_guide': 'Создать руководство',
+      'wiki.home.add_event': 'Добавить событие',
+      'wiki.home.add_location': 'Добавить локацию',
+
+      // Common
+      'wiki.common.loading': 'Загрузка...',
+      'wiki.common.error': 'Ошибка',
+      'wiki.common.success': 'Успех',
+      'wiki.common.save': 'Сохранить',
+      'wiki.common.cancel': 'Отменить',
+      'wiki.common.edit': 'Редактировать',
+      'wiki.common.search': 'Искать',
+      'wiki.common.language_changed': 'Язык успешно изменён',
+
+      // Categories
+      'wiki.category.gardening': 'Садоводство',
+      'wiki.category.water_management': 'Управление водой',
+      'wiki.category.composting': 'Компостирование',
+      'wiki.category.renewable_energy': 'Возобновляемая энергия',
+      'wiki.category.food_production': 'Производство продуктов',
+      'wiki.category.agroforestry': 'Агролесоводство',
+      'wiki.category.natural_building': 'Природное строительство',
+      'wiki.category.waste_management': 'Управление отходами',
+      'wiki.category.irrigation': 'Орошение',
+      'wiki.category.earthworks': 'Земляные работы',
+      'wiki.category.diy': 'Сделай сам',
+      'wiki.category.community': 'Сообщество',
+    }
   },
 
   // Current language (defaults to browser or 'en')
@@ -491,4 +771,7 @@ if (typeof window !== 'undefined') {
   window.wikiI18n = wikiI18n;
 }
 
-export { wikiI18n };
+// Export for module systems (if needed in the future)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { wikiI18n };
+}

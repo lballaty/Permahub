@@ -60,3 +60,9 @@ temp/
 
 # Local development
 .local/
+
+# Test files and screenshots
+screenshot-*.png
+test-*.html
+test-*.cjs
+test-*.js

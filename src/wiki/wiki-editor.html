@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-  <script type="module" src="js/wiki-i18n.js"></script>
+  <script src="js/wiki-i18n.js"></script>
 </head>
 <body>
   <!-- Header -->
@@ -15,7 +15,7 @@
     <nav class="wiki-nav">
       <a href="wiki-home.html" class="wiki-logo">
         <span class="wiki-logo-icon">🌱</span>
-        <span data-i18n="wiki.nav.brand">Community Wiki</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
@@ -42,6 +42,10 @@
               <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
               <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
               <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
             </div>
           </div>
         </li>
@@ -54,16 +58,16 @@
   <main class="wiki-container">
     <div class="card" style="max-width: 900px; margin: 0 auto;">
       <div class="card-header">
-        <h1 class="card-title">Create New Guide</h1>
+        <h1 class="card-title" data-i18n="wiki.editor.title">Create New Guide</h1>
         <div class="flex gap-2">
           <button class="btn btn-outline btn-small" id="previewBtn">
-            <i class="fas fa-eye"></i> Preview
+            <i class="fas fa-eye"></i> <span data-i18n="wiki.editor.preview">Preview</span>
           </button>
           <button class="btn btn-secondary btn-small" id="saveDraftBtn">
-            <i class="fas fa-save"></i> Save Draft
+            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save_draft">Save Draft</span>
           </button>
           <button class="btn btn-primary btn-small" id="publishBtn">
-            <i class="fas fa-check"></i> Publish
+            <i class="fas fa-check"></i> <span data-i18n="wiki.editor.publish">Publish</span>
           </button>
         </div>
       </div>
@@ -71,19 +75,19 @@
       <form id="editorForm">
         <!-- Content Type Selection -->
         <div class="form-group">
-          <label class="form-label">Content Type</label>
+          <label class="form-label" data-i18n="wiki.editor.content_type">Content Type</label>
           <div style="display: flex; gap: 1rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="guide" checked>
-              <span><i class="fas fa-book"></i> Guide/Article</span>
+              <span><i class="fas fa-book"></i> <span data-i18n="wiki.editor.type.guide">Guide/Article</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="event">
-              <span><i class="fas fa-calendar"></i> Event</span>
+              <span><i class="fas fa-calendar"></i> <span data-i18n="wiki.editor.type.event">Event</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="location">
-              <span><i class="fas fa-map-marker-alt"></i> Location</span>
+              <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="wiki.editor.type.location">Location</span></span>
             </label>
           </div>
         </div>
@@ -91,27 +95,29 @@
         <!-- Title -->
         <div class="form-group">
           <label class="form-label" for="title">
-            Title <span style="color: var(--wiki-danger);">*</span>
+            <span data-i18n="wiki.editor.title_label">Title</span> <span style="color: var(--wiki-danger);">*</span>
           </label>
           <input
             type="text"
             id="title"
             class="form-input"
+            data-i18n-placeholder="wiki.editor.title_placeholder"
             placeholder="e.g., Building a Swale System for Water Retention"
             required
           >
-          <small class="text-muted">A clear, descriptive title helps others find your content</small>
+          <small class="text-muted" data-i18n="wiki.editor.title_hint">A clear, descriptive title helps others find your content</small>
         </div>
 
         <!-- Summary -->
         <div class="form-group">
           <label class="form-label" for="summary">
-            Summary <span style="color: var(--wiki-danger);">*</span>
+            <span data-i18n="wiki.editor.summary_label">Summary</span> <span style="color: var(--wiki-danger);">*</span>
           </label>
           <textarea
             id="summary"
             class="form-input"
             rows="3"
+            data-i18n-placeholder="wiki.editor.summary_placeholder"
             placeholder="Write a brief 1-2 sentence summary that will appear in search results and previews..."
             required
             style="resize: vertical;"
@@ -120,47 +126,47 @@
 
         <!-- Categories/Tags -->
         <div class="form-group">
-          <label class="form-label">Categories</label>
+          <label class="form-label" data-i18n="wiki.editor.categories_label">Categories</label>
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="gardening">
-              <span>🌱 Gardening</span>
+              <span>🌱 <span data-i18n="wiki.category.gardening">Gardening</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="water">
-              <span>💧 Water Management</span>
+              <span>💧 <span data-i18n="wiki.category.water_management">Water Management</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="composting">
-              <span>♻️ Composting</span>
+              <span>♻️ <span data-i18n="wiki.category.composting">Composting</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="energy">
-              <span>☀️ Renewable Energy</span>
+              <span>☀️ <span data-i18n="wiki.category.renewable_energy">Renewable Energy</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="food">
-              <span>🥕 Food Production</span>
+              <span>🥕 <span data-i18n="wiki.category.food_production">Food Production</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="agroforestry">
-              <span>🌳 Agroforestry</span>
+              <span>🌳 <span data-i18n="wiki.category.agroforestry">Agroforestry</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="building">
-              <span>🏡 Natural Building</span>
+              <span>🏡 <span data-i18n="wiki.category.natural_building">Natural Building</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="waste">
-              <span>♻️ Waste Management</span>
+              <span>♻️ <span data-i18n="wiki.category.waste_management">Waste Management</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="community">
-              <span>👥 Community</span>
+              <span>👥 <span data-i18n="wiki.category.community">Community</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="circular-economy">
-              <span>🔄 Circular Economy</span>
+              <span>🔄 <span data-i18n="wiki.category.circular_economy">Circular Economy</span></span>
             </label>
           </div>
         </div>
@@ -168,7 +174,7 @@
         <!-- Rich Text Editor -->
         <div class="form-group">
           <label class="form-label">
-            Content <span style="color: var(--wiki-danger);">*</span>
+            <span data-i18n="wiki.editor.content_label">Content</span> <span style="color: var(--wiki-danger);">*</span>
           </label>
 
           <!-- Quill Editor Container -->
@@ -185,7 +191,7 @@
 
         <!-- Image Upload -->
         <div class="form-group">
-          <label class="form-label">Featured Image</label>
+          <label class="form-label" data-i18n="wiki.editor.image_label">Featured Image</label>
           <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="imageUploadZone">
             <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
             <p><strong>Click to upload</strong> or drag and drop</p>
@@ -202,35 +208,35 @@
 
         <!-- Additional Fields (shown based on content type) -->
         <div id="eventFields" style="display: none;">
-          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">Event Details</h3>
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.event_details">Event Details</h3>
 
           <div class="form-group">
-            <label class="form-label" for="eventDate">Event Date</label>
+            <label class="form-label" for="eventDate" data-i18n="wiki.editor.event_date">Event Date</label>
             <input type="date" id="eventDate" class="form-input">
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group">
-              <label class="form-label" for="eventStartTime">Start Time</label>
+              <label class="form-label" for="eventStartTime" data-i18n="wiki.editor.start_time">Start Time</label>
               <input type="time" id="eventStartTime" class="form-input">
             </div>
             <div class="form-group">
-              <label class="form-label" for="eventEndTime">End Time</label>
+              <label class="form-label" for="eventEndTime" data-i18n="wiki.editor.end_time">End Time</label>
               <input type="time" id="eventEndTime" class="form-input">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="eventLocation">Location</label>
+            <label class="form-label" for="eventLocation" data-i18n="wiki.editor.location_field">Location</label>
             <input type="text" id="eventLocation" class="form-input" placeholder="e.g., Green Valley Farm, 123 Farm Road">
           </div>
         </div>
 
         <div id="locationFields" style="display: none;">
-          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">Location Details</h3>
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.location_details">Location Details</h3>
 
           <div class="form-group">
-            <label class="form-label" for="address">Address</label>
+            <label class="form-label" for="address" data-i18n="wiki.editor.address">Address</label>
             <input type="text" id="address" class="form-input" placeholder="123 Farm Road, City, Country">
           </div>
 
@@ -252,26 +258,26 @@
 
         <!-- Settings -->
         <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
-          <h3 style="margin-bottom: 1rem;">Publishing Settings</h3>
+          <h3 style="margin-bottom: 1rem;" data-i18n="wiki.editor.settings">Publishing Settings</h3>
 
           <div class="form-group">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="allowComments" checked>
-              <span>Allow comments on this page</span>
+              <span data-i18n="wiki.editor.allow_comments">Allow comments on this page</span>
             </label>
           </div>
 
           <div class="form-group">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="allowEdits" checked>
-              <span>Allow other registered users to suggest edits</span>
+              <span data-i18n="wiki.editor.allow_edits">Allow other registered users to suggest edits</span>
             </label>
           </div>
 
           <div class="form-group" style="margin-bottom: 0;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="notifyGroup">
-              <span>Notify WhatsApp group about this content</span>
+              <span data-i18n="wiki.editor.notify_group">Notify WhatsApp group about this content</span>
             </label>
           </div>
         </div>
@@ -279,13 +285,13 @@
         <!-- Action Buttons -->
         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
           <button type="button" class="btn btn-outline" onclick="history.back()">
-            <i class="fas fa-times"></i> Cancel
+            <i class="fas fa-times"></i> <span data-i18n="wiki.editor.cancel">Cancel</span>
           </button>
           <button type="button" class="btn btn-secondary" id="saveDraftBtn2">
-            <i class="fas fa-save"></i> Save as Draft
+            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save_draft">Save as Draft</span>
           </button>
           <button type="submit" class="btn btn-primary" id="publishBtn2">
-            <i class="fas fa-check"></i> Publish Now
+            <i class="fas fa-check"></i> <span data-i18n="wiki.editor.publish_now">Publish Now</span>
           </button>
         </div>
       </form>
@@ -294,30 +300,30 @@
     <!-- Help Sidebar -->
     <div class="card" style="max-width: 900px; margin: 2rem auto 0;">
       <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
-        <i class="fas fa-question-circle"></i> Writing Tips
+        <i class="fas fa-question-circle"></i> <span data-i18n="wiki.editor.tips_title">Writing Tips</span>
       </h3>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
         <div>
-          <h4 style="margin-bottom: 0.5rem;">✍️ Be Clear & Concise</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip1_title">✍️ Be Clear & Concise</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip1_text">
             Write in simple language. Break complex topics into sections with clear headings.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 0.5rem;">📸 Use Images</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip2_title">📸 Use Images</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip2_text">
             Visual aids help readers understand. Include photos, diagrams, and charts where relevant.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 0.5rem;">🔗 Link to Related Content</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip3_title">🔗 Link to Related Content</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip3_text">
             Reference other guides and resources to help readers dive deeper into topics.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 0.5rem;">📋 Add Practical Steps</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip4_title">📋 Add Practical Steps</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip4_text">
             Include actionable instructions, materials lists, and troubleshooting tips.
           </p>
         </div>

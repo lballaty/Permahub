@@ -6,7 +6,7 @@
   <title>Community Wiki - Permahub</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" src="js/wiki-i18n.js"></script>
+  <script src="js/wiki-i18n.js"></script>
 </head>
 <body>
   <!-- Header -->
@@ -14,7 +14,7 @@
     <nav class="wiki-nav">
       <a href="wiki-home.html" class="wiki-logo">
         <span class="wiki-logo-icon">🌱</span>
-        <span data-i18n="wiki.nav.brand">Community Wiki</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" class="active" data-i18n="wiki.nav.home">Home</a></li>
@@ -74,6 +74,22 @@
                 <span class="lang-flag">🇰🇷</span>
                 <span class="lang-name">한국어</span>
               </div>
+              <div class="lang-option" data-lang="cs">
+                <span class="lang-flag">🇨🇿</span>
+                <span class="lang-name">Čeština</span>
+              </div>
+              <div class="lang-option" data-lang="sk">
+                <span class="lang-flag">🇸🇰</span>
+                <span class="lang-name">Slovenčina</span>
+              </div>
+              <div class="lang-option" data-lang="uk">
+                <span class="lang-flag">🇺🇦</span>
+                <span class="lang-name">Українська</span>
+              </div>
+              <div class="lang-option" data-lang="ru">
+                <span class="lang-flag">🇷🇺</span>
+                <span class="lang-name">Русский</span>
+              </div>
             </div>
           </div>
         </li>
@@ -88,7 +104,7 @@
     <div class="card">
       <div class="text-center">
         <h1 style="color: var(--wiki-primary); margin-bottom: 0.5rem;" data-i18n="wiki.home.welcome">Welcome to Our Community Knowledge Base</h1>
-        <p style="font-size: 1.1rem; color: var(--wiki-text-muted); margin-bottom: 2rem;" data-i18n="wiki.home.tagline">
+        <p style="font-size: 1.1rem; color: var(--wiki-text-muted); margin-bottom: 2rem;" data-i18n="wiki.home.subtitle">
           Share guides, locations, events, and resources with our permaculture community
         </p>
       </div>
@@ -99,8 +115,8 @@
         <input
           type="text"
           class="search-input"
-          data-i18n="wiki.home.search_placeholder"
           placeholder="Search for guides, events, locations..."
+          data-i18n-placeholder="wiki.home.search"
           id="searchInput"
         >
       </div>
@@ -109,38 +125,38 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">42</div>
-          <div class="text-muted" data-i18n="wiki.home.stats_guides">Guides</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.guides">Guides</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">18</div>
-          <div class="text-muted" data-i18n="wiki.home.stats_locations">Locations</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.locations">Locations</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">8</div>
-          <div class="text-muted" data-i18n="wiki.home.stats_events">Upcoming Events</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.events">Upcoming Events</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">34</div>
-          <div class="text-muted" data-i18n="wiki.home.stats_contributors">Contributors</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.contributors">Contributors</div>
         </div>
       </div>
     </div>
 
     <!-- Categories -->
     <div class="mb-3">
-      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.browse_categories">Browse by Category</h2>
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.categories">Browse by Category</h2>
       <div class="tags">
-        <a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> All</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="gardening"><i class="fas fa-seedling"></i> Gardening</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="water"><i class="fas fa-water"></i> Water Management</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="composting"><i class="fas fa-leaf"></i> Composting</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="energy"><i class="fas fa-sun"></i> Renewable Energy</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="food"><i class="fas fa-carrot"></i> Food Production</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="agroforestry"><i class="fas fa-tree"></i> Agroforestry</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="building"><i class="fas fa-building"></i> Natural Building</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="waste"><i class="fas fa-recycle"></i> Waste Management</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="irrigation"><i class="fas fa-tint"></i> Irrigation</a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="community"><i class="fas fa-users"></i> Community</a>
+        <a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> <span data-i18n="wiki.home.all_categories">All</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="gardening"><i class="fas fa-seedling"></i> <span data-i18n="wiki.category.gardening">Gardening</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="water"><i class="fas fa-water"></i> <span data-i18n="wiki.category.water_management">Water Management</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="composting"><i class="fas fa-leaf"></i> <span data-i18n="wiki.category.composting">Composting</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="energy"><i class="fas fa-sun"></i> <span data-i18n="wiki.category.renewable_energy">Renewable Energy</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="food"><i class="fas fa-carrot"></i> <span data-i18n="wiki.category.food_production">Food Production</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="agroforestry"><i class="fas fa-tree"></i> <span data-i18n="wiki.category.agroforestry">Agroforestry</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="building"><i class="fas fa-building"></i> <span data-i18n="wiki.category.natural_building">Natural Building</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="waste"><i class="fas fa-recycle"></i> <span data-i18n="wiki.category.waste_management">Waste Management</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="irrigation"><i class="fas fa-tint"></i> <span data-i18n="wiki.category.irrigation">Irrigation</span></a>
+        <a href="javascript:void(0)" class="tag category-filter" data-category="community"><i class="fas fa-users"></i> <span data-i18n="wiki.category.community">Community</span></a>
       </div>
     </div>
 
@@ -152,7 +168,131 @@
       </div>
 
       <div class="grid grid-2" id="guidesGrid">
-        <!-- Guides will be dynamically inserted here by JavaScript -->
+        <!-- Guide 1 -->
+        <div class="card">
+          <div class="card-meta">
+            <span><i class="fas fa-user"></i> Sarah Chen</span>
+            <span><i class="fas fa-calendar"></i> 3 days ago</span>
+            <span><i class="fas fa-eye"></i> 127 views</span>
+          </div>
+          <h3 class="card-title">
+            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
+              Building a Swale System for Water Retention
+            </a>
+          </h3>
+          <p class="text-muted">
+            Learn how to design and construct swales to capture and distribute rainwater across your property. This comprehensive guide covers site assessment, design principles, and construction techniques.
+          </p>
+          <div class="tags">
+            <span class="tag" data-i18n="wiki.category.water_management">Water Management</span>
+            <span class="tag" data-i18n="wiki.category.earthworks">Earthworks</span>
+          </div>
+        </div>
+
+        <!-- Guide 2 -->
+        <div class="card">
+          <div class="card-meta">
+            <span><i class="fas fa-user"></i> Miguel Torres</span>
+            <span><i class="fas fa-calendar"></i> 5 days ago</span>
+            <span><i class="fas fa-eye"></i> 89 views</span>
+          </div>
+          <h3 class="card-title">
+            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
+              Companion Planting Guide for Vegetable Gardens
+            </a>
+          </h3>
+          <p class="text-muted">
+            Discover which vegetables grow best together and why. This guide includes detailed companion planting charts and explains the science behind beneficial plant relationships.
+          </p>
+          <div class="tags">
+            <span class="tag" data-i18n="wiki.category.gardening">Gardening</span>
+            <span class="tag" data-i18n="wiki.category.food_production">Food Production</span>
+          </div>
+        </div>
+
+        <!-- Guide 3 -->
+        <div class="card">
+          <div class="card-meta">
+            <span><i class="fas fa-user"></i> Emma Wilson</span>
+            <span><i class="fas fa-calendar"></i> 1 week ago</span>
+            <span><i class="fas fa-eye"></i> 203 views</span>
+          </div>
+          <h3 class="card-title">
+            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
+              Hot Composting: A Step-by-Step Guide
+            </a>
+          </h3>
+          <p class="text-muted">
+            Master the art of hot composting to turn kitchen scraps and yard waste into rich, dark compost in just 18 days. Includes troubleshooting tips and material ratios.
+          </p>
+          <div class="tags">
+            <span class="tag" data-i18n="wiki.category.composting">Composting</span>
+            <span class="tag" data-i18n="wiki.category.waste_management">Waste Management</span>
+          </div>
+        </div>
+
+        <!-- Guide 4 -->
+        <div class="card">
+          <div class="card-meta">
+            <span><i class="fas fa-user"></i> James O'Brien</span>
+            <span><i class="fas fa-calendar"></i> 1 week ago</span>
+            <span><i class="fas fa-eye"></i> 156 views</span>
+          </div>
+          <h3 class="card-title">
+            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
+              Installing Drip Irrigation for Food Gardens
+            </a>
+          </h3>
+          <p class="text-muted">
+            Save water and time with an efficient drip irrigation system. This practical guide covers materials, layout design, and maintenance for home garden installations.
+          </p>
+          <div class="tags">
+            <span class="tag" data-i18n="wiki.category.irrigation">Irrigation</span>
+            <span class="tag" data-i18n="wiki.category.water_management">Water Management</span>
+          </div>
+        </div>
+
+        <!-- Guide 5 -->
+        <div class="card">
+          <div class="card-meta">
+            <span><i class="fas fa-user"></i> Priya Sharma</span>
+            <span><i class="fas fa-calendar"></i> 2 weeks ago</span>
+            <span><i class="fas fa-eye"></i> 178 views</span>
+          </div>
+          <h3 class="card-title">
+            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
+              Starting a Community Seed Library
+            </a>
+          </h3>
+          <p class="text-muted">
+            Learn how to organize and run a community seed library to preserve heirloom varieties and promote seed sovereignty. Includes organizational tips and catalog systems.
+          </p>
+          <div class="tags">
+            <span class="tag" data-i18n="wiki.category.community">Community</span>
+            <span class="tag" data-i18n="wiki.category.food_production">Food Production</span>
+          </div>
+        </div>
+
+        <!-- Guide 6 -->
+        <div class="card">
+          <div class="card-meta">
+            <span><i class="fas fa-user"></i> Tom Anderson</span>
+            <span><i class="fas fa-calendar"></i> 2 weeks ago</span>
+            <span><i class="fas fa-eye"></i> 92 views</span>
+          </div>
+          <h3 class="card-title">
+            <a href="wiki-page.html" style="text-decoration: none; color: inherit;">
+              Building with Cob: Natural Building Basics
+            </a>
+          </h3>
+          <p class="text-muted">
+            Introduction to cob building techniques using clay, sand, and straw. Learn about material preparation, wall construction, and finishing techniques for this sustainable building method.
+          </p>
+          <div class="tags">
+            <span class="tag" data-i18n="wiki.category.natural_building">Natural Building</span>
+            <span class="tag" data-i18n="wiki.category.diy">DIY</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -160,7 +300,7 @@
     <section class="mb-3">
       <div class="flex-between mb-2">
         <h2 data-i18n="wiki.home.upcoming_events">Upcoming Events</h2>
-        <a href="wiki-events.html" class="text-muted" data-i18n="wiki.common.view_all">View All →</a>
+        <a href="wiki-events.html" class="text-muted" data-i18n="wiki.home.view_all">View All →</a>
       </div>
 
       <div class="grid grid-2">
@@ -221,7 +361,7 @@
     <section class="mb-3">
       <div class="flex-between mb-2">
         <h2 data-i18n="wiki.home.featured_locations">Featured Locations</h2>
-        <a href="wiki-map.html" class="text-muted" data-i18n="wiki.home.view_map">View Map →</a>
+        <a href="wiki-map.html" class="text-muted" data-i18n="wiki.home.view_all">View All →</a>
       </div>
 
       <div class="grid grid-3">
@@ -296,7 +436,7 @@
     <!-- Call to Action -->
     <div class="card text-center">
       <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.contribute_title">Contribute to Our Community Knowledge</h2>
-      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.home.contribute_text">
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.home.contribute_subtitle">
         Share your permaculture experiences, tips, and projects with the community. Every contribution helps us grow!
       </p>
       <div class="flex gap-2" style="justify-content: center;">
