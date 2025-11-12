@@ -241,6 +241,7 @@ const wikiI18n = {
       'wiki.common.view_more': 'View More',
       'wiki.common.show_less': 'Show Less',
       'wiki.common.read_more': 'Read More',
+      'wiki.common.language_changed': 'Language changed successfully',
 
       // Categories
       'wiki.category.subtropical_gardening': 'Subtropical Gardening',
@@ -360,6 +361,7 @@ const wikiI18n = {
       'wiki.common.cancel': 'Cancelar',
       'wiki.common.edit': 'Editar',
       'wiki.common.search': 'Procurar',
+      'wiki.common.language_changed': 'Idioma alterado com sucesso',
 
       // Categories
       'wiki.category.subtropical_gardening': 'Jardinagem Subtropical',
@@ -416,6 +418,7 @@ const wikiI18n = {
       'wiki.common.cancel': 'Cancelar',
       'wiki.common.edit': 'Editar',
       'wiki.common.search': 'Buscar',
+      'wiki.common.language_changed': 'Idioma cambiado exitosamente',
 
       // Categories
       'wiki.category.subtropical_gardening': 'Jardinería Subtropical',
@@ -435,9 +438,45 @@ const wikiI18n = {
       'wiki.footer.for': 'para la comunidad global de permacultura',
     },
 
-    // Placeholder structures for other languages
-    // Add full translations as needed
-    fr: {}, de: {}, it: {}, nl: {}, pl: {}, ja: {}, zh: {}, ko: {}
+    // ============ FRENCH (fr) ============
+    fr: {
+      'wiki.common.language_changed': 'Langue changée avec succès',
+    },
+
+    // ============ GERMAN (de) ============
+    de: {
+      'wiki.common.language_changed': 'Sprache erfolgreich geändert',
+    },
+
+    // ============ ITALIAN (it) ============
+    it: {
+      'wiki.common.language_changed': 'Lingua cambiata con successo',
+    },
+
+    // ============ DUTCH (nl) ============
+    nl: {
+      'wiki.common.language_changed': 'Taal succesvol gewijzigd',
+    },
+
+    // ============ POLISH (pl) ============
+    pl: {
+      'wiki.common.language_changed': 'Język zmieniony pomyślnie',
+    },
+
+    // ============ JAPANESE (ja) ============
+    ja: {
+      'wiki.common.language_changed': '言語が正常に変更されました',
+    },
+
+    // ============ CHINESE (zh) ============
+    zh: {
+      'wiki.common.language_changed': '语言更改成功',
+    },
+
+    // ============ KOREAN (ko) ============
+    ko: {
+      'wiki.common.language_changed': '언어가 성공적으로 변경되었습니다',
+    }
   },
 
   // Current language (defaults to browser or 'en')
