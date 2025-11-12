@@ -409,6 +409,11 @@ const wikiI18n = {
       'wiki.home.upcoming_events': 'Próximos Eventos',
       'wiki.home.featured_locations': 'Ubicaciones Destacadas',
       'wiki.home.view_all': 'Ver Todos',
+      'wiki.home.contribute_title': 'Contribuye a Nuestro Conocimiento Comunitario',
+      'wiki.home.contribute_subtitle': 'Comparte tus experiencias, consejos y proyectos de permacultura con la comunidad. ¡Cada contribución nos ayuda a crecer!',
+      'wiki.home.create_guide': 'Crear una Guía',
+      'wiki.home.add_event': 'Añadir un Evento',
+      'wiki.home.add_location': 'Añadir una Ubicación',
 
       // Common
       'wiki.common.loading': 'Cargando...',
