@@ -244,18 +244,21 @@ const wikiI18n = {
       'wiki.common.language_changed': 'Language changed successfully',
 
       // Categories
-      'wiki.category.subtropical_gardening': 'Subtropical Gardening',
+      'wiki.category.gardening': 'Gardening',
       'wiki.category.water_management': 'Water Management',
       'wiki.category.composting': 'Composting',
       'wiki.category.renewable_energy': 'Renewable Energy',
+      'wiki.category.food_production': 'Food Production',
+      'wiki.category.agroforestry': 'Agroforestry',
+      'wiki.category.natural_building': 'Natural Building',
+      'wiki.category.waste_management': 'Waste Management',
+      'wiki.category.irrigation': 'Irrigation',
+      'wiki.category.community': 'Community',
+      'wiki.category.subtropical_gardening': 'Subtropical Gardening',
       'wiki.category.food_forests': 'Food Forests',
       'wiki.category.terracing': 'Terracing',
-      'wiki.category.natural_building': 'Natural Building',
       'wiki.category.circular_economy': 'Circular Economy',
       'wiki.category.native_species': 'Native Species',
-      'wiki.category.community': 'Community',
-      'wiki.category.agroforestry': 'Agroforestry',
-      'wiki.category.irrigation': 'Irrigation',
 
       // Time
       'wiki.time.today': 'Today',
@@ -364,15 +367,20 @@ const wikiI18n = {
       'wiki.common.language_changed': 'Idioma alterado com sucesso',
 
       // Categories
-      'wiki.category.subtropical_gardening': 'Jardinagem Subtropical',
+      'wiki.category.gardening': 'Jardinagem',
       'wiki.category.water_management': 'Gestão de Água',
       'wiki.category.composting': 'Compostagem',
+      'wiki.category.renewable_energy': 'Energia Renovável',
+      'wiki.category.food_production': 'Produção de Alimentos',
+      'wiki.category.agroforestry': 'Agrofloresta',
+      'wiki.category.natural_building': 'Construção Natural',
+      'wiki.category.waste_management': 'Gestão de Resíduos',
+      'wiki.category.irrigation': 'Irrigação',
+      'wiki.category.community': 'Comunidade',
+      'wiki.category.subtropical_gardening': 'Jardinagem Subtropical',
       'wiki.category.food_forests': 'Florestas Alimentares',
       'wiki.category.terracing': 'Socalcos',
-      'wiki.category.natural_building': 'Construção Natural',
       'wiki.category.native_species': 'Espécies Nativas',
-      'wiki.category.community': 'Comunidade',
-      'wiki.category.agroforestry': 'Agrofloresta',
 
       // Time
       'wiki.time.today': 'Hoje',
@@ -426,12 +434,18 @@ const wikiI18n = {
       'wiki.common.language_changed': 'Idioma cambiado exitosamente',
 
       // Categories
-      'wiki.category.subtropical_gardening': 'Jardinería Subtropical',
+      'wiki.category.gardening': 'Jardinería',
       'wiki.category.water_management': 'Gestión del Agua',
       'wiki.category.composting': 'Compostaje',
-      'wiki.category.food_forests': 'Bosques Comestibles',
-      'wiki.category.community': 'Comunidad',
+      'wiki.category.renewable_energy': 'Energía Renovable',
+      'wiki.category.food_production': 'Producción de Alimentos',
       'wiki.category.agroforestry': 'Agroforestería',
+      'wiki.category.natural_building': 'Construcción Natural',
+      'wiki.category.waste_management': 'Gestión de Residuos',
+      'wiki.category.irrigation': 'Riego',
+      'wiki.category.community': 'Comunidad',
+      'wiki.category.subtropical_gardening': 'Jardinería Subtropical',
+      'wiki.category.food_forests': 'Bosques Comestibles',
 
       // Time
       'wiki.time.today': 'Hoy',
