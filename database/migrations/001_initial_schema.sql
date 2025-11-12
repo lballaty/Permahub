@@ -12,7 +12,6 @@
 -- ============================================================================
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "earth" CASCADE;
 
 -- ============================================================================
 -- 2. USERS TABLE
@@ -39,8 +38,9 @@ CREATE TABLE IF NOT EXISTS public.users (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create index for faster location-based queries
-CREATE INDEX IF NOT EXISTS idx_users_location ON public.users USING GIST (ll_to_earth(latitude, longitude));
+-- Create indexes for faster queries
+-- Note: Geographic distance queries use latitude/longitude directly (application-level calculation)
+CREATE INDEX IF NOT EXISTS idx_users_location ON public.users(latitude, longitude) WHERE latitude IS NOT NULL AND longitude IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_users_public ON public.users(is_public_profile);
 CREATE INDEX IF NOT EXISTS idx_users_created_at ON public.users(created_at DESC);
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS public.projects (
 );
 
 -- Create indexes for projects
-CREATE INDEX IF NOT EXISTS idx_projects_location ON public.projects USING GIST (ll_to_earth(latitude, longitude));
+CREATE INDEX IF NOT EXISTS idx_projects_location ON public.projects(latitude, longitude) WHERE latitude IS NOT NULL AND longitude IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_projects_type ON public.projects(project_type);
 CREATE INDEX IF NOT EXISTS idx_projects_country ON public.projects(country);
 CREATE INDEX IF NOT EXISTS idx_projects_status ON public.projects(status);
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS public.resources (
 CREATE INDEX IF NOT EXISTS idx_resources_type ON public.resources(resource_type);
 CREATE INDEX IF NOT EXISTS idx_resources_category ON public.resources(category_id);
 CREATE INDEX IF NOT EXISTS idx_resources_subcategory ON public.resources(subcategory_id);
-CREATE INDEX IF NOT EXISTS idx_resources_location ON public.resources USING GIST (ll_to_earth(latitude, longitude));
+CREATE INDEX IF NOT EXISTS idx_resources_location ON public.resources(latitude, longitude) WHERE latitude IS NOT NULL AND longitude IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_resources_availability ON public.resources(availability);
 CREATE INDEX IF NOT EXISTS idx_resources_provider ON public.resources(provider_id);
 CREATE INDEX IF NOT EXISTS idx_resources_created_at ON public.resources(created_at DESC);
@@ -455,7 +455,7 @@ CREATE POLICY "Users can delete their own favorites"
 -- 12. HELPER FUNCTIONS
 -- ============================================================================
 
--- Function to search projects by distance
+-- Function to search projects by distance using Haversine formula
 CREATE OR REPLACE FUNCTION search_projects_nearby(
   user_lat DECIMAL,
   user_lon DECIMAL,
@@ -469,21 +469,32 @@ RETURNS TABLE (
 ) AS $$
 BEGIN
   RETURN QUERY
-  SELECT 
+  SELECT
     p.id,
     p.name,
     p.region,
-    ROUND((earth_distance(ll_to_earth(user_lat, user_lon), ll_to_earth(p.latitude, p.longitude)) / 1000)::NUMERIC, 2) as distance_km
+    ROUND(
+      (6371 * 2 * ASIN(SQRT(
+        POWER(SIN(RADIANS((p.latitude - user_lat) / 2)), 2) +
+        COS(RADIANS(user_lat)) * COS(RADIANS(p.latitude)) *
+        POWER(SIN(RADIANS((p.longitude - user_lon) / 2)), 2)
+      )))::NUMERIC,
+      2
+    ) as distance_km
   FROM public.projects p
   WHERE p.status = 'active'
     AND p.latitude IS NOT NULL
     AND p.longitude IS NOT NULL
-    AND earth_distance(ll_to_earth(user_lat, user_lon), ll_to_earth(p.latitude, p.longitude)) < (distance_km * 1000)
+    AND (6371 * 2 * ASIN(SQRT(
+      POWER(SIN(RADIANS((p.latitude - user_lat) / 2)), 2) +
+      COS(RADIANS(user_lat)) * COS(RADIANS(p.latitude)) *
+      POWER(SIN(RADIANS((p.longitude - user_lon) / 2)), 2)
+    ))) < distance_km
   ORDER BY distance_km;
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to search resources by distance
+-- Function to search resources by distance using Haversine formula
 CREATE OR REPLACE FUNCTION search_resources_nearby(
   user_lat DECIMAL,
   user_lon DECIMAL,
@@ -497,16 +508,27 @@ RETURNS TABLE (
 ) AS $$
 BEGIN
   RETURN QUERY
-  SELECT 
+  SELECT
     r.id,
     r.title,
     r.location,
-    ROUND((earth_distance(ll_to_earth(user_lat, user_lon), ll_to_earth(r.latitude, r.longitude)) / 1000)::NUMERIC, 2) as distance_km
+    ROUND(
+      (6371 * 2 * ASIN(SQRT(
+        POWER(SIN(RADIANS((r.latitude - user_lat) / 2)), 2) +
+        COS(RADIANS(user_lat)) * COS(RADIANS(r.latitude)) *
+        POWER(SIN(RADIANS((r.longitude - user_lon) / 2)), 2)
+      )))::NUMERIC,
+      2
+    ) as distance_km
   FROM public.resources r
   WHERE r.availability != 'archived'
     AND r.latitude IS NOT NULL
     AND r.longitude IS NOT NULL
-    AND earth_distance(ll_to_earth(user_lat, user_lon), ll_to_earth(r.latitude, r.longitude)) < (distance_km * 1000)
+    AND (6371 * 2 * ASIN(SQRT(
+      POWER(SIN(RADIANS((r.latitude - user_lat) / 2)), 2) +
+      COS(RADIANS(user_lat)) * COS(RADIANS(r.latitude)) *
+      POWER(SIN(RADIANS((r.longitude - user_lon) / 2)), 2)
+    ))) < distance_km
   ORDER BY distance_km;
 END;
 $$ LANGUAGE plpgsql;

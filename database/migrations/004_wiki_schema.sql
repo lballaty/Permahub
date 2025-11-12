@@ -109,26 +109,8 @@ CREATE TABLE IF NOT EXISTS wiki_locations (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Add PostGIS extension for location-based queries
-CREATE EXTENSION IF NOT EXISTS postgis;
-
--- Add geography column for better distance calculations
-ALTER TABLE wiki_locations
-ADD COLUMN IF NOT EXISTS location GEOGRAPHY(POINT, 4326);
-
--- Update geography column from lat/lng
-CREATE OR REPLACE FUNCTION update_location_geography()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.location = ST_SetSRID(ST_MakePoint(NEW.longitude, NEW.latitude), 4326)::geography;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_location_geography_trigger
-BEFORE INSERT OR UPDATE ON wiki_locations
-FOR EACH ROW
-EXECUTE FUNCTION update_location_geography();
+-- Note: PostGIS extension not available on Supabase
+-- Location-based distance queries use application-level calculation (Haversine formula)
 
 -- ================================================
 -- WIKI FAVORITES TABLE
@@ -189,7 +171,7 @@ CREATE INDEX IF NOT EXISTS idx_wiki_events_type ON wiki_events(event_type);
 
 -- Locations indexes
 CREATE INDEX IF NOT EXISTS idx_wiki_locations_type ON wiki_locations(location_type);
-CREATE INDEX IF NOT EXISTS idx_wiki_locations_geography ON wiki_locations USING GIST(location);
+CREATE INDEX IF NOT EXISTS idx_wiki_locations_latitude_longitude ON wiki_locations(latitude, longitude);
 
 -- Favorites indexes
 CREATE INDEX IF NOT EXISTS idx_wiki_favorites_user ON wiki_favorites(user_id);
@@ -333,7 +315,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Function to get nearby locations
+-- Function to get nearby locations using Haversine formula
+-- Note: Uses approximate distance calculation suitable for UI filtering
 CREATE OR REPLACE FUNCTION get_nearby_locations(
   user_lat DOUBLE PRECISION,
   user_lng DOUBLE PRECISION,
@@ -344,7 +327,7 @@ RETURNS TABLE(
   name TEXT,
   description TEXT,
   location_type TEXT,
-  distance_meters DOUBLE PRECISION
+  distance_km DOUBLE PRECISION
 ) AS $$
 BEGIN
   RETURN QUERY
@@ -353,18 +336,19 @@ BEGIN
     l.name,
     l.description,
     l.location_type,
-    ST_Distance(
-      l.location,
-      ST_SetSRID(ST_MakePoint(user_lng, user_lat), 4326)::geography
-    ) as distance_meters
+    SQRT(
+      POWER(69.1 * (l.latitude - user_lat), 2) +
+      POWER(69.1 * (l.longitude - user_lng) * COS(l.latitude / 57.3), 2)
+    )::DOUBLE PRECISION * 1.60934 as distance_km
   FROM wiki_locations l
-  WHERE ST_DWithin(
-    l.location,
-    ST_SetSRID(ST_MakePoint(user_lng, user_lat), 4326)::geography,
-    distance_km * 1000 -- convert km to meters
-  )
-  AND l.status = 'published'
-  ORDER BY distance_meters;
+  WHERE l.status = 'published'
+    AND l.latitude IS NOT NULL
+    AND l.longitude IS NOT NULL
+    AND SQRT(
+      POWER(69.1 * (l.latitude - user_lat), 2) +
+      POWER(69.1 * (l.longitude - user_lng) * COS(l.latitude / 57.3), 2)
+    ) * 1.60934 <= distance_km
+  ORDER BY distance_km;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
