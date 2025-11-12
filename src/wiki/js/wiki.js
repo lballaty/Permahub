@@ -294,6 +294,7 @@ function changeLanguage(lang) {
 
 /**
  * Update all text on the page based on current language
+ * Handles data-i18n attributes, data-placeholder attributes, and preserves icons
  */
 function updatePageLanguage() {
   if (!wikiI18n) return;
@@ -304,13 +305,29 @@ function updatePageLanguage() {
     const key = el.dataset.i18n;
     const translation = wikiI18n.t(key);
 
-    // Update text content or placeholder
+    // Determine element type and update accordingly
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      // For input/textarea, update placeholder attribute
       if (el.placeholder) {
         el.placeholder = translation;
       }
+    } else if (el.tagName === 'BUTTON' || el.tagName === 'A') {
+      // For buttons/links, preserve inner HTML (icons) and update text nodes
+      updateElementText(el, translation);
     } else {
+      // For other elements (spans, divs, labels, etc.), just set textContent
       el.textContent = translation;
+    }
+  });
+
+  // Update all elements with data-placeholder attribute
+  const placeholderElements = document.querySelectorAll('[data-placeholder]');
+  placeholderElements.forEach(el => {
+    const key = el.dataset.placeholder;
+    const translation = wikiI18n.t(key);
+
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = translation;
     }
   });
 
@@ -336,6 +353,58 @@ function updatePageLanguage() {
     if (langText) {
       langText.textContent = langNames[currentLang] || 'English';
     }
+  }
+}
+
+/**
+ * Update text content of an element while preserving child elements (like icons)
+ * This function replaces only the text nodes and child elements are preserved
+ */
+function updateElementText(element, newText) {
+  // Save any child elements (like <i> for icons)
+  const childElements = [];
+  for (let i = 0; i < element.childNodes.length; i++) {
+    const node = element.childNodes[i];
+    if (node.nodeType === 1) { // Element node
+      childElements.push({ element: node, index: i });
+    }
+  }
+
+  // Clear the element
+  element.innerHTML = '';
+
+  // If there are child elements (icons), reconstruct with new text
+  if (childElements.length > 0) {
+    // For buttons with icons, we typically have: <i></i> Text
+    // Or: Text <i></i>
+    // Split the new text from the original to find icon positions
+
+    // Simple approach: clear and rebuild
+    element.textContent = '';
+
+    // Reconstruct by adding text and icons back
+    let lastIndex = 0;
+    let textAdded = false;
+
+    // Most common pattern: icon first, then text
+    childElements.forEach((item, idx) => {
+      element.appendChild(item.element);
+
+      // Add text after last icon or at the beginning if no icons at start
+      if (idx === 0 && newText) {
+        // Add text after first icon
+        element.appendChild(document.createTextNode(' ' + newText));
+        textAdded = true;
+      }
+    });
+
+    // If no text was added yet (no icons or different structure), add it now
+    if (!textAdded && newText) {
+      element.appendChild(document.createTextNode(newText));
+    }
+  } else {
+    // No child elements, just set text content
+    element.textContent = newText;
   }
 }
 

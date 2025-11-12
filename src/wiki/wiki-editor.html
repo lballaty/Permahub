@@ -54,15 +54,15 @@
   <main class="wiki-container">
     <div class="card" style="max-width: 900px; margin: 0 auto;">
       <div class="card-header">
-        <h1 class="card-title">Create New Guide</h1>
+        <h1 class="card-title" data-i18n="wiki.editor.title">Create New Guide</h1>
         <div class="flex gap-2">
-          <button class="btn btn-outline btn-small" id="previewBtn">
+          <button class="btn btn-outline btn-small" id="previewBtn" data-i18n="wiki.editor.preview">
             <i class="fas fa-eye"></i> Preview
           </button>
-          <button class="btn btn-secondary btn-small" id="saveDraftBtn">
+          <button class="btn btn-secondary btn-small" id="saveDraftBtn" data-i18n="wiki.editor.save_draft">
             <i class="fas fa-save"></i> Save Draft
           </button>
-          <button class="btn btn-primary btn-small" id="publishBtn">
+          <button class="btn btn-primary btn-small" id="publishBtn" data-i18n="wiki.editor.publish">
             <i class="fas fa-check"></i> Publish
           </button>
         </div>
@@ -71,47 +71,49 @@
       <form id="editorForm">
         <!-- Content Type Selection -->
         <div class="form-group">
-          <label class="form-label">Content Type</label>
+          <label class="form-label" data-i18n="wiki.editor.content_type">Content Type</label>
           <div style="display: flex; gap: 1rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="guide" checked>
-              <span><i class="fas fa-book"></i> Guide/Article</span>
+              <span data-i18n="wiki.editor.type.guide"><i class="fas fa-book"></i> Guide/Article</span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="event">
-              <span><i class="fas fa-calendar"></i> Event</span>
+              <span data-i18n="wiki.editor.type.event"><i class="fas fa-calendar"></i> Event</span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="location">
-              <span><i class="fas fa-map-marker-alt"></i> Location</span>
+              <span data-i18n="wiki.editor.type.location"><i class="fas fa-map-marker-alt"></i> Location</span>
             </label>
           </div>
         </div>
 
         <!-- Title -->
         <div class="form-group">
-          <label class="form-label" for="title">
+          <label class="form-label" for="title" data-i18n="wiki.editor.title_label">
             Title <span style="color: var(--wiki-danger);">*</span>
           </label>
           <input
             type="text"
             id="title"
             class="form-input"
+            data-placeholder="wiki.editor.title_placeholder"
             placeholder="e.g., Building a Swale System for Water Retention"
             required
           >
-          <small class="text-muted">A clear, descriptive title helps others find your content</small>
+          <small class="text-muted" data-i18n="wiki.editor.title_hint">A clear, descriptive title helps others find your content</small>
         </div>
 
         <!-- Summary -->
         <div class="form-group">
-          <label class="form-label" for="summary">
+          <label class="form-label" for="summary" data-i18n="wiki.editor.summary_label">
             Summary <span style="color: var(--wiki-danger);">*</span>
           </label>
           <textarea
             id="summary"
             class="form-input"
             rows="3"
+            data-placeholder="wiki.editor.summary_placeholder"
             placeholder="Write a brief 1-2 sentence summary that will appear in search results and previews..."
             required
             style="resize: vertical;"
@@ -120,7 +122,7 @@
 
         <!-- Categories/Tags -->
         <div class="form-group">
-          <label class="form-label">Categories</label>
+          <label class="form-label" data-i18n="wiki.editor.categories_label">Categories</label>
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="gardening">
@@ -167,7 +169,7 @@
 
         <!-- Rich Text Editor -->
         <div class="form-group">
-          <label class="form-label">
+          <label class="form-label" data-i18n="wiki.editor.content_label">
             Content <span style="color: var(--wiki-danger);">*</span>
           </label>
 
@@ -178,23 +180,23 @@
           <input type="hidden" id="content" name="content">
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <span>💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
-            <span id="charCount">0 characters</span>
+            <span data-i18n="wiki.editor.content_tip">💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
+            <span id="charCount" data-i18n-format="wiki.editor.characters">0 characters</span>
           </div>
         </div>
 
         <!-- Image Upload -->
         <div class="form-group">
-          <label class="form-label">Featured Image</label>
+          <label class="form-label" data-i18n="wiki.editor.image_label">Featured Image</label>
           <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="imageUploadZone">
             <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-            <p><strong>Click to upload</strong> or drag and drop</p>
-            <p class="text-muted" style="font-size: 0.9rem;">PNG, JPG, GIF up to 5MB</p>
+            <p data-i18n="wiki.editor.image_upload"><strong>Click to upload</strong> or drag and drop</p>
+            <p class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.editor.image_formats">PNG, JPG, GIF up to 5MB</p>
             <input type="file" id="imageUpload" accept="image/*" style="display: none;">
           </div>
           <div id="imagePreview" style="margin-top: 1rem; display: none;">
             <img id="previewImg" style="max-width: 100%; border-radius: 8px;">
-            <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage">
+            <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage" data-i18n="wiki.editor.remove_image">
               <i class="fas fa-times"></i> Remove Image
             </button>
           </div>
@@ -202,89 +204,89 @@
 
         <!-- Additional Fields (shown based on content type) -->
         <div id="eventFields" style="display: none;">
-          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">Event Details</h3>
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.event_details">Event Details</h3>
 
           <div class="form-group">
-            <label class="form-label" for="eventDate">Event Date</label>
+            <label class="form-label" for="eventDate" data-i18n="wiki.editor.event_date">Event Date</label>
             <input type="date" id="eventDate" class="form-input">
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group">
-              <label class="form-label" for="eventStartTime">Start Time</label>
+              <label class="form-label" for="eventStartTime" data-i18n="wiki.editor.start_time">Start Time</label>
               <input type="time" id="eventStartTime" class="form-input">
             </div>
             <div class="form-group">
-              <label class="form-label" for="eventEndTime">End Time</label>
+              <label class="form-label" for="eventEndTime" data-i18n="wiki.editor.end_time">End Time</label>
               <input type="time" id="eventEndTime" class="form-input">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="eventLocation">Location</label>
-            <input type="text" id="eventLocation" class="form-input" placeholder="e.g., Green Valley Farm, 123 Farm Road">
+            <label class="form-label" for="eventLocation" data-i18n="wiki.editor.location_field">Location</label>
+            <input type="text" id="eventLocation" class="form-input" data-placeholder="wiki.editor.location_placeholder" placeholder="e.g., Green Valley Farm, 123 Farm Road">
           </div>
         </div>
 
         <div id="locationFields" style="display: none;">
-          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">Location Details</h3>
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.location_details">Location Details</h3>
 
           <div class="form-group">
-            <label class="form-label" for="address">Address</label>
-            <input type="text" id="address" class="form-input" placeholder="123 Farm Road, City, Country">
+            <label class="form-label" for="address" data-i18n="wiki.editor.address">Address</label>
+            <input type="text" id="address" class="form-input" data-placeholder="wiki.editor.address_placeholder" placeholder="123 Farm Road, City, Country">
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group">
-              <label class="form-label" for="latitude">Latitude</label>
+              <label class="form-label" for="latitude" data-i18n="wiki.editor.latitude">Latitude</label>
               <input type="text" id="latitude" class="form-input" placeholder="e.g., 40.7128">
             </div>
             <div class="form-group">
-              <label class="form-label" for="longitude">Longitude</label>
+              <label class="form-label" for="longitude" data-i18n="wiki.editor.longitude">Longitude</label>
               <input type="text" id="longitude" class="form-input" placeholder="e.g., -74.0060">
             </div>
           </div>
 
-          <p class="text-muted" style="font-size: 0.9rem;">
+          <p class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.editor.coordinates_hint">
             <i class="fas fa-info-circle"></i> You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a>
           </p>
         </div>
 
         <!-- Settings -->
         <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
-          <h3 style="margin-bottom: 1rem;">Publishing Settings</h3>
+          <h3 style="margin-bottom: 1rem;" data-i18n="wiki.editor.settings">Publishing Settings</h3>
 
           <div class="form-group">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="allowComments" checked>
-              <span>Allow comments on this page</span>
+              <span data-i18n="wiki.editor.allow_comments">Allow comments on this page</span>
             </label>
           </div>
 
           <div class="form-group">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="allowEdits" checked>
-              <span>Allow other registered users to suggest edits</span>
+              <span data-i18n="wiki.editor.allow_edits">Allow other registered users to suggest edits</span>
             </label>
           </div>
 
           <div class="form-group" style="margin-bottom: 0;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="notifyGroup">
-              <span>Notify WhatsApp group about this content</span>
+              <span data-i18n="wiki.editor.notify_group">Notify WhatsApp group about this content</span>
             </label>
           </div>
         </div>
 
         <!-- Action Buttons -->
         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
-          <button type="button" class="btn btn-outline" onclick="history.back()">
+          <button type="button" class="btn btn-outline" onclick="history.back()" data-i18n="wiki.editor.cancel">
             <i class="fas fa-times"></i> Cancel
           </button>
-          <button type="button" class="btn btn-secondary" id="saveDraftBtn2">
+          <button type="button" class="btn btn-secondary" id="saveDraftBtn2" data-i18n="wiki.editor.save_draft">
             <i class="fas fa-save"></i> Save as Draft
           </button>
-          <button type="submit" class="btn btn-primary" id="publishBtn2">
+          <button type="submit" class="btn btn-primary" id="publishBtn2" data-i18n="wiki.editor.publish_now">
             <i class="fas fa-check"></i> Publish Now
           </button>
         </div>
@@ -293,31 +295,31 @@
 
     <!-- Help Sidebar -->
     <div class="card" style="max-width: 900px; margin: 2rem auto 0;">
-      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;" data-i18n="wiki.editor.tips_title">
         <i class="fas fa-question-circle"></i> Writing Tips
       </h3>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
         <div>
-          <h4 style="margin-bottom: 0.5rem;">✍️ Be Clear & Concise</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip1_title">✍️ Be Clear & Concise</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip1_text">
             Write in simple language. Break complex topics into sections with clear headings.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 0.5rem;">📸 Use Images</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip2_title">📸 Use Images</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip2_text">
             Visual aids help readers understand. Include photos, diagrams, and charts where relevant.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 0.5rem;">🔗 Link to Related Content</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip3_title">🔗 Link to Related Content</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip3_text">
             Reference other guides and resources to help readers dive deeper into topics.
           </p>
         </div>
         <div>
-          <h4 style="margin-bottom: 0.5rem;">📋 Add Practical Steps</h4>
-          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);">
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip4_title">📋 Add Practical Steps</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip4_text">
             Include actionable instructions, materials lists, and troubleshooting tips.
           </p>
         </div>
@@ -328,7 +330,7 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p>&copy; 2025 Permahub Community Wiki. <span data-i18n="wiki.footer.made_with">Made with</span> 🌱 <span data-i18n="wiki.footer.for">for the global permaculture community</span>.</p>
     </div>
   </footer>
 
