@@ -16,7 +16,11 @@
       "Bash(node test-language-switcher.js:*)",
       "Bash(node test-language-switcher.cjs:*)",
       "Bash(open:*)",
-      "Bash(node test-language-debug.cjs:*)"
+      "Bash(node test-language-debug.cjs:*)",
+      "Bash(git fetch:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(cat:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []
