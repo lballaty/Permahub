@@ -5,12 +5,6 @@
  * In production, this will integrate with Supabase for backend operations.
  */
 
-// Import i18n if available
-let wikiI18n = null;
-if (typeof window.wikiI18n !== 'undefined') {
-  wikiI18n = window.wikiI18n;
-}
-
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Community Wiki initialized');
@@ -22,8 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
   setActiveNavigationState();
 
   // Initialize i18n if available
-  if (wikiI18n) {
-    wikiI18n.init();
+  if (window.wikiI18n) {
+    window.wikiI18n.init();
+
+    // Set HTML lang attribute to match current language
+    const currentLang = window.wikiI18n.getLanguage();
+    document.documentElement.lang = currentLang;
+
     updatePageLanguage();
   }
 });
@@ -281,52 +280,49 @@ function initializeLanguageSelector() {
  * Change the current language
  */
 function changeLanguage(lang) {
-  if (!wikiI18n) {
+  if (!window.wikiI18n) {
     console.error('i18n not loaded');
     return;
   }
 
-  wikiI18n.setLanguage(lang);
+  window.wikiI18n.setLanguage(lang);
+
+  // Update HTML lang attribute
+  document.documentElement.lang = lang;
+
   updatePageLanguage();
   updateActiveLanguage();
-  showNotification(wikiI18n.t('wiki.common.language_changed'), 'info');
+  showNotification(window.wikiI18n.t('wiki.common.language_changed'), 'info');
 }
 
 /**
  * Update all text on the page based on current language
- * Handles data-i18n attributes, data-placeholder attributes, and preserves icons
  */
 function updatePageLanguage() {
-  if (!wikiI18n) return;
+  if (!window.wikiI18n) return;
 
   // Update all elements with data-i18n attribute
   const elements = document.querySelectorAll('[data-i18n]');
   elements.forEach(el => {
     const key = el.dataset.i18n;
-    const translation = wikiI18n.t(key);
+    const translation = window.wikiI18n.t(key);
 
-    // Determine element type and update accordingly
+    // Update text content or placeholder
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-      // For input/textarea, update placeholder attribute
       if (el.placeholder) {
         el.placeholder = translation;
       }
-    } else if (el.tagName === 'BUTTON' || el.tagName === 'A') {
-      // For buttons/links, preserve inner HTML (icons) and update text nodes
-      updateElementText(el, translation);
     } else {
-      // For other elements (spans, divs, labels, etc.), just set textContent
       el.textContent = translation;
     }
   });
 
-  // Update all elements with data-placeholder attribute
-  const placeholderElements = document.querySelectorAll('[data-placeholder]');
+  // Update all elements with data-i18n-placeholder attribute
+  const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
   placeholderElements.forEach(el => {
-    const key = el.dataset.placeholder;
-    const translation = wikiI18n.t(key);
-
-    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+    const key = el.dataset.i18nPlaceholder;
+    const translation = window.wikiI18n.t(key);
+    if (el.placeholder !== undefined) {
       el.placeholder = translation;
     }
   });
@@ -334,7 +330,7 @@ function updatePageLanguage() {
   // Update language selector button text
   const langBtn = document.getElementById('langSelectorBtn');
   if (langBtn) {
-    const currentLang = wikiI18n.getLanguage();
+    const currentLang = window.wikiI18n.getLanguage();
     const langNames = {
       en: 'English',
       pt: 'Português',
@@ -346,7 +342,11 @@ function updatePageLanguage() {
       pl: 'Polski',
       ja: '日本語',
       zh: '中文',
-      ko: '한국어'
+      ko: '한국어',
+      cs: 'Čeština',
+      sk: 'Slovenčina',
+      uk: 'Українська',
+      ru: 'Русский'
     };
 
     const langText = langBtn.querySelector('.lang-current');
@@ -357,64 +357,12 @@ function updatePageLanguage() {
 }
 
 /**
- * Update text content of an element while preserving child elements (like icons)
- * This function replaces only the text nodes and child elements are preserved
- */
-function updateElementText(element, newText) {
-  // Save any child elements (like <i> for icons)
-  const childElements = [];
-  for (let i = 0; i < element.childNodes.length; i++) {
-    const node = element.childNodes[i];
-    if (node.nodeType === 1) { // Element node
-      childElements.push({ element: node, index: i });
-    }
-  }
-
-  // Clear the element
-  element.innerHTML = '';
-
-  // If there are child elements (icons), reconstruct with new text
-  if (childElements.length > 0) {
-    // For buttons with icons, we typically have: <i></i> Text
-    // Or: Text <i></i>
-    // Split the new text from the original to find icon positions
-
-    // Simple approach: clear and rebuild
-    element.textContent = '';
-
-    // Reconstruct by adding text and icons back
-    let lastIndex = 0;
-    let textAdded = false;
-
-    // Most common pattern: icon first, then text
-    childElements.forEach((item, idx) => {
-      element.appendChild(item.element);
-
-      // Add text after last icon or at the beginning if no icons at start
-      if (idx === 0 && newText) {
-        // Add text after first icon
-        element.appendChild(document.createTextNode(' ' + newText));
-        textAdded = true;
-      }
-    });
-
-    // If no text was added yet (no icons or different structure), add it now
-    if (!textAdded && newText) {
-      element.appendChild(document.createTextNode(newText));
-    }
-  } else {
-    // No child elements, just set text content
-    element.textContent = newText;
-  }
-}
-
-/**
  * Update active state in language dropdown
  */
 function updateActiveLanguage() {
-  if (!wikiI18n) return;
+  if (!window.wikiI18n) return;
 
-  const currentLang = wikiI18n.getLanguage();
+  const currentLang = window.wikiI18n.getLanguage();
   const langOptions = document.querySelectorAll('.lang-option');
 
   langOptions.forEach(option => {

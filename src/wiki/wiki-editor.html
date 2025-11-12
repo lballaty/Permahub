@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
-  <script type="module" src="js/wiki-i18n.js"></script>
+  <script src="js/wiki-i18n.js"></script>
 </head>
 <body>
   <!-- Header -->
@@ -15,7 +15,7 @@
     <nav class="wiki-nav">
       <a href="wiki-home.html" class="wiki-logo">
         <span class="wiki-logo-icon">🌱</span>
-        <span data-i18n="wiki.nav.brand">Community Wiki</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
@@ -42,6 +42,10 @@
               <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
               <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
               <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
             </div>
           </div>
         </li>
@@ -56,14 +60,14 @@
       <div class="card-header">
         <h1 class="card-title" data-i18n="wiki.editor.title">Create New Guide</h1>
         <div class="flex gap-2">
-          <button class="btn btn-outline btn-small" id="previewBtn" data-i18n="wiki.editor.preview">
-            <i class="fas fa-eye"></i> Preview
+          <button class="btn btn-outline btn-small" id="previewBtn">
+            <i class="fas fa-eye"></i> <span data-i18n="wiki.editor.preview">Preview</span>
           </button>
-          <button class="btn btn-secondary btn-small" id="saveDraftBtn" data-i18n="wiki.editor.save_draft">
-            <i class="fas fa-save"></i> Save Draft
+          <button class="btn btn-secondary btn-small" id="saveDraftBtn">
+            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save_draft">Save Draft</span>
           </button>
-          <button class="btn btn-primary btn-small" id="publishBtn" data-i18n="wiki.editor.publish">
-            <i class="fas fa-check"></i> Publish
+          <button class="btn btn-primary btn-small" id="publishBtn">
+            <i class="fas fa-check"></i> <span data-i18n="wiki.editor.publish">Publish</span>
           </button>
         </div>
       </div>
@@ -75,29 +79,29 @@
           <div style="display: flex; gap: 1rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="guide" checked>
-              <span data-i18n="wiki.editor.type.guide"><i class="fas fa-book"></i> Guide/Article</span>
+              <span><i class="fas fa-book"></i> <span data-i18n="wiki.editor.type.guide">Guide/Article</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="event">
-              <span data-i18n="wiki.editor.type.event"><i class="fas fa-calendar"></i> Event</span>
+              <span><i class="fas fa-calendar"></i> <span data-i18n="wiki.editor.type.event">Event</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="contentType" value="location">
-              <span data-i18n="wiki.editor.type.location"><i class="fas fa-map-marker-alt"></i> Location</span>
+              <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="wiki.editor.type.location">Location</span></span>
             </label>
           </div>
         </div>
 
         <!-- Title -->
         <div class="form-group">
-          <label class="form-label" for="title" data-i18n="wiki.editor.title_label">
-            Title <span style="color: var(--wiki-danger);">*</span>
+          <label class="form-label" for="title">
+            <span data-i18n="wiki.editor.title_label">Title</span> <span style="color: var(--wiki-danger);">*</span>
           </label>
           <input
             type="text"
             id="title"
             class="form-input"
-            data-placeholder="wiki.editor.title_placeholder"
+            data-i18n-placeholder="wiki.editor.title_placeholder"
             placeholder="e.g., Building a Swale System for Water Retention"
             required
           >
@@ -106,14 +110,14 @@
 
         <!-- Summary -->
         <div class="form-group">
-          <label class="form-label" for="summary" data-i18n="wiki.editor.summary_label">
-            Summary <span style="color: var(--wiki-danger);">*</span>
+          <label class="form-label" for="summary">
+            <span data-i18n="wiki.editor.summary_label">Summary</span> <span style="color: var(--wiki-danger);">*</span>
           </label>
           <textarea
             id="summary"
             class="form-input"
             rows="3"
-            data-placeholder="wiki.editor.summary_placeholder"
+            data-i18n-placeholder="wiki.editor.summary_placeholder"
             placeholder="Write a brief 1-2 sentence summary that will appear in search results and previews..."
             required
             style="resize: vertical;"
@@ -126,51 +130,51 @@
           <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="gardening">
-              <span>🌱 Gardening</span>
+              <span>🌱 <span data-i18n="wiki.category.gardening">Gardening</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="water">
-              <span>💧 Water Management</span>
+              <span>💧 <span data-i18n="wiki.category.water_management">Water Management</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="composting">
-              <span>♻️ Composting</span>
+              <span>♻️ <span data-i18n="wiki.category.composting">Composting</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="energy">
-              <span>☀️ Renewable Energy</span>
+              <span>☀️ <span data-i18n="wiki.category.renewable_energy">Renewable Energy</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="food">
-              <span>🥕 Food Production</span>
+              <span>🥕 <span data-i18n="wiki.category.food_production">Food Production</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="agroforestry">
-              <span>🌳 Agroforestry</span>
+              <span>🌳 <span data-i18n="wiki.category.agroforestry">Agroforestry</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="building">
-              <span>🏡 Natural Building</span>
+              <span>🏡 <span data-i18n="wiki.category.natural_building">Natural Building</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="waste">
-              <span>♻️ Waste Management</span>
+              <span>♻️ <span data-i18n="wiki.category.waste_management">Waste Management</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="community">
-              <span>👥 Community</span>
+              <span>👥 <span data-i18n="wiki.category.community">Community</span></span>
             </label>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="category" value="circular-economy">
-              <span>🔄 Circular Economy</span>
+              <span>🔄 <span data-i18n="wiki.category.circular_economy">Circular Economy</span></span>
             </label>
           </div>
         </div>
 
         <!-- Rich Text Editor -->
         <div class="form-group">
-          <label class="form-label" data-i18n="wiki.editor.content_label">
-            Content <span style="color: var(--wiki-danger);">*</span>
+          <label class="form-label">
+            <span data-i18n="wiki.editor.content_label">Content</span> <span style="color: var(--wiki-danger);">*</span>
           </label>
 
           <!-- Quill Editor Container -->
@@ -180,8 +184,8 @@
           <input type="hidden" id="content" name="content">
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <span data-i18n="wiki.editor.content_tip">💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
-            <span id="charCount" data-i18n-format="wiki.editor.characters">0 characters</span>
+            <span>💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
+            <span id="charCount">0 characters</span>
           </div>
         </div>
 
@@ -190,13 +194,13 @@
           <label class="form-label" data-i18n="wiki.editor.image_label">Featured Image</label>
           <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="imageUploadZone">
             <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-            <p data-i18n="wiki.editor.image_upload"><strong>Click to upload</strong> or drag and drop</p>
-            <p class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.editor.image_formats">PNG, JPG, GIF up to 5MB</p>
+            <p><strong>Click to upload</strong> or drag and drop</p>
+            <p class="text-muted" style="font-size: 0.9rem;">PNG, JPG, GIF up to 5MB</p>
             <input type="file" id="imageUpload" accept="image/*" style="display: none;">
           </div>
           <div id="imagePreview" style="margin-top: 1rem; display: none;">
             <img id="previewImg" style="max-width: 100%; border-radius: 8px;">
-            <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage" data-i18n="wiki.editor.remove_image">
+            <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage">
               <i class="fas fa-times"></i> Remove Image
             </button>
           </div>
@@ -224,7 +228,7 @@
 
           <div class="form-group">
             <label class="form-label" for="eventLocation" data-i18n="wiki.editor.location_field">Location</label>
-            <input type="text" id="eventLocation" class="form-input" data-placeholder="wiki.editor.location_placeholder" placeholder="e.g., Green Valley Farm, 123 Farm Road">
+            <input type="text" id="eventLocation" class="form-input" placeholder="e.g., Green Valley Farm, 123 Farm Road">
           </div>
         </div>
 
@@ -233,21 +237,21 @@
 
           <div class="form-group">
             <label class="form-label" for="address" data-i18n="wiki.editor.address">Address</label>
-            <input type="text" id="address" class="form-input" data-placeholder="wiki.editor.address_placeholder" placeholder="123 Farm Road, City, Country">
+            <input type="text" id="address" class="form-input" placeholder="123 Farm Road, City, Country">
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group">
-              <label class="form-label" for="latitude" data-i18n="wiki.editor.latitude">Latitude</label>
+              <label class="form-label" for="latitude">Latitude</label>
               <input type="text" id="latitude" class="form-input" placeholder="e.g., 40.7128">
             </div>
             <div class="form-group">
-              <label class="form-label" for="longitude" data-i18n="wiki.editor.longitude">Longitude</label>
+              <label class="form-label" for="longitude">Longitude</label>
               <input type="text" id="longitude" class="form-input" placeholder="e.g., -74.0060">
             </div>
           </div>
 
-          <p class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.editor.coordinates_hint">
+          <p class="text-muted" style="font-size: 0.9rem;">
             <i class="fas fa-info-circle"></i> You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a>
           </p>
         </div>
@@ -280,14 +284,14 @@
 
         <!-- Action Buttons -->
         <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
-          <button type="button" class="btn btn-outline" onclick="history.back()" data-i18n="wiki.editor.cancel">
-            <i class="fas fa-times"></i> Cancel
+          <button type="button" class="btn btn-outline" onclick="history.back()">
+            <i class="fas fa-times"></i> <span data-i18n="wiki.editor.cancel">Cancel</span>
           </button>
-          <button type="button" class="btn btn-secondary" id="saveDraftBtn2" data-i18n="wiki.editor.save_draft">
-            <i class="fas fa-save"></i> Save as Draft
+          <button type="button" class="btn btn-secondary" id="saveDraftBtn2">
+            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save_draft">Save as Draft</span>
           </button>
-          <button type="submit" class="btn btn-primary" id="publishBtn2" data-i18n="wiki.editor.publish_now">
-            <i class="fas fa-check"></i> Publish Now
+          <button type="submit" class="btn btn-primary" id="publishBtn2">
+            <i class="fas fa-check"></i> <span data-i18n="wiki.editor.publish_now">Publish Now</span>
           </button>
         </div>
       </form>
@@ -295,8 +299,8 @@
 
     <!-- Help Sidebar -->
     <div class="card" style="max-width: 900px; margin: 2rem auto 0;">
-      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;" data-i18n="wiki.editor.tips_title">
-        <i class="fas fa-question-circle"></i> Writing Tips
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+        <i class="fas fa-question-circle"></i> <span data-i18n="wiki.editor.tips_title">Writing Tips</span>
       </h3>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
         <div>
@@ -330,7 +334,7 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. <span data-i18n="wiki.footer.made_with">Made with</span> 🌱 <span data-i18n="wiki.footer.for">for the global permaculture community</span>.</p>
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
     </div>
   </footer>
 
