@@ -555,4 +555,7 @@ if (typeof window !== 'undefined') {
   window.wikiI18n = wikiI18n;
 }
 
-export { wikiI18n };
+// Export for module systems (if needed in the future)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { wikiI18n };
+}

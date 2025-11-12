@@ -10,7 +10,13 @@
       "Bash(do grep -n \"data-lang=\"\"ko\"\"\" \"$file\")",
       "Bash(done)",
       "Bash(git push)",
-      "Bash(/tmp/test_translations.sh:*)"
+      "Bash(/tmp/test_translations.sh:*)",
+      "Bash(npm install:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(node test-language-switcher.js:*)",
+      "Bash(node test-language-switcher.cjs:*)",
+      "Bash(open:*)",
+      "Bash(node test-language-debug.cjs:*)"
     ],
     "deny": [],
     "ask": []
