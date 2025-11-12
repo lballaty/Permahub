@@ -249,7 +249,11 @@ function updatePageLanguage() {
       pl: 'Polski',
       ja: '日本語',
       zh: '中文',
-      ko: '한국어'
+      ko: '한국어',
+      cs: 'Čeština',
+      sk: 'Slovenčina',
+      uk: 'Українська',
+      ru: 'Русский'
     };
 
     const langText = langBtn.querySelector('.lang-current');

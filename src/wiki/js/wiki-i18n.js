@@ -476,6 +476,26 @@ const wikiI18n = {
     // ============ KOREAN (ko) ============
     ko: {
       'wiki.common.language_changed': '언어가 성공적으로 변경되었습니다',
+    },
+
+    // ============ CZECH (cs) ============
+    cs: {
+      'wiki.common.language_changed': 'Jazyk byl úspěšně změněn',
+    },
+
+    // ============ SLOVAK (sk) ============
+    sk: {
+      'wiki.common.language_changed': 'Jazyk bol úspešne zmenený',
+    },
+
+    // ============ UKRAINIAN (uk) ============
+    uk: {
+      'wiki.common.language_changed': 'Мову успішно змінено',
+    },
+
+    // ============ RUSSIAN (ru) ============
+    ru: {
+      'wiki.common.language_changed': 'Язык успешно изменён',
     }
   },
 

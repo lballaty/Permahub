@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git restore:*)",
+      "Bash(for file in src/wiki/wiki-editor.html src/wiki/wiki-events.html src/wiki/wiki-favorites.html src/wiki/wiki-login.html src/wiki/wiki-map.html src/wiki/wiki-page.html)",
+      "Bash(do grep -n \"data-lang=\"\"ko\"\"\" \"$file\")",
+      "Bash(done)",
+      "Bash(git push)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
