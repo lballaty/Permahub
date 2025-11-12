@@ -66,3 +66,7 @@ screenshot-*.png
 test-*.html
 test-*.cjs
 test-*.js
+
+# Supabase runtime data (auto-generated, not tracked)
+supabase/.temp/
+supabase/.DS_Store

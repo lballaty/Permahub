@@ -1,0 +1,90 @@
+================================================================================
+                         START HERE - DATABASE SETUP
+================================================================================
+
+Your database is 30% deployed. Need to run 4 SQL files to complete it.
+
+Time needed: 15 minutes
+Difficulty: Copy-paste SQL into web editor (no coding required)
+
+================================================================================
+DO THIS NOW:
+================================================================================
+
+1. OPEN THIS FILE IN YOUR EDITOR:
+   /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/RUN_THESE_MIGRATIONS_IN_ORDER.txt
+
+2. FOLLOW THE EXACT ORDER - Run these 4 files in Supabase SQL Editor:
+
+   STEP 1: 00_bootstrap_execute_sql.sql
+   STEP 2: 001_initial_schema.sql
+   STEP 3: 002_analytics.sql
+   STEP 4: 003_items_pubsub.sql
+
+3. FOR EACH FILE:
+   - Read the file content
+   - Copy ALL of it
+   - Go to: https://supabase.com/dashboard/project/mcbxbaggjaxqfdvmrqsc/sql
+   - Paste into SQL Editor
+   - Click RUN button
+   - Move to next file
+
+4. AFTER ALL 4 ARE DONE:
+   - Run this verification query (paste into SQL Editor):
+     SELECT table_name FROM information_schema.tables
+     WHERE table_schema = 'public' ORDER BY table_name;
+   - You should see 20+ tables
+   - If yes, database is ready!
+
+5. THEN TEST CONNECTION:
+   npm run dev
+
+   App should connect to Supabase successfully.
+
+================================================================================
+THE 4 FILES YOU NEED (IN ORDER):
+================================================================================
+
+All files are in:
+/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/
+
+1. 00_bootstrap_execute_sql.sql
+2. 001_initial_schema.sql
+3. 002_analytics.sql
+4. 003_items_pubsub.sql
+
+That's it. Just 4 files.
+
+================================================================================
+HELP & TROUBLESHOOTING:
+================================================================================
+
+See: SUPABASE_MANUAL_MIGRATION_STEPS.md
+Or: RUN_THESE_MIGRATIONS_IN_ORDER.txt (detailed reference)
+
+Any errors? Check TROUBLESHOOTING section in those files.
+
+================================================================================
+WHAT THESE FILES DO:
+================================================================================
+
+File 1: Creates RPC function (infrastructure)
+File 2: Creates users, projects, resources, favorites (core data)
+File 3: Creates activity tracking tables (analytics)
+File 4: Creates notifications and pub/sub system (realtime)
+
+After these 4: Your app has everything it needs to work.
+
+================================================================================
+NEXT STEPS AFTER DATABASE:
+================================================================================
+
+1. Test app connection (npm run dev)
+2. Create sample data (sign up, make a project)
+3. Run tests (npm run test:all)
+4. Deploy to cloud (Vercel or Netlify)
+5. Invite beta users
+
+But first: Just run the 4 migration files above.
+
+================================================================================
