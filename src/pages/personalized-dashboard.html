@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personalized Dashboard - Permahub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary-green: #2d8659;
+            --dark-green: #1a5f3f;
+            --light-green: #3d9970;
+            --brown: #556b6f;
+            --terracotta: #d4a574;
+            --cream: #f5f5f0;
+            --white: #ffffff;
+            --gray-100: #f7fafc;
+            --gray-200: #edf2f7;
+            --gray-300: #e2e8f0;
+            --gray-400: #cbd5e0;
+            --gray-500: #a0aec0;
+            --gray-600: #718096;
+            --gray-700: #4a5568;
+            --gray-800: #2d3748;
+            --gray-900: #1a202c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cream);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .greeting {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .greeting-text h1 {
+            font-size: 1.5rem;
+            color: var(--gray-900);
+            margin-bottom: 2px;
+        }
+
+        .greeting-text .subtitle {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--gray-300);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn:hover {
+            background: var(--gray-100);
+            border-color: var(--primary-green);
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Quick Actions Bar */
+        .quick-actions {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .quick-actions-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--gray-700);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .action-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Widget Card */
+        .widget-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .widget-card.dragging {
+            opacity: 0.5;
+            transform: scale(0.98);
+        }
+
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .widget-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .widget-title i {
+            color: var(--primary-green);
+        }
+
+        .widget-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .widget-action {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--gray-300);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            transition: all 0.2s;
+        }
+
+        .widget-action:hover {
+            background: var(--gray-100);
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        /* Category Affinity Widget */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .category-item {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .category-item:hover {
+            background: var(--light-green);
+            color: white;
+            border-color: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        .category-emoji {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .category-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .category-score {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--primary-green);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        /* Content List */
+        .content-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .content-item {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            gap: 12px;
+        }
+
+        .content-item:hover {
+            background: white;
+            border-color: var(--primary-green);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .content-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .content-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .content-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .content-meta {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .content-badge {
+            background: var(--terracotta);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            align-items: center;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gray-300);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .activity-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        /* Insights Panel */
+        .insights-panel {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .insights-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insight-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .insight-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .insight-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .insight-trend {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trend-up {
+            color: #4ade80;
+        }
+
+        .trend-down {
+            color: #f87171;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--gray-600);
+        }
+
+        .empty-state-text {
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .action-buttons {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .insight-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading States */
+        .loading-widget {
+            height: 200px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Customization Panel */
+        .customization-panel {
+            position: fixed;
+            right: -350px;
+            top: 0;
+            width: 350px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .customization-panel.open {
+            right: 0;
+        }
+
+        .customization-header {
+            padding: 20px;
+            background: var(--primary-green);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .customization-content {
+            padding: 20px;
+        }
+
+        .customization-section {
+            margin-bottom: 25px;
+        }
+
+        .customization-section-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--gray-700);
+        }
+
+        .widget-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--gray-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--primary-green);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="greeting">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="greeting-text">
+                    <h1 id="greetingText">Welcome back!</h1>
+                    <div class="subtitle" id="lastSeen">Loading your personalized dashboard...</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" onclick="toggleCustomization()">
+                    <i class="fas fa-sliders-h"></i>
+                    Customize
+                </button>
+                <button class="header-btn" onclick="refreshDashboard()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+                <button class="header-btn" onclick="viewProfile()">
+                    <i class="fas fa-user-circle"></i>
+                    Profile
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Insights Panel -->
+    <div class="dashboard-container">
+        <div class="insights-panel" id="insightsPanel">
+            <h2 class="insights-title">
+                <i class="fas fa-chart-line"></i>
+                Your Permahub Journey
+            </h2>
+            <div class="insight-cards">
+                <div class="insight-card">
+                    <div class="insight-value" id="totalInteractions">0</div>
+                    <div class="insight-label">Total Interactions</div>
+                    <div class="insight-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+12% this week</span>
+                    </div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-value" id="favoriteCategory">-</div>
+                    <div class="insight-label">Top Interest</div>
+                    <div class="insight-trend">
+                        <span id="categoryEngagement">High engagement</span>
+                    </div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-value" id="projectsViewed">0</div>
+                    <div class="insight-label">Projects Explored</div>
+                    <div class="insight-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+5 this month</span>
+                    </div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-value" id="communityRank">-</div>
+                    <div class="insight-label">Community Activity</div>
+                    <div class="insight-trend">
+                        <span>Active contributor</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h3 class="quick-actions-title">Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="window.location.href='add-item.html'">
+                    <i class="fas fa-plus-circle"></i>
+                    Add Project
+                </button>
+                <button class="action-btn" onclick="window.location.href='resources.html'">
+                    <i class="fas fa-search"></i>
+                    Find Resources
+                </button>
+                <button class="action-btn" onclick="window.location.href='map.html'">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Explore Map
+                </button>
+                <button class="action-btn" onclick="window.location.href='wiki.html'">
+                    <i class="fas fa-book"></i>
+                    Browse Wiki
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid" id="dashboardGrid">
+            <!-- Loading skeletons -->
+            <div class="widget-card skeleton loading-widget"></div>
+            <div class="widget-card skeleton loading-widget"></div>
+            <div class="widget-card skeleton loading-widget"></div>
+        </div>
+    </div>
+
+    <!-- Customization Panel -->
+    <div class="customization-panel" id="customizationPanel">
+        <div class="customization-header">
+            <h3>Customize Dashboard</h3>
+            <button onclick="toggleCustomization()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="customization-content">
+            <div class="customization-section">
+                <div class="customization-section-title">Widget Visibility</div>
+                <div id="widgetToggles">
+                    <!-- Widget toggles will be populated here -->
+                </div>
+            </div>
+            <div class="customization-section">
+                <div class="customization-section-title">Layout Density</div>
+                <select id="densitySelect" onchange="updateDensity(this.value)" style="width: 100%; padding: 8px; border: 1px solid var(--gray-300); border-radius: 6px;">
+                    <option value="compact">Compact</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="comfortable">Comfortable</option>
+                </select>
+            </div>
+            <div class="customization-section">
+                <div class="customization-section-title">Theme</div>
+                <select id="themeSelect" onchange="updateTheme(this.value)" style="width: 100%; padding: 8px; border: 1px solid var(--gray-300); border-radius: 6px;">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="system">System</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // Initialize Supabase
+        const supabaseUrl = 'https://mcbxbaggjaxqfdvmrqsc.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3NTQxMDEsImV4cCI6MjA0NjMzMDEwMX0.qxXxJT0U7t6WmMiONirmHnBZBUhYwG5q3jF2Swtu4NI';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        // Global variables
+        let currentUser = null;
+        let userPreferences = {};
+        let dashboardConfig = {};
+        let userActivity = [];
+        let affinityScores = [];
+
+        // Widget definitions
+        const widgetDefinitions = {
+            favorite_categories: {
+                title: 'Your Top Interests',
+                icon: 'fa-star',
+                render: renderFavoriteCategories
+            },
+            recent_activity: {
+                title: 'Recent Activity',
+                icon: 'fa-clock',
+                render: renderRecentActivity
+            },
+            recommendations: {
+                title: 'Recommended for You',
+                icon: 'fa-lightbulb',
+                render: renderRecommendations
+            },
+            nearby_projects: {
+                title: 'Projects Near You',
+                icon: 'fa-map-marker-alt',
+                render: renderNearbyProjects
+            },
+            trending_resources: {
+                title: 'Trending Resources',
+                icon: 'fa-fire',
+                render: renderTrendingResources
+            },
+            wiki_suggestions: {
+                title: 'Learn Something New',
+                icon: 'fa-graduation-cap',
+                render: renderWikiSuggestions
+            }
+        };
+
+        // Initialize dashboard
+        async function initDashboard() {
+            try {
+                // Get current user
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                    window.location.href = 'auth.html';
+                    return;
+                }
+                currentUser = user;
+
+                // Update greeting
+                await updateGreeting();
+
+                // Load user preferences and config
+                await loadUserPreferences();
+
+                // Track page view
+                await trackActivity('view', 'dashboard', null);
+
+                // Load dashboard widgets
+                await loadDashboardWidgets();
+
+                // Load insights
+                await loadInsights();
+
+            } catch (error) {
+                console.error('Error initializing dashboard:', error);
+            }
+        }
+
+        // Update greeting based on user and time
+        async function updateGreeting() {
+            const { data: profile } = await supabase
+                .from('users')
+                .select('full_name, last_login')
+                .eq('id', currentUser.id)
+                .single();
+
+            const hour = new Date().getHours();
+            let greeting = 'Welcome back';
+            if (hour < 12) greeting = 'Good morning';
+            else if (hour < 18) greeting = 'Good afternoon';
+            else greeting = 'Good evening';
+
+            const name = profile?.full_name?.split(' ')[0] || 'there';
+            document.getElementById('greetingText').textContent = `${greeting}, ${name}!`;
+
+            // Update avatar
+            const initial = name[0].toUpperCase();
+            document.getElementById('userAvatar').textContent = initial;
+
+            // Update last seen
+            if (profile?.last_login) {
+                const lastLogin = new Date(profile.last_login);
+                const timeAgo = getTimeAgo(lastLogin);
+                document.getElementById('lastSeen').textContent = `Last active ${timeAgo}`;
+            }
+        }
+
+        // Load user preferences and dashboard config
+        async function loadUserPreferences() {
+            // Load affinity scores
+            const { data: scores } = await supabase
+                .from('user_affinity_scores')
+                .select('*, resource_categories(*)')
+                .eq('user_id', currentUser.id)
+                .order('overall_score', { ascending: false });
+
+            affinityScores = scores || [];
+
+            // Load dashboard config
+            const { data: config } = await supabase
+                .from('user_dashboard_config')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .single();
+
+            if (config) {
+                dashboardConfig = config;
+            } else {
+                // Create default config
+                await createDefaultDashboardConfig();
+            }
+
+            // Load recent activity
+            const { data: activity } = await supabase
+                .from('user_activity')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false })
+                .limit(20);
+
+            userActivity = activity || [];
+        }
+
+        // Create default dashboard configuration
+        async function createDefaultDashboardConfig() {
+            const defaultConfig = {
+                user_id: currentUser.id,
+                layout_type: 'auto',
+                theme_preference: 'system',
+                widgets: {
+                    favorite_categories: { visible: true, order: 1, expanded: true },
+                    recent_activity: { visible: true, order: 2, expanded: true },
+                    recommendations: { visible: true, order: 3, expanded: true },
+                    nearby_projects: { visible: true, order: 4, expanded: false },
+                    trending_resources: { visible: true, order: 5, expanded: false },
+                    wiki_suggestions: { visible: true, order: 6, expanded: false }
+                },
+                show_recommendations: true,
+                recommendation_count: 10,
+                content_density: 'normal'
+            };
+
+            const { data, error } = await supabase
+                .from('user_dashboard_config')
+                .insert(defaultConfig)
+                .select()
+                .single();
+
+            dashboardConfig = data || defaultConfig;
+        }
+
+        // Load and render dashboard widgets
+        async function loadDashboardWidgets() {
+            const grid = document.getElementById('dashboardGrid');
+            grid.innerHTML = ''; // Clear loading skeletons
+
+            // Sort widgets by order
+            const sortedWidgets = Object.entries(dashboardConfig.widgets || {})
+                .filter(([key, config]) => config.visible)
+                .sort((a, b) => a[1].order - b[1].order);
+
+            // Render each widget
+            for (const [widgetKey, config] of sortedWidgets) {
+                const definition = widgetDefinitions[widgetKey];
+                if (definition) {
+                    const widgetElement = await createWidget(widgetKey, definition, config);
+                    grid.appendChild(widgetElement);
+                }
+            }
+
+            // Populate customization panel
+            populateCustomizationPanel();
+        }
+
+        // Create a widget element
+        async function createWidget(key, definition, config) {
+            const widget = document.createElement('div');
+            widget.className = 'widget-card';
+            widget.dataset.widgetKey = key;
+
+            widget.innerHTML = `
+                <div class="widget-header">
+                    <h3 class="widget-title">
+                        <i class="fas ${definition.icon}"></i>
+                        ${definition.title}
+                    </h3>
+                    <div class="widget-actions">
+                        <button class="widget-action" onclick="refreshWidget('${key}')" title="Refresh">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="widget-action" onclick="toggleWidget('${key}')" title="Collapse">
+                            <i class="fas fa-chevron-${config.expanded ? 'up' : 'down'}"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="widget-content" id="widget-content-${key}" ${!config.expanded ? 'style="display: none;"' : ''}>
+                    <div class="skeleton" style="height: 100px;"></div>
+                </div>
+            `;
+
+            // Render widget content
+            setTimeout(() => definition.render(key), 100);
+
+            return widget;
+        }
+
+        // Widget render functions
+        async function renderFavoriteCategories(widgetKey) {
+            const container = document.getElementById(`widget-content-${widgetKey}`);
+
+            if (affinityScores.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-seedling"></i>
+                        <div class="empty-state-title">No interests yet</div>
+                        <div class="empty-state-text">Start exploring to build your interest profile</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const topCategories = affinityScores.slice(0, 6);
+            const html = `
+                <div class="category-grid">
+                    ${topCategories.map(score => `
+                        <div class="category-item" onclick="exploreCategory('${score.category_id}')">
+                            <div class="category-score">${Math.round(score.overall_score * 100)}%</div>
+                            <div class="category-emoji">${score.resource_categories?.icon_emoji || '📦'}</div>
+                            <div class="category-name">${score.resource_categories?.name || 'Unknown'}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        async function renderRecentActivity(widgetKey) {
+            const container = document.getElementById(`widget-content-${widgetKey}`);
+
+            if (userActivity.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <div class="empty-state-title">No recent activity</div>
+                        <div class="empty-state-text">Your activity will appear here</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const recentItems = userActivity.slice(0, 5);
+            const html = `
+                <div class="activity-feed">
+                    ${recentItems.map(activity => {
+                        const icon = getActivityIcon(activity.activity_type);
+                        const text = getActivityText(activity);
+                        const time = getTimeAgo(new Date(activity.created_at));
+                        return `
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas ${icon}"></i>
+                                </div>
+                                <div class="activity-text">${text}</div>
+                                <div class="activity-time">${time}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        async function renderRecommendations(widgetKey) {
+            const container = document.getElementById(`widget-content-${widgetKey}`);
+
+            try {
+                // Get personalized recommendations
+                const { data: recommendations } = await supabase
+                    .rpc('get_personalized_content', {
+                        p_user_id: currentUser.id,
+                        p_limit: 5
+                    });
+
+                if (!recommendations || recommendations.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-compass"></i>
+                            <div class="empty-state-title">Building recommendations</div>
+                            <div class="empty-state-text">Explore more to get personalized suggestions</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const html = `
+                    <div class="content-list">
+                        ${recommendations.map(item => `
+                            <div class="content-item" onclick="viewContent('${item.content_type}', '${item.content_id}')">
+                                <div class="content-icon">
+                                    <i class="fas ${getContentIcon(item.content_type)}"></i>
+                                </div>
+                                <div class="content-details">
+                                    <div class="content-title">${item.title}</div>
+                                    <div class="content-meta">
+                                        <span class="content-badge">${item.category_name || item.content_type}</span>
+                                        <span>${item.reason}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                container.innerHTML = '<p>Error loading recommendations</p>';
+            }
+        }
+
+        async function renderNearbyProjects(widgetKey) {
+            const container = document.getElementById(`widget-content-${widgetKey}`);
+
+            try {
+                // Get user location
+                const { data: userProfile } = await supabase
+                    .from('users')
+                    .select('latitude, longitude')
+                    .eq('id', currentUser.id)
+                    .single();
+
+                if (!userProfile?.latitude || !userProfile?.longitude) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-map-pin"></i>
+                            <div class="empty-state-title">Location not set</div>
+                            <div class="empty-state-text">Update your profile to see nearby projects</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Get nearby projects
+                const { data: projects } = await supabase
+                    .from('projects')
+                    .select('*')
+                    .eq('is_active', true)
+                    .limit(5);
+
+                if (!projects || projects.length === 0) {
+                    container.innerHTML = '<p>No nearby projects found</p>';
+                    return;
+                }
+
+                const html = `
+                    <div class="content-list">
+                        ${projects.map(project => `
+                            <div class="content-item" onclick="viewProject('${project.id}')">
+                                <div class="content-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="content-details">
+                                    <div class="content-title">${project.name}</div>
+                                    <div class="content-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i> ${project.location || 'Unknown'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading nearby projects:', error);
+                container.innerHTML = '<p>Error loading projects</p>';
+            }
+        }
+
+        async function renderTrendingResources(widgetKey) {
+            const container = document.getElementById(`widget-content-${widgetKey}`);
+
+            try {
+                // Get trending resources (most viewed in last 7 days)
+                const { data: resources } = await supabase
+                    .from('resources')
+                    .select('*, resource_categories(name, icon_emoji)')
+                    .eq('is_available', true)
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                if (!resources || resources.length === 0) {
+                    container.innerHTML = '<p>No trending resources</p>';
+                    return;
+                }
+
+                const html = `
+                    <div class="content-list">
+                        ${resources.map(resource => `
+                            <div class="content-item" onclick="viewResource('${resource.id}')">
+                                <div class="content-icon">
+                                    ${resource.resource_categories?.icon_emoji || '📦'}
+                                </div>
+                                <div class="content-details">
+                                    <div class="content-title">${resource.title}</div>
+                                    <div class="content-meta">
+                                        <span class="content-badge">${resource.resource_categories?.name || resource.resource_type}</span>
+                                        ${resource.price ? `<span>$${resource.price}</span>` : '<span>Free</span>'}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading trending resources:', error);
+                container.innerHTML = '<p>Error loading resources</p>';
+            }
+        }
+
+        async function renderWikiSuggestions(widgetKey) {
+            const container = document.getElementById(`widget-content-${widgetKey}`);
+
+            try {
+                // Get wiki guides based on user interests
+                const { data: guides } = await supabase
+                    .from('wiki_guides')
+                    .select('*, wiki_guide_categories(wiki_categories(name, icon))')
+                    .eq('status', 'published')
+                    .order('view_count', { ascending: false })
+                    .limit(5);
+
+                if (!guides || guides.length === 0) {
+                    container.innerHTML = '<p>No wiki guides available</p>';
+                    return;
+                }
+
+                const html = `
+                    <div class="content-list">
+                        ${guides.map(guide => `
+                            <div class="content-item" onclick="viewWikiGuide('${guide.slug}')">
+                                <div class="content-icon">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="content-details">
+                                    <div class="content-title">${guide.title}</div>
+                                    <div class="content-meta">
+                                        <span><i class="fas fa-eye"></i> ${guide.view_count} views</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading wiki suggestions:', error);
+                container.innerHTML = '<p>Error loading guides</p>';
+            }
+        }
+
+        // Load insights panel
+        async function loadInsights() {
+            // Total interactions
+            document.getElementById('totalInteractions').textContent = userActivity.length;
+
+            // Favorite category
+            if (affinityScores.length > 0) {
+                const topCategory = affinityScores[0];
+                document.getElementById('favoriteCategory').textContent =
+                    topCategory.resource_categories?.icon_emoji || '🌱';
+                document.getElementById('categoryEngagement').textContent =
+                    `${Math.round(topCategory.overall_score * 100)}% engagement`;
+            }
+
+            // Projects viewed
+            const projectViews = userActivity.filter(a =>
+                a.content_type === 'project' && a.activity_type === 'view'
+            ).length;
+            document.getElementById('projectsViewed').textContent = projectViews;
+
+            // Community rank (simplified)
+            const activityLevel = userActivity.length > 50 ? 'Very Active' :
+                                 userActivity.length > 20 ? 'Active' :
+                                 userActivity.length > 5 ? 'Getting Started' : 'New';
+            document.getElementById('communityRank').textContent = activityLevel;
+        }
+
+        // Track user activity
+        async function trackActivity(activityType, contentType, contentId, metadata = {}) {
+            try {
+                await supabase.rpc('track_user_activity', {
+                    p_user_id: currentUser.id,
+                    p_activity_type: activityType,
+                    p_content_type: contentType,
+                    p_content_id: contentId,
+                    p_metadata: metadata
+                });
+            } catch (error) {
+                console.error('Error tracking activity:', error);
+            }
+        }
+
+        // Utility functions
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        function getActivityIcon(type) {
+            const icons = {
+                view: 'fa-eye',
+                click: 'fa-mouse-pointer',
+                search: 'fa-search',
+                favorite: 'fa-heart',
+                create: 'fa-plus',
+                share: 'fa-share',
+                comment: 'fa-comment',
+                download: 'fa-download'
+            };
+            return icons[type] || 'fa-circle';
+        }
+
+        function getActivityText(activity) {
+            const actions = {
+                view: 'Viewed',
+                click: 'Clicked on',
+                search: 'Searched for',
+                favorite: 'Favorited',
+                create: 'Created',
+                share: 'Shared',
+                comment: 'Commented on',
+                download: 'Downloaded'
+            };
+            const action = actions[activity.activity_type] || activity.activity_type;
+            return `${action} a ${activity.content_type}`;
+        }
+
+        function getContentIcon(type) {
+            const icons = {
+                project: 'fa-leaf',
+                resource: 'fa-box',
+                wiki_guide: 'fa-book',
+                event: 'fa-calendar',
+                user_profile: 'fa-user'
+            };
+            return icons[type] || 'fa-file';
+        }
+
+        // Navigation functions
+        window.viewContent = function(type, id) {
+            trackActivity('click', type, id);
+            // Navigate based on content type
+            switch(type) {
+                case 'project':
+                    window.location.href = `project.html?id=${id}`;
+                    break;
+                case 'resource':
+                    window.location.href = `resources.html?id=${id}`;
+                    break;
+                case 'wiki_guide':
+                    window.location.href = `wiki.html?guide=${id}`;
+                    break;
+            }
+        };
+
+        window.viewProject = function(id) {
+            trackActivity('click', 'project', id);
+            window.location.href = `project.html?id=${id}`;
+        };
+
+        window.viewResource = function(id) {
+            trackActivity('click', 'resource', id);
+            window.location.href = `resources.html?id=${id}`;
+        };
+
+        window.viewWikiGuide = function(slug) {
+            trackActivity('click', 'wiki_guide', null, { slug });
+            window.location.href = `wiki.html?guide=${slug}`;
+        };
+
+        window.exploreCategory = function(categoryId) {
+            trackActivity('click', 'category_page', categoryId);
+            window.location.href = `resources.html?category=${categoryId}`;
+        };
+
+        // Dashboard management functions
+        window.toggleCustomization = function() {
+            const panel = document.getElementById('customizationPanel');
+            panel.classList.toggle('open');
+        };
+
+        window.refreshDashboard = async function() {
+            await initDashboard();
+        };
+
+        window.viewProfile = function() {
+            window.location.href = 'profile.html';
+        };
+
+        window.refreshWidget = async function(widgetKey) {
+            const definition = widgetDefinitions[widgetKey];
+            if (definition) {
+                await definition.render(widgetKey);
+            }
+        };
+
+        window.toggleWidget = function(widgetKey) {
+            const content = document.getElementById(`widget-content-${widgetKey}`);
+            const isExpanded = content.style.display !== 'none';
+            content.style.display = isExpanded ? 'none' : 'block';
+
+            // Update config
+            if (dashboardConfig.widgets[widgetKey]) {
+                dashboardConfig.widgets[widgetKey].expanded = !isExpanded;
+                saveDashboardConfig();
+            }
+        };
+
+        // Populate customization panel
+        function populateCustomizationPanel() {
+            const container = document.getElementById('widgetToggles');
+            container.innerHTML = '';
+
+            Object.entries(widgetDefinitions).forEach(([key, definition]) => {
+                const isVisible = dashboardConfig.widgets[key]?.visible !== false;
+                const toggle = document.createElement('div');
+                toggle.className = 'widget-toggle';
+                toggle.innerHTML = `
+                    <span>${definition.title}</span>
+                    <div class="toggle-switch ${isVisible ? 'active' : ''}"
+                         onclick="toggleWidgetVisibility('${key}', this)"></div>
+                `;
+                container.appendChild(toggle);
+            });
+        }
+
+        window.toggleWidgetVisibility = async function(widgetKey, element) {
+            element.classList.toggle('active');
+            const isVisible = element.classList.contains('active');
+
+            // Update config
+            if (!dashboardConfig.widgets[widgetKey]) {
+                dashboardConfig.widgets[widgetKey] = {};
+            }
+            dashboardConfig.widgets[widgetKey].visible = isVisible;
+
+            await saveDashboardConfig();
+            await loadDashboardWidgets();
+        };
+
+        window.updateDensity = async function(density) {
+            dashboardConfig.content_density = density;
+            await saveDashboardConfig();
+            // Apply density styles
+            document.body.className = `density-${density}`;
+        };
+
+        window.updateTheme = async function(theme) {
+            dashboardConfig.theme_preference = theme;
+            await saveDashboardConfig();
+            // Apply theme (would need more implementation)
+        };
+
+        // Save dashboard configuration
+        async function saveDashboardConfig() {
+            try {
+                await supabase
+                    .from('user_dashboard_config')
+                    .update({
+                        widgets: dashboardConfig.widgets,
+                        content_density: dashboardConfig.content_density,
+                        theme_preference: dashboardConfig.theme_preference,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('user_id', currentUser.id);
+            } catch (error) {
+                console.error('Error saving dashboard config:', error);
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html>
