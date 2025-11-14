@@ -197,17 +197,15 @@ function renderLocationList(locations) {
   // Add click handlers to location items
   document.querySelectorAll('.location-item').forEach(item => {
     item.addEventListener('click', function() {
+      const locationId = this.dataset.locationId;
       const lat = parseFloat(this.dataset.lat);
       const lng = parseFloat(this.dataset.lng);
 
-      // Pan to location on map
-      map.setView([lat, lng], 15);
+      // Zoom to location on map (higher zoom for better detail)
+      map.setView([lat, lng], 16);
 
-      // Find and open marker popup
-      const marker = markers.find(m => {
-        const latlng = m.getLatLng();
-        return Math.abs(latlng.lat - lat) < 0.0001 && Math.abs(latlng.lng - lng) < 0.0001;
-      });
+      // Find and open marker popup using locationId
+      const marker = markers.find(m => m.locationId === locationId);
 
       if (marker) {
         marker.openPopup();
@@ -500,11 +498,26 @@ function handleLocationHash() {
           console.log(`✅ Opened popup for ${location.name}`);
         }
 
-        // Highlight the location in the list if visible
+        // Highlight the location in the list and scroll to top
         const locationItem = document.querySelector(`[data-location-id="${locationId}"]`);
         if (locationItem) {
-          locationItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Scroll the location to the top of the list
+          const locationList = document.getElementById('locationList');
+          if (locationList) {
+            // Move the clicked location to the top of the list visually
+            const parent = locationItem.parentNode;
+            parent.insertBefore(locationItem, parent.firstChild);
+
+            // Scroll the list container to top
+            locationList.scrollTop = 0;
+
+            // Also scroll the page to show the map
+            document.querySelector('.map-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
+          // Highlight with background color
           locationItem.style.backgroundColor = 'var(--wiki-primary-light, #e8f5e9)';
+          locationItem.style.transition = 'background-color 0.5s ease';
           setTimeout(() => {
             locationItem.style.backgroundColor = '';
           }, 3000);
