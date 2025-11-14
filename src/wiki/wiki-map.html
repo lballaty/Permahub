@@ -455,5 +455,15 @@
       }
     }
   </style>
+
+  <!-- Load shared wiki functionality and version management -->
+  <script src="js/wiki.js"></script>
+  <script type="module">
+    import { displayVersionInHeader, VERSION_DISPLAY } from '../js/version.js';
+
+    // Display version in header
+    displayVersionInHeader();
+    console.log(`🚀 Wiki Map ${VERSION_DISPLAY}: Page initialized`);
+  </script>
 </body>
 </html>

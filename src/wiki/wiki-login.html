@@ -282,5 +282,15 @@
       alert('This is a mockup. In production, this would send a magic link via Supabase Auth.');
     });
   </script>
+
+  <!-- Load shared wiki functionality and version management -->
+  <script src="js/wiki.js"></script>
+  <script type="module">
+    import { displayVersionInHeader, VERSION_DISPLAY } from '../js/version.js';
+
+    // Display version in header
+    displayVersionInHeader();
+    console.log(`🚀 Wiki Login ${VERSION_DISPLAY}: Page initialized`);
+  </script>
 </body>
 </html>

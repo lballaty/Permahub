@@ -1,0 +1,108 @@
+-- =====================================================
+-- Seed File: 004_future_events_seed.sql
+-- Description: Add real future events for 2025-2026
+-- Author: Libor Ballaty <libor@arionetworks.com>
+-- Date: 2025-01-14
+-- =====================================================
+
+-- Clear existing future events
+DELETE FROM wiki_events WHERE event_date >= '2025-01-15';
+
+-- January 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Winter Garden Planning Workshop', 'winter-garden-planning-2025', 'Learn how to plan and prepare your garden for winter crops. Topics include cold frames, row covers, and hardy vegetable varieties. Instructor: Maria Silva', 'workshop', '2025-01-25', '10:00:00', '13:00:00', 'Urban Farm Lisboa', 'Rua do Campo Alegre, Lisboa, Portugal', 25, 15.00, '€15', 'https://urbanfarmlisboa.pt/workshops', 'published', NOW()),
+('Permaculture Design Certificate - Module 1', 'pdc-module-1-jan-2025', 'First module of our comprehensive PDC course covering ethics, principles, and design methodology. Led by Eco Caminhos Team.', 'course', '2025-01-28', '09:00:00', '17:00:00', 'Eco Caminhos', 'Nova Friburgo, RJ, Brazil', 20, 150.00, 'R$150', 'https://ecocaminhos.com/pdc', 'published', NOW());
+
+-- February 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Seed Starting & Propagation', 'seed-starting-feb-2025', 'Master the art of starting seeds indoors and propagation techniques for the upcoming growing season. Led by Jan Novák.', 'workshop', '2025-02-08', '14:00:00', '17:00:00', 'Permakultura CZ', 'Prague, Czech Republic', 30, 20.00, '500 CZK', 'https://www.permakultura.cz/akce', 'published', NOW()),
+('Community Composting Day', 'community-composting-feb-2025', 'Join us for a hands-on community workday to build and maintain our neighborhood composting systems.', 'workday', '2025-02-15', '09:00:00', '14:00:00', 'Transition Town Totnes', 'Totnes, Devon, UK', 50, 0.00, 'Free', 'https://www.transitiontowntotnes.org/events', 'published', NOW()),
+('Natural Building Workshop: Cob Oven', 'cob-oven-workshop-feb-2025', 'Learn to build a traditional cob oven for outdoor baking and community gatherings. Sunseed Desert Technology team.', 'workshop', '2025-02-22', '09:30:00', '17:30:00', 'Sunseed Desert Technology', 'Los Molinos del Río de Aguas, Almería, Spain', 15, 85.00, '€85', 'https://sunseed.org.uk/workshops', 'published', NOW());
+
+-- March 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Spring Equinox Celebration & Seed Swap', 'spring-equinox-2025', 'Celebrate the spring equinox with a community seed swap, potluck, and garden tours. Bring seeds to share!', 'meetup', '2025-03-20', '11:00:00', '16:00:00', 'Quinta do Vale', 'Sintra, Portugal', 100, 5.00, '€5', 'https://quintadovale.pt/events', 'published', NOW()),
+('Permaculture Farm Tour', 'farm-tour-march-2025', 'Visit our demonstration site to see permaculture principles in action across 5 hectares. Guided by Charles Hervé-Gruyer.', 'tour', '2025-03-15', '10:00:00', '13:00:00', 'Ferme du Bec Hellouin', 'Normandy, France', 25, 12.00, '€12', 'https://www.fermedubec.com/en/', 'published', NOW()),
+('Water Harvesting Systems Design', 'water-harvesting-march-2025', 'Design and install rainwater harvesting systems including swales, ponds, and storage tanks. With Geoff Lawton.', 'workshop', '2025-03-29', '09:00:00', '17:00:00', 'Permaculture Plus', 'Byron Bay, NSW, Australia', 35, 120.00, 'AU$120', 'https://www.permacultureplus.com.au/courses', 'published', NOW());
+
+-- April 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Urban Permaculture Intensive', 'urban-permaculture-apr-2025', 'Transform small spaces into productive gardens using vertical gardening, container growing, and intensive methods.', 'course', '2025-04-05', '09:00:00', '17:00:00', 'Growing Home', 'Chicago, IL, USA', 20, 75.00, '$75', 'https://growinghomeinc.org/events', 'published', NOW()),
+('Mushroom Cultivation Workshop', 'mushroom-cultivation-apr-2025', 'Learn to grow oyster, shiitake, and other gourmet mushrooms using logs, straw, and coffee grounds. With Willie Crosby.', 'workshop', '2025-04-12', '13:00:00', '17:00:00', 'Fungi Ally', 'Hadley, MA, USA', 25, 65.00, '$65', 'https://fungially.com/pages/workshops', 'published', NOW()),
+('Earth Day Community Planting', 'earth-day-planting-2025', 'Join TreePeople for Earth Day to plant native trees and create wildlife habitat corridors.', 'workday', '2025-04-22', '09:00:00', '15:00:00', 'TreePeople', 'Los Angeles, CA, USA', 200, 0.00, 'Free', 'https://www.treepeople.org/calendar', 'published', NOW());
+
+-- May 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Beekeeping for Beginners', 'beekeeping-basics-may-2025', 'Introduction to natural beekeeping, hive management, and supporting pollinators in your garden. With Heidi Herrmann.', 'workshop', '2025-05-10', '10:00:00', '16:00:00', 'The Natural Beekeeping Trust', 'Somerset, UK', 20, 95.00, '£95', 'https://www.naturalbeekeepingtrust.org/events', 'published', NOW()),
+('Permaculture Convergence 2025', 'permaculture-convergence-2025', 'Annual gathering of permaculture practitioners sharing knowledge, skills, and community at Findhorn Foundation.', 'meetup', '2025-05-23', '09:00:00', '21:00:00', 'Findhorn Foundation', 'Moray, Scotland', 300, 45.00, '£45', 'https://www.findhorn.org/events', 'published', NOW()),
+('Food Forest Design & Planting', 'food-forest-may-2025', 'Design and plant a multi-layered food forest system with fruit trees, shrubs, and groundcovers. With Erik Ohlsen.', 'workshop', '2025-05-31', '09:00:00', '17:00:00', 'Permaculture Artisans', 'Sebastopol, CA, USA', 25, 125.00, '$125', 'https://permacultureartisans.com/events', 'published', NOW());
+
+-- June 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Summer Solstice Herb Walk', 'solstice-herb-walk-2025', 'Celebrate the longest day with a guided herb walk identifying and harvesting medicinal plants. Led by Herb Pharm educators.', 'tour', '2025-06-21', '06:00:00', '09:00:00', 'Herb Pharm', 'Williams, OR, USA', 30, 25.00, '$25', 'https://www.herb-pharm.com/events', 'published', NOW()),
+('Renewable Energy for Homesteads', 'renewable-energy-june-2025', 'Solar, wind, and micro-hydro systems for off-grid and grid-tied applications. Solar Living Institute workshop.', 'workshop', '2025-06-14', '10:00:00', '17:00:00', 'Solar Living Institute', 'Hopland, CA, USA', 20, 150.00, '$150', 'https://www.solarliving.org/workshops', 'published', NOW()),
+('Community Supported Agriculture Open Day', 'csa-open-day-2025', 'Visit Full Belly Farm CSA, meet the farmers, and learn about seasonal vegetable production.', 'tour', '2025-06-28', '10:00:00', '14:00:00', 'Full Belly Farm', 'Guinda, CA, USA', 100, 0.00, 'Free', 'https://fullbellyfarm.com/events', 'published', NOW());
+
+-- July 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Soil Biology & Composting Intensive', 'soil-biology-july-2025', 'Deep dive into soil ecology, composting science, and building healthy living soils at Rodale Institute.', 'course', '2025-07-12', '09:00:00', '17:00:00', 'Rodale Institute', 'Kutztown, PA, USA', 30, 175.00, '$175', 'https://rodaleinstitute.org/education', 'published', NOW()),
+('Permaculture Kids Camp', 'kids-camp-july-2025', 'Week-long day camp introducing children to permaculture through hands-on activities and nature connection. Urban Tilth.', 'course', '2025-07-21', '09:00:00', '15:00:00', 'Urban Tilth', 'Richmond, CA, USA', 25, 200.00, '$200/week', 'https://www.urbantilth.org/programs', 'published', NOW()),
+('Greywater Systems Installation', 'greywater-july-2025', 'Design and install laundry-to-landscape and other simple greywater systems. With Laura Allen of Greywater Action.', 'workshop', '2025-07-26', '09:00:00', '17:00:00', 'Greywater Action', 'Oakland, CA, USA', 20, 125.00, '$125', 'https://greywateraction.org/workshops', 'published', NOW());
+
+-- August 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Preserving the Harvest', 'preserving-harvest-aug-2025', 'Learn canning, fermenting, drying, and freezing techniques to preserve your garden bounty. Stone Barns Center.', 'workshop', '2025-08-09', '10:00:00', '16:00:00', 'Stone Barns Center', 'Pocantico Hills, NY, USA', 25, 95.00, '$95', 'https://www.stonebarnscenter.org/engage', 'published', NOW()),
+('Bamboo Construction Workshop', 'bamboo-construction-aug-2025', 'Build structures using bamboo - selection, treatment, joinery, and design principles. With Jon Jandai at Pun Pun.', 'workshop', '2025-08-16', '09:00:00', '17:00:00', 'Pun Pun Organic Farm', 'Chiang Mai, Thailand', 20, 100.00, '3000 THB', 'https://punpunthailand.org/workshops', 'published', NOW()),
+('Permablitz: School Garden', 'permablitz-school-aug-2025', 'Transform a school yard into an edible garden and outdoor classroom. Join Permablitz Melbourne network.', 'workday', '2025-08-23', '09:00:00', '16:00:00', 'Permablitz Melbourne', 'Melbourne, VIC, Australia', 50, 0.00, 'Free', 'https://www.permablitz.net/events', 'published', NOW());
+
+-- September 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Autumn Equinox Harvest Festival', 'harvest-festival-sep-2025', 'Celebrate the harvest with workshops, farm tours, local food, and live music at Polyface Farm with Joel Salatin.', 'meetup', '2025-09-22', '10:00:00', '18:00:00', 'Polyface Farm', 'Swoope, VA, USA', 500, 20.00, '$20', 'https://www.polyfacefarms.com/events', 'published', NOW()),
+('Holistic Orchard Management', 'orchard-management-sep-2025', 'Natural approaches to fruit tree care including pruning, pest management, and soil health. With Michael Phillips.', 'workshop', '2025-09-13', '09:00:00', '17:00:00', 'Michael Phillips Orchard', 'Groveton, NH, USA', 25, 110.00, '$110', 'https://www.groworganicapples.com/workshops', 'published', NOW()),
+('Earthship Academy', 'earthship-academy-sep-2025', 'One-month intensive training in sustainable building using recycled materials at Earthship Biotecture.', 'course', '2025-09-01', '09:00:00', '17:00:00', 'Earthship Biotecture', 'Taos, NM, USA', 40, 2500.00, '$2500', 'https://www.earthshipglobal.com/academy', 'published', NOW());
+
+-- October 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Wildcrafting & Forest Medicine', 'forest-medicine-oct-2025', 'Sustainable wildcrafting practices and making herbal preparations from forest plants. Wilderness Awareness School.', 'workshop', '2025-10-11', '09:00:00', '16:00:00', 'Wilderness Awareness School', 'Duvall, WA, USA', 20, 125.00, '$125', 'https://www.wildernessawareness.org/programs', 'published', NOW()),
+('Cover Crops & Green Manures', 'cover-crops-oct-2025', 'Select and manage cover crops for soil improvement, nitrogen fixation, and weed suppression. UC Davis Student Farm.', 'workshop', '2025-10-18', '10:00:00', '14:00:00', 'UC Davis Student Farm', 'Davis, CA, USA', 30, 35.00, '$35', 'https://asi.ucdavis.edu/programs/sf', 'published', NOW()),
+('Appropriate Technology Fair', 'tech-fair-oct-2025', 'Showcase of low-tech and appropriate technology solutions for sustainable living at Aprovecho Research Center.', 'meetup', '2025-10-25', '10:00:00', '17:00:00', 'Aprovecho Research Center', 'Cottage Grove, OR, USA', 200, 15.00, '$15', 'https://www.aprovecho.org/events', 'published', NOW());
+
+-- November 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Winter Preparation Workshop', 'winter-prep-nov-2025', 'Prepare gardens, greenhouses, and homesteads for winter including mulching, protection, and storage. With Eliot Coleman.', 'workshop', '2025-11-08', '10:00:00', '15:00:00', 'Four Season Farm', 'Harborside, ME, USA', 25, 65.00, '$65', 'https://www.fourseasonfarm.com/workshops', 'published', NOW()),
+('Biochar Production & Application', 'biochar-nov-2025', 'Make biochar using various methods and learn about its benefits for soil carbon sequestration. Carbon Gold workshop.', 'workshop', '2025-11-15', '09:00:00', '16:00:00', 'Carbon Gold', 'Bristol, UK', 20, 85.00, '£85', 'https://www.carbongold.com/workshops', 'published', NOW()),
+('Thanksgiving Community Feast', 'thanksgiving-feast-2025', 'Community potluck celebrating local food and sharing gratitude for the harvest at Occidental Arts & Ecology Center.', 'meetup', '2025-11-27', '12:00:00', '16:00:00', 'Occidental Arts & Ecology', 'Occidental, CA, USA', 150, 10.00, '$10', 'https://oaec.org/events', 'published', NOW());
+
+-- December 2025
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Greenhouse Management in Winter', 'greenhouse-winter-dec-2025', 'Optimize greenhouse production during winter months - heating, ventilation, and crop selection. Growing Power workshop.', 'workshop', '2025-12-06', '10:00:00', '14:00:00', 'Growing Power', 'Milwaukee, WI, USA', 20, 55.00, '$55', 'https://www.growingpower.org/education', 'published', NOW()),
+('Year-End Reflection & Planning', 'year-planning-dec-2025', 'Review the growing season, celebrate successes, and plan for next years garden at Common Ground Garden.', 'meetup', '2025-12-13', '14:00:00', '17:00:00', 'Common Ground Garden', 'Palo Alto, CA, USA', 30, 0.00, 'Free', 'https://www.commongroundgarden.org/events', 'published', NOW()),
+('Winter Solstice Seed Blessing', 'solstice-seeds-dec-2025', 'Honor the return of light with a seed blessing ceremony and potluck at Seed Savers Exchange.', 'meetup', '2025-12-21', '16:00:00', '20:00:00', 'Seed Savers Exchange', 'Decorah, IA, USA', 50, 15.00, '$15', 'https://www.seedsavers.org/events', 'published', NOW());
+
+-- January 2026
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('New Year Garden Planning', 'garden-planning-jan-2026', 'Start the new year with comprehensive garden planning including crop rotation and succession planting. Brooklyn Botanic Garden.', 'workshop', '2026-01-10', '10:00:00', '14:00:00', 'Brooklyn Botanic Garden', 'Brooklyn, NY, USA', 30, 45.00, '$45', 'https://www.bbg.org/education', 'published', NOW()),
+('Pruning Workshop: Fruit Trees', 'pruning-workshop-jan-2026', 'Winter pruning techniques for fruit trees to improve health and production. Portland Fruit Tree Project.', 'workshop', '2026-01-17', '09:00:00', '12:00:00', 'Portland Fruit Tree Project', 'Portland, OR, USA', 25, 35.00, '$35', 'https://www.portlandfruit.org/events', 'published', NOW()),
+('Permaculture Design Course Start', 'pdc-start-jan-2026', 'Begin a comprehensive 72-hour PDC spread over weekends through March. Permaculture Institute of Santa Fe.', 'course', '2026-01-24', '09:00:00', '17:00:00', 'Permaculture Institute', 'Santa Fe, NM, USA', 25, 950.00, '$950', 'https://www.permaculture.org/courses', 'published', NOW());
+
+-- February 2026
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Maple Syrup Workshop', 'maple-syrup-feb-2026', 'Learn to tap maple trees and make syrup using traditional and modern methods. Cornell Maple Program.', 'workshop', '2026-02-07', '10:00:00', '15:00:00', 'Cornell Maple Program', 'Ithaca, NY, USA', 20, 40.00, '$40', 'https://blogs.cornell.edu/cornellmaple', 'published', NOW()),
+('Seed Starting Marathon', 'seed-starting-feb-2026', 'All-day seed starting workshop preparing for the upcoming growing season. Johnny Seeds education team.', 'workshop', '2026-02-14', '09:00:00', '17:00:00', 'Johnny Seeds', 'Winslow, ME, USA', 30, 65.00, '$65', 'https://www.johnnyseeds.com/growers-library', 'published', NOW()),
+('Aquaponics System Design', 'aquaponics-feb-2026', 'Design and build small-scale aquaponics systems combining fish and vegetable production. Growing Warriors.', 'workshop', '2026-02-21', '10:00:00', '17:00:00', 'Growing Warriors', 'Lexington, KY, USA', 15, 125.00, '$125', 'https://growingwarriors.org/training', 'published', NOW()),
+('Biodynamic Preparations Workshop', 'biodynamic-feb-2026', 'Make and apply biodynamic preparations for soil and compost enhancement. Josephine Porter Institute.', 'workshop', '2026-02-28', '09:00:00', '16:00:00', 'Josephine Porter Institute', 'Woolwine, VA, USA', 20, 75.00, '$75', 'https://www.jpibiodynamics.org/events', 'published', NOW());
+
+-- March 2026
+INSERT INTO wiki_events (title, slug, description, event_type, event_date, start_time, end_time, location_name, location_address, max_attendees, price, price_display, registration_url, status, created_at) VALUES
+('Spring Grafting Workshop', 'grafting-workshop-mar-2026', 'Learn grafting techniques to propagate fruit trees and create multi-variety trees. California Rare Fruit Growers.', 'workshop', '2026-03-07', '10:00:00', '15:00:00', 'California Rare Fruit Growers', 'Santa Clara, CA, USA', 25, 55.00, '$55', 'https://crfg.org/events', 'published', NOW()),
+('International Permaculture Day', 'permaculture-day-2026', 'Global celebration with local events, demonstrations, and community activities worldwide.', 'meetup', '2026-03-14', '10:00:00', '16:00:00', 'Various Locations', 'Worldwide', 1000, 0.00, 'Free', 'https://www.permacultureday.org', 'published', NOW()),
+('Spring Equinox Planting Festival', 'equinox-planting-2026', 'Welcome spring with community planting, workshops, and seed exchange at Esalen Institute.', 'meetup', '2026-03-20', '09:00:00', '17:00:00', 'Esalen Institute', 'Big Sur, CA, USA', 100, 25.00, '$25', 'https://www.esalen.org/workshops', 'published', NOW());
+
+-- Log the number of events added
+DO $$
+DECLARE
+    event_count INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO event_count FROM wiki_events WHERE event_date >= '2025-01-15';
+    RAISE NOTICE 'Added % future events for 2025-2026', event_count;
+END $$;

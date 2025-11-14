@@ -479,5 +479,15 @@
       alert('Export favorites (mockup) - Would generate PDF/CSV with all your saved content');
     });
   </script>
+
+  <!-- Load shared wiki functionality and version management -->
+  <script src="js/wiki.js"></script>
+  <script type="module">
+    import { displayVersionInHeader, VERSION_DISPLAY } from '../js/version.js';
+
+    // Display version in header
+    displayVersionInHeader();
+    console.log(`🚀 Wiki Favorites ${VERSION_DISPLAY}: Page initialized`);
+  </script>
 </body>
 </html>

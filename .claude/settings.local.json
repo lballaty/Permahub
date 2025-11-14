@@ -29,7 +29,8 @@
       "Bash(jobs:*)",
       "Bash(curl:*)",
       "Bash(npm run dev:*)",
-      "Bash(npx playwright test:*)"
+      "Bash(npx playwright test:*)",
+      "Bash(supabase db seed:*)"
     ],
     "deny": [],
     "ask": []
