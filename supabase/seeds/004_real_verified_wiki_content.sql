@@ -571,7 +571,7 @@ Use coffee grounds within 24 hours of brewing. If not using immediately, freeze 
 2. Add mushroom spawn evenly throughout
 3. Mix thoroughly but gently
 4. Fill container leaving 4 inches headspace
-5. Pack lightly (don't compress too much)
+5. Pack lightly (don''t compress too much)
 
 ### Step 4: Create Air Exchange
 
@@ -824,4 +824,7 @@ WHERE slug IN (
   'growing-oyster-mushrooms-coffee-grounds-2025'
 );
 
-RAISE NOTICE 'Real verified wiki content added successfully with source citations!';
+DO $$
+BEGIN
+  RAISE NOTICE 'Real verified wiki content added successfully with source citations!';
+END $$;
