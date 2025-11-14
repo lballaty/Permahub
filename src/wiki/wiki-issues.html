@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Issue - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .issue-type-card {
+      padding: 1rem;
+      border: 2px solid var(--wiki-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .issue-type-card:hover {
+      border-color: var(--wiki-primary);
+      background: var(--wiki-bg-secondary);
+      transform: translateY(-2px);
+    }
+
+    .issue-type-card.selected {
+      border-color: var(--wiki-primary);
+      background: var(--wiki-primary-light, #e8f5e9);
+    }
+
+    .issue-type-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .severity-option {
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--wiki-border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .severity-option:hover {
+      transform: scale(1.05);
+    }
+
+    .severity-option.selected {
+      border-color: currentColor;
+      font-weight: bold;
+    }
+
+    .severity-critical { color: #d32f2f; }
+    .severity-high { color: #f57c00; }
+    .severity-medium { color: #fbc02d; }
+    .severity-low { color: #689f38; }
+    .severity-trivial { color: #616161; }
+
+    .issue-list-item {
+      padding: 1rem;
+      border-bottom: 1px solid var(--wiki-border);
+      transition: background 0.2s;
+    }
+
+    .issue-list-item:hover {
+      background: var(--wiki-bg-secondary);
+    }
+
+    .issue-status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-open { background: #fff3e0; color: #e65100; }
+    .status-in_progress { background: #e3f2fd; color: #0277bd; }
+    .status-resolved { background: #e8f5e9; color: #2e7d32; }
+    .status-closed { background: #f5f5f5; color: #616161; }
+
+    .screenshot-preview {
+      max-width: 200px;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border: 2px solid var(--wiki-border);
+    }
+
+    .upvote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--wiki-border);
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upvote-btn:hover {
+      background: var(--wiki-bg-secondary);
+      transform: translateY(-2px);
+    }
+
+    .upvote-btn.voted {
+      background: var(--wiki-primary-light, #e8f5e9);
+      border-color: var(--wiki-primary);
+      color: var(--wiki-primary);
+    }
+
+    .issue-tabs {
+      display: flex;
+      gap: 1rem;
+      border-bottom: 2px solid var(--wiki-border);
+      margin-bottom: 2rem;
+    }
+
+    .issue-tab {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .issue-tab:hover {
+      background: var(--wiki-bg-secondary);
+    }
+
+    .issue-tab.active {
+      border-bottom-color: var(--wiki-primary);
+      color: var(--wiki-primary);
+      font-weight: 500;
+    }
+
+    .comment-box {
+      padding: 1rem;
+      background: var(--wiki-bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--wiki-text-muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-map.html">Locations</a></li>
+        <li><a href="wiki-favorites.html">My Favorites</a></li>
+        <li><a href="wiki-issues.html" class="active">Issues</a></li>
+        <li>
+          <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+              U
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
+            <i class="fas fa-bug"></i> Issue Tracker
+          </h1>
+          <p class="text-muted">Report bugs, suggest features, and help improve the platform</p>
+        </div>
+        <button class="btn btn-primary" onclick="showReportForm()">
+          <i class="fas fa-plus"></i> Report New Issue
+        </button>
+      </div>
+    </div>
+
+    <!-- Issue Stats -->
+    <div class="grid grid-4 mb-3">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);" id="openCount">0</div>
+        <div class="text-muted">Open Issues</div>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem; font-weight: bold; color: #0277bd;" id="progressCount">0</div>
+        <div class="text-muted">In Progress</div>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem; font-weight: bold; color: #2e7d32;" id="resolvedCount">0</div>
+        <div class="text-muted">Resolved</div>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem; font-weight: bold; color: #616161;" id="totalCount">0</div>
+        <div class="text-muted">Total Issues</div>
+      </div>
+    </div>
+
+    <!-- Issue Tabs -->
+    <div class="issue-tabs">
+      <div class="issue-tab active" data-tab="all">All Issues</div>
+      <div class="issue-tab" data-tab="my">My Issues</div>
+      <div class="issue-tab" data-tab="bugs">Bugs</div>
+      <div class="issue-tab" data-tab="features">Features</div>
+      <div class="issue-tab" data-tab="resolved">Resolved</div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="card mb-3">
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+        <select class="form-input" style="width: auto;" id="filterSeverity">
+          <option value="">All Severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+          <option value="trivial">Trivial</option>
+        </select>
+        <select class="form-input" style="width: auto;" id="filterStatus">
+          <option value="">All Statuses</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+        <select class="form-input" style="width: auto;" id="sortBy">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="most-voted">Most Voted</option>
+          <option value="severity">By Severity</option>
+        </select>
+        <input type="text" class="form-input" placeholder="Search issues..." id="searchIssues" style="flex: 1; min-width: 200px;">
+      </div>
+    </div>
+
+    <!-- Issues List -->
+    <div id="issuesList">
+      <!-- Issues will be loaded here -->
+      <div class="card" style="text-align: center; padding: 3rem;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary);"></i>
+        <p class="text-muted" style="margin-top: 1rem;">Loading issues...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Report Issue Modal -->
+  <div id="reportModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+    <div style="background: white; max-width: 800px; margin: 2rem auto; padding: 2rem; border-radius: 12px;">
+      <div class="flex-between mb-3">
+        <h2><i class="fas fa-bug"></i> Report New Issue</h2>
+        <button class="btn btn-outline btn-small" onclick="hideReportForm()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form id="issueForm">
+        <!-- Issue Type Selection -->
+        <div class="form-group">
+          <label class="form-label">Issue Type *</label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
+            <div class="issue-type-card" data-type="bug">
+              <div class="issue-type-icon">🐛</div>
+              <div>Bug</div>
+            </div>
+            <div class="issue-type-card" data-type="feature">
+              <div class="issue-type-icon">✨</div>
+              <div>Feature</div>
+            </div>
+            <div class="issue-type-card" data-type="improvement">
+              <div class="issue-type-icon">💡</div>
+              <div>Improvement</div>
+            </div>
+            <div class="issue-type-card" data-type="ui">
+              <div class="issue-type-icon">🎨</div>
+              <div>UI/UX</div>
+            </div>
+            <div class="issue-type-card" data-type="performance">
+              <div class="issue-type-icon">⚡</div>
+              <div>Performance</div>
+            </div>
+            <div class="issue-type-card" data-type="security">
+              <div class="issue-type-icon">🔒</div>
+              <div>Security</div>
+            </div>
+          </div>
+          <input type="hidden" id="issueType" required>
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="issueTitle" required placeholder="Brief description of the issue">
+        </div>
+
+        <!-- Description with Better Instructions -->
+        <div class="form-group">
+          <label class="form-label">Description *</label>
+          <div style="background: #e3f2fd; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem;">
+            <i class="fas fa-info-circle" style="color: #1976d2;"></i>
+            <strong>How to write a good bug report:</strong><br>
+            1. <strong>What I did:</strong> Describe the steps you took<br>
+            2. <strong>What I expected:</strong> What should have happened<br>
+            3. <strong>What actually happened:</strong> The actual result or error<br>
+            4. <strong>How to reproduce:</strong> Step-by-step instructions to recreate the issue
+          </div>
+          <textarea class="form-input" id="issueDescription" rows="8" required placeholder="Example:
+1. What I did: Clicked the 'Register' button on the Food Forest event
+2. What I expected: A registration form to appear
+3. What actually happened: Page showed error 'Cannot read property id of undefined'
+4. Steps to reproduce: Go to home page → Click any event's Register button"></textarea>
+        </div>
+
+        <!-- Error Logs / Console Output -->
+        <div class="form-group">
+          <label class="form-label">Error Logs or Console Output (optional)</label>
+          <div style="background: #fff3e0; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem;">
+            <i class="fas fa-lightbulb" style="color: #f57c00;"></i>
+            <strong>How to get console logs:</strong> Press F12 → Go to Console tab → Copy any red error messages
+          </div>
+          <textarea class="form-input" id="errorLogs" rows="4" placeholder="Paste any error messages, console logs, or relevant technical details here..."></textarea>
+        </div>
+
+        <!-- Log File Upload -->
+        <div class="form-group">
+          <label class="form-label">Attach Log File (optional)</label>
+          <input type="file" id="logFile" accept=".log,.txt,.json" style="display: none;">
+          <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer;" onclick="document.getElementById('logFile').click()" id="logFileDropZone">
+            <i class="fas fa-file-alt" style="font-size: 2rem; color: var(--wiki-text-muted);"></i>
+            <p class="text-muted" style="margin: 0.5rem 0;">Click to upload log file or drag & drop</p>
+            <small class="text-muted">Supports: .log, .txt, .json files</small>
+          </div>
+          <div id="logFilePreview" style="display: none; margin-top: 1rem; padding: 1rem; background: var(--wiki-bg-secondary); border-radius: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span><i class="fas fa-file"></i> <span id="logFileName"></span></span>
+              <button type="button" class="btn btn-outline btn-small" onclick="removeLogFile()">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Severity -->
+        <div class="form-group">
+          <label class="form-label">Severity</label>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div class="severity-option severity-critical" data-severity="critical">Critical</div>
+            <div class="severity-option severity-high" data-severity="high">High</div>
+            <div class="severity-option severity-medium selected" data-severity="medium">Medium</div>
+            <div class="severity-option severity-low" data-severity="low">Low</div>
+            <div class="severity-option severity-trivial" data-severity="trivial">Trivial</div>
+          </div>
+          <input type="hidden" id="issueSeverity" value="medium">
+        </div>
+
+        <!-- Page URL -->
+        <div class="form-group">
+          <label class="form-label">Page URL (where issue occurred)</label>
+          <input type="text" class="form-input" id="pageUrl" placeholder="e.g., /wiki-events.html">
+        </div>
+
+        <!-- Screenshot -->
+        <div class="form-group">
+          <label class="form-label">Screenshot (optional)</label>
+          <input type="file" id="screenshot" accept="image/*" style="display: none;">
+          <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" onclick="document.getElementById('screenshot').click()">
+            <i class="fas fa-image" style="font-size: 2rem; color: var(--wiki-text-muted);"></i>
+            <p class="text-muted">Click to upload screenshot</p>
+          </div>
+          <img id="screenshotPreview" class="screenshot-preview" style="display: none;">
+        </div>
+
+        <!-- System Info (auto-collected) -->
+        <div class="form-group" style="background: var(--wiki-bg-secondary); padding: 1rem; border-radius: 8px;">
+          <label class="form-label">System Information (auto-collected)</label>
+          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
+            <div>Browser: <span id="browserInfo"></span></div>
+            <div>Screen: <span id="screenInfo"></span></div>
+            <div>Platform: <span id="platformInfo"></span></div>
+          </div>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="flex-between">
+          <button type="button" class="btn btn-outline" onclick="hideReportForm()">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Submit Issue
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Issue Detail Modal -->
+  <div id="issueDetailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+    <div style="background: white; max-width: 900px; margin: 2rem auto; padding: 2rem; border-radius: 12px;">
+      <div id="issueDetailContent">
+        <!-- Issue details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <div style="text-align: center; color: var(--wiki-text-muted);">
+        <p>© 2024 Permahub Wiki. Report issues to help us improve!</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/wiki-issues.js"></script>
+</body>
+</html>
