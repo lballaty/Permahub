@@ -43,9 +43,10 @@ export default defineConfig({
     }
   ],
 
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true // Always reuse existing server in development
-  }
+  // Commented out to use manually started dev server
+  // webServer: {
+  //   command: 'npm run dev',
+  //   url: 'http://localhost:3000',
+  //   reuseExistingServer: true // Always reuse existing server in development
+  // }
 });

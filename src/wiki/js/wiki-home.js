@@ -4,6 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
+import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
 
 // State
 let currentCategory = 'all';
@@ -13,14 +14,17 @@ let allCategories = [];
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
-  console.log('🚀 Wiki Home: DOMContentLoaded - Starting initialization');
+  console.log(`🚀 Wiki Home ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
   console.log('📍 Supabase URL:', import.meta.env.VITE_SUPABASE_URL || 'http://127.0.0.1:54321');
+
+  // Display version in header for testing
+  displayVersionInHeader();
 
   await loadInitialData();
   initializeCategoryFilters();
   initializeSearch();
 
-  console.log('✅ Wiki Home: Initialization complete');
+  console.log(`✅ Wiki Home ${VERSION_DISPLAY}: Initialization complete`);
 });
 
 /**

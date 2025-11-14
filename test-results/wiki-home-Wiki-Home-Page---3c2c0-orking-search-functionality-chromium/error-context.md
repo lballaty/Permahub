@@ -1,0 +1,397 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "🌱 Community Wiki" [ref=e4] [cursor=pointer]:
+        - /url: wiki-home.html
+        - generic [ref=e5]: 🌱
+        - generic [ref=e6]: Community Wiki
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: wiki-home.html
+        - listitem [ref=e10]:
+          - link "Events" [ref=e11] [cursor=pointer]:
+            - /url: wiki-events.html
+        - listitem [ref=e12]:
+          - link "Locations" [ref=e13] [cursor=pointer]:
+            - /url: wiki-map.html
+        - listitem [ref=e14]:
+          - link "Login" [ref=e15] [cursor=pointer]:
+            - /url: wiki-login.html
+        - listitem [ref=e16]:
+          - button " English " [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+            - generic [ref=e20]: English
+            - generic [ref=e21]: 
+        - listitem [ref=e22]:
+          - link "Create Page" [ref=e23] [cursor=pointer]:
+            - /url: wiki-editor.html
+      - text: 
+    - text: v20251114.1151.v1
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - heading "Welcome to Our Community Knowledge Base" [level=1] [ref=e27]
+        - paragraph [ref=e28]: Share guides, locations, events, and resources with our permaculture community
+      - generic [ref=e29]:
+        - generic [ref=e30]: 
+        - textbox "Search for guides, events, locations..." [active] [ref=e31]: water
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: "11"
+          - generic [ref=e35]: Guides
+        - generic [ref=e36]:
+          - generic [ref=e37]: "34"
+          - generic [ref=e38]: Locations
+        - generic [ref=e39]:
+          - generic [ref=e40]: "14"
+          - generic [ref=e41]: Upcoming Events
+        - generic [ref=e42]:
+          - generic [ref=e43]: "34"
+          - generic [ref=e44]: Contributors
+    - generic [ref=e45]:
+      - heading "Browse by Category" [level=2] [ref=e46]
+      - generic [ref=e47]:
+        - link " wiki.home.all_categories" [ref=e48] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e49]: 
+          - text: wiki.home.all_categories
+        - link " Gardening" [ref=e50] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e51]: 
+          - text: Gardening
+        - link " Water Management" [ref=e52] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e53]: 
+          - text: Water Management
+        - link " Composting" [ref=e54] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e55]: 
+          - text: Composting
+        - link " Renewable Energy" [ref=e56] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e57]: 
+          - text: Renewable Energy
+        - link " Food Production" [ref=e58] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e59]: 
+          - text: Food Production
+        - link " Agroforestry" [ref=e60] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e61]: 
+          - text: Agroforestry
+        - link " Natural Building" [ref=e62] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e63]: 
+          - text: Natural Building
+        - link " Waste Management" [ref=e64] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e65]: 
+          - text: Waste Management
+        - link " Irrigation" [ref=e66] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e67]: 
+          - text: Irrigation
+        - link " Community" [ref=e68] [cursor=pointer]:
+          - /url: javascript:void(0)
+          - generic [ref=e69]: 
+          - text: Community
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - heading "Recent Guides" [level=2] [ref=e72]
+        - generic [ref=e73]: Showing all 11 guides
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - generic [ref=e78]: 
+              - text: Yesterday
+            - generic [ref=e79]:
+              - generic [ref=e80]: 
+              - text: 0 views
+          - heading "Swale Construction for Water Harvesting" [level=3] [ref=e81]:
+            - link "Swale Construction for Water Harvesting" [ref=e82] [cursor=pointer]:
+              - /url: wiki-page.html?slug=swale-construction-water-harvesting
+          - paragraph [ref=e83]: Learn how to design and construct swales based on Geoff Lawton's proven earthworks techniques. Swales are level ditches on contour that slow, spread, and sink water into the landscape, creating ideal conditions for tree planting and drought mitigation.
+          - generic [ref=e85]: Water Management
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - generic [ref=e89]: 
+              - text: Yesterday
+            - generic [ref=e90]:
+              - generic [ref=e91]: 
+              - text: 243 views
+          - heading "Understanding Madeira's Levada Irrigation System" [level=3] [ref=e92]:
+            - link "Understanding Madeira's Levada Irrigation System" [ref=e93] [cursor=pointer]:
+              - /url: wiki-page.html?slug=madeira-levada-irrigation-system
+          - paragraph [ref=e94]: Learn about Madeira's historic levada water channels and how these traditional irrigation systems inspire modern permaculture water management on the island.
+          - generic [ref=e96]: Water Management
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e99]:
+              - generic [ref=e100]: 
+              - text: Yesterday
+            - generic [ref=e101]:
+              - generic [ref=e102]: 
+              - text: 127 views
+          - heading "Building a Swale System for Water Retention" [level=3] [ref=e103]:
+            - link "Building a Swale System for Water Retention" [ref=e104] [cursor=pointer]:
+              - /url: wiki-page.html?slug=building-swale-system-water-retention
+          - paragraph [ref=e105]: Learn how to design and construct swales to capture and distribute rainwater across your property. This comprehensive guide covers site assessment, design principles, and construction techniques.
+          - generic [ref=e107]: Water Management
+        - generic [ref=e108]:
+          - generic [ref=e109]:
+            - generic [ref=e110]:
+              - generic [ref=e111]: 
+              - text: 3 days ago
+            - generic [ref=e112]:
+              - generic [ref=e113]: 
+              - text: 89 views
+          - heading "Companion Planting Guide for Vegetable Gardens" [level=3] [ref=e114]:
+            - link "Companion Planting Guide for Vegetable Gardens" [ref=e115] [cursor=pointer]:
+              - /url: wiki-page.html?slug=companion-planting-vegetable-gardens
+          - paragraph [ref=e116]: Discover which vegetables grow best together and why. This guide includes detailed companion planting charts and explains the science behind beneficial plant relationships.
+          - generic [ref=e117]:
+            - generic [ref=e118]: Gardening
+            - generic [ref=e119]: Food Production
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - generic [ref=e123]: 
+              - text: 4 days ago
+            - generic [ref=e124]:
+              - generic [ref=e125]: 
+              - text: 189 views
+          - 'heading "Banana Circles: Perfect Composting for Madeira''s Climate" [level=3] [ref=e126]':
+            - 'link "Banana Circles: Perfect Composting for Madeira''s Climate" [ref=e127] [cursor=pointer]':
+              - /url: wiki-page.html?slug=banana-circles-madeira-composting
+          - paragraph [ref=e128]: Banana circles are ideal for Madeira's subtropical climate. Learn how to build this permaculture system that combines organic waste composting with banana and papaya production.
+          - generic [ref=e129]:
+            - generic [ref=e130]: Composting
+            - generic [ref=e131]: Subtropical Gardening
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]: 
+              - text: 1 week ago
+            - generic [ref=e136]:
+              - generic [ref=e137]: 
+              - text: 156 views
+          - heading "Restoring Traditional Madeiran Agricultural Terraces" [level=3] [ref=e138]:
+            - link "Restoring Traditional Madeiran Agricultural Terraces" [ref=e139] [cursor=pointer]:
+              - /url: wiki-page.html?slug=restoring-madeiran-terraces
+          - paragraph [ref=e140]: Madeira's iconic terraces (poios) are permaculture systems built into steep hillsides. Learn traditional stone-work and modern restoration techniques.
+        - generic [ref=e141]:
+          - generic [ref=e142]:
+            - generic [ref=e143]:
+              - generic [ref=e144]: 
+              - text: 1 week ago
+            - generic [ref=e145]:
+              - generic [ref=e146]: 
+              - text: 156 views
+          - heading "Installing Drip Irrigation for Food Gardens" [level=3] [ref=e147]:
+            - link "Installing Drip Irrigation for Food Gardens" [ref=e148] [cursor=pointer]:
+              - /url: wiki-page.html?slug=drip-irrigation-food-gardens
+          - paragraph [ref=e149]: Save water and time with an efficient drip irrigation system. This practical guide covers materials, layout design, and maintenance for home garden installations.
+        - generic [ref=e150]:
+          - generic [ref=e151]:
+            - generic [ref=e152]:
+              - generic [ref=e153]: 
+              - text: 1 week ago
+            - generic [ref=e154]:
+              - generic [ref=e155]: 
+              - text: 203 views
+          - 'heading "Hot Composting: A Step-by-Step Guide" [level=3] [ref=e156]':
+            - 'link "Hot Composting: A Step-by-Step Guide" [ref=e157] [cursor=pointer]':
+              - /url: wiki-page.html?slug=hot-composting-step-by-step
+          - paragraph [ref=e158]: Master the art of hot composting to turn kitchen scraps and yard waste into rich, dark compost in just 18 days. Includes troubleshooting tips and material ratios.
+          - generic [ref=e160]: Composting
+        - generic [ref=e161]:
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - generic [ref=e164]: 
+              - text: 2 weeks ago
+            - generic [ref=e165]:
+              - generic [ref=e166]: 
+              - text: 267 views
+          - heading "Designing a Subtropical Food Forest in Madeira" [level=3] [ref=e167]:
+            - link "Designing a Subtropical Food Forest in Madeira" [ref=e168] [cursor=pointer]:
+              - /url: wiki-page.html?slug=subtropical-food-forest-madeira
+          - paragraph [ref=e169]: Create a productive food forest using subtropical and tropical species adapted to Madeira's unique climate. Includes plant lists and guild design.
+        - generic [ref=e170]:
+          - generic [ref=e171]:
+            - generic [ref=e172]:
+              - generic [ref=e173]: 
+              - text: 2 weeks ago
+            - generic [ref=e174]:
+              - generic [ref=e175]: 
+              - text: 92 views
+          - 'heading "Building with Cob: Natural Building Basics" [level=3] [ref=e176]':
+            - 'link "Building with Cob: Natural Building Basics" [ref=e177] [cursor=pointer]':
+              - /url: wiki-page.html?slug=cob-building-basics
+          - paragraph [ref=e178]: Introduction to cob building techniques using clay, sand, and straw. Learn about material preparation, wall construction, and finishing techniques for this sustainable building method.
+        - generic [ref=e179]:
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - generic [ref=e182]: 
+              - text: 2 weeks ago
+            - generic [ref=e183]:
+              - generic [ref=e184]: 
+              - text: 178 views
+          - heading "Starting a Community Seed Library" [level=3] [ref=e185]:
+            - link "Starting a Community Seed Library" [ref=e186] [cursor=pointer]:
+              - /url: wiki-page.html?slug=community-seed-library
+          - paragraph [ref=e187]: Learn how to organize and run a community seed library to preserve heirloom varieties and promote seed sovereignty. Includes organizational tips and catalog systems.
+      - generic [ref=e188]:
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - generic [ref=e191]: 
+            - text: Tom Anderson
+          - generic [ref=e192]:
+            - generic [ref=e193]: 
+            - text: 2 weeks ago
+          - generic [ref=e194]:
+            - generic [ref=e195]: 
+            - text: 92 views
+        - 'heading "Building with Cob: Natural Building Basics" [level=3] [ref=e196]':
+          - 'link "Building with Cob: Natural Building Basics" [ref=e197] [cursor=pointer]':
+            - /url: wiki-page.html
+        - paragraph [ref=e198]: Introduction to cob building techniques using clay, sand, and straw. Learn about material preparation, wall construction, and finishing techniques for this sustainable building method.
+        - generic [ref=e199]:
+          - generic [ref=e200]: Natural Building
+          - generic [ref=e201]: DIY
+    - generic [ref=e202]:
+      - generic [ref=e203]:
+        - heading "Upcoming Events" [level=2] [ref=e204]
+        - link "View All" [ref=e205] [cursor=pointer]:
+          - /url: wiki-events.html
+      - generic [ref=e206]:
+        - generic [ref=e207]:
+          - generic [ref=e208]:
+            - generic [ref=e209]: "15"
+            - generic [ref=e210]: Nov
+          - generic [ref=e211]:
+            - heading "Community Composting Workshop" [level=3] [ref=e212]
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: 
+                - text: 10:00 AM - 2:00 PM
+              - generic [ref=e216]:
+                - generic [ref=e217]: 
+                - text: Green Valley Farm
+            - paragraph [ref=e218]: Hands-on workshop on building and maintaining hot compost systems.
+        - generic [ref=e219]:
+          - generic [ref=e220]:
+            - generic [ref=e221]: "22"
+            - generic [ref=e222]: Nov
+          - generic [ref=e223]:
+            - heading "Seed Swap & Exchange" [level=3] [ref=e224]
+            - generic [ref=e225]:
+              - generic [ref=e226]:
+                - generic [ref=e227]: 
+                - text: 9:00 AM - 12:00 PM
+              - generic [ref=e228]:
+                - generic [ref=e229]: 
+                - text: Community Center
+            - paragraph [ref=e230]: Bring seeds to trade and connect with local gardeners. Free event!
+        - generic [ref=e231]:
+          - generic [ref=e232]:
+            - generic [ref=e233]: "28"
+            - generic [ref=e234]: Nov
+          - generic [ref=e235]:
+            - heading "Food Forest Design Tour" [level=3] [ref=e236]
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - generic [ref=e239]: 
+                - text: 2:00 PM - 5:00 PM
+              - generic [ref=e240]:
+                - generic [ref=e241]: 
+                - text: Sunset Permaculture
+            - paragraph [ref=e242]: Tour a mature 3-acre food forest and learn design principles.
+    - generic [ref=e243]:
+      - generic [ref=e244]:
+        - heading "Featured Locations" [level=2] [ref=e245]
+        - link "View All" [ref=e246] [cursor=pointer]:
+          - /url: wiki-map.html
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - heading "🌳 Green Valley Farm" [level=3] [ref=e249]
+          - paragraph [ref=e250]: 15-acre permaculture demonstration site with food forest, market garden, and natural building examples.
+          - generic [ref=e251]:
+            - generic [ref=e252]: 
+            - text: 3.2 km away
+          - link "View on Map" [ref=e253] [cursor=pointer]:
+            - /url: wiki-map.html
+        - generic [ref=e254]:
+          - heading "🏡 Urban Homestead Hub" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Small-scale urban permaculture with aquaponics, rooftop garden, and rainwater harvesting systems.
+          - generic [ref=e257]:
+            - generic [ref=e258]: 
+            - text: 5.7 km away
+          - link "View on Map" [ref=e259] [cursor=pointer]:
+            - /url: wiki-map.html
+        - generic [ref=e260]:
+          - heading "🌾 Sunset Permaculture" [level=3] [ref=e261]
+          - paragraph [ref=e262]: Educational center offering PDC courses, workshops, and farm stays on 50 acres of regenerative farmland.
+          - generic [ref=e263]:
+            - generic [ref=e264]: 
+            - text: 12.4 km away
+          - link "View on Map" [ref=e265] [cursor=pointer]:
+            - /url: wiki-map.html
+        - generic [ref=e266]:
+          - heading "💧 River Bend Gardens" [level=3] [ref=e267]
+          - paragraph [ref=e268]: Specialty in water management techniques including swales, ponds, and greywater systems.
+          - generic [ref=e269]:
+            - generic [ref=e270]: 
+            - text: 8.1 km away
+          - link "View on Map" [ref=e271] [cursor=pointer]:
+            - /url: wiki-map.html
+        - generic [ref=e272]:
+          - heading "🌻 Community Seed Bank" [level=3] [ref=e273]
+          - paragraph [ref=e274]: Free seed library at the local library. Borrow seeds, grow them, save seeds, and return.
+          - generic [ref=e275]:
+            - generic [ref=e276]: 
+            - text: 1.5 km away
+          - link "View on Map" [ref=e277] [cursor=pointer]:
+            - /url: wiki-map.html
+        - generic [ref=e278]:
+          - heading "🏗️ Natural Building Collective" [level=3] [ref=e279]
+          - paragraph [ref=e280]: Workshop space showcasing cob, straw bale, and earthbag building techniques. Open days monthly.
+          - generic [ref=e281]:
+            - generic [ref=e282]: 
+            - text: 6.9 km away
+          - link "View on Map" [ref=e283] [cursor=pointer]:
+            - /url: wiki-map.html
+    - generic [ref=e284]:
+      - heading "Contribute to Our Community Knowledge" [level=2] [ref=e285]
+      - paragraph [ref=e286]: Share your permaculture experiences, tips, and projects with the community. Every contribution helps us grow!
+      - generic [ref=e287]:
+        - link "+ Create a Guide" [ref=e288] [cursor=pointer]:
+          - /url: wiki-editor.html
+          - generic [ref=e289]: +
+          - text: Create a Guide
+        - link " Add an Event" [ref=e290] [cursor=pointer]:
+          - /url: wiki-events.html
+          - generic [ref=e291]: 
+          - text: Add an Event
+        - link " Add a Location" [ref=e292] [cursor=pointer]:
+          - /url: wiki-map.html
+          - generic [ref=e293]: 
+          - text: Add a Location
+  - contentinfo [ref=e294]:
+    - generic [ref=e295]:
+      - paragraph [ref=e296]: © 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.
+      - paragraph [ref=e297]:
+        - link "About" [ref=e298] [cursor=pointer]:
+          - /url: wiki-home.html
+        - text: "|"
+        - link "Privacy" [ref=e299] [cursor=pointer]:
+          - /url: ../pages/legal.html
+        - text: "|"
+        - link "Terms" [ref=e300] [cursor=pointer]:
+          - /url: ../pages/legal.html
+```
