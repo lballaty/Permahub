@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS public.items (
 -- Create indexes for efficient querying
 CREATE INDEX IF NOT EXISTS idx_items_type ON public.items(item_type);
 CREATE INDEX IF NOT EXISTS idx_items_category ON public.items(category);
-CREATE INDEX IF NOT EXISTS idx_items_location ON public.items USING GIST (ll_to_earth(latitude, longitude));
+CREATE INDEX IF NOT EXISTS idx_items_latitude ON public.items(latitude) WHERE latitude IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_items_longitude ON public.items(longitude) WHERE longitude IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_items_status ON public.items(status);
 CREATE INDEX IF NOT EXISTS idx_items_created_at ON public.items(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_items_created_by ON public.items(created_by);
