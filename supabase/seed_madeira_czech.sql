@@ -781,16 +781,18 @@ DO $$
 DECLARE
   guide_id UUID;
   cat_ids UUID[];
+  cat_id UUID;
 BEGIN
   SELECT id INTO guide_id FROM wiki_guides WHERE slug = 'subtropical-permaculture-madeira';
-  SELECT ARRAY_AGG(id) INTO cat_ids FROM wiki_categories WHERE slug IN ('water-management', 'design', 'food-forests');
+  -- Using categories that exist in the expanded wiki categories
+  SELECT ARRAY_AGG(id) INTO cat_ids FROM wiki_categories WHERE slug IN ('climate-adaptation', 'regenerative-agriculture', 'soil-science');
 
-  IF guide_id IS NOT NULL THEN
-    FOREACH cat_ids[1] IN ARRAY cat_ids
+  IF guide_id IS NOT NULL AND cat_ids IS NOT NULL THEN
+    FOREACH cat_id IN ARRAY cat_ids
     LOOP
-      IF cat_ids[1] IS NOT NULL THEN
+      IF cat_id IS NOT NULL THEN
         INSERT INTO wiki_guide_categories (guide_id, category_id)
-        VALUES (guide_id, cat_ids[1])
+        VALUES (guide_id, cat_id)
         ON CONFLICT DO NOTHING;
       END IF;
     END LOOP;
@@ -1206,7 +1208,8 @@ DECLARE
   cat_id UUID;
 BEGIN
   SELECT id INTO guide_id FROM wiki_guides WHERE slug = 'cold-climate-permaculture-czech';
-  SELECT ARRAY_AGG(id) INTO cat_ids FROM wiki_categories WHERE slug IN ('season-extension', 'soil-health', 'design');
+  -- Using categories that exist in the expanded wiki categories
+  SELECT ARRAY_AGG(id) INTO cat_ids FROM wiki_categories WHERE slug IN ('climate-adaptation', 'regenerative-agriculture', 'cover-cropping');
 
   IF guide_id IS NOT NULL AND cat_ids IS NOT NULL THEN
     FOREACH cat_id IN ARRAY cat_ids

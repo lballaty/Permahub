@@ -266,11 +266,36 @@ async function updateRelatedGuides() {
  */
 async function incrementViewCount() {
   try {
-    // In a real app, this would be an API call to increment on the server
-    // For now, we'll just log it
+    if (!currentGuide || !currentGuide.id) {
+      console.log('No guide to increment view count for');
+      return;
+    }
+
     console.log(`👁️ Incrementing view count for guide: ${currentGuide.id}`);
+
+    // Update view count in database
+    const newViewCount = (currentGuide.view_count || 0) + 1;
+
+    const updatedGuide = await supabase.update('wiki_guides', currentGuide.id, {
+      view_count: newViewCount,
+      updated_at: new Date().toISOString()
+    });
+
+    if (updatedGuide) {
+      // Update local guide object
+      currentGuide.view_count = newViewCount;
+
+      // Update displayed view count
+      const viewCountElement = document.querySelector('.fa-eye')?.parentElement;
+      if (viewCountElement) {
+        viewCountElement.innerHTML = `<i class="fas fa-eye"></i> ${newViewCount} views`;
+      }
+
+      console.log(`✅ View count updated to ${newViewCount}`);
+    }
   } catch (error) {
     console.error('Error incrementing view count:', error);
+    // Don't show error to user - view count is not critical
   }
 }
 

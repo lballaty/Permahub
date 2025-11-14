@@ -370,101 +370,12 @@
 
     // Simple mockup interactivity
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize Quill WYSIWYG editor
-      quill = new Quill('#editor', {
-        theme: 'snow',
-        modules: {
-          toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
-            ['blockquote', 'code-block'],
-            ['link', 'image', 'video'],
-            [{ 'align': [] }],
-            [{ 'color': [] }, { 'background': [] }],
-            ['clean']
-          ]
-        },
-        placeholder: 'Start writing your guide here... Type naturally and use the toolbar above to format your text.',
-      });
+      // Note: Quill editor is initialized in wiki-editor.js module to avoid duplicate toolbars
+      // The module provides the actual editor instance with proper saving functionality
 
-      // Update character counter with Quill content
-      const charCount = document.getElementById('charCount');
-      quill.on('text-change', function() {
-        const text = quill.getText();
-        charCount.textContent = text.trim().length + ' characters';
-
-        // Update hidden field for form submission
-        document.getElementById('content').value = quill.root.innerHTML;
-      });
-
-      // Content type switching
-      const contentTypeRadios = document.querySelectorAll('input[name="contentType"]');
-      const eventFields = document.getElementById('eventFields');
-      const locationFields = document.getElementById('locationFields');
-
-      contentTypeRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-          eventFields.style.display = this.value === 'event' ? 'block' : 'none';
-          locationFields.style.display = this.value === 'location' ? 'block' : 'none';
-        });
-      });
-
-      // Image upload mockup
-      const imageUploadZone = document.getElementById('imageUploadZone');
-      const imageUpload = document.getElementById('imageUpload');
-      const imagePreview = document.getElementById('imagePreview');
-      const previewImg = document.getElementById('previewImg');
-      const removeImage = document.getElementById('removeImage');
-
-      imageUploadZone.addEventListener('click', () => imageUpload.click());
-
-      imageUpload.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            previewImg.src = e.target.result;
-            imagePreview.style.display = 'block';
-          };
-          reader.readAsDataURL(this.files[0]);
-        }
-      });
-
-      removeImage.addEventListener('click', function() {
-        imageUpload.value = '';
-        imagePreview.style.display = 'none';
-        previewImg.src = '';
-      });
-
-      // Form submission
-      document.getElementById('editorForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Ensure content is captured from Quill
-        document.getElementById('content').value = quill.root.innerHTML;
-
-        // Get form data
-        const title = document.getElementById('title').value;
-        const summary = document.getElementById('summary').value;
-        const content = quill.root.innerHTML;
-
-        console.log('Form data:', { title, summary, content });
-        alert('This is a mockup. In production, this would save your content to the database.\n\nContent preview:\n' + quill.getText().substring(0, 100) + '...');
-      });
-
-      // Save draft buttons
-      document.getElementById('saveDraftBtn').addEventListener('click', function() {
-        alert('Draft saved! (mockup)');
-      });
-      document.getElementById('saveDraftBtn2').addEventListener('click', function() {
-        alert('Draft saved! (mockup)');
-      });
-
-      // Preview button
-      document.getElementById('previewBtn').addEventListener('click', function() {
-        alert('Preview mode (mockup) - would show how your content will look when published');
-      });
+      // Note: All handlers including content type switching, image upload, form submission,
+      // save draft, and preview are properly implemented in wiki-editor.js module
+      // The module saves to Supabase database
     });
   </script>
 

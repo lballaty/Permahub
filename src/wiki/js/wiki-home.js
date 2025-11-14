@@ -604,11 +604,133 @@ function renderUpcomingEvents() {
 }
 
 /**
- * Show event details in a modal or redirect to events page
+ * Show event details in a modal
  */
 window.showEventDetails = function(eventId) {
-  // For now, redirect to events page with the event ID hash
-  window.location.href = `wiki-events.html#event-${eventId}`;
+  // Find the event
+  const event = allEvents.find(e => e.id === eventId);
+  if (!event) {
+    console.error('Event not found:', eventId);
+    return;
+  }
+
+  // Create modal HTML
+  const eventDate = new Date(event.event_date);
+  const dateStr = eventDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  // Format time
+  let timeStr = '';
+  if (event.start_time) {
+    timeStr = event.start_time;
+    if (event.end_time) {
+      timeStr += ` - ${event.end_time}`;
+    }
+  }
+
+  // Create modal container if it doesn't exist
+  let modalContainer = document.getElementById('eventModal');
+  if (!modalContainer) {
+    modalContainer = document.createElement('div');
+    modalContainer.id = 'eventModal';
+    modalContainer.style.cssText = `
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    `;
+    document.body.appendChild(modalContainer);
+  }
+
+  // Set modal content
+  modalContainer.innerHTML = `
+    <div style="
+      background: white;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+    ">
+      <button onclick="closeEventModal()" style="
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+      ">&times;</button>
+
+      <h2 style="color: var(--wiki-primary); margin-bottom: 1rem;">${escapeHtml(event.title)}</h2>
+
+      <div style="margin-bottom: 1.5rem; color: #666;">
+        <div style="margin-bottom: 0.5rem;">
+          <i class="fas fa-calendar"></i> <strong>${dateStr}</strong>
+        </div>
+        ${timeStr ? `<div style="margin-bottom: 0.5rem;">
+          <i class="fas fa-clock"></i> ${escapeHtml(timeStr)}
+        </div>` : ''}
+        <div style="margin-bottom: 0.5rem;">
+          <i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name || 'Location TBD')}
+        </div>
+        ${event.location_address ? `<div style="margin-bottom: 0.5rem; padding-left: 1.5rem; color: #888;">
+          ${escapeHtml(event.location_address)}
+        </div>` : ''}
+        ${event.price_display ? `<div style="margin-bottom: 0.5rem;">
+          <i class="fas fa-tag"></i> ${escapeHtml(event.price_display)}
+        </div>` : ''}
+        ${event.max_attendees ? `<div style="margin-bottom: 0.5rem;">
+          <i class="fas fa-users"></i> Max ${event.max_attendees} attendees
+        </div>` : ''}
+      </div>
+
+      <div style="margin-bottom: 2rem; line-height: 1.6;">
+        ${escapeHtml(event.description || 'No description available.')}
+      </div>
+
+      <div style="display: flex; gap: 1rem;">
+        ${event.registration_url ? `
+          <a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary" style="flex: 1;">
+            <i class="fas fa-ticket-alt"></i> Register
+          </a>
+        ` : `
+          <button onclick="registerForEvent('${event.id}')" class="btn btn-primary" style="flex: 1;">
+            <i class="fas fa-user-plus"></i> Register
+          </button>
+        `}
+        <button onclick="closeEventModal()" class="btn btn-outline" style="flex: 1;">
+          Close
+        </button>
+      </div>
+    </div>
+  `;
+
+  // Show modal
+  modalContainer.style.display = 'flex';
+};
+
+/**
+ * Close event modal
+ */
+window.closeEventModal = function() {
+  const modal = document.getElementById('eventModal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
 };
 
 /**
@@ -623,53 +745,119 @@ window.registerForEvent = async function(eventId) {
       return;
     }
 
-    // Check if user is logged in (for now using mock user)
-    const userId = 'mock-user-123'; // TODO: Replace with actual auth check
-
-    // Show registration form or modal
-    const email = prompt(`Register for "${event.title}"\n\nPlease enter your email address:`);
-
-    if (!email) {
-      return; // User cancelled
-    }
-
-    // Validate email
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      alert('Please enter a valid email address');
+    // If event has a registration URL, redirect to it
+    if (event.registration_url) {
+      window.open(event.registration_url, '_blank', 'noopener');
       return;
     }
 
-    // Save registration to database
-    console.log('Registering for event:', {
-      event_id: eventId,
-      event_title: event.title,
-      user_email: email,
-      registered_at: new Date().toISOString()
-    });
+    // Otherwise, show a registration form modal
+    const registrationModal = document.createElement('div');
+    registrationModal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
 
-    // Call the registration function via RPC
-    const { data, error } = await supabase.client
-      .rpc('register_for_event', {
-        p_event_id: eventId,
-        p_user_email: email,
-        p_user_id: null, // Will be replaced with actual auth when implemented
-        p_user_name: null
-      });
+    registrationModal.innerHTML = `
+      <div style="
+        background: white;
+        max-width: 500px;
+        width: 90%;
+        border-radius: 12px;
+        padding: 2rem;
+        position: relative;
+      ">
+        <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">Register for Event</h3>
+        <p style="margin-bottom: 1.5rem; color: #666;">${escapeHtml(event.title)}</p>
 
-    if (error) {
-      throw error;
-    }
+        <form id="eventRegistrationForm">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 600;">Name *</label>
+            <input type="text" id="regName" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+          </div>
 
-    // Check result
-    if (data && data.success) {
-      if (data.status === 'waitlisted') {
-        alert(`Added to waitlist for "${event.title}"!\n\nYou will be notified via email at ${email} if a spot becomes available.`);
-      } else {
-        alert(`Successfully registered for "${event.title}"!\n\nA confirmation email will be sent to ${email}.`);
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 600;">Email *</label>
+            <input type="email" id="regEmail" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 600;">Message (optional)</label>
+            <textarea id="regMessage" rows="3" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Registration</button>
+            <button type="button" onclick="this.closest('[style*=\\"position: fixed\\"]').remove()" class="btn btn-outline" style="flex: 1;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(registrationModal);
+
+    // Handle form submission
+    document.getElementById('eventRegistrationForm').onsubmit = async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const message = document.getElementById('regMessage').value;
+
+      // Validate email
+      if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        alert('Please enter a valid email address');
+        return;
       }
-    } else {
-      alert(data?.message || 'Registration failed. Please try again.');
-    }
+
+      // Save registration to database
+      try {
+        console.log('Registering for event:', {
+          event_id: eventId,
+          event_title: event.title,
+          user_email: email,
+          registered_at: new Date().toISOString()
+        });
+
+        // Call the registration function via RPC
+        const { data, error } = await supabase.client
+          .rpc('register_for_event', {
+            p_event_id: eventId,
+            p_user_email: email,
+            p_user_id: null, // Will be replaced with actual auth when implemented
+            p_user_name: null
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        // Check result
+        if (data && data.success) {
+          if (data.status === 'waitlisted') {
+            alert(`Added to waitlist for "${event.title}"!\n\nYou will be notified via email at ${email} if a spot becomes available.`);
+          } else {
+            alert(`Successfully registered for "${event.title}"!\n\nA confirmation email will be sent to ${email}.`);
+          }
+        } else {
+          alert(data?.message || 'Registration failed. Please try again.');
+        }
+
+        // Close the modal
+        registrationModal.remove();
+      } catch (error) {
+        console.error('Error during registration:', error);
+        alert('Failed to register. Please try again.');
+      }
+    }; // End of form onsubmit handler
 
   } catch (error) {
     console.error('Error registering for event:', error);

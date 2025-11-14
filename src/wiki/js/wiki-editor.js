@@ -319,19 +319,67 @@ async function saveContent(status = 'draft') {
   try {
     console.log(`💾 Saving ${currentContentType} as ${status}...`);
 
+    // Show loading state
+    showLoadingState(true);
+
     // Get form data
-    const title = document.getElementById('title').value;
-    const summary = document.getElementById('summary').value;
+    const title = document.getElementById('title')?.value?.trim();
+    const summary = document.getElementById('summary')?.value?.trim();
     const content = quillEditor.root.innerHTML;
-    const slug = document.getElementById('title').dataset.slug || generateSlug(title);
+    const slug = document.getElementById('title')?.dataset?.slug || generateSlug(title);
 
     // Get selected categories
     const categoryCheckboxes = document.querySelectorAll('.category-checkbox:checked');
     selectedCategories = Array.from(categoryCheckboxes).map(cb => cb.value);
 
-    // Validate required fields
-    if (!title || !summary) {
-      alert('Please fill in all required fields');
+    // Comprehensive validation
+    const validationErrors = [];
+
+    // Required fields validation based on content type
+    if (!title) {
+      validationErrors.push('Title is required');
+    }
+
+    if (!slug) {
+      validationErrors.push('Unable to generate slug from title');
+    }
+
+    if (currentContentType === 'guide') {
+      if (!summary) {
+        validationErrors.push('Summary is required for guides');
+      }
+      if (!content || quillEditor.getText().trim().length < 10) {
+        validationErrors.push('Content must be at least 10 characters');
+      }
+    } else if (currentContentType === 'event') {
+      const eventDate = document.getElementById('eventDate')?.value;
+      if (!eventDate) {
+        validationErrors.push('Event date is required');
+      }
+      if (!summary && !content) {
+        validationErrors.push('Event description is required');
+      }
+    } else if (currentContentType === 'location') {
+      const latitude = document.getElementById('latitude')?.value;
+      const longitude = document.getElementById('longitude')?.value;
+      if (!latitude || !longitude) {
+        validationErrors.push('Location coordinates (latitude and longitude) are required');
+      }
+      if (latitude && (latitude < -90 || latitude > 90)) {
+        validationErrors.push('Latitude must be between -90 and 90');
+      }
+      if (longitude && (longitude < -180 || longitude > 180)) {
+        validationErrors.push('Longitude must be between -180 and 180');
+      }
+      if (!summary) {
+        validationErrors.push('Description is required for locations');
+      }
+    }
+
+    // Show validation errors if any
+    if (validationErrors.length > 0) {
+      showValidationErrors(validationErrors);
+      showLoadingState(false);
       return;
     }
 
@@ -399,7 +447,20 @@ async function saveContent(status = 'draft') {
 
   } catch (error) {
     console.error('Error saving content:', error);
-    alert('Failed to save. Please try again.');
+    showLoadingState(false);
+
+    // Parse and show specific error messages
+    let errorMessage = 'Failed to save. ';
+
+    if (error.response?.data?.message) {
+      errorMessage += error.response.data.message;
+    } else if (error.message) {
+      errorMessage += error.message;
+    } else {
+      errorMessage += 'Please check your input and try again.';
+    }
+
+    showErrorMessage(errorMessage);
   }
 }
 
@@ -431,8 +492,8 @@ async function saveGuide(data) {
     await supabase.update('wiki_guides', editingContentId, guideData);
     return editingContentId;
   } else {
-    const result = await supabase.create('wiki_guides', guideData);
-    return result.id;
+    const result = await supabase.insert('wiki_guides', guideData);
+    return result && result.length > 0 ? result[0].id : null;
   }
 }
 
@@ -449,8 +510,8 @@ async function saveEvent(data) {
     await supabase.update('wiki_events', editingContentId, eventData);
     return editingContentId;
   } else {
-    const result = await supabase.create('wiki_events', eventData);
-    return result.id;
+    const result = await supabase.insert('wiki_events', eventData);
+    return result && result.length > 0 ? result[0].id : null;
   }
 }
 
@@ -468,8 +529,8 @@ async function saveLocation(data) {
     await supabase.update('wiki_locations', editingContentId, locationData);
     return editingContentId;
   } else {
-    const result = await supabase.create('wiki_locations', locationData);
-    return result.id;
+    const result = await supabase.insert('wiki_locations', locationData);
+    return result && result.length > 0 ? result[0].id : null;
   }
 }
 
@@ -488,7 +549,7 @@ async function saveCategoryAssociations(contentId) {
 
       // Create new associations
       for (const categoryId of selectedCategories) {
-        await supabase.create('wiki_guide_categories', {
+        await supabase.insert('wiki_guide_categories', {
           guide_id: contentId,
           category_id: categoryId
         });
@@ -732,4 +793,109 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+/**
+ * Show validation errors to user
+ */
+function showValidationErrors(errors) {
+  const errorContainer = document.createElement('div');
+  errorContainer.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #f8d7da;
+    color: #721c24;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
+    max-width: 400px;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  `;
+
+  errorContainer.innerHTML = `
+    <div style="font-weight: bold; margin-bottom: 0.5rem;">
+      <i class="fas fa-exclamation-triangle"></i> Please fix the following errors:
+    </div>
+    <ul style="margin: 0; padding-left: 1.5rem;">
+      ${errors.map(err => `<li>${escapeHtml(err)}</li>`).join('')}
+    </ul>
+    <button onclick="this.parentElement.remove()" style="
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #721c24;
+    ">&times;</button>
+  `;
+
+  // Remove any existing error container
+  const existing = document.querySelector('[data-error-container]');
+  if (existing) existing.remove();
+
+  errorContainer.setAttribute('data-error-container', 'true');
+  document.body.appendChild(errorContainer);
+
+  // Auto-remove after 10 seconds
+  setTimeout(() => {
+    if (errorContainer.parentElement) {
+      errorContainer.remove();
+    }
+  }, 10000);
+}
+
+/**
+ * Show error message
+ */
+function showErrorMessage(message) {
+  showValidationErrors([message]);
+}
+
+/**
+ * Show/hide loading state
+ */
+function showLoadingState(show) {
+  // Update button states
+  const submitButtons = document.querySelectorAll('#publishBtn, #publishBtn2, #saveDraftBtn, #saveDraftBtn2');
+  submitButtons.forEach(btn => {
+    if (show) {
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btn.style.cursor = 'not-allowed';
+    } else {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    }
+  });
+
+  // Show/hide loading indicator
+  if (show) {
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.id = 'savingIndicator';
+    loadingIndicator.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 9999;
+      text-align: center;
+    `;
+    loadingIndicator.innerHTML = `
+      <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 1rem;"></i>
+      <div>Saving...</div>
+    `;
+    document.body.appendChild(loadingIndicator);
+  } else {
+    const indicator = document.getElementById('savingIndicator');
+    if (indicator) indicator.remove();
+  }
 }
