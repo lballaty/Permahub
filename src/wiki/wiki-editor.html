@@ -127,47 +127,11 @@
         <!-- Categories/Tags -->
         <div class="form-group">
           <label class="form-label" data-i18n="wiki.editor.categories_label">Categories</label>
-          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="gardening">
-              <span>🌱 <span data-i18n="wiki.category.gardening">Gardening</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="water">
-              <span>💧 <span data-i18n="wiki.category.water_management">Water Management</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="composting">
-              <span>♻️ <span data-i18n="wiki.category.composting">Composting</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="energy">
-              <span>☀️ <span data-i18n="wiki.category.renewable_energy">Renewable Energy</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="food">
-              <span>🥕 <span data-i18n="wiki.category.food_production">Food Production</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="agroforestry">
-              <span>🌳 <span data-i18n="wiki.category.agroforestry">Agroforestry</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="building">
-              <span>🏡 <span data-i18n="wiki.category.natural_building">Natural Building</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="waste">
-              <span>♻️ <span data-i18n="wiki.category.waste_management">Waste Management</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="community">
-              <span>👥 <span data-i18n="wiki.category.community">Community</span></span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" name="category" value="circular-economy">
-              <span>🔄 <span data-i18n="wiki.category.circular_economy">Circular Economy</span></span>
-            </label>
+          <div id="categoriesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+            <!-- Categories will be loaded dynamically from database -->
+            <div style="color: var(--wiki-text-muted); padding: 1rem;">
+              <i class="fas fa-spinner fa-spin"></i> Loading categories...
+            </div>
           </div>
         </div>
 
@@ -443,5 +407,8 @@
       });
     });
   </script>
+
+  <!-- Load wiki editor module -->
+  <script type="module" src="js/wiki-editor.js"></script>
 </body>
 </html>
