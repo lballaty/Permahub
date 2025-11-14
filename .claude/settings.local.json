@@ -20,7 +20,16 @@
       "Bash(git fetch:*)",
       "Bash(git ls-tree:*)",
       "Bash(cat:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(SOLUTION.md)",
+      "Bash(CONSOLIDATION_COMPLETE.md)",
+      "Bash(README-SUPABASE.md)",
+      "Bash(LOCAL_SUPABASE_SETUP.md)",
+      "Bash(CLOUD_SETUP_INSTRUCTIONS.md)",
+      "Bash(jobs:*)",
+      "Bash(curl:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": [],
     "ask": []

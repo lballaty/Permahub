@@ -31,14 +31,14 @@ function getEnv(key, fallback = '') {
  * Load from environment variables or use defaults for development
  */
 export const SUPABASE_CONFIG = {
-  url: getEnv('VITE_SUPABASE_URL', 'https://mcbxbaggjaxqfdvmrqsc.supabase.co'),
+  url: getEnv('VITE_SUPABASE_URL', 'http://127.0.0.1:54321'),
   anonKey: getEnv(
     'VITE_SUPABASE_ANON_KEY',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MDE4NDYsImV4cCI6MjA3ODA3Nzg0Nn0.agjLGl7uW0S1tGgivGBVthHWAgw0YxHjJNLHkhsViO0'
+    'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH'
   ),
   serviceRoleKey: getEnv(
     'VITE_SUPABASE_SERVICE_ROLE_KEY',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjUwMTg0NiwiZXhwIjoyMDc4MDc3ODQ2fQ.dTRFNjBrZHsLERsjzqSckpJ1oaQcCjIw98_UvgKyQJU'
+    'sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz'
   )
 };
 

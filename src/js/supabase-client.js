@@ -21,7 +21,19 @@ class SupabaseClient {
    */
   async request(method, path, body = null, useServiceRole = false) {
     const token = useServiceRole ? SUPABASE_CONFIG.serviceRoleKey : (this.authToken || SUPABASE_CONFIG.anonKey);
-    
+    const fullUrl = `${this.url}/rest/v1${path}`;
+
+    // Log request details
+    console.log(`🌐 [Supabase ${method}] ${fullUrl}`);
+    console.log(`  Headers:`, {
+      'Content-Type': 'application/json',
+      'apikey': `${SUPABASE_CONFIG.anonKey.substring(0, 20)}...`,
+      'Authorization': `Bearer ${token.substring(0, 20)}...`
+    });
+    if (body) {
+      console.log(`  Body:`, body);
+    }
+
     const options = {
       method,
       headers: {
@@ -36,16 +48,30 @@ class SupabaseClient {
     }
 
     try {
-      const response = await fetch(`${this.url}/rest/v1${path}`, options);
-      
+      const startTime = performance.now();
+      const response = await fetch(fullUrl, options);
+      const duration = (performance.now() - startTime).toFixed(2);
+
+      console.log(`  ✅ Response: ${response.status} ${response.statusText} (${duration}ms)`);
+      console.log(`  CORS Headers:`, {
+        'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+        'Content-Type': response.headers.get('Content-Type')
+      });
+
       if (!response.ok) {
         const error = await response.json();
+        console.error(`  ❌ Error response:`, error);
         throw new Error(error.message || `API Error: ${response.status}`);
       }
 
-      return await response.json();
+      const data = await response.json();
+      console.log(`  📦 Data received:`, Array.isArray(data) ? `${data.length} records` : 'single record');
+
+      return data;
     } catch (error) {
-      console.error('Supabase API Error:', error);
+      console.error('❌ Supabase API Error:', error);
+      console.error('  URL:', fullUrl);
+      console.error('  Method:', method);
       throw error;
     }
   }
