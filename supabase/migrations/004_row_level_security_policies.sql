@@ -29,18 +29,21 @@ ALTER TABLE public.favorites ENABLE ROW LEVEL SECURITY;
 -- - Authenticated users can create their profile during signup
 
 -- Allow anyone to view public profiles
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON public.users;
 CREATE POLICY "Public profiles are viewable by everyone"
   ON public.users
   FOR SELECT
   USING (is_public_profile = true);
 
 -- Allow users to view their own profile
+DROP POLICY IF EXISTS "Users can view their own profile" ON public.users;
 CREATE POLICY "Users can view their own profile"
   ON public.users
   FOR SELECT
   USING (auth.uid() = id);
 
 -- Allow users to update their own profile
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.users;
 CREATE POLICY "Users can update their own profile"
   ON public.users
   FOR UPDATE
@@ -48,6 +51,7 @@ CREATE POLICY "Users can update their own profile"
   WITH CHECK (auth.uid() = id);
 
 -- Allow authenticated users to insert their profile
+DROP POLICY IF EXISTS "Authenticated users can insert their profile" ON public.users;
 CREATE POLICY "Authenticated users can insert their profile"
   ON public.users
   FOR INSERT
@@ -62,24 +66,28 @@ CREATE POLICY "Authenticated users can insert their profile"
 -- - Only authenticated users can create projects
 
 -- Allow everyone to view active projects
+DROP POLICY IF EXISTS "Active projects are viewable by everyone" ON public.projects;
 CREATE POLICY "Active projects are viewable by everyone"
   ON public.projects
   FOR SELECT
   USING (status = 'active');
 
 -- Allow users to view their own projects (even if not active)
+DROP POLICY IF EXISTS "Users can view their own projects" ON public.projects;
 CREATE POLICY "Users can view their own projects"
   ON public.projects
   FOR SELECT
   USING (auth.uid() = created_by);
 
 -- Allow authenticated users to create projects
+DROP POLICY IF EXISTS "Authenticated users can create projects" ON public.projects;
 CREATE POLICY "Authenticated users can create projects"
   ON public.projects
   FOR INSERT
   WITH CHECK (auth.uid() = created_by);
 
 -- Allow users to update their own projects
+DROP POLICY IF EXISTS "Users can update their own projects" ON public.projects;
 CREATE POLICY "Users can update their own projects"
   ON public.projects
   FOR UPDATE
@@ -87,6 +95,7 @@ CREATE POLICY "Users can update their own projects"
   WITH CHECK (auth.uid() = created_by);
 
 -- Allow users to delete their own projects
+DROP POLICY IF EXISTS "Users can delete their own projects" ON public.projects;
 CREATE POLICY "Users can delete their own projects"
   ON public.projects
   FOR DELETE
@@ -101,24 +110,28 @@ CREATE POLICY "Users can delete their own projects"
 -- - Only authenticated users can create resources
 
 -- Allow everyone to view available resources
+DROP POLICY IF EXISTS "Available resources are viewable by everyone" ON public.resources;
 CREATE POLICY "Available resources are viewable by everyone"
   ON public.resources
   FOR SELECT
   USING (availability != 'archived');
 
 -- Allow users to view their own resources (even if archived)
+DROP POLICY IF EXISTS "Users can view their own resources" ON public.resources;
 CREATE POLICY "Users can view their own resources"
   ON public.resources
   FOR SELECT
   USING (auth.uid() = created_by);
 
 -- Allow authenticated users to create resources
+DROP POLICY IF EXISTS "Authenticated users can create resources" ON public.resources;
 CREATE POLICY "Authenticated users can create resources"
   ON public.resources
   FOR INSERT
   WITH CHECK (auth.uid() = created_by);
 
 -- Allow users to update their own resources
+DROP POLICY IF EXISTS "Users can update their own resources" ON public.resources;
 CREATE POLICY "Users can update their own resources"
   ON public.resources
   FOR UPDATE
@@ -126,6 +139,7 @@ CREATE POLICY "Users can update their own resources"
   WITH CHECK (auth.uid() = created_by);
 
 -- Allow users to delete their own resources
+DROP POLICY IF EXISTS "Users can delete their own resources" ON public.resources;
 CREATE POLICY "Users can delete their own resources"
   ON public.resources
   FOR DELETE
@@ -139,12 +153,14 @@ CREATE POLICY "Users can delete their own resources"
 -- - Only project creators or the connected user can manage connections
 
 -- Everyone can view project connections
+DROP POLICY IF EXISTS "Project connections are viewable by everyone" ON public.project_user_connections;
 CREATE POLICY "Project connections are viewable by everyone"
   ON public.project_user_connections
   FOR SELECT
   USING (true);
 
 -- Users can create project connections (if they're the project creator or user being added)
+DROP POLICY IF EXISTS "Users can create project connections" ON public.project_user_connections;
 CREATE POLICY "Users can create project connections"
   ON public.project_user_connections
   FOR INSERT
@@ -155,6 +171,7 @@ CREATE POLICY "Users can create project connections"
   );
 
 -- Users can delete their own project connections
+DROP POLICY IF EXISTS "Users can delete own project connections" ON public.project_user_connections;
 CREATE POLICY "Users can delete own project connections"
   ON public.project_user_connections
   FOR DELETE
@@ -172,18 +189,21 @@ CREATE POLICY "Users can delete own project connections"
 -- - Users can only see, create, and delete their own favorites
 
 -- Users can only view their own favorites
+DROP POLICY IF EXISTS "Users can view their own favorites" ON public.favorites;
 CREATE POLICY "Users can view their own favorites"
   ON public.favorites
   FOR SELECT
   USING (auth.uid() = user_id);
 
 -- Users can create their own favorites
+DROP POLICY IF EXISTS "Users can create their own favorites" ON public.favorites;
 CREATE POLICY "Users can create their own favorites"
   ON public.favorites
   FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
 -- Users can delete their own favorites
+DROP POLICY IF EXISTS "Users can delete their own favorites" ON public.favorites;
 CREATE POLICY "Users can delete their own favorites"
   ON public.favorites
   FOR DELETE
@@ -205,12 +225,14 @@ ALTER TABLE public.user_dashboard_config ENABLE ROW LEVEL SECURITY;
 -- - Activity is logged by the system on user actions
 
 -- User activity: users can only view their own activity
+DROP POLICY IF EXISTS "Users can view their own activity" ON public.user_activity;
 CREATE POLICY "Users can view their own activity"
   ON public.user_activity
   FOR SELECT
   USING (auth.uid() = user_id);
 
 -- User activity: allow insert for logged in users
+DROP POLICY IF EXISTS "Authenticated users can log their activity" ON public.user_activity;
 CREATE POLICY "Authenticated users can log their activity"
   ON public.user_activity
   FOR INSERT
@@ -225,12 +247,14 @@ CREATE POLICY "Authenticated users can log their activity"
 -- - Dashboard config is created during setup
 
 -- Dashboard config: users can only view their own
+DROP POLICY IF EXISTS "Users can view their own dashboard config" ON public.user_dashboard_config;
 CREATE POLICY "Users can view their own dashboard config"
   ON public.user_dashboard_config
   FOR SELECT
   USING (auth.uid() = user_id);
 
 -- Dashboard config: users can update their own
+DROP POLICY IF EXISTS "Users can update their own dashboard config" ON public.user_dashboard_config;
 CREATE POLICY "Users can update their own dashboard config"
   ON public.user_dashboard_config
   FOR UPDATE
@@ -238,6 +262,7 @@ CREATE POLICY "Users can update their own dashboard config"
   WITH CHECK (auth.uid() = user_id);
 
 -- Dashboard config: allow insert for logged in users
+DROP POLICY IF EXISTS "Authenticated users can create dashboard config" ON public.user_dashboard_config;
 CREATE POLICY "Authenticated users can create dashboard config"
   ON public.user_dashboard_config
   FOR INSERT
@@ -262,18 +287,21 @@ ALTER TABLE public.notification_preferences ENABLE ROW LEVEL SECURITY;
 -- - Only creator can edit or delete
 
 -- Anyone can view active items, creators can view their own drafts
+DROP POLICY IF EXISTS "Active items are viewable by everyone" ON public.items;
 CREATE POLICY "Active items are viewable by everyone"
   ON public.items
   FOR SELECT
   USING (status = 'active' OR auth.uid() = created_by);
 
 -- Users can create items
+DROP POLICY IF EXISTS "Users can create items" ON public.items;
 CREATE POLICY "Users can create items"
   ON public.items
   FOR INSERT
   WITH CHECK (auth.uid() = created_by);
 
 -- Users can update their own items
+DROP POLICY IF EXISTS "Users can update their own items" ON public.items;
 CREATE POLICY "Users can update their own items"
   ON public.items
   FOR UPDATE
@@ -281,6 +309,7 @@ CREATE POLICY "Users can update their own items"
   WITH CHECK (auth.uid() = created_by);
 
 -- Users can delete their own items
+DROP POLICY IF EXISTS "Users can delete their own items" ON public.items;
 CREATE POLICY "Users can delete their own items"
   ON public.items
   FOR DELETE
@@ -294,18 +323,21 @@ CREATE POLICY "Users can delete their own items"
 -- - Only publishers see their own subscriptions
 
 -- Publishers can view their publication subscriptions
+DROP POLICY IF EXISTS "Users can view their publication subscriptions" ON public.publication_subscriptions;
 CREATE POLICY "Users can view their publication subscriptions"
   ON public.publication_subscriptions
   FOR SELECT
   USING (auth.uid() = publisher_id);
 
 -- Publishers can create publication subscriptions
+DROP POLICY IF EXISTS "Users can create publication subscriptions" ON public.publication_subscriptions;
 CREATE POLICY "Users can create publication subscriptions"
   ON public.publication_subscriptions
   FOR INSERT
   WITH CHECK (auth.uid() = publisher_id);
 
 -- Publishers can update their publication subscriptions
+DROP POLICY IF EXISTS "Users can update their publication subscriptions" ON public.publication_subscriptions;
 CREATE POLICY "Users can update their publication subscriptions"
   ON public.publication_subscriptions
   FOR UPDATE
@@ -319,18 +351,21 @@ CREATE POLICY "Users can update their publication subscriptions"
 -- - Users can only add/remove themselves as followers
 
 -- Everyone can view item followers
+DROP POLICY IF EXISTS "Users can view item followers" ON public.item_followers;
 CREATE POLICY "Users can view item followers"
   ON public.item_followers
   FOR SELECT
   USING (true);
 
 -- Users can follow items (add themselves)
+DROP POLICY IF EXISTS "Users can follow items" ON public.item_followers;
 CREATE POLICY "Users can follow items"
   ON public.item_followers
   FOR INSERT
   WITH CHECK (auth.uid() = follower_id);
 
 -- Users can unfollow items (remove themselves)
+DROP POLICY IF EXISTS "Users can unfollow items" ON public.item_followers;
 CREATE POLICY "Users can unfollow items"
   ON public.item_followers
   FOR DELETE
@@ -344,12 +379,14 @@ CREATE POLICY "Users can unfollow items"
 -- - Users can only see and manage their own notifications
 
 -- Users can only view their own notifications
+DROP POLICY IF EXISTS "Users can view their own notifications" ON public.notifications;
 CREATE POLICY "Users can view their own notifications"
   ON public.notifications
   FOR SELECT
   USING (auth.uid() = recipient_id);
 
 -- Users can mark their notifications as read
+DROP POLICY IF EXISTS "Users can mark their notifications as read" ON public.notifications;
 CREATE POLICY "Users can mark their notifications as read"
   ON public.notifications
   FOR UPDATE
@@ -363,18 +400,21 @@ CREATE POLICY "Users can mark their notifications as read"
 -- - Users can only manage their own preferences
 
 -- Users can only view their own notification preferences
+DROP POLICY IF EXISTS "Users can view their notification preferences" ON public.notification_preferences;
 CREATE POLICY "Users can view their notification preferences"
   ON public.notification_preferences
   FOR SELECT
   USING (auth.uid() = user_id);
 
 -- Users can update their notification preferences
+DROP POLICY IF EXISTS "Users can update their notification preferences" ON public.notification_preferences;
 CREATE POLICY "Users can update their notification preferences"
   ON public.notification_preferences
   FOR UPDATE
   USING (auth.uid() = user_id);
 
 -- Users can insert their notification preferences
+DROP POLICY IF EXISTS "Users can insert their notification preferences" ON public.notification_preferences;
 CREATE POLICY "Users can insert their notification preferences"
   ON public.notification_preferences
   FOR INSERT
