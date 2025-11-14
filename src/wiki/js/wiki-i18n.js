@@ -723,6 +723,9 @@ const wikiI18n = {
   // Current language (defaults to browser or 'en')
   currentLanguage: 'en',
 
+  // Debug mode for troubleshooting
+  debugMode: true,
+
   // Initialize with browser language or fallback
   init() {
     const browserLang = (navigator.language || navigator.userLanguage).split('-')[0];
@@ -731,24 +734,54 @@ const wikiI18n = {
     this.currentLanguage = storedLang ||
       (this.translations[browserLang] ? browserLang : 'en');
 
+    if (this.debugMode) {
+      console.log('🌐 i18n Init:', {
+        browserLang,
+        storedLang,
+        currentLanguage: this.currentLanguage,
+        availableLanguages: this.getLanguages(),
+        totalTranslations: Object.keys(this.translations[this.currentLanguage] || {}).length
+      });
+    }
+
     return this.currentLanguage;
   },
 
   // Get translation for a key
   t(key, lang = null) {
     const language = lang || this.currentLanguage;
-    const translation = this.translations[language]?.[key] ||
+    const hasTranslation = this.translations[language]?.[key];
+    const translation = hasTranslation ||
                        this.translations['en']?.[key] ||
                        key;
+
+    if (this.debugMode && !hasTranslation) {
+      console.warn(`⚠️ Missing translation for "${key}" in language "${language}"`);
+    }
+
     return translation;
   },
 
   // Set language
   setLanguage(lang) {
     if (this.translations[lang]) {
+      const previousLang = this.currentLanguage;
       this.currentLanguage = lang;
       localStorage.setItem('wiki_language', lang);
+
+      if (this.debugMode) {
+        console.log('✅ Language changed:', {
+          from: previousLang,
+          to: lang,
+          totalKeys: Object.keys(this.translations[lang]).length
+        });
+      }
+
       return true;
+    }
+
+    if (this.debugMode) {
+      console.error(`❌ Language "${lang}" not available`);
     }
     return false;
   },

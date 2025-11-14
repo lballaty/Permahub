@@ -299,13 +299,33 @@ function changeLanguage(lang) {
  * Update all text on the page based on current language
  */
 function updatePageLanguage() {
-  if (!window.wikiI18n) return;
+  if (!window.wikiI18n) {
+    console.error('❌ wikiI18n not loaded');
+    return;
+  }
+
+  const currentLang = window.wikiI18n.getLanguage();
+  console.log(`🔄 Updating page language to: ${currentLang}`);
 
   // Update all elements with data-i18n attribute
   const elements = document.querySelectorAll('[data-i18n]');
+  console.log(`📝 Found ${elements.length} elements with data-i18n attribute`);
+
+  let translatedCount = 0;
+  let missingCount = 0;
+
   elements.forEach(el => {
     const key = el.dataset.i18n;
     const translation = window.wikiI18n.t(key);
+
+    if (translation === key) {
+      missingCount++;
+      if (window.wikiI18n.debugMode) {
+        console.warn(`⚠️ Missing translation for "${key}" in "${currentLang}", element:`, el);
+      }
+    } else {
+      translatedCount++;
+    }
 
     // Update text content or placeholder
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
@@ -319,6 +339,8 @@ function updatePageLanguage() {
 
   // Update all elements with data-i18n-placeholder attribute
   const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+  console.log(`📝 Found ${placeholderElements.length} elements with data-i18n-placeholder attribute`);
+
   placeholderElements.forEach(el => {
     const key = el.dataset.i18nPlaceholder;
     const translation = window.wikiI18n.t(key);
@@ -326,6 +348,8 @@ function updatePageLanguage() {
       el.placeholder = translation;
     }
   });
+
+  console.log(`✅ Page language update complete: ${translatedCount} translated, ${missingCount} missing`);
 
   // Update language selector button text
   const langBtn = document.getElementById('langSelectorBtn');

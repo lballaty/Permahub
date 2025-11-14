@@ -15,7 +15,7 @@ const hours = String(now.getHours()).padStart(2, '0');
 const minutes = String(now.getMinutes()).padStart(2, '0');
 
 // Version number (increment this manually for each release)
-const versionNumber = 7;
+const versionNumber = 8;
 
 // Full version string
 export const VERSION = `${year}${month}${day}.${hours}${minutes}.v${versionNumber}`;
