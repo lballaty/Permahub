@@ -11,6 +11,8 @@ let currentCategory = 'all';
 let currentSearchQuery = '';
 let allGuides = [];
 let allCategories = [];
+let allLocations = [];
+let allEvents = [];
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
@@ -49,6 +51,26 @@ async function loadInitialData() {
     allGuides = await fetchGuidesWithCategories();
     console.log(`✅ Loaded ${allGuides.length} guides from database`);
     console.log('📄 Guide titles:', allGuides.map(g => g.title));
+
+    // Fetch locations
+    console.log('📍 Fetching locations from wiki_locations table...');
+    allLocations = await supabase.getAll('wiki_locations', {
+      where: 'status',
+      operator: 'eq',
+      value: 'published',
+      order: 'name.asc'
+    });
+    console.log(`✅ Loaded ${allLocations.length} locations from database`);
+
+    // Fetch events
+    console.log('📅 Fetching events from wiki_events table...');
+    allEvents = await supabase.getAll('wiki_events', {
+      where: 'status',
+      operator: 'eq',
+      value: 'published',
+      order: 'event_date.asc'
+    });
+    console.log(`✅ Loaded ${allEvents.length} events from database`);
 
     // Update stats
     console.log('📈 Updating statistics...');
@@ -170,7 +192,7 @@ async function updateStats() {
 }
 
 /**
- * Render guides to the page
+ * Render guides to the page (and search results from all types)
  */
 function renderGuides() {
   const guidesGrid = document.getElementById('guidesGrid');
@@ -178,18 +200,19 @@ function renderGuides() {
 
   if (!guidesGrid) return;
 
-  // Filter guides based on current category and search query
+  // If there's a search query, search across all content types
+  if (currentSearchQuery !== '') {
+    renderSearchResults();
+    return;
+  }
+
+  // Otherwise, filter guides based on current category
   const filteredGuides = allGuides.filter(guide => {
     // Category filter
     const matchesCategory = currentCategory === 'all' ||
                            guide.categories.some(cat => cat.slug === currentCategory);
 
-    // Search filter
-    const matchesSearch = currentSearchQuery === '' ||
-                         guide.title.toLowerCase().includes(currentSearchQuery) ||
-                         guide.summary.toLowerCase().includes(currentSearchQuery);
-
-    return matchesCategory && matchesSearch;
+    return matchesCategory;
   });
 
   // Update count
@@ -213,14 +236,18 @@ function renderGuides() {
     return;
   }
 
-  guidesGrid.innerHTML = filteredGuides.map(guide => `
+  guidesGrid.innerHTML = filteredGuides.map(guide => {
+    // Debug: log each guide's slug
+    console.log(`Rendering guide: "${guide.title}" with slug: "${guide.slug}"`);
+
+    return `
     <div class="card">
       <div class="card-meta">
         <span><i class="fas fa-calendar"></i> ${formatDate(guide.published_at)}</span>
         <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
       </div>
       <h3 class="card-title">
-        <a href="wiki-page.html?slug=${guide.slug}" style="text-decoration: none; color: inherit;">
+        <a href="wiki-page.html?slug=${escapeHtml(guide.slug || '')}" style="text-decoration: none; color: inherit;">
           ${escapeHtml(guide.title)}
         </a>
       </h3>
@@ -233,7 +260,8 @@ function renderGuides() {
         `).join('')}
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 /**
@@ -339,4 +367,121 @@ function initializeSearch() {
       renderGuides();
     }, 300);
   });
+}
+
+/**
+ * Render search results from all content types
+ */
+function renderSearchResults() {
+  const guidesGrid = document.getElementById('guidesGrid');
+  const guideCount = document.getElementById('guideCount');
+
+  if (!guidesGrid) return;
+
+  // Search guides
+  const matchingGuides = allGuides.filter(guide =>
+    guide.title.toLowerCase().includes(currentSearchQuery) ||
+    guide.summary.toLowerCase().includes(currentSearchQuery)
+  );
+
+  // Search locations
+  const matchingLocations = allLocations.filter(location =>
+    location.name.toLowerCase().includes(currentSearchQuery) ||
+    (location.description && location.description.toLowerCase().includes(currentSearchQuery))
+  );
+
+  // Search events
+  const matchingEvents = allEvents.filter(event =>
+    event.title.toLowerCase().includes(currentSearchQuery) ||
+    (event.description && event.description.toLowerCase().includes(currentSearchQuery))
+  );
+
+  const totalResults = matchingGuides.length + matchingLocations.length + matchingEvents.length;
+
+  // Update count
+  if (guideCount) {
+    guideCount.textContent = `Found ${totalResults} result${totalResults !== 1 ? 's' : ''} for "${currentSearchQuery}"`;
+  }
+
+  // No results
+  if (totalResults === 0) {
+    guidesGrid.innerHTML = `
+      <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+        <i class="fas fa-search" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
+        <h3 style="color: var(--wiki-text-muted);">No results found</h3>
+        <p class="text-muted">Try adjusting your search query</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render mixed results
+  let resultsHTML = '';
+
+  // Add guides
+  matchingGuides.forEach(guide => {
+    console.log(`Search result - Guide: "${guide.title}" with slug: "${guide.slug}"`);
+    resultsHTML += `
+      <div class="card">
+        <div class="card-meta">
+          <span><i class="fas fa-book"></i> Guide</span>
+          <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
+        </div>
+        <h3 class="card-title">
+          <a href="wiki-page.html?slug=${escapeHtml(guide.slug || '')}" style="text-decoration: none; color: inherit;">
+            ${escapeHtml(guide.title)}
+          </a>
+        </h3>
+        <p class="text-muted">${escapeHtml(guide.summary)}</p>
+        <div class="tags">
+          ${guide.categories.map(cat => `<span class="tag">${escapeHtml(cat.name)}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  // Add locations
+  matchingLocations.forEach(location => {
+    resultsHTML += `
+      <div class="card">
+        <div class="card-meta">
+          <span><i class="fas fa-map-marker-alt"></i> Location</span>
+          <span>${escapeHtml(location.location_type || 'Place')}</span>
+        </div>
+        <h3 class="card-title">
+          <a href="wiki-map.html#location-${location.id}" style="text-decoration: none; color: inherit;">
+            ${escapeHtml(location.name)}
+          </a>
+        </h3>
+        <p class="text-muted">${escapeHtml(location.description || location.address || '')}</p>
+        ${location.website ? `<a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Visit Website</a>` : ''}
+      </div>
+    `;
+  });
+
+  // Add events
+  matchingEvents.forEach(event => {
+    const eventDate = new Date(event.event_date);
+    const dateStr = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    resultsHTML += `
+      <div class="card">
+        <div class="card-meta">
+          <span><i class="fas fa-calendar"></i> Event - ${dateStr}</span>
+          <span>${escapeHtml(event.event_type)}</span>
+        </div>
+        <h3 class="card-title">
+          <a href="wiki-events.html#event-${event.id}" style="text-decoration: none; color: inherit;">
+            ${escapeHtml(event.title)}
+          </a>
+        </h3>
+        <p class="text-muted">${escapeHtml(event.description || '')}</p>
+        <div style="margin-top: 0.5rem;">
+          <small><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name || '')}</small>
+        </div>
+      </div>
+    `;
+  });
+
+  guidesGrid.innerHTML = resultsHTML;
 }
