@@ -298,10 +298,11 @@ window.showEventDetails = function(eventId) {
 
   // Create modal HTML
   const modalHTML = `
-    <div id="eventModal" class="modal" style="display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000;">
+    <div id="eventModal" class="modal" style="display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000;">
       <div class="modal-content" style="
         position: relative;
-        background: var(--wiki-bg-secondary);
+        background: white;
+        color: #333;
         margin: 5% auto;
         padding: 2rem;
         width: 90%;
@@ -309,6 +310,7 @@ window.showEventDetails = function(eventId) {
         border-radius: 8px;
         max-height: 80vh;
         overflow-y: auto;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 6px 10px rgba(0, 0, 0, 0.15);
       ">
         <button onclick="closeEventModal()" style="
           position: absolute;
@@ -318,8 +320,9 @@ window.showEventDetails = function(eventId) {
           border: none;
           font-size: 1.5rem;
           cursor: pointer;
-          color: var(--wiki-text-muted);
-        ">&times;</button>
+          color: #666;
+          transition: color 0.2s;
+        " onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">&times;</button>
 
         <div style="display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem;">
           <div class="event-date" style="flex-shrink: 0;">
