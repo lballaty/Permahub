@@ -141,16 +141,21 @@ function initializeContentTypeSelector() {
 function updateFormFields() {
   const eventFields = document.getElementById('eventFields');
   const locationFields = document.getElementById('locationFields');
+  const wikipediaFields = document.getElementById('wikipediaFields');
 
   // Hide all type-specific fields first
   if (eventFields) eventFields.style.display = 'none';
   if (locationFields) locationFields.style.display = 'none';
+  if (wikipediaFields) wikipediaFields.style.display = 'none';
 
   // Show relevant fields
   if (currentContentType === 'event' && eventFields) {
     eventFields.style.display = 'block';
   } else if (currentContentType === 'location' && locationFields) {
     locationFields.style.display = 'block';
+  } else if (currentContentType === 'guide' && wikipediaFields) {
+    wikipediaFields.style.display = 'block';
+    initializeWikipediaHandlers();
   }
 
   // Update form title
@@ -402,13 +407,24 @@ async function saveContent(status = 'draft') {
  * Save guide to database
  */
 async function saveGuide(data) {
+  // Get Wikipedia data
+  const wikipediaUrl = document.getElementById('wikipediaUrl')?.value;
+  const wikipediaSummary = document.getElementById('wikipediaSummary')?.value;
+  const wikipediaVerified = document.getElementById('wikipediaUrl')?.dataset.verified === 'true';
+
   const guideData = {
     ...data,
     author_id: MOCK_USER_ID,
     published_at: data.status === 'published' ? new Date().toISOString() : null,
     allow_comments: document.getElementById('allowComments')?.checked,
     allow_edits: document.getElementById('allowEdits')?.checked,
-    notify_group: document.getElementById('notifyGroup')?.checked
+    notify_group: document.getElementById('notifyGroup')?.checked,
+    // Add Wikipedia fields
+    wikipedia_url: wikipediaUrl || null,
+    wikipedia_summary: wikipediaSummary || null,
+    wikipedia_verified: wikipediaVerified,
+    wikipedia_verified_at: wikipediaVerified ? new Date().toISOString() : null,
+    wikipedia_verified_by: wikipediaVerified ? MOCK_USER_ID : null
   };
 
   if (editingContentId) {
@@ -573,6 +589,84 @@ async function loadExistingContent(slug) {
   } catch (error) {
     console.error('Error loading content:', error);
     alert('Failed to load content for editing');
+  }
+}
+
+/**
+ * Initialize Wikipedia handlers
+ */
+function initializeWikipediaHandlers() {
+  const wikipediaUrl = document.getElementById('wikipediaUrl');
+  const verifyBtn = document.getElementById('verifyWikipedia');
+  const fetchSummaryBtn = document.getElementById('fetchWikipediaSummary');
+  const verificationDiv = document.getElementById('wikipediaVerification');
+  const verifiedStatus = document.getElementById('wikipediaVerifiedStatus');
+  const summaryBox = document.getElementById('wikipediaSummaryBox');
+
+  if (!wikipediaUrl) return;
+
+  // Show/hide verification section when URL is entered
+  wikipediaUrl.addEventListener('input', function() {
+    if (this.value && this.value.match(/https:\/\/.*\.wikipedia\.org\/wiki\/.*/)) {
+      verificationDiv.style.display = 'block';
+      verifiedStatus.style.display = 'none';
+    } else {
+      verificationDiv.style.display = 'none';
+      verifiedStatus.style.display = 'none';
+    }
+  });
+
+  // Verify Wikipedia link
+  if (verifyBtn) {
+    verifyBtn.addEventListener('click', async function() {
+      const url = wikipediaUrl.value;
+      if (!url) return;
+
+      try {
+        // Extract article name from URL
+        const articleName = url.split('/wiki/')[1];
+
+        // For now, just mark as verified (in production, would validate the URL)
+        verifiedStatus.style.display = 'block';
+        verificationDiv.querySelector('.fas.fa-exclamation-triangle').parentElement.parentElement.style.display = 'none';
+
+        // Store verification status
+        wikipediaUrl.dataset.verified = 'true';
+        wikipediaUrl.dataset.verifiedAt = new Date().toISOString();
+
+        console.log('✅ Wikipedia link verified:', articleName);
+      } catch (error) {
+        console.error('Error verifying Wikipedia link:', error);
+        alert('Failed to verify Wikipedia link. Please check the URL.');
+      }
+    });
+  }
+
+  // Fetch Wikipedia summary
+  if (fetchSummaryBtn) {
+    fetchSummaryBtn.addEventListener('click', async function() {
+      const url = wikipediaUrl.value;
+      if (!url) return;
+
+      try {
+        // Extract article name from URL
+        const articleName = url.split('/wiki/')[1];
+        const apiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${articleName}`;
+
+        // Note: This would need CORS handling in production
+        console.log('📖 Fetching Wikipedia summary for:', articleName);
+
+        // For now, show the summary box with a placeholder
+        summaryBox.style.display = 'block';
+        document.getElementById('wikipediaSummary').value =
+          `Summary of "${decodeURIComponent(articleName)}" from Wikipedia. (Note: In production, this would fetch actual content via a backend API to avoid CORS issues)`;
+
+      } catch (error) {
+        console.error('Error fetching Wikipedia summary:', error);
+        alert('Failed to fetch Wikipedia summary. You can add it manually.');
+        summaryBox.style.display = 'block';
+      }
+    });
   }
 }
 

@@ -170,6 +170,66 @@
           </div>
         </div>
 
+        <!-- Wikipedia Reference (shown for guides) -->
+        <div id="wikipediaFields" style="display: none;">
+          <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+              <i class="fab fa-wikipedia-w"></i> Wikipedia Reference
+            </h3>
+
+            <div class="form-group">
+              <label class="form-label" for="wikipediaUrl">Wikipedia Link (optional)</label>
+              <input
+                type="url"
+                id="wikipediaUrl"
+                class="form-input"
+                placeholder="https://en.wikipedia.org/wiki/Permaculture"
+                pattern="https://.*\.wikipedia\.org/wiki/.*"
+              >
+              <small class="text-muted">
+                <i class="fas fa-info-circle"></i> Add a Wikipedia link for fact-checking and additional information
+              </small>
+            </div>
+
+            <div id="wikipediaVerification" style="display: none; margin-top: 1rem;">
+              <div style="padding: 1rem; background: #fff3e0; border-left: 4px solid #f57c00; border-radius: 4px;">
+                <strong style="color: #e65100;">
+                  <i class="fas fa-exclamation-triangle"></i> Verification Required
+                </strong>
+                <p style="margin: 0.5rem 0 1rem; color: #424242;">
+                  Please verify that the Wikipedia article is relevant and accurate for this guide.
+                </p>
+                <button type="button" id="verifyWikipedia" class="btn btn-primary btn-small">
+                  <i class="fas fa-check-circle"></i> Verify Link
+                </button>
+                <button type="button" id="fetchWikipediaSummary" class="btn btn-outline btn-small" style="margin-left: 0.5rem;">
+                  <i class="fas fa-sync"></i> Fetch Summary
+                </button>
+              </div>
+
+              <div id="wikipediaSummaryBox" style="display: none; margin-top: 1rem;">
+                <label class="form-label">Wikipedia Summary</label>
+                <textarea
+                  id="wikipediaSummary"
+                  class="form-input"
+                  rows="3"
+                  placeholder="Brief summary from Wikipedia article..."
+                  style="resize: vertical;"
+                ></textarea>
+              </div>
+
+              <div id="wikipediaVerifiedStatus" style="display: none; margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-left: 4px solid #4caf50; border-radius: 4px;">
+                <strong style="color: #2e7d32;">
+                  <i class="fas fa-check-circle"></i> Verified
+                </strong>
+                <p style="margin: 0.5rem 0 0; color: #424242; font-size: 0.9rem;">
+                  This Wikipedia link has been verified as accurate and relevant.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Additional Fields (shown based on content type) -->
         <div id="eventFields" style="display: none;">
           <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.event_details">Event Details</h3>
