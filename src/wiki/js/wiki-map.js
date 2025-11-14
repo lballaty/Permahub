@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Initialize search
   initializeLocationSearch();
 
+  // Check if we need to zoom to a specific location
+  handleLocationHash();
+
+  // Handle hash changes
+  window.addEventListener('hashchange', handleLocationHash);
+
   console.log(`✅ Wiki Map ${VERSION_DISPLAY}: Initialization complete`);
 });
 
@@ -122,6 +128,9 @@ function renderLocations() {
           iconAnchor: [15, 42]
         })
       }).addTo(map);
+
+      // Store location reference in marker for easier access
+      marker.locationId = location.id;
 
       // Add popup
       marker.bindPopup(`
@@ -460,4 +469,49 @@ if (toggleListBtn) {
     document.querySelector('.map-container').style.display = 'none';
     document.getElementById('locationList').style.display = 'block';
   });
+}
+
+/**
+ * Handle location hash in URL to zoom to specific location
+ */
+function handleLocationHash() {
+  const hash = window.location.hash;
+
+  if (hash && hash.startsWith('#location-')) {
+    const locationId = hash.replace('#location-', '');
+    console.log(`🎯 Zooming to location ID: ${locationId}`);
+
+    // Find the location
+    const location = allLocations.find(loc => loc.id === locationId);
+
+    if (location && location.latitude && location.longitude) {
+      console.log(`📍 Found location: ${location.name} at ${location.latitude}, ${location.longitude}`);
+
+      // Wait a moment for map to be ready
+      setTimeout(() => {
+        // Zoom to the location
+        map.setView([location.latitude, location.longitude], 16);
+
+        // Find and open the marker popup
+        const marker = markers.find(m => m.locationId === locationId);
+
+        if (marker) {
+          marker.openPopup();
+          console.log(`✅ Opened popup for ${location.name}`);
+        }
+
+        // Highlight the location in the list if visible
+        const locationItem = document.querySelector(`[data-location-id="${locationId}"]`);
+        if (locationItem) {
+          locationItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          locationItem.style.backgroundColor = 'var(--wiki-primary-light, #e8f5e9)';
+          setTimeout(() => {
+            locationItem.style.backgroundColor = '';
+          }, 3000);
+        }
+      }, 500);
+    } else {
+      console.warn(`⚠️ Location not found or missing coordinates: ${locationId}`);
+    }
+  }
 }
