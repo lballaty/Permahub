@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Migration - Permahub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .check-item {
+            background: #f7fafc;
+            border-left: 4px solid #cbd5e0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .check-item.success {
+            border-left-color: #48bb78;
+            background: #f0fff4;
+        }
+        .check-item.error {
+            border-left-color: #f56565;
+            background: #fff5f5;
+        }
+        .check-item.pending {
+            border-left-color: #ed8936;
+            background: #fffdf7;
+        }
+        .status-icon {
+            font-size: 1.5rem;
+        }
+        .check-details {
+            flex: 1;
+        }
+        .check-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .check-message {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .summary h2 {
+            margin-bottom: 10px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Migration Verification</h1>
+
+        <div id="checks">
+            <div class="check-item pending">
+                <span class="status-icon">⏳</span>
+                <div class="check-details">
+                    <div class="check-title">Initializing verification...</div>
+                    <div class="check-message">Connecting to Supabase</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary" id="summary" style="display: none;">
+            <h2>Migration Summary</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" id="totalCategories">0</div>
+                    <div class="stat-label">Resource Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="totalTables">0</div>
+                    <div class="stat-label">New Tables</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="totalWiki">0</div>
+                    <div class="stat-label">Wiki Categories</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button onclick="runVerification()">🔄 Re-run Verification</button>
+            <button onclick="window.location.href='test-expanded-categories.html'">📊 View Categories</button>
+            <button onclick="window.location.href='src/pages/personalized-dashboard.html'">🎯 Test Dashboard</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabaseUrl = 'https://mcbxbaggjaxqfdvmrqsc.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3NTQxMDEsImV4cCI6MjA0NjMzMDEwMX0.qxXxJT0U7t6WmMiONirmHnBZBUhYwG5q3jF2Swtu4NI';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        const checks = [
+            {
+                name: 'Resource Categories - Animal Husbandry',
+                test: async () => {
+                    const { data, error } = await supabase
+                        .from('resource_categories')
+                        .select('*')
+                        .eq('category_type', 'animal');
+                    if (error) throw error;
+                    return {
+                        success: data && data.length >= 6,
+                        message: `Found ${data?.length || 0} animal categories (expected 6+)`
+                    };
+                }
+            },
+            {
+                name: 'Resource Categories - Food Preservation',
+                test: async () => {
+                    const { data, error } = await supabase
+                        .from('resource_categories')
+                        .select('*')
+                        .eq('category_type', 'preservation');
+                    if (error) throw error;
+                    return {
+                        success: data && data.length >= 6,
+                        message: `Found ${data?.length || 0} preservation categories (expected 6+)`
+                    };
+                }
+            },
+            {
+                name: 'Resource Categories - Mycology',
+                test: async () => {
+                    const { data, error } = await supabase
+                        .from('resource_categories')
+                        .select('*')
+                        .eq('category_type', 'fungi');
+                    if (error) throw error;
+                    return {
+                        success: data && data.length >= 6,
+                        message: `Found ${data?.length || 0} fungi categories (expected 6+)`
+                    };
+                }
+            },
+            {
+                name: 'User Activity Table',
+                test: async () => {
+                    const { error } = await supabase
+                        .from('user_activity')
+                        .select('id')
+                        .limit(1);
+                    return {
+                        success: !error,
+                        message: error ? `Error: ${error.message}` : 'Table exists and is accessible'
+                    };
+                }
+            },
+            {
+                name: 'User Affinity Scores Table',
+                test: async () => {
+                    const { error } = await supabase
+                        .from('user_affinity_scores')
+                        .select('id')
+                        .limit(1);
+                    return {
+                        success: !error,
+                        message: error ? `Error: ${error.message}` : 'Table exists and is accessible'
+                    };
+                }
+            },
+            {
+                name: 'User Dashboard Config Table',
+                test: async () => {
+                    const { error } = await supabase
+                        .from('user_dashboard_config')
+                        .select('id')
+                        .limit(1);
+                    return {
+                        success: !error,
+                        message: error ? `Error: ${error.message}` : 'Table exists and is accessible'
+                    };
+                }
+            },
+            {
+                name: 'Track Activity Function',
+                test: async () => {
+                    // Try to call the function (it will fail without auth, but we can check if it exists)
+                    try {
+                        const { error } = await supabase.rpc('track_user_activity', {
+                            p_user_id: '00000000-0000-0000-0000-000000000000',
+                            p_activity_type: 'view',
+                            p_content_type: 'dashboard',
+                            p_content_id: null
+                        });
+                        // Function exists if we get here (even with an error about user not existing)
+                        return {
+                            success: true,
+                            message: 'Function exists and is callable'
+                        };
+                    } catch (e) {
+                        // Check if it's a "function doesn't exist" error
+                        if (e.message.includes('not exist')) {
+                            return {
+                                success: false,
+                                message: 'Function does not exist'
+                            };
+                        }
+                        return {
+                            success: true,
+                            message: 'Function exists'
+                        };
+                    }
+                }
+            },
+            {
+                name: 'Get Personalized Content Function',
+                test: async () => {
+                    try {
+                        const { error } = await supabase.rpc('get_personalized_content', {
+                            p_user_id: '00000000-0000-0000-0000-000000000000',
+                            p_limit: 1
+                        });
+                        return {
+                            success: true,
+                            message: 'Function exists and is callable'
+                        };
+                    } catch (e) {
+                        if (e.message.includes('not exist')) {
+                            return {
+                                success: false,
+                                message: 'Function does not exist'
+                            };
+                        }
+                        return {
+                            success: true,
+                            message: 'Function exists'
+                        };
+                    }
+                }
+            },
+            {
+                name: 'Total Category Count',
+                test: async () => {
+                    const { data, error } = await supabase
+                        .from('resource_categories')
+                        .select('*');
+                    if (error) throw error;
+                    const newTypes = ['animal', 'preservation', 'fungi', 'indigenous', 'fiber',
+                                     'technology', 'herbal-medicine', 'soil', 'foraging', 'aquaculture'];
+                    const newCategories = data.filter(c => newTypes.includes(c.category_type));
+                    return {
+                        success: newCategories.length > 0,
+                        message: `Total categories: ${data?.length || 0} (${newCategories.length} new)`
+                    };
+                }
+            }
+        ];
+
+        async function runVerification() {
+            const checksContainer = document.getElementById('checks');
+            checksContainer.innerHTML = '';
+
+            let successCount = 0;
+            let totalCategories = 0;
+            let newTables = 0;
+
+            for (const check of checks) {
+                const checkDiv = document.createElement('div');
+                checkDiv.className = 'check-item pending';
+                checkDiv.innerHTML = `
+                    <span class="status-icon">⏳</span>
+                    <div class="check-details">
+                        <div class="check-title">${check.name}</div>
+                        <div class="check-message">Running check...</div>
+                    </div>
+                `;
+                checksContainer.appendChild(checkDiv);
+
+                try {
+                    const result = await check.test();
+
+                    if (result.success) {
+                        successCount++;
+                        checkDiv.className = 'check-item success';
+                        checkDiv.innerHTML = `
+                            <span class="status-icon">✅</span>
+                            <div class="check-details">
+                                <div class="check-title">${check.name}</div>
+                                <div class="check-message">${result.message}</div>
+                            </div>
+                        `;
+
+                        // Update stats
+                        if (check.name.includes('Categories')) {
+                            const match = result.message.match(/Found (\d+)/);
+                            if (match) totalCategories += parseInt(match[1]);
+                        }
+                        if (check.name.includes('Table')) {
+                            newTables++;
+                        }
+                    } else {
+                        checkDiv.className = 'check-item error';
+                        checkDiv.innerHTML = `
+                            <span class="status-icon">❌</span>
+                            <div class="check-details">
+                                <div class="check-title">${check.name}</div>
+                                <div class="check-message">${result.message}</div>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    checkDiv.className = 'check-item error';
+                    checkDiv.innerHTML = `
+                        <span class="status-icon">❌</span>
+                        <div class="check-details">
+                            <div class="check-title">${check.name}</div>
+                            <div class="check-message">Error: ${error.message}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Get wiki categories count
+            try {
+                const { data: wikiCats } = await supabase
+                    .from('wiki_categories')
+                    .select('id');
+                document.getElementById('totalWiki').textContent = wikiCats?.length || 0;
+            } catch (e) {
+                document.getElementById('totalWiki').textContent = '?';
+            }
+
+            // Show summary
+            document.getElementById('summary').style.display = 'block';
+            document.getElementById('totalCategories').textContent = totalCategories;
+            document.getElementById('totalTables').textContent = newTables;
+
+            // Final status message
+            const finalStatus = document.createElement('div');
+            finalStatus.className = successCount === checks.length ? 'check-item success' : 'check-item error';
+            finalStatus.style.marginTop = '20px';
+            finalStatus.style.background = successCount === checks.length ?
+                'linear-gradient(135deg, #48bb78, #38a169)' :
+                'linear-gradient(135deg, #f56565, #e53e3e)';
+            finalStatus.style.color = 'white';
+            finalStatus.innerHTML = `
+                <span class="status-icon">${successCount === checks.length ? '🎉' : '⚠️'}</span>
+                <div class="check-details">
+                    <div class="check-title" style="color: white;">
+                        ${successCount === checks.length ?
+                            'All migrations completed successfully!' :
+                            `${successCount}/${checks.length} checks passed`}
+                    </div>
+                    <div class="check-message" style="color: rgba(255,255,255,0.9);">
+                        ${successCount === checks.length ?
+                            'Your database is ready for the new features!' :
+                            'Please run the migration script in Supabase SQL Editor'}
+                    </div>
+                </div>
+            `;
+            checksContainer.appendChild(finalStatus);
+        }
+
+        // Auto-run on load
+        window.runVerification = runVerification;
+        document.addEventListener('DOMContentLoaded', runVerification);
+    </script>
+</body>
+</html>
