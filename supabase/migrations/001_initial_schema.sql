@@ -459,7 +459,7 @@ CREATE POLICY "Users can delete their own favorites"
 CREATE OR REPLACE FUNCTION search_projects_nearby(
   user_lat DECIMAL,
   user_lon DECIMAL,
-  distance_km DECIMAL DEFAULT 50
+  max_distance_km DECIMAL DEFAULT 50
 )
 RETURNS TABLE (
   id UUID,
@@ -489,7 +489,7 @@ BEGIN
       POWER(SIN(RADIANS((p.latitude - user_lat) / 2)), 2) +
       COS(RADIANS(user_lat)) * COS(RADIANS(p.latitude)) *
       POWER(SIN(RADIANS((p.longitude - user_lon) / 2)), 2)
-    ))) < distance_km
+    ))) < max_distance_km
   ORDER BY distance_km;
 END;
 $$ LANGUAGE plpgsql;
@@ -498,7 +498,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION search_resources_nearby(
   user_lat DECIMAL,
   user_lon DECIMAL,
-  distance_km DECIMAL DEFAULT 50
+  max_distance_km DECIMAL DEFAULT 50
 )
 RETURNS TABLE (
   id UUID,
@@ -528,7 +528,7 @@ BEGIN
       POWER(SIN(RADIANS((r.latitude - user_lat) / 2)), 2) +
       COS(RADIANS(user_lat)) * COS(RADIANS(r.latitude)) *
       POWER(SIN(RADIANS((r.longitude - user_lon) / 2)), 2)
-    ))) < distance_km
+    ))) < max_distance_km
   ORDER BY distance_km;
 END;
 $$ LANGUAGE plpgsql;
