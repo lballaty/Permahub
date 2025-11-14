@@ -119,7 +119,7 @@ function renderEvents() {
         </div>
         <div style="margin-top: 1rem;">
           ${event.registration_url ? `<a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary btn-small">Register</a>` : ''}
-          ${event.slug ? `<a href="wiki-page.html?slug=${event.slug}" class="btn btn-outline btn-small">Details</a>` : ''}
+          <button onclick="showEventDetails('${event.id}')" class="btn btn-outline btn-small">Details</button>
         </div>
       </div>
     </div>
@@ -285,3 +285,135 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+/**
+ * Show event details in a modal
+ */
+window.showEventDetails = function(eventId) {
+  const event = allEvents.find(e => e.id === eventId);
+  if (!event) {
+    console.error(`Event not found: ${eventId}`);
+    return;
+  }
+
+  // Create modal HTML
+  const modalHTML = `
+    <div id="eventModal" class="modal" style="display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000;">
+      <div class="modal-content" style="
+        position: relative;
+        background: var(--wiki-bg-secondary);
+        margin: 5% auto;
+        padding: 2rem;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 8px;
+        max-height: 80vh;
+        overflow-y: auto;
+      ">
+        <button onclick="closeEventModal()" style="
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: var(--wiki-text-muted);
+        ">&times;</button>
+
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div class="event-date" style="flex-shrink: 0;">
+            <div class="event-day">${formatDay(event.event_date)}</div>
+            <div class="event-month">${formatMonth(event.event_date)}</div>
+          </div>
+          <div>
+            <h2 style="margin: 0 0 0.5rem 0;">${escapeHtml(event.title)}</h2>
+            <div class="tags">
+              <span class="tag">${formatEventType(event.event_type)}</span>
+              ${event.price_display ? `<span class="tag">${escapeHtml(event.price_display)}</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-info-circle"></i> About This Event</h3>
+          <p style="line-height: 1.6;">${escapeHtml(event.description || 'No description available.')}</p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-calendar-alt"></i> When</h3>
+          <p>
+            ${new Date(event.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            ${event.start_time ? `<br>${formatTime(event.start_time)}${event.end_time ? ' - ' + formatTime(event.end_time) : ''}` : ''}
+          </p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt"></i> Where</h3>
+          <p>
+            <strong>${escapeHtml(event.location_name || 'TBD')}</strong>
+            ${event.location_address ? `<br>${escapeHtml(event.location_address)}` : ''}
+            ${event.latitude && event.longitude ? `
+              <br><a href="https://maps.google.com/?q=${event.latitude},${event.longitude}" target="_blank" rel="noopener" style="color: var(--wiki-primary);">
+                View on Map <i class="fas fa-external-link-alt"></i>
+              </a>
+            ` : ''}
+          </p>
+        </div>
+
+        ${event.max_attendees ? `
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-users"></i> Capacity</h3>
+          <p>
+            ${event.current_attendees || 0} / ${event.max_attendees} attendees
+            ${event.max_attendees - (event.current_attendees || 0) > 0 ?
+              `<span style="color: var(--wiki-success); margin-left: 1rem;">
+                <i class="fas fa-check-circle"></i> ${event.max_attendees - (event.current_attendees || 0)} spots available
+              </span>` :
+              `<span style="color: var(--wiki-danger); margin-left: 1rem;">
+                <i class="fas fa-times-circle"></i> Sold out
+              </span>`
+            }
+          </p>
+        </div>
+        ` : ''}
+
+        ${event.price || event.price_display ? `
+        <div style="margin-bottom: 1.5rem;">
+          <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-ticket-alt"></i> Price</h3>
+          <p>${event.price_display || (event.price === 0 ? 'Free' : `$${event.price}`)}</p>
+        </div>
+        ` : ''}
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+          ${event.registration_url ? `
+            <a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary">
+              <i class="fas fa-external-link-alt"></i> Register Now
+            </a>
+          ` : ''}
+          <button onclick="closeEventModal()" class="btn btn-outline">Close</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Add modal to page
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Close modal on background click
+  document.getElementById('eventModal').addEventListener('click', function(e) {
+    if (e.target.id === 'eventModal') {
+      closeEventModal();
+    }
+  });
+};
+
+/**
+ * Close event modal
+ */
+window.closeEventModal = function() {
+  const modal = document.getElementById('eventModal');
+  if (modal) {
+    modal.remove();
+  }
+};
