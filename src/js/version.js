@@ -15,7 +15,7 @@ const hours = String(now.getHours()).padStart(2, '0');
 const minutes = String(now.getMinutes()).padStart(2, '0');
 
 // Version number (increment this manually for each release)
-const versionNumber = 1;
+const versionNumber = 2;
 
 // Full version string
 export const VERSION = `${year}${month}${day}.${hours}${minutes}.v${versionNumber}`;
@@ -37,6 +37,12 @@ export function displayVersionInHeader() {
   const header = document.querySelector('header') || document.querySelector('.wiki-nav');
 
   if (header) {
+    // Check if badge already exists
+    if (document.querySelector('.version-badge')) {
+      console.log(`ℹ️ Version badge already exists`);
+      return;
+    }
+
     // Create version badge
     const versionBadge = document.createElement('span');
     versionBadge.className = 'version-badge';
@@ -50,17 +56,31 @@ export function displayVersionInHeader() {
       font-weight: bold;
       margin-left: 10px;
       vertical-align: middle;
+      position: absolute;
+      top: 15px;
+      right: 15px;
     `;
 
-    // Add to header
-    const title = header.querySelector('h1, .title');
-    if (title) {
-      title.appendChild(versionBadge);
+    // For wiki pages, add to the nav element
+    const wikiNav = header.querySelector('.wiki-nav');
+    if (wikiNav) {
+      wikiNav.style.position = 'relative'; // Ensure relative positioning for absolute child
+      wikiNav.appendChild(versionBadge);
     } else {
-      header.appendChild(versionBadge);
+      // For other pages, try to find a title or add to header
+      const title = header.querySelector('h1, .title');
+      if (title) {
+        versionBadge.style.position = 'static';
+        title.appendChild(versionBadge);
+      } else {
+        header.style.position = 'relative';
+        header.appendChild(versionBadge);
+      }
     }
 
     console.log(`✅ Version badge displayed in header: ${VERSION_DISPLAY}`);
+  } else {
+    console.warn('⚠️ Could not find header element for version badge');
   }
 }
 
