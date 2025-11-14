@@ -23,6 +23,22 @@ enabled = true
 site_url = "http://localhost:3000"
 additional_redirect_urls = []
 
+# Email settings for local development with Mailpit
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+# Magic link settings
+otp_expiry = 3600
+max_frequency = "1s"  # Allow frequent emails for testing
+
+# SMTP configuration is done via environment variables
+# See .env.local or docker-compose.yml for SMTP settings
+# - SUPABASE_AUTH_SMTP_HOST=host.docker.internal
+# - SUPABASE_AUTH_SMTP_PORT=1025
+# - SUPABASE_AUTH_SMTP_USER=
+# - SUPABASE_AUTH_SMTP_PASS=
+# - SUPABASE_AUTH_SMTP_SENDER=noreply@permahub.local
+
 [edge_runtime]
 enabled = true
 policy = "per_worker"

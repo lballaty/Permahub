@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   await loadInitialData();
   initializeCategoryFilters();
   initializeSearch();
+  renderUpcomingEvents(); // Render upcoming events section
 
   console.log(`✅ Wiki Home ${VERSION_DISPLAY}: Initialization complete`);
 });
@@ -479,9 +480,173 @@ function renderSearchResults() {
         <div style="margin-top: 0.5rem;">
           <small><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name || '')}</small>
         </div>
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+          <button onclick="showEventDetails('${event.id}')" class="btn btn-outline btn-small">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
+          ${event.registration_link ? `
+            <a href="${escapeHtml(event.registration_link)}" target="_blank" class="btn btn-primary btn-small">
+              <i class="fas fa-ticket-alt"></i> Register
+            </a>
+          ` : `
+            <button onclick="registerForEvent('${event.id}')" class="btn btn-primary btn-small">
+              <i class="fas fa-user-plus"></i> Register
+            </button>
+          `}
+        </div>
       </div>
     `;
   });
 
   guidesGrid.innerHTML = resultsHTML;
 }
+
+/**
+ * Render upcoming events section with dynamic data
+ */
+function renderUpcomingEvents() {
+  const eventsGrid = document.getElementById('upcomingEventsGrid');
+  if (!eventsGrid) return;
+
+  // Filter to get only upcoming events (not past)
+  const now = new Date();
+  const upcomingEvents = allEvents.filter(event => {
+    const eventDate = new Date(event.event_date);
+    return eventDate >= now;
+  }).slice(0, 6); // Show only first 6 events
+
+  // If no upcoming events
+  if (upcomingEvents.length === 0) {
+    eventsGrid.innerHTML = `
+      <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+        <i class="fas fa-calendar-times" style="font-size: 2rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;"></i>
+        <h3 style="color: var(--wiki-text-muted);">No upcoming events</h3>
+        <p class="text-muted">Check back later or <a href="wiki-editor.html?type=event">create an event</a></p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render events
+  eventsGrid.innerHTML = upcomingEvents.map(event => {
+    const eventDate = new Date(event.event_date);
+    const day = eventDate.getDate();
+    const month = eventDate.toLocaleDateString('en-US', { month: 'short' });
+
+    // Format time
+    let timeStr = '';
+    if (event.start_time) {
+      timeStr = event.start_time;
+      if (event.end_time) {
+        timeStr += ` - ${event.end_time}`;
+      }
+    }
+
+    return `
+      <div class="event-card">
+        <div class="event-date">
+          <div class="event-day">${day}</div>
+          <div class="event-month">${month}</div>
+        </div>
+        <div class="event-details">
+          <h3 class="event-title">${escapeHtml(event.title)}</h3>
+          <div class="event-info">
+            ${timeStr ? `<span><i class="fas fa-clock"></i> ${escapeHtml(timeStr)}</span>` : ''}
+            <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name || 'TBD')}</span>
+          </div>
+          <p class="text-muted mt-1">
+            ${escapeHtml(event.description || '')}
+          </p>
+          <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+            <button onclick="showEventDetails('${event.id}')" class="btn btn-outline btn-small">
+              <i class="fas fa-info-circle"></i> Details
+            </button>
+            ${event.registration_link ? `
+              <a href="${escapeHtml(event.registration_link)}" target="_blank" rel="noopener" class="btn btn-primary btn-small">
+                <i class="fas fa-ticket-alt"></i> Register
+              </a>
+            ` : `
+              <button onclick="registerForEvent('${event.id}')" class="btn btn-primary btn-small">
+                <i class="fas fa-user-plus"></i> Register
+              </button>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/**
+ * Show event details in a modal or redirect to events page
+ */
+window.showEventDetails = function(eventId) {
+  // For now, redirect to events page with the event ID hash
+  window.location.href = `wiki-events.html#event-${eventId}`;
+};
+
+/**
+ * Handle event registration
+ */
+window.registerForEvent = async function(eventId) {
+  try {
+    // Find the event
+    const event = allEvents.find(e => e.id === eventId);
+    if (!event) {
+      alert('Event not found');
+      return;
+    }
+
+    // Check if user is logged in (for now using mock user)
+    const userId = 'mock-user-123'; // TODO: Replace with actual auth check
+
+    // Show registration form or modal
+    const email = prompt(`Register for "${event.title}"\n\nPlease enter your email address:`);
+
+    if (!email) {
+      return; // User cancelled
+    }
+
+    // Validate email
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    // Save registration to database
+    console.log('Registering for event:', {
+      event_id: eventId,
+      event_title: event.title,
+      user_email: email,
+      registered_at: new Date().toISOString()
+    });
+
+    // Call the registration function via RPC
+    const { data, error } = await supabase.client
+      .rpc('register_for_event', {
+        p_event_id: eventId,
+        p_user_email: email,
+        p_user_id: null, // Will be replaced with actual auth when implemented
+        p_user_name: null
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    // Check result
+    if (data && data.success) {
+      if (data.status === 'waitlisted') {
+        alert(`Added to waitlist for "${event.title}"!\n\nYou will be notified via email at ${email} if a spot becomes available.`);
+      } else {
+        alert(`Successfully registered for "${event.title}"!\n\nA confirmation email will be sent to ${email}.`);
+      }
+    } else {
+      alert(data?.message || 'Registration failed. Please try again.');
+    }
+
+  } catch (error) {
+    console.error('Error registering for event:', error);
+    alert('Failed to register for event. Please try again.');
+  }
+};
