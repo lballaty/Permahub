@@ -32,7 +32,8 @@
       "Bash(npx playwright test:*)",
       "Bash(supabase db seed:*)",
       "Bash(pkill:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

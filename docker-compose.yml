@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Mailpit - Email testing tool for local development
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: permahub_mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    volumes:
+      - mailpit-data:/data
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATA_FILE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  mailpit-data:
+
+# Note: Supabase runs its own containers when you run 'supabase start'
+# This compose file only adds Mailpit for email testing
+#
+# To use:
+# 1. Start Mailpit: docker-compose up -d
+# 2. Access Mailpit UI at: http://localhost:8025
+# 3. Configure Supabase to use Mailpit SMTP: localhost:1025
