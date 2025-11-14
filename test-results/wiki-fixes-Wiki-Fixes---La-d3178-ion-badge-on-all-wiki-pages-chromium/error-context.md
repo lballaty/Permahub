@@ -1,0 +1,214 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "🌱 Community Wiki" [ref=e4] [cursor=pointer]:
+        - /url: wiki-home.html
+        - generic [ref=e5]: 🌱
+        - generic [ref=e6]: Community Wiki
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: wiki-home.html
+        - listitem [ref=e10]:
+          - link "Events" [ref=e11] [cursor=pointer]:
+            - /url: wiki-events.html
+        - listitem [ref=e12]:
+          - link "Locations" [ref=e13] [cursor=pointer]:
+            - /url: wiki-map.html
+        - listitem [ref=e14]:
+          - link "Login" [ref=e15] [cursor=pointer]:
+            - /url: wiki-login.html
+        - listitem [ref=e16]:
+          - button " English " [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+            - generic [ref=e20]: English
+            - generic [ref=e21]: 
+        - listitem [ref=e22]:
+          - link "Create Page" [ref=e23] [cursor=pointer]:
+            - /url: wiki-editor.html
+      - text: 
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - heading "Create New Guide" [level=1] [ref=e27]
+        - generic [ref=e28]:
+          - button " Preview" [ref=e29] [cursor=pointer]:
+            - generic [ref=e30]: 
+            - text: Preview
+          - button " Save Draft" [ref=e31] [cursor=pointer]:
+            - generic [ref=e32]: 
+            - text: Save Draft
+          - button " Publish" [ref=e33] [cursor=pointer]:
+            - generic [ref=e34]: 
+            - text: Publish
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - generic [ref=e37]: Content Type
+          - generic [ref=e38]:
+            - generic [ref=e39] [cursor=pointer]:
+              - radio " Guide/Article" [checked] [ref=e40]
+              - generic [ref=e41]:
+                - generic [ref=e42]: 
+                - text: Guide/Article
+            - generic [ref=e43] [cursor=pointer]:
+              - radio " Event" [ref=e44]
+              - generic [ref=e45]:
+                - generic [ref=e46]: 
+                - text: Event
+            - generic [ref=e47] [cursor=pointer]:
+              - radio " Location" [ref=e48]
+              - generic [ref=e49]:
+                - generic [ref=e50]: 
+                - text: Location
+        - generic [ref=e51]:
+          - generic [ref=e52]: Title *
+          - textbox "Title *" [ref=e53]:
+            - /placeholder: e.g., Building a Swale System for Water Retention
+          - text: A clear, descriptive title helps others find your content
+        - generic [ref=e54]:
+          - generic [ref=e55]: Summary *
+          - textbox "Summary *" [ref=e56]:
+            - /placeholder: Write a brief 1-2 sentence summary that will appear in search results and previews...
+        - generic [ref=e57]:
+          - generic [ref=e58]: Categories
+          - generic [ref=e59]:
+            - generic [ref=e60] [cursor=pointer]:
+              - checkbox "🌱 Gardening" [ref=e61]
+              - generic [ref=e62]: 🌱 Gardening
+            - generic [ref=e63] [cursor=pointer]:
+              - checkbox "💧 Water Management" [ref=e64]
+              - generic [ref=e65]: 💧 Water Management
+            - generic [ref=e66] [cursor=pointer]:
+              - checkbox "♻️ Composting" [ref=e67]
+              - generic [ref=e68]: ♻️ Composting
+            - generic [ref=e69] [cursor=pointer]:
+              - checkbox "☀️ Renewable Energy" [ref=e70]
+              - generic [ref=e71]: ☀️ Renewable Energy
+            - generic [ref=e72] [cursor=pointer]:
+              - checkbox "🥕 Food Production" [ref=e73]
+              - generic [ref=e74]: 🥕 Food Production
+            - generic [ref=e75] [cursor=pointer]:
+              - checkbox "🌳 Agroforestry" [ref=e76]
+              - generic [ref=e77]: 🌳 Agroforestry
+            - generic [ref=e78] [cursor=pointer]:
+              - checkbox "🏡 Natural Building" [ref=e79]
+              - generic [ref=e80]: 🏡 Natural Building
+            - generic [ref=e81] [cursor=pointer]:
+              - checkbox "♻️ Waste Management" [ref=e82]
+              - generic [ref=e83]: ♻️ Waste Management
+            - generic [ref=e84] [cursor=pointer]:
+              - checkbox "👥 Community" [ref=e85]
+              - generic [ref=e86]: 👥 Community
+            - generic [ref=e87] [cursor=pointer]:
+              - checkbox "🔄 Circular Economy" [ref=e88]
+              - generic [ref=e89]: 🔄 Circular Economy
+        - generic [ref=e90]:
+          - generic [ref=e91]: Content *
+          - generic [ref=e92]:
+            - generic [ref=e94]:
+              - button "Normal" [ref=e95] [cursor=pointer]:
+                - text: Normal
+                - img [ref=e96]
+              - text: Heading 1 Heading 2 Heading 3 Normal
+            - generic [ref=e99]:
+              - button [ref=e100] [cursor=pointer]:
+                - img [ref=e101]
+              - button [ref=e104] [cursor=pointer]:
+                - img [ref=e105]
+              - button [ref=e107] [cursor=pointer]:
+                - img [ref=e108]
+              - button [ref=e111] [cursor=pointer]:
+                - img [ref=e112]
+            - generic [ref=e116]:
+              - button [ref=e117] [cursor=pointer]:
+                - img [ref=e118]
+              - button [ref=e122] [cursor=pointer]:
+                - img [ref=e123]
+            - generic [ref=e124]:
+              - button [ref=e125] [cursor=pointer]:
+                - img [ref=e126]
+              - button [ref=e128] [cursor=pointer]:
+                - img [ref=e129]
+            - generic [ref=e131]:
+              - button [ref=e132] [cursor=pointer]:
+                - img [ref=e133]
+              - button [ref=e138] [cursor=pointer]:
+                - img [ref=e139]
+            - generic [ref=e143]:
+              - button [ref=e144] [cursor=pointer]:
+                - img [ref=e145]
+              - button [ref=e149] [cursor=pointer]:
+                - img [ref=e150]
+              - button [ref=e154] [cursor=pointer]:
+                - img [ref=e155]
+            - button [ref=e170] [cursor=pointer]:
+              - img [ref=e171]
+            - generic [ref=e172]:
+              - button [ref=e174] [cursor=pointer]:
+                - img [ref=e175]
+              - button [ref=e178] [cursor=pointer]:
+                - img [ref=e179]
+            - button [ref=e229] [cursor=pointer]:
+              - img [ref=e230]
+          - generic [ref=e235]:
+            - generic [ref=e236]:
+              - text: Start writing your guide here... Type naturally and use the toolbar above to format your text.
+              - paragraph [ref=e237]
+            - text: "Visit URL: EditRemove"
+          - generic [ref=e238]:
+            - generic [ref=e239]: "💡 Tip: Format text using the toolbar above. What you see is what you get!"
+            - generic [ref=e240]: 0 characters
+        - generic [ref=e241]:
+          - generic [ref=e242]: Featured Image
+          - generic [ref=e243] [cursor=pointer]:
+            - generic [ref=e244]: 
+            - paragraph [ref=e245]:
+              - strong [ref=e246]: Click to upload
+              - text: or drag and drop
+            - paragraph [ref=e247]: PNG, JPG, GIF up to 5MB
+          - text: 
+        - text: 
+        - generic [ref=e248]:
+          - heading "Publishing Settings" [level=3] [ref=e249]
+          - generic [ref=e251] [cursor=pointer]:
+            - checkbox "Allow comments on this page" [checked] [ref=e252]
+            - generic [ref=e253]: Allow comments on this page
+          - generic [ref=e255] [cursor=pointer]:
+            - checkbox "Allow other registered users to suggest edits" [checked] [ref=e256]
+            - generic [ref=e257]: Allow other registered users to suggest edits
+          - generic [ref=e259] [cursor=pointer]:
+            - checkbox "Notify WhatsApp group about this content" [ref=e260]
+            - generic [ref=e261]: Notify WhatsApp group about this content
+        - generic [ref=e262]:
+          - button " Cancel" [ref=e263] [cursor=pointer]:
+            - generic [ref=e264]: 
+            - text: Cancel
+          - button " Save Draft" [ref=e265] [cursor=pointer]:
+            - generic [ref=e266]: 
+            - text: Save Draft
+          - button " Publish Now" [ref=e267] [cursor=pointer]:
+            - generic [ref=e268]: 
+            - text: Publish Now
+    - generic [ref=e269]:
+      - heading " Writing Tips" [level=3] [ref=e270]:
+        - generic [ref=e271]: 
+        - text: Writing Tips
+      - generic [ref=e272]:
+        - generic [ref=e273]:
+          - heading "Be Clear & Concise" [level=4] [ref=e274]
+          - paragraph [ref=e275]: Write in simple language. Break complex topics into sections with clear headings.
+        - generic [ref=e276]:
+          - heading "Use Images" [level=4] [ref=e277]
+          - paragraph [ref=e278]: Visual aids help readers understand. Include photos, diagrams, and charts where relevant.
+        - generic [ref=e279]:
+          - heading "Link to Related Content" [level=4] [ref=e280]
+          - paragraph [ref=e281]: Reference other guides and resources to help readers dive deeper into topics.
+        - generic [ref=e282]:
+          - heading "Add Practical Steps" [level=4] [ref=e283]
+          - paragraph [ref=e284]: Include actionable instructions, materials lists, and troubleshooting tips.
+  - contentinfo [ref=e285]:
+    - paragraph [ref=e287]: © 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.
+```

@@ -1,0 +1,397 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "🌱 Community Wiki" [ref=e4] [cursor=pointer]:
+        - /url: wiki-home.html
+        - generic [ref=e5]: 🌱
+        - generic [ref=e6]: Community Wiki
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Home" [ref=e9] [cursor=pointer]:
+            - /url: wiki-home.html
+        - listitem [ref=e10]:
+          - link "Events" [ref=e11] [cursor=pointer]:
+            - /url: wiki-events.html
+        - listitem [ref=e12]:
+          - link "Locations" [ref=e13] [cursor=pointer]:
+            - /url: wiki-map.html
+        - listitem [ref=e14]:
+          - link "Login" [ref=e15] [cursor=pointer]:
+            - /url: wiki-login.html
+        - listitem [ref=e16]:
+          - button " English " [ref=e18] [cursor=pointer]:
+            - generic [ref=e19]: 
+            - generic [ref=e20]: English
+            - generic [ref=e21]: 
+        - listitem [ref=e22]:
+          - link "Create Page" [ref=e23] [cursor=pointer]:
+            - /url: wiki-editor.html
+      - text: 
+      - generic [ref=e24]: v20251114.1438.v2
+  - main [ref=e25]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - heading "Community Events" [level=1] [ref=e29]
+        - paragraph [ref=e30]: Workshops, meetups, and gatherings for our permaculture community
+      - link " Add Event" [ref=e31] [cursor=pointer]:
+        - /url: wiki-editor.html
+        - generic [ref=e32]: 
+        - text: Add Event
+    - generic [ref=e34]:
+      - strong [ref=e36]: "Filter by:"
+      - generic [ref=e37]:
+        - link "All Events" [ref=e38] [cursor=pointer]:
+          - /url: javascript:void(0)
+        - link "Workshops" [ref=e39] [cursor=pointer]:
+          - /url: javascript:void(0)
+        - link "Meetups" [ref=e40] [cursor=pointer]:
+          - /url: javascript:void(0)
+        - link "Tours" [ref=e41] [cursor=pointer]:
+          - /url: javascript:void(0)
+        - link "Courses" [ref=e42] [cursor=pointer]:
+          - /url: javascript:void(0)
+        - link "Work Days" [ref=e43] [cursor=pointer]:
+          - /url: javascript:void(0)
+    - generic [ref=e44]:
+      - button " List View" [ref=e45] [cursor=pointer]:
+        - generic [ref=e46]: 
+        - text: List View
+      - button " Calendar View" [ref=e47] [cursor=pointer]:
+        - generic [ref=e48]: 
+        - text: Calendar View
+    - generic [ref=e49]:
+      - heading " Upcoming Events" [level=2] [ref=e50]:
+        - generic [ref=e51]: 
+        - text: Upcoming Events
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - generic [ref=e55]: "15"
+            - generic [ref=e56]: Nov
+          - generic [ref=e57]:
+            - heading "Biochar Production & Application" [level=3] [ref=e58]
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - generic [ref=e61]: 
+                - text: 9:00 AM - 4:00 PM
+              - generic [ref=e62]:
+                - generic [ref=e63]: 
+                - text: Carbon Gold
+            - paragraph [ref=e64]: Make biochar using various methods and learn about its benefits for soil carbon sequestration. Carbon Gold workshop.
+            - generic [ref=e66]: Workshop
+            - generic [ref=e67]:
+              - link "Register" [ref=e68] [cursor=pointer]:
+                - /url: https://www.carbongold.com/workshops
+              - link "Details" [ref=e69] [cursor=pointer]:
+                - /url: wiki-page.html?slug=biochar-nov-2025
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - generic [ref=e72]: "27"
+            - generic [ref=e73]: Nov
+          - generic [ref=e74]:
+            - heading "Thanksgiving Community Feast" [level=3] [ref=e75]
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - generic [ref=e78]: 
+                - text: 12:00 PM - 4:00 PM
+              - generic [ref=e79]:
+                - generic [ref=e80]: 
+                - text: Occidental Arts & Ecology
+            - paragraph [ref=e81]: Community potluck celebrating local food and sharing gratitude for the harvest at Occidental Arts & Ecology Center.
+            - generic [ref=e83]: Meetup
+            - generic [ref=e84]:
+              - link "Register" [ref=e85] [cursor=pointer]:
+                - /url: https://oaec.org/events
+              - link "Details" [ref=e86] [cursor=pointer]:
+                - /url: wiki-page.html?slug=thanksgiving-feast-2025
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: "6"
+            - generic [ref=e90]: Dec
+          - generic [ref=e91]:
+            - heading "Greenhouse Management in Winter" [level=3] [ref=e92]
+            - generic [ref=e93]:
+              - generic [ref=e94]:
+                - generic [ref=e95]: 
+                - text: 10:00 AM - 2:00 PM
+              - generic [ref=e96]:
+                - generic [ref=e97]: 
+                - text: Growing Power
+            - paragraph [ref=e98]: Optimize greenhouse production during winter months - heating, ventilation, and crop selection. Growing Power workshop.
+            - generic [ref=e100]: Workshop
+            - generic [ref=e101]:
+              - link "Register" [ref=e102] [cursor=pointer]:
+                - /url: https://www.growingpower.org/education
+              - link "Details" [ref=e103] [cursor=pointer]:
+                - /url: wiki-page.html?slug=greenhouse-winter-dec-2025
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e106]: "13"
+            - generic [ref=e107]: Dec
+          - generic [ref=e108]:
+            - heading "Year-End Reflection & Planning" [level=3] [ref=e109]
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]: 
+                - text: 2:00 PM - 5:00 PM
+              - generic [ref=e113]:
+                - generic [ref=e114]: 
+                - text: Common Ground Garden
+            - paragraph [ref=e115]: Review the growing season, celebrate successes, and plan for next years garden at Common Ground Garden.
+            - generic [ref=e117]: Meetup
+            - generic [ref=e118]:
+              - link "Register" [ref=e119] [cursor=pointer]:
+                - /url: https://www.commongroundgarden.org/events
+              - link "Details" [ref=e120] [cursor=pointer]:
+                - /url: wiki-page.html?slug=year-planning-dec-2025
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - generic [ref=e123]: "21"
+            - generic [ref=e124]: Dec
+          - generic [ref=e125]:
+            - heading "Winter Solstice Seed Blessing" [level=3] [ref=e126]
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: 
+                - text: 4:00 PM - 8:00 PM
+              - generic [ref=e130]:
+                - generic [ref=e131]: 
+                - text: Seed Savers Exchange
+            - paragraph [ref=e132]: Honor the return of light with a seed blessing ceremony and potluck at Seed Savers Exchange.
+            - generic [ref=e134]: Meetup
+            - generic [ref=e135]:
+              - link "Register" [ref=e136] [cursor=pointer]:
+                - /url: https://www.seedsavers.org/events
+              - link "Details" [ref=e137] [cursor=pointer]:
+                - /url: wiki-page.html?slug=solstice-seeds-dec-2025
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - generic [ref=e140]: "10"
+            - generic [ref=e141]: Jan
+          - generic [ref=e142]:
+            - heading "New Year Garden Planning" [level=3] [ref=e143]
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: 
+                - text: 10:00 AM - 2:00 PM
+              - generic [ref=e147]:
+                - generic [ref=e148]: 
+                - text: Brooklyn Botanic Garden
+            - paragraph [ref=e149]: Start the new year with comprehensive garden planning including crop rotation and succession planting. Brooklyn Botanic Garden.
+            - generic [ref=e151]: Workshop
+            - generic [ref=e152]:
+              - link "Register" [ref=e153] [cursor=pointer]:
+                - /url: https://www.bbg.org/education
+              - link "Details" [ref=e154] [cursor=pointer]:
+                - /url: wiki-page.html?slug=garden-planning-jan-2026
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - generic [ref=e157]: "17"
+            - generic [ref=e158]: Jan
+          - generic [ref=e159]:
+            - 'heading "Pruning Workshop: Fruit Trees" [level=3] [ref=e160]'
+            - generic [ref=e161]:
+              - generic [ref=e162]:
+                - generic [ref=e163]: 
+                - text: 9:00 AM - 12:00 PM
+              - generic [ref=e164]:
+                - generic [ref=e165]: 
+                - text: Portland Fruit Tree Project
+            - paragraph [ref=e166]: Winter pruning techniques for fruit trees to improve health and production. Portland Fruit Tree Project.
+            - generic [ref=e168]: Workshop
+            - generic [ref=e169]:
+              - link "Register" [ref=e170] [cursor=pointer]:
+                - /url: https://www.portlandfruit.org/events
+              - link "Details" [ref=e171] [cursor=pointer]:
+                - /url: wiki-page.html?slug=pruning-workshop-jan-2026
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - generic [ref=e174]: "24"
+            - generic [ref=e175]: Jan
+          - generic [ref=e176]:
+            - heading "Permaculture Design Course Start" [level=3] [ref=e177]
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - generic [ref=e180]: 
+                - text: 9:00 AM - 5:00 PM
+              - generic [ref=e181]:
+                - generic [ref=e182]: 
+                - text: Permaculture Institute
+            - paragraph [ref=e183]: Begin a comprehensive 72-hour PDC spread over weekends through March. Permaculture Institute of Santa Fe.
+            - generic [ref=e185]: Course
+            - generic [ref=e186]:
+              - link "Register" [ref=e187] [cursor=pointer]:
+                - /url: https://www.permaculture.org/courses
+              - link "Details" [ref=e188] [cursor=pointer]:
+                - /url: wiki-page.html?slug=pdc-start-jan-2026
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - generic [ref=e191]: "7"
+            - generic [ref=e192]: Feb
+          - generic [ref=e193]:
+            - heading "Maple Syrup Workshop" [level=3] [ref=e194]
+            - generic [ref=e195]:
+              - generic [ref=e196]:
+                - generic [ref=e197]: 
+                - text: 10:00 AM - 3:00 PM
+              - generic [ref=e198]:
+                - generic [ref=e199]: 
+                - text: Cornell Maple Program
+            - paragraph [ref=e200]: Learn to tap maple trees and make syrup using traditional and modern methods. Cornell Maple Program.
+            - generic [ref=e202]: Workshop
+            - generic [ref=e203]:
+              - link "Register" [ref=e204] [cursor=pointer]:
+                - /url: https://blogs.cornell.edu/cornellmaple
+              - link "Details" [ref=e205] [cursor=pointer]:
+                - /url: wiki-page.html?slug=maple-syrup-feb-2026
+        - generic [ref=e206]:
+          - generic [ref=e207]:
+            - generic [ref=e208]: "14"
+            - generic [ref=e209]: Feb
+          - generic [ref=e210]:
+            - heading "Seed Starting Marathon" [level=3] [ref=e211]
+            - generic [ref=e212]:
+              - generic [ref=e213]:
+                - generic [ref=e214]: 
+                - text: 9:00 AM - 5:00 PM
+              - generic [ref=e215]:
+                - generic [ref=e216]: 
+                - text: Johnny Seeds
+            - paragraph [ref=e217]: All-day seed starting workshop preparing for the upcoming growing season. Johnny Seeds education team.
+            - generic [ref=e219]: Workshop
+            - generic [ref=e220]:
+              - link "Register" [ref=e221] [cursor=pointer]:
+                - /url: https://www.johnnyseeds.com/growers-library
+              - link "Details" [ref=e222] [cursor=pointer]:
+                - /url: wiki-page.html?slug=seed-starting-feb-2026
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - generic [ref=e225]: "21"
+            - generic [ref=e226]: Feb
+          - generic [ref=e227]:
+            - heading "Aquaponics System Design" [level=3] [ref=e228]
+            - generic [ref=e229]:
+              - generic [ref=e230]:
+                - generic [ref=e231]: 
+                - text: 10:00 AM - 5:00 PM
+              - generic [ref=e232]:
+                - generic [ref=e233]: 
+                - text: Growing Warriors
+            - paragraph [ref=e234]: Design and build small-scale aquaponics systems combining fish and vegetable production. Growing Warriors.
+            - generic [ref=e236]: Workshop
+            - generic [ref=e237]:
+              - link "Register" [ref=e238] [cursor=pointer]:
+                - /url: https://growingwarriors.org/training
+              - link "Details" [ref=e239] [cursor=pointer]:
+                - /url: wiki-page.html?slug=aquaponics-feb-2026
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - generic [ref=e242]: "28"
+            - generic [ref=e243]: Feb
+          - generic [ref=e244]:
+            - heading "Biodynamic Preparations Workshop" [level=3] [ref=e245]
+            - generic [ref=e246]:
+              - generic [ref=e247]:
+                - generic [ref=e248]: 
+                - text: 9:00 AM - 4:00 PM
+              - generic [ref=e249]:
+                - generic [ref=e250]: 
+                - text: Josephine Porter Institute
+            - paragraph [ref=e251]: Make and apply biodynamic preparations for soil and compost enhancement. Josephine Porter Institute.
+            - generic [ref=e253]: Workshop
+            - generic [ref=e254]:
+              - link "Register" [ref=e255] [cursor=pointer]:
+                - /url: https://www.jpibiodynamics.org/events
+              - link "Details" [ref=e256] [cursor=pointer]:
+                - /url: wiki-page.html?slug=biodynamic-feb-2026
+        - generic [ref=e257]:
+          - generic [ref=e258]:
+            - generic [ref=e259]: "7"
+            - generic [ref=e260]: Mar
+          - generic [ref=e261]:
+            - heading "Spring Grafting Workshop" [level=3] [ref=e262]
+            - generic [ref=e263]:
+              - generic [ref=e264]:
+                - generic [ref=e265]: 
+                - text: 10:00 AM - 3:00 PM
+              - generic [ref=e266]:
+                - generic [ref=e267]: 
+                - text: California Rare Fruit Growers
+            - paragraph [ref=e268]: Learn grafting techniques to propagate fruit trees and create multi-variety trees. California Rare Fruit Growers.
+            - generic [ref=e270]: Workshop
+            - generic [ref=e271]:
+              - link "Register" [ref=e272] [cursor=pointer]:
+                - /url: https://crfg.org/events
+              - link "Details" [ref=e273] [cursor=pointer]:
+                - /url: wiki-page.html?slug=grafting-workshop-mar-2026
+        - generic [ref=e274]:
+          - generic [ref=e275]:
+            - generic [ref=e276]: "14"
+            - generic [ref=e277]: Mar
+          - generic [ref=e278]:
+            - heading "International Permaculture Day" [level=3] [ref=e279]
+            - generic [ref=e280]:
+              - generic [ref=e281]:
+                - generic [ref=e282]: 
+                - text: 10:00 AM - 4:00 PM
+              - generic [ref=e283]:
+                - generic [ref=e284]: 
+                - text: Various Locations
+            - paragraph [ref=e285]: Global celebration with local events, demonstrations, and community activities worldwide.
+            - generic [ref=e287]: Meetup
+            - generic [ref=e288]:
+              - link "Register" [ref=e289] [cursor=pointer]:
+                - /url: https://www.permacultureday.org
+              - link "Details" [ref=e290] [cursor=pointer]:
+                - /url: wiki-page.html?slug=permaculture-day-2026
+        - generic [ref=e291]:
+          - generic [ref=e292]:
+            - generic [ref=e293]: "20"
+            - generic [ref=e294]: Mar
+          - generic [ref=e295]:
+            - heading "Spring Equinox Planting Festival" [level=3] [ref=e296]
+            - generic [ref=e297]:
+              - generic [ref=e298]:
+                - generic [ref=e299]: 
+                - text: 9:00 AM - 5:00 PM
+              - generic [ref=e300]:
+                - generic [ref=e301]: 
+                - text: Esalen Institute
+            - paragraph [ref=e302]: Welcome spring with community planting, workshops, and seed exchange at Esalen Institute.
+            - generic [ref=e304]: Meetup
+            - generic [ref=e305]:
+              - link "Register" [ref=e306] [cursor=pointer]:
+                - /url: https://www.esalen.org/workshops
+              - link "Details" [ref=e307] [cursor=pointer]:
+                - /url: wiki-page.html?slug=equinox-planting-2026
+    - generic [ref=e308]:
+      - heading "Never Miss an Event" [level=2] [ref=e309]
+      - paragraph [ref=e310]: Get email notifications about new events and changes to your registered events
+      - generic [ref=e311]:
+        - textbox "Enter your email" [ref=e312]
+        - button " Subscribe" [ref=e313] [cursor=pointer]:
+          - generic [ref=e314]: 
+          - text: Subscribe
+      - paragraph [ref=e315]:
+        - text: "Or sync to your calendar:"
+        - link "Google Calendar" [ref=e316] [cursor=pointer]:
+          - /url: "#"
+        - text: "|"
+        - link "iCal" [ref=e317] [cursor=pointer]:
+          - /url: "#"
+  - contentinfo [ref=e318]:
+    - generic [ref=e319]:
+      - paragraph [ref=e320]: © 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.
+      - paragraph [ref=e321]:
+        - link "About" [ref=e322] [cursor=pointer]:
+          - /url: "#"
+        - text: "|"
+        - link "Privacy" [ref=e323] [cursor=pointer]:
+          - /url: "#"
+        - text: "|"
+        - link "Terms" [ref=e324] [cursor=pointer]:
+          - /url: "#"
+```
