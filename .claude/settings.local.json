@@ -35,7 +35,9 @@
       "Bash(git rm:*)",
       "Bash(python3:*)",
       "Bash(node test-ui-automated.js:*)",
-      "Bash(node test-ui-quick.js:*)"
+      "Bash(node test-ui-quick.js:*)",
+      "Bash(npx supabase:*)",
+      "Bash(PGPASSWORD=postgres psql:*)"
     ],
     "deny": [],
     "ask": []
