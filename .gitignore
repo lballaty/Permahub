@@ -79,3 +79,6 @@ test-language-*.cjs
 # Supabase runtime data (auto-generated, not tracked)
 supabase/.temp/
 supabase/.DS_Store
+
+# Database backups (local only, never commit)
+backups/
