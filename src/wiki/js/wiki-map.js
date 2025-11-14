@@ -267,13 +267,46 @@ function getLocationIcon(type) {
 }
 
 /**
- * Calculate distance from user (mock for now)
+ * Calculate distance from user location or default (Funchal, Madeira)
  */
 function calculateDistance(lat, lng) {
-  // For now, return a mock distance
-  // In production, would use user's actual location
-  const distance = Math.floor(Math.random() * 50) + 1;
-  return `${distance} km away`;
+  // Default location: Funchal, Madeira
+  const defaultLat = 32.6669;
+  const defaultLng = -16.9241;
+
+  // TODO: When auth is implemented, use user's configured location
+  // For now, use Funchal as the default
+  const userLat = defaultLat;
+  const userLng = defaultLng;
+
+  // Haversine formula to calculate distance between two points
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = toRadians(lat - userLat);
+  const dLng = toRadians(lng - userLng);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(userLat)) * Math.cos(toRadians(lat)) *
+    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  // Format distance
+  if (distance < 1) {
+    return `${Math.round(distance * 1000)} m away`;
+  } else if (distance < 10) {
+    return `${distance.toFixed(1)} km from Funchal`;
+  } else {
+    return `${Math.round(distance)} km from Funchal`;
+  }
+}
+
+/**
+ * Convert degrees to radians
+ */
+function toRadians(degrees) {
+  return degrees * (Math.PI / 180);
 }
 
 /**
