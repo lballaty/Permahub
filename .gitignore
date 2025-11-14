@@ -61,11 +61,20 @@ temp/
 # Local development
 .local/
 
-# Test files and screenshots
+# Playwright test results and reports
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Test screenshots (temporary)
 screenshot-*.png
+test-error.png
+
+# Temporary test files (but not test specs)
 test-*.html
 test-*.cjs
-test-*.js
+test-language-*.js
+test-language-*.cjs
 
 # Supabase runtime data (auto-generated, not tracked)
 supabase/.temp/

@@ -30,7 +30,9 @@
       "Bash(curl:*)",
       "Bash(npm run dev:*)",
       "Bash(npx playwright test:*)",
-      "Bash(supabase db seed:*)"
+      "Bash(supabase db seed:*)",
+      "Bash(pkill:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
