@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   displayVersionInHeader();
 
   await loadInitialData();
+  renderCategoryFilters(); // Render categories dynamically
   initializeCategoryFilters();
   initializeSearch();
   renderUpcomingEvents(); // Render upcoming events section
@@ -324,6 +325,31 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+/**
+ * Render category filters from database
+ */
+function renderCategoryFilters() {
+  const categoryFiltersContainer = document.getElementById('categoryFilters');
+  if (!categoryFiltersContainer) return;
+
+  // Keep the "All" button
+  let html = '<a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> <span data-i18n="wiki.home.all_categories">All</span></a>';
+
+  // Add categories from database
+  allCategories.forEach(category => {
+    // Use icon from database or default icon
+    const icon = category.icon || '<i class="fas fa-tag"></i>';
+    html += `<a href="javascript:void(0)" class="tag category-filter" data-category="${category.slug}">
+      ${icon} <span>${escapeHtml(category.name)}</span>
+    </a>`;
+  });
+
+  // Update the container
+  categoryFiltersContainer.innerHTML = html;
+
+  console.log(`✅ Rendered ${allCategories.length} category filters`);
 }
 
 /**

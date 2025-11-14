@@ -145,18 +145,13 @@
     <!-- Categories -->
     <div class="mb-3">
       <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.categories">Browse by Category</h2>
-      <div class="tags">
+      <div class="tags" id="categoryFilters">
+        <!-- Categories will be loaded dynamically from database -->
         <a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> <span data-i18n="wiki.home.all_categories">All</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="gardening"><i class="fas fa-seedling"></i> <span data-i18n="wiki.category.gardening">Gardening</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="water-management"><i class="fas fa-water"></i> <span data-i18n="wiki.category.water_management">Water Management</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="composting"><i class="fas fa-leaf"></i> <span data-i18n="wiki.category.composting">Composting</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="renewable-energy"><i class="fas fa-sun"></i> <span data-i18n="wiki.category.renewable_energy">Renewable Energy</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="food-production"><i class="fas fa-carrot"></i> <span data-i18n="wiki.category.food_production">Food Production</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="agroforestry"><i class="fas fa-tree"></i> <span data-i18n="wiki.category.agroforestry">Agroforestry</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="natural-building"><i class="fas fa-building"></i> <span data-i18n="wiki.category.natural_building">Natural Building</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="waste-management"><i class="fas fa-recycle"></i> <span data-i18n="wiki.category.waste_management">Waste Management</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="irrigation"><i class="fas fa-tint"></i> <span data-i18n="wiki.category.irrigation">Irrigation</span></a>
-        <a href="javascript:void(0)" class="tag category-filter" data-category="community"><i class="fas fa-users"></i> <span data-i18n="wiki.category.community">Community</span></a>
+        <!-- Loading indicator -->
+        <span class="text-muted" style="padding: 0.5rem;">
+          <i class="fas fa-spinner fa-spin"></i> Loading categories...
+        </span>
       </div>
     </div>
 
