@@ -64,6 +64,12 @@ class SupabaseClient {
         throw new Error(error.message || `API Error: ${response.status}`);
       }
 
+      // 204 No Content responses don't have a body
+      if (response.status === 204) {
+        console.log(`  ✅ No content returned (successful update/delete)`);
+        return null;
+      }
+
       const data = await response.json();
       console.log(`  📦 Data received:`, Array.isArray(data) ? `${data.length} records` : 'single record');
 
