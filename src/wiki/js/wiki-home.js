@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   initializeCategoryFilters();
   initializeSearch();
   renderUpcomingEvents(); // Render upcoming events section
+  renderFeaturedLocations(); // Render featured locations section
 
   console.log(`✅ Wiki Home ${VERSION_DISPLAY}: Initialization complete`);
 });
@@ -864,3 +865,70 @@ window.registerForEvent = async function(eventId) {
     alert('Failed to register for event. Please try again.');
   }
 };
+
+/**
+ * Get icon for location type
+ */
+function getLocationIcon(locationType) {
+  const icons = {
+    'farm': '🌳',
+    'garden': '🌱',
+    'education': '🎓',
+    'community': '🏘️',
+    'business': '🏪',
+    'homestead': '🏡',
+    'seed_library': '🌻',
+    'natural_building': '🏗️',
+    'other': '📍'
+  };
+  return icons[locationType] || icons.other;
+}
+
+/**
+ * Render featured locations section with dynamic data
+ */
+function renderFeaturedLocations() {
+  const featuredGrid = document.getElementById('featuredLocationsGrid');
+  if (!featuredGrid) {
+    console.log('ℹ️ Featured locations grid not found, skipping render');
+    return;
+  }
+
+  console.log('🏘️ Rendering featured locations...');
+
+  // Take first 6 locations, or use is_featured flag if available
+  const featuredLocations = allLocations.slice(0, 6);
+
+  // If no locations
+  if (featuredLocations.length === 0) {
+    featuredGrid.innerHTML = `
+      <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+        <i class="fas fa-map-marker-alt" style="font-size: 2rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;"></i>
+        <h3 style="color: var(--wiki-text-muted);">No locations yet</h3>
+        <p class="text-muted">Check back later or <a href="wiki-editor.html?type=location">add a location</a></p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render location cards
+  featuredGrid.innerHTML = featuredLocations.map(location => {
+    const icon = getLocationIcon(location.location_type);
+    const description = location.description || 'No description available';
+
+    return `
+      <div class="card">
+        <h3 style="margin-bottom: 0.5rem;">${icon} ${escapeHtml(location.name)}</h3>
+        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+          ${escapeHtml(description)}
+        </p>
+        <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
+          <i class="fas fa-map-marker-alt"></i> ${escapeHtml(location.location_type || 'Location')}
+        </div>
+        <a href="wiki-map.html#location-${location.id}" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
+      </div>
+    `;
+  }).join('');
+
+  console.log(`✅ Rendered ${featuredLocations.length} featured locations`);
+}

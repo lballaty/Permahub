@@ -195,71 +195,12 @@
         <a href="wiki-map.html" class="text-muted" data-i18n="wiki.home.view_all">View All →</a>
       </div>
 
-      <div class="grid grid-3">
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">🌳 Green Valley Farm</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-            15-acre permaculture demonstration site with food forest, market garden, and natural building examples.
-          </p>
-          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-map-marker-alt"></i> 3.2 km away
-          </div>
-          <a href="wiki-map.html" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">🏡 Urban Homestead Hub</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-            Small-scale urban permaculture with aquaponics, rooftop garden, and rainwater harvesting systems.
-          </p>
-          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-map-marker-alt"></i> 5.7 km away
-          </div>
-          <a href="wiki-map.html" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">🌾 Sunset Permaculture</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-            Educational center offering PDC courses, workshops, and farm stays on 50 acres of regenerative farmland.
-          </p>
-          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-map-marker-alt"></i> 12.4 km away
-          </div>
-          <a href="wiki-map.html" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">💧 River Bend Gardens</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-            Specialty in water management techniques including swales, ponds, and greywater systems.
-          </p>
-          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-map-marker-alt"></i> 8.1 km away
-          </div>
-          <a href="wiki-map.html" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">🌻 Community Seed Bank</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-            Free seed library at the local library. Borrow seeds, grow them, save seeds, and return.
-          </p>
-          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-map-marker-alt"></i> 1.5 km away
-          </div>
-          <a href="wiki-map.html" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">🏗️ Natural Building Collective</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-            Workshop space showcasing cob, straw bale, and earthbag building techniques. Open days monthly.
-          </p>
-          <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-map-marker-alt"></i> 6.9 km away
-          </div>
-          <a href="wiki-map.html" class="btn btn-outline btn-small mt-2" style="width: 100%;">View on Map</a>
+      <!-- Featured locations loaded dynamically from database -->
+      <div class="grid grid-3" id="featuredLocationsGrid">
+        <!-- Loading state -->
+        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
+          <p class="text-muted">Loading featured locations...</p>
         </div>
       </div>
     </section>
