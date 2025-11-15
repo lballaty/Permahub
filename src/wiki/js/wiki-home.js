@@ -161,12 +161,15 @@ async function fetchGuidesWithCategories() {
  */
 async function updateStats() {
   try {
+    console.log('📊 Updating statistics from database...');
+
     // Count guides
     const guidesCount = await supabase.getAll('wiki_guides', {
       where: 'status',
       operator: 'eq',
       value: 'published'
     });
+    console.log(`  📚 Guides: ${guidesCount.length}`);
 
     // Count locations
     const locationsCount = await supabase.getAll('wiki_locations', {
@@ -174,23 +177,51 @@ async function updateStats() {
       operator: 'eq',
       value: 'published'
     });
+    console.log(`  📍 Locations: ${locationsCount.length}`);
 
-    // Count upcoming events
-    const eventsCount = await supabase.getAll('wiki_events', {
+    // Count upcoming events (future events only)
+    const now = new Date().toISOString();
+    const allEventsPublished = await supabase.getAll('wiki_events', {
       where: 'status',
       operator: 'eq',
       value: 'published'
     });
+    // Filter to only future events
+    const upcomingEvents = allEventsPublished.filter(event => {
+      const eventDate = new Date(event.event_date);
+      return eventDate >= new Date();
+    });
+    console.log(`  📅 Upcoming Events: ${upcomingEvents.length}`);
 
-    // Update DOM
-    const stats = document.querySelectorAll('.wiki-container > .card > div > div');
-    if (stats.length >= 3) {
-      stats[0].querySelector('div:first-child').textContent = guidesCount.length;
-      stats[1].querySelector('div:first-child').textContent = locationsCount.length;
-      stats[2].querySelector('div:first-child').textContent = eventsCount.length;
+    // Update DOM with specific IDs
+    const guidesElement = document.getElementById('stat-guides');
+    const locationsElement = document.getElementById('stat-locations');
+    const eventsElement = document.getElementById('stat-events');
+
+    if (guidesElement) {
+      guidesElement.textContent = guidesCount.length;
+      console.log('  ✅ Updated guides stat');
+    } else {
+      console.warn('  ⚠️ Could not find #stat-guides element');
     }
+
+    if (locationsElement) {
+      locationsElement.textContent = locationsCount.length;
+      console.log('  ✅ Updated locations stat');
+    } else {
+      console.warn('  ⚠️ Could not find #stat-locations element');
+    }
+
+    if (eventsElement) {
+      eventsElement.textContent = upcomingEvents.length;
+      console.log('  ✅ Updated events stat');
+    } else {
+      console.warn('  ⚠️ Could not find #stat-events element');
+    }
+
+    console.log('✅ Statistics updated successfully');
   } catch (error) {
-    console.error('Error updating stats:', error);
+    console.error('❌ Error updating stats:', error);
   }
 }
 
