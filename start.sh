@@ -38,14 +38,28 @@ check_port() {
 check_supabase() {
     echo -ne "${BLUE}📦 Checking Supabase status...${NC} "
 
-    if check_port $SUPABASE_PORT; then
-        echo -e "${GREEN}✅ Running${NC}"
-        echo -e "   ${CYAN}🔗 Supabase Studio: http://localhost:54323${NC}"
-        echo -e "   ${CYAN}🔗 API: http://localhost:${SUPABASE_PORT}${NC}"
-        return 0
+    # Check using supabase CLI
+    if command -v supabase &> /dev/null; then
+        if supabase status &> /dev/null; then
+            # Get the actual API port from supabase status
+            local api_url=$(supabase status 2>/dev/null | grep "API URL" | awk '{print $NF}')
+            local studio_url=$(supabase status 2>/dev/null | grep "Studio URL" | awk '{print $NF}')
+
+            echo -e "${GREEN}✅ Running${NC}"
+            if [ -n "$studio_url" ]; then
+                echo -e "   ${CYAN}🔗 Supabase Studio: ${studio_url}${NC}"
+            fi
+            if [ -n "$api_url" ]; then
+                echo -e "   ${CYAN}🔗 API: ${api_url}${NC}"
+            fi
+            return 0
+        else
+            echo -e "${YELLOW}⚠️  Not Running${NC}"
+            echo -e "   ${YELLOW}To start: supabase start${NC}"
+            return 1
+        fi
     else
-        echo -e "${YELLOW}⚠️  Not Running${NC}"
-        echo -e "   ${YELLOW}To start: supabase start${NC}"
+        echo -e "${RED}❌ Supabase CLI not installed${NC}"
         return 1
     fi
 }
