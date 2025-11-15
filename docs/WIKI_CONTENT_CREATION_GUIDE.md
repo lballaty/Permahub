@@ -398,19 +398,21 @@ All guides should follow this markdown structure:
 
 ```sql
 INSERT INTO wiki_guides (
-  title, slug, summary, content, status, view_count, published_at
+  title, slug, summary, content, status
 ) VALUES (
   '[Guide Title - 50-100 characters]',
   '[url-friendly-slug]',
   '[Clear 1-2 sentence summary explaining what readers will learn - 150-250 characters]',
   E'[Full markdown content following structure above - use E'' for PostgreSQL extended string with escaped quotes]',
-  'published',
-  0,
-  NOW()
+  'published'
 );
 
--- NOTE: author_id is NOT included - it will be NULL for seed/system content
--- When users create guides through the UI, author_id is set automatically via RLS policies
+-- NOTE: Auto-generated fields NOT included in INSERT:
+-- - id: Auto-generated UUID
+-- - author_id: NULL for seed/system content (set by RLS for user-created content)
+-- - view_count: Defaults to 0
+-- - published_at: Will be set when status = 'published' (application logic)
+-- - created_at, updated_at: Auto-set to NOW()
 
 -- Link to categories
 DO $$
@@ -652,6 +654,258 @@ INSERT INTO wiki_locations (
 
 ---
 
+## Preventing Duplicate Content
+
+**CRITICAL: Always check for existing content before creating new entries!**
+
+### Pre-Creation Checklist
+
+Before creating ANY content, verify it doesn't already exist:
+
+1. **Check slug uniqueness** - Slugs must be globally unique per content type
+2. **Search existing titles** - Avoid creating near-duplicate guides
+3. **Review category coverage** - Check what topics already exist
+4. **Verify locations** - Don't duplicate physical places
+
+### SQL Queries to Check for Duplicates
+
+**Check if slug exists (Guides):**
+```sql
+SELECT id, title, slug, status
+FROM wiki_guides
+WHERE slug = 'your-proposed-slug';
+-- Should return 0 rows if slug is available
+```
+
+**Check if slug exists (Events):**
+```sql
+SELECT id, title, slug, event_date
+FROM wiki_events
+WHERE slug = 'your-proposed-slug';
+-- Should return 0 rows if slug is available
+```
+
+**Check if slug exists (Locations):**
+```sql
+SELECT id, name, slug, latitude, longitude
+FROM wiki_locations
+WHERE slug = 'your-proposed-slug';
+-- Should return 0 rows if slug is available
+```
+
+**Search for similar titles (Guides):**
+```sql
+SELECT id, title, slug
+FROM wiki_guides
+WHERE title ILIKE '%keyword%'
+ORDER BY created_at DESC;
+-- Check if similar guide already exists
+```
+
+**Full-text search in content (Guides):**
+```sql
+SELECT
+  id,
+  title,
+  slug,
+  LEFT(content, 200) as content_preview,
+  ts_rank(
+    to_tsvector('english', title || ' ' || summary || ' ' || content),
+    plainto_tsquery('english', 'soil food web bacteria')
+  ) as relevance
+FROM wiki_guides
+WHERE to_tsvector('english', title || ' ' || summary || ' ' || content)
+  @@ plainto_tsquery('english', 'soil food web bacteria')
+ORDER BY relevance DESC
+LIMIT 10;
+-- Searches actual content for topic overlap
+-- Replace 'soil food web bacteria' with your topic keywords
+```
+
+**Check content similarity by word count (Advanced):**
+```sql
+-- Find guides with similar word count (±20%)
+WITH target_guide AS (
+  SELECT LENGTH(content) - LENGTH(REPLACE(content, ' ', '')) + 1 as word_count
+  FROM wiki_guides
+  WHERE slug = 'your-new-guide-slug'
+)
+SELECT
+  g.id,
+  g.title,
+  g.slug,
+  LENGTH(g.content) - LENGTH(REPLACE(g.content, ' ', '')) + 1 as word_count,
+  LEFT(g.summary, 150) as summary_preview
+FROM wiki_guides g, target_guide t
+WHERE ABS((LENGTH(g.content) - LENGTH(REPLACE(g.content, ' ', '')) + 1) - t.word_count) < (t.word_count * 0.2)
+  AND g.slug != 'your-new-guide-slug'
+ORDER BY word_count DESC;
+-- Finds content with similar length (potential duplicates)
+```
+
+**Check for common keywords (Advanced):**
+```sql
+-- Extract most common words from your proposed content
+-- Compare with existing guides to find topic overlap
+SELECT
+  g.id,
+  g.title,
+  g.slug,
+  ts_rank(
+    to_tsvector('english', g.content),
+    plainto_tsquery('english', 'composting worms bins vermicomposting')
+  ) as keyword_overlap
+FROM wiki_guides g
+WHERE to_tsvector('english', g.content) @@ plainto_tsquery('english', 'composting worms bins vermicomposting')
+ORDER BY keyword_overlap DESC
+LIMIT 10;
+-- Replace keywords with your main topic terms
+-- High scores indicate significant content overlap
+```
+
+**Check location by coordinates:**
+```sql
+SELECT id, name, latitude, longitude
+FROM wiki_locations
+WHERE latitude BETWEEN [your_lat - 0.001] AND [your_lat + 0.001]
+  AND longitude BETWEEN [your_lng - 0.001] AND [your_lng + 0.001];
+-- Finds locations within ~100m radius
+```
+
+**List all existing guides by category:**
+```sql
+SELECT g.id, g.title, g.slug, c.name as category
+FROM wiki_guides g
+JOIN wiki_guide_categories gc ON g.id = gc.guide_id
+JOIN wiki_categories c ON gc.category_id = c.id
+WHERE c.slug = 'soil-science'
+ORDER BY g.created_at DESC;
+-- See what already exists in a category
+```
+
+### For LLM Agents: Automated Duplicate Prevention
+
+When generating content programmatically:
+
+1. **Extract key topics** - Identify 5-10 main keywords from your proposed content
+2. **Search by keywords** - Use full-text search to find content about same topics
+3. **Review matches** - Read summaries of high-ranking results
+4. **Verify uniqueness** - Ensure your content adds new value, not duplicates existing
+5. **Check slug availability** - Query database to verify slug uniqueness
+6. **Generate unique slugs** - Include date, location, or unique identifiers if needed
+7. **Log what you create** - Track generated content to avoid re-creation
+8. **Use transactions** - Wrap check + insert in transaction for safety
+
+**Example workflow:**
+```sql
+-- Step 1: Search for content overlap using your main topics
+-- Example: Planning guide about "vermicomposting with red wiggler worms"
+SELECT
+  id,
+  title,
+  slug,
+  LEFT(summary, 150) as summary_preview,
+  ts_rank(
+    to_tsvector('english', title || ' ' || summary || ' ' || content),
+    plainto_tsquery('english', 'vermicomposting worms compost bins')
+  ) as relevance
+FROM wiki_guides
+WHERE to_tsvector('english', title || ' ' || summary || ' ' || content)
+  @@ plainto_tsquery('english', 'vermicomposting worms compost bins')
+ORDER BY relevance DESC
+LIMIT 5;
+
+-- Review results:
+-- - If high relevance scores (>0.1), read those guides
+-- - Check if your content would duplicate them
+-- - If similar content exists, consider:
+--   a) Updating existing guide instead
+--   b) Creating complementary content (different angle)
+--   c) Not creating (content already covered)
+
+-- Step 2: Check if slug exists
+DO $$
+DECLARE
+  slug_exists BOOLEAN;
+BEGIN
+  SELECT EXISTS(SELECT 1 FROM wiki_guides WHERE slug = 'vermicomposting-beginners-guide') INTO slug_exists;
+
+  IF slug_exists THEN
+    RAISE EXCEPTION 'Slug already exists: vermicomposting-beginners-guide';
+  END IF;
+END $$;
+
+-- Step 3: Only if checks pass AND content is unique, insert
+INSERT INTO wiki_guides (title, slug, summary, content, status)
+VALUES (
+  'Vermicomposting: A Beginner''s Guide',
+  'vermicomposting-beginners-guide',
+  'Learn how to turn kitchen scraps into rich compost using red wiggler worms...',
+  E'[Full unique content here]',
+  'published'
+);
+```
+
+### Helper Script for LLM Agents
+
+A Node.js script is available to help with duplicate prevention and content generation:
+
+**Location:** `/scripts/generate-wiki-content.js`
+**Documentation:** `/scripts/README-WIKI-CONTENT-GENERATOR.md`
+
+**Available commands:**
+
+```bash
+# 🔍 MOST IMPORTANT: Check for content overlap (do this FIRST!)
+node scripts/generate-wiki-content.js search-content "composting worms vermicomposting"
+
+# Check if slug is available
+node scripts/generate-wiki-content.js check-slug guides "my-new-guide"
+
+# List all guides in a category
+node scripts/generate-wiki-content.js list-guides soil-science
+
+# List all content of a type
+node scripts/generate-wiki-content.js list-all guides
+
+# Generate slug from title
+node scripts/generate-wiki-content.js generate-slug "Understanding Composting"
+
+# Search titles for similar content
+node scripts/generate-wiki-content.js search guides "compost"
+
+# Show statistics
+node scripts/generate-wiki-content.js stats
+```
+
+**Workflow for LLM agents:**
+
+1. **Before creating content (CRITICAL):**
+   - Extract 5-10 main keywords from your proposed content
+   - Run `search-content "<keywords>"` to find topic overlap
+   - Review any guides with relevance > 0.1
+   - Verify your content adds unique value
+
+2. **Check existing coverage:**
+   - Run `stats` to see total content counts
+   - Run `list-guides <category>` to check category coverage
+   - Run `search` to find similar titles
+
+3. **Generate and verify slug:**
+   - Run `generate-slug "Your Title"` to get suggested slug
+   - Run `check-slug` to verify it's available
+
+4. **Create content:**
+   - Use SQL templates from this guide
+   - Include all required fields
+   - Ensure content is unique (not duplicate)
+
+5. **Verify creation:**
+   - Run `stats` again to confirm new content added
+   - Run `search-content` with your keywords to see your new guide appear
+
+---
+
 ## Quality Standards
 
 ### Accuracy Requirements
@@ -736,7 +990,7 @@ INSERT INTO wiki_locations (
 
 ```sql
 INSERT INTO wiki_guides (
-  title, slug, summary, content, status, view_count, published_at
+  title, slug, summary, content, status
 ) VALUES (
   'Understanding Soil Food Web: A Practical Guide',
   'understanding-soil-food-web-practical',
@@ -1127,9 +1381,7 @@ Understanding and working with the soil food web represents a paradigm shift fro
 The soil food web is incredibly resilient - even damaged soils can regenerate relatively quickly with proper management. Every choice to feed biology rather than harm it compounds over time, building increasingly fertile, self-sustaining systems.
 
 Start with one change: add compost, plant a cover crop, stop tilling a section. Observe the results. Let the soil organisms teach you what they need. In partnering with the life below ground, we create abundance above.',
-  'published',
-  0,
-  NOW()
+  'published'
 );
 
 -- Link to categories
