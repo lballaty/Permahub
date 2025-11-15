@@ -80,5 +80,9 @@ test-language-*.cjs
 supabase/.temp/
 supabase/.DS_Store
 
+# Supabase project configuration (keep project ID private)
+.supabaserc
+supabase/.branches/
+
 # Database backups (local only, never commit)
 backups/
