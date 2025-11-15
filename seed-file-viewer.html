@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wiki Seed File Viewer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f0;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+      color: white;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .controls {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+
+    .file-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .file-button {
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      padding: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .file-button:hover {
+      border-color: #2d8659;
+      background: #f0fdf4;
+      transform: translateY(-2px);
+    }
+
+    .file-button.active {
+      border-color: #2d8659;
+      background: #2d8659;
+      color: white;
+    }
+
+    .file-button h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .file-button p {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    select, input {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .stats {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      padding: 1rem;
+      border-radius: 6px;
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1976d2;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .content-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .content-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .card-header {
+      padding: 1.25rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .card-type {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .type-guide {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .type-event {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .type-location {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d8659;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .card-slug {
+      font-size: 0.8rem;
+      color: #999;
+      font-family: 'Courier New', monospace;
+      background: #f5f5f5;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .card-body {
+      padding: 1.25rem;
+    }
+
+    .card-description {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: #666;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 1rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .meta-icon {
+      opacity: 0.6;
+    }
+
+    .card-footer {
+      padding: 1rem 1.25rem;
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #2d8659;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1a5f3f;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .tag {
+      background: #e9ecef;
+      color: #495057;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.75rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      max-width: 900px;
+      width: 100%;
+      margin: 2rem auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 2px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      color: #2d8659;
+      font-size: 1.5rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .content-full {
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .content-full h1, .content-full h2, .content-full h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: #2d8659;
+    }
+
+    .content-full h1 {
+      font-size: 1.8rem;
+      border-bottom: 2px solid #2d8659;
+      padding-bottom: 0.5rem;
+    }
+
+    .content-full h2 {
+      font-size: 1.4rem;
+    }
+
+    .content-full h3 {
+      font-size: 1.1rem;
+    }
+
+    .content-full p {
+      margin-bottom: 1rem;
+    }
+
+    .content-full ul, .content-full ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .content-full code {
+      background: #f5f5f5;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem;
+      color: #999;
+    }
+
+    .no-results-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: #2d8659;
+      font-size: 1.2rem;
+    }
+
+    .word-count {
+      background: #fff3cd;
+      color: #856404;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .header {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌱 Wiki Seed File Viewer</h1>
+    <p>Browse and review wiki content from SQL seed files</p>
+  </div>
+
+  <div class="container">
+    <div class="controls">
+      <h2 style="margin-bottom: 1rem;">Select Seed Files</h2>
+      <div class="file-selector" id="fileSelector">
+        <!-- File buttons will be added here -->
+      </div>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label>Type:</label>
+          <select id="typeFilter">
+            <option value="all">All Types</option>
+            <option value="guide">Guides</option>
+            <option value="event">Events</option>
+            <option value="location">Locations</option>
+          </select>
+        </div>
+
+        <input type="text" id="searchInput" class="search-input" placeholder="Search titles, descriptions, slugs...">
+
+        <button class="btn btn-primary" onclick="filterContent()">Filter</button>
+      </div>
+
+      <div class="stats" id="stats">
+        <div class="stat">
+          <div class="stat-value" id="guidesCount">0</div>
+          <div class="stat-label">Guides</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="eventsCount">0</div>
+          <div class="stat-label">Events</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="locationsCount">0</div>
+          <div class="stat-label">Locations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="totalCount">0</div>
+          <div class="stat-label">Total Items</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-grid" id="contentGrid">
+      <div class="loading">Select seed files above to load content...</div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle"></h2>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const SEED_FILES = [
+      {
+        name: 'seed_madeira_czech.sql',
+        path: 'supabase/seed_madeira_czech.sql',
+        description: 'Madeira & Czech Republic content'
+      },
+      {
+        name: '004_real_verified_wiki_content.sql',
+        path: 'supabase/seeds/004_real_verified_wiki_content.sql',
+        description: 'Verified guides with sources'
+      },
+      {
+        name: '003_wiki_real_data_LOCATIONS_ONLY.sql',
+        path: 'supabase/seeds/003_wiki_real_data_LOCATIONS_ONLY.sql',
+        description: 'Global locations database'
+      },
+      {
+        name: '004_future_events_seed.sql',
+        path: 'supabase/seeds/004_future_events_seed.sql',
+        description: '2025-2026 event calendar'
+      },
+      {
+        name: '002_wiki_seed_data_madeira_EVENTS_LOCATIONS_ONLY.sql',
+        path: 'supabase/seeds/002_wiki_seed_data_madeira_EVENTS_LOCATIONS_ONLY.sql',
+        description: 'Madeira events & locations'
+      },
+      {
+        name: '003_expanded_wiki_categories.sql',
+        path: 'supabase/seeds/003_expanded_wiki_categories.sql',
+        description: 'Categories & sample content'
+      },
+      {
+        name: '006_comprehensive_global_seed_data.sql',
+        path: 'supabase/seeds/006_comprehensive_global_seed_data.sql',
+        description: 'Comprehensive global guides'
+      }
+    ];
+
+    let allContent = [];
+    let filteredContent = [];
+    let selectedFiles = new Set();
+
+    // Initialize file selector
+    function initFileSelector() {
+      const selector = document.getElementById('fileSelector');
+      selector.innerHTML = SEED_FILES.map((file, idx) => `
+        <div class="file-button" data-index="${idx}" onclick="toggleFile(${idx})">
+          <h3>${file.name}</h3>
+          <p>${file.description}</p>
+        </div>
+      `).join('');
+    }
+
+    // Toggle file selection
+    function toggleFile(index) {
+      const button = document.querySelector(`[data-index="${index}"]`);
+      if (selectedFiles.has(index)) {
+        selectedFiles.delete(index);
+        button.classList.remove('active');
+      } else {
+        selectedFiles.add(index);
+        button.classList.add('active');
+      }
+      loadSelectedFiles();
+    }
+
+    // Load selected files
+    async function loadSelectedFiles() {
+      if (selectedFiles.size === 0) {
+        allContent = [];
+        updateDisplay();
+        return;
+      }
+
+      document.getElementById('contentGrid').innerHTML = '<div class="loading">Loading seed files...</div>';
+
+      const promises = Array.from(selectedFiles).map(idx => loadFile(SEED_FILES[idx]));
+      const results = await Promise.all(promises);
+
+      allContent = results.flat();
+      filterContent();
+    }
+
+    // Load and parse a single file
+    async function loadFile(file) {
+      try {
+        const response = await fetch(file.path);
+        const text = await response.text();
+        return parseSQL(text, file.name);
+      } catch (error) {
+        console.error(`Error loading ${file.name}:`, error);
+        return [];
+      }
+    }
+
+    // Parse SQL file
+    function parseSQL(content, source) {
+      const items = [];
+
+      // Parse guides
+      const guideMatches = content.matchAll(/INSERT INTO wiki_guides\s*\([^)]+\)\s*VALUES\s*\(([\s\S]*?)\)(?:,\s*\(|;)/g);
+      for (const match of guideMatches) {
+        const guide = parseGuideRecord(match[1]);
+        if (guide) {
+          guide.type = 'guide';
+          guide.source = source;
+          items.push(guide);
+        }
+      }
+
+      // Parse events
+      const eventMatches = content.matchAll(/INSERT INTO wiki_events\s*\([^)]+\)\s*VALUES\s*\(([\s\S]*?)\)(?:,\s*\(|;)/g);
+      for (const match of eventMatches) {
+        const event = parseEventRecord(match[1]);
+        if (event) {
+          event.type = 'event';
+          event.source = source;
+          items.push(event);
+        }
+      }
+
+      // Parse locations
+      const locationMatches = content.matchAll(/INSERT INTO wiki_locations\s*\([^)]+\)\s*VALUES\s*\(([\s\S]*?)\)(?:,\s*\(|;)/g);
+      for (const match of locationMatches) {
+        const location = parseLocationRecord(match[1]);
+        if (location) {
+          location.type = 'location';
+          location.source = source;
+          items.push(location);
+        }
+      }
+
+      return items;
+    }
+
+    // Extract quoted string value
+    function extractQuotedValue(text, index) {
+      const values = [];
+      let inString = false;
+      let currentValue = '';
+      let i = 0;
+
+      while (i < text.length) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (!inString) {
+          if ((char === 'E' && next === "'") || char === "'") {
+            inString = true;
+            if (char === 'E') i++;
+            i++;
+            continue;
+          }
+          if (text.substr(i, 4).toUpperCase() === 'NULL') {
+            values.push(null);
+            i += 4;
+            continue;
+          }
+          if (text.substr(i, 5).toUpperCase() === 'ARRAY') {
+            // Skip ARRAY[...] for now
+            const arrayEnd = text.indexOf(']', i);
+            if (arrayEnd !== -1) {
+              const arrayContent = text.substring(i + 6, arrayEnd);
+              values.push(arrayContent.split(',').map(s => s.trim().replace(/'/g, '')));
+              i = arrayEnd + 1;
+              continue;
+            }
+          }
+        } else {
+          if (char === "'" && next === "'") {
+            currentValue += "'";
+            i += 2;
+            continue;
+          }
+          if (char === "'") {
+            values.push(currentValue);
+            currentValue = '';
+            inString = false;
+            i++;
+            continue;
+          }
+          currentValue += char;
+        }
+        i++;
+      }
+
+      return values[index] !== undefined ? values[index] : null;
+    }
+
+    function parseGuideRecord(record) {
+      try {
+        return {
+          title: extractQuotedValue(record, 0) || 'Untitled',
+          slug: extractQuotedValue(record, 1) || '',
+          summary: extractQuotedValue(record, 2) || '',
+          content: extractQuotedValue(record, 3) || '',
+          wordCount: (extractQuotedValue(record, 3) || '').split(/\s+/).length
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function parseEventRecord(record) {
+      try {
+        return {
+          title: extractQuotedValue(record, 0) || 'Untitled Event',
+          slug: extractQuotedValue(record, 1) || '',
+          description: extractQuotedValue(record, 2) || '',
+          eventDate: extractQuotedValue(record, 3),
+          location: extractQuotedValue(record, 6),
+          eventType: extractQuotedValue(record, 9)
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function parseLocationRecord(record) {
+      try {
+        return {
+          name: extractQuotedValue(record, 0) || 'Untitled Location',
+          slug: extractQuotedValue(record, 1) || '',
+          description: extractQuotedValue(record, 2) || '',
+          address: extractQuotedValue(record, 3),
+          locationType: extractQuotedValue(record, 6),
+          website: extractQuotedValue(record, 7),
+          tags: extractQuotedValue(record, 9) || []
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // Filter content
+    function filterContent() {
+      const typeFilter = document.getElementById('typeFilter').value;
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+      filteredContent = allContent.filter(item => {
+        if (typeFilter !== 'all' && item.type !== typeFilter) return false;
+
+        if (searchTerm) {
+          const searchableText = [
+            item.title || item.name || '',
+            item.slug || '',
+            item.description || item.summary || item.content || ''
+          ].join(' ').toLowerCase();
+
+          if (!searchableText.includes(searchTerm)) return false;
+        }
+
+        return true;
+      });
+
+      updateDisplay();
+    }
+
+    // Update display
+    function updateDisplay() {
+      updateStats();
+      renderCards();
+    }
+
+    // Update statistics
+    function updateStats() {
+      const guides = allContent.filter(i => i.type === 'guide').length;
+      const events = allContent.filter(i => i.type === 'event').length;
+      const locations = allContent.filter(i => i.type === 'location').length;
+
+      document.getElementById('guidesCount').textContent = guides;
+      document.getElementById('eventsCount').textContent = events;
+      document.getElementById('locationsCount').textContent = locations;
+      document.getElementById('totalCount').textContent = allContent.length;
+    }
+
+    // Render content cards
+    function renderCards() {
+      const grid = document.getElementById('contentGrid');
+
+      if (filteredContent.length === 0) {
+        grid.innerHTML = `
+          <div class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <h3>No content found</h3>
+            <p>${allContent.length === 0 ? 'Select seed files above to load content' : 'Try adjusting your filters'}</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filteredContent.map((item, idx) => renderCard(item, idx)).join('');
+    }
+
+    // Render single card
+    function renderCard(item, index) {
+      const displayTitle = item.title || item.name || 'Untitled';
+      const displayDesc = (item.description || item.summary || '').substring(0, 200);
+
+      let metaHTML = '';
+      if (item.type === 'guide') {
+        metaHTML = `
+          <div class="meta-item">
+            <span class="meta-icon">📝</span>
+            <span class="word-count">${item.wordCount || 0} words</span>
+          </div>
+        `;
+      } else if (item.type === 'event') {
+        metaHTML = `
+          <div class="meta-item">
+            <span class="meta-icon">📅</span>
+            ${item.eventDate || 'Date TBD'}
+          </div>
+          ${item.eventType ? `<div class="meta-item"><span class="meta-icon">🏷️</span>${item.eventType}</div>` : ''}
+          ${item.location ? `<div class="meta-item"><span class="meta-icon">📍</span>${item.location}</div>` : ''}
+        `;
+      } else if (item.type === 'location') {
+        metaHTML = `
+          ${item.locationType ? `<div class="meta-item"><span class="meta-icon">🏷️</span>${item.locationType}</div>` : ''}
+          ${item.address ? `<div class="meta-item"><span class="meta-icon">📍</span>${item.address}</div>` : ''}
+          ${item.website ? `<div class="meta-item"><span class="meta-icon">🌐</span><a href="${item.website}" target="_blank">Website</a></div>` : ''}
+        `;
+      }
+
+      let tagsHTML = '';
+      if (item.tags && Array.isArray(item.tags) && item.tags.length > 0) {
+        tagsHTML = `<div class="tags">${item.tags.slice(0, 5).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>`;
+      }
+
+      return `
+        <div class="content-card">
+          <div class="card-header">
+            <span class="card-type type-${item.type}">${item.type}</span>
+            <h3 class="card-title">${displayTitle}</h3>
+            <span class="card-slug">${item.slug}</span>
+          </div>
+          <div class="card-body">
+            <p class="card-description">${displayDesc}${displayDesc.length >= 200 ? '...' : ''}</p>
+            ${tagsHTML}
+          </div>
+          <div class="card-meta">
+            ${metaHTML}
+            <div class="meta-item">
+              <span class="meta-icon">📄</span>
+              ${item.source}
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" onclick="showDetails(${index})">View Full Content</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Show details modal
+    function showDetails(index) {
+      const item = filteredContent[index];
+      const modal = document.getElementById('modal');
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+
+      title.textContent = item.title || item.name || 'Untitled';
+
+      let contentHTML = '';
+
+      if (item.type === 'guide' && item.content) {
+        contentHTML = `
+          <div><strong>Slug:</strong> <code>${item.slug}</code></div>
+          <div><strong>Summary:</strong> ${item.summary || 'N/A'}</div>
+          <div><strong>Word Count:</strong> ${item.wordCount || 0} words</div>
+          <div><strong>Source:</strong> ${item.source}</div>
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #ddd;">
+          <div class="content-full">${markdownToHTML(item.content)}</div>
+        `;
+      } else if (item.type === 'event') {
+        contentHTML = `
+          <div><strong>Slug:</strong> <code>${item.slug}</code></div>
+          <div><strong>Date:</strong> ${item.eventDate || 'TBD'}</div>
+          ${item.eventType ? `<div><strong>Type:</strong> ${item.eventType}</div>` : ''}
+          ${item.location ? `<div><strong>Location:</strong> ${item.location}</div>` : ''}
+          <div><strong>Source:</strong> ${item.source}</div>
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #ddd;">
+          <p>${item.description || 'No description available'}</p>
+        `;
+      } else if (item.type === 'location') {
+        contentHTML = `
+          <div><strong>Slug:</strong> <code>${item.slug}</code></div>
+          ${item.locationType ? `<div><strong>Type:</strong> ${item.locationType}</div>` : ''}
+          ${item.address ? `<div><strong>Address:</strong> ${item.address}</div>` : ''}
+          ${item.website ? `<div><strong>Website:</strong> <a href="${item.website}" target="_blank">${item.website}</a></div>` : ''}
+          <div><strong>Source:</strong> ${item.source}</div>
+          ${item.tags && item.tags.length ? `<div><strong>Tags:</strong> ${item.tags.join(', ')}</div>` : ''}
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #ddd;">
+          <p>${item.description || 'No description available'}</p>
+        `;
+      }
+
+      body.innerHTML = contentHTML;
+      modal.classList.add('active');
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    // Simple markdown to HTML converter
+    function markdownToHTML(markdown) {
+      if (!markdown) return '';
+
+      return markdown
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>')
+        .replace(/^(.*)$/gim, '<p>$1</p>')
+        .replace(/<p><\/p>/g, '')
+        .replace(/<p><h/g, '<h')
+        .replace(/<\/h([123])><\/p>/g, '</h$1>');
+    }
+
+    // Close modal on background click
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') closeModal();
+    });
+
+    // Initialize
+    initFileSelector();
+  </script>
+</body>
+</html>
