@@ -413,6 +413,7 @@ class SupabaseClient {
 }
 
 // ============ INITIALIZE GLOBAL CLIENT ============
+console.log('🔧 Initializing Supabase Client with config:', SUPABASE_CONFIG);
 const supabase = new SupabaseClient(SUPABASE_CONFIG);
 
 // Auto-restore session on page load

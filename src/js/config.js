@@ -29,17 +29,19 @@ function getEnv(key, fallback = '') {
 /**
  * Supabase Configuration
  * Load from environment variables or use defaults for development
+ *
+ * TODO: Fix Vite environment variable loading
+ * Currently hardcoded because import.meta.env.VITE_SUPABASE_URL is undefined
+ * Despite having .env and .env.local files with correct values
+ * Need to investigate why Vite is not picking up environment variables
+ *
+ * TEMPORARY WORKAROUND: Hardcoded to local Supabase instance
+ * In production, these MUST come from environment variables
  */
 export const SUPABASE_CONFIG = {
-  url: getEnv('VITE_SUPABASE_URL', 'http://127.0.0.1:54321'),
-  anonKey: getEnv(
-    'VITE_SUPABASE_ANON_KEY',
-    'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH'
-  ),
-  serviceRoleKey: getEnv(
-    'VITE_SUPABASE_SERVICE_ROLE_KEY',
-    'sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz'
-  )
+  url: 'http://127.0.0.1:3000', // Local Supabase API URL
+  anonKey: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
+  serviceRoleKey: 'sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz'
 };
 
 // Warn if using fallback values in production

@@ -15,7 +15,7 @@ const hours = String(now.getHours()).padStart(2, '0');
 const minutes = String(now.getMinutes()).padStart(2, '0');
 
 // Version number (increment this manually for each release)
-const versionNumber = 18;
+const versionNumber = 19;
 
 // Full version string
 export const VERSION = `${year}${month}${day}.${hours}${minutes}.v${versionNumber}`;
@@ -26,7 +26,7 @@ export const VERSION_DISPLAY = `v${VERSION}`;
 console.log(`%c🚀 Permahub Wiki ${VERSION_DISPLAY}`, 'color: #2ecc71; font-weight: bold; font-size: 16px;');
 console.log(`📅 Build Date: ${VERSION_DATE}`);
 console.log(`🔗 Environment: ${import.meta.env.MODE || 'development'}`);
-console.log(`🌐 Supabase: ${import.meta.env.VITE_SUPABASE_URL || 'http://127.0.0.1:54321'}`);
+console.log(`🌐 Supabase: ${import.meta.env.VITE_SUPABASE_URL || 'http://127.0.0.1:3000'}`);
 console.log('─'.repeat(60));
 
 /**
