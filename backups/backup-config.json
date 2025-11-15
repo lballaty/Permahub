@@ -1,0 +1,94 @@
+{
+  "backup_system": {
+    "version": "1.0.0",
+    "created": "2025-11-15",
+    "description": "Automated database backup system configuration"
+  },
+  "schedule": {
+    "morning": {
+      "time": "06:00",
+      "enabled": true,
+      "description": "Morning backup at 6:00 AM"
+    },
+    "noon": {
+      "time": "12:00",
+      "enabled": true,
+      "description": "Noon backup at 12:00 PM"
+    },
+    "evening": {
+      "time": "18:00",
+      "enabled": true,
+      "description": "Evening backup at 6:00 PM"
+    },
+    "nightly": {
+      "time": "23:59",
+      "enabled": true,
+      "description": "Nightly backup at 11:59 PM"
+    }
+  },
+  "retention": {
+    "automated_backups_days": 60,
+    "manual_backups_days": 365,
+    "emergency_backups_days": 365,
+    "description": "Automated backups kept for 60 days, manual/emergency backups kept for 1 year"
+  },
+  "storage": {
+    "backup_directory": "./backups/database",
+    "log_directory": "./backups/logs",
+    "compression": {
+      "enabled": true,
+      "level": 9,
+      "format": "gzip"
+    }
+  },
+  "database": {
+    "host": "127.0.0.1",
+    "port": 5432,
+    "database": "postgres",
+    "user": "postgres",
+    "description": "Local Supabase PostgreSQL database"
+  },
+  "notifications": {
+    "success": {
+      "enabled": true,
+      "sound": "Glass",
+      "requires_acknowledgment": true
+    },
+    "failure": {
+      "enabled": true,
+      "sound": "Basso",
+      "requires_acknowledgment": true
+    }
+  },
+  "verification": {
+    "enabled": true,
+    "check_compression_integrity": true,
+    "check_sql_structure": true,
+    "create_metadata": true
+  },
+  "scripts": {
+    "backup_automated": "./scripts/db-backup-automated.sh",
+    "backup_manual": "./scripts/db-backup.sh",
+    "backup_manager": "./scripts/db-backup-manager.sh",
+    "scheduler_setup": "./scripts/setup-backup-scheduler.sh",
+    "restore": "./scripts/db-restore.sh"
+  },
+  "best_practices": {
+    "always_backup_before_destructive_ops": true,
+    "verify_backups_regularly": true,
+    "test_restore_procedure_monthly": true,
+    "monitor_backup_logs": true,
+    "keep_offsite_backup_copy": true
+  },
+  "notes": [
+    "Automated backups are compressed to save disk space",
+    "All backups are verified for integrity after creation",
+    "macOS notifications require proper permissions",
+    "Scheduler uses launchd (macOS native scheduling)",
+    "Manual backups should be created before major changes",
+    "Emergency backups should be created before risky operations",
+    "Use backup manager to list, verify, and restore backups",
+    "Logs are stored in backups/logs directory",
+    "Metadata files contain git commit and branch information"
+  ]
+}
