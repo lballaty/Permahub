@@ -164,6 +164,12 @@ function renderLocationList(locations) {
     return;
   }
 
+  // Update location count in header
+  const locationCountElement = document.getElementById('locationCount');
+  if (locationCountElement) {
+    locationCountElement.textContent = locations.length;
+  }
+
   if (locations.length === 0) {
     locationList.innerHTML = `
       <div class="card" style="text-align: center; padding: 2rem;">
