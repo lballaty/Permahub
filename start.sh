@@ -292,6 +292,19 @@ main() {
     # Run system checks
     run_checks
 
+    # Handle Supabase
+    if command -v supabase &> /dev/null; then
+        if ! supabase status &> /dev/null; then
+            echo ""
+            read -p "$(echo -e ${YELLOW}Supabase not running. Start it now? [Y/n]: ${NC})" -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+                echo -e "${BLUE}Starting Supabase...${NC}"
+                supabase start
+            fi
+        fi
+    fi
+
     # Handle dev server
     if check_port $DEV_SERVER_PORT; then
         read -p "$(echo -e ${YELLOW}Dev server already running. Restart fresh? [y/N]: ${NC})" -n 1 -r
