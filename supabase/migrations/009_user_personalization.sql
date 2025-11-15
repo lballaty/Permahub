@@ -9,8 +9,11 @@
 -- USER ACTIVITY TRACKING TABLES
 -- ============================================================================
 
+-- Drop old version of user_activity if it exists (from previous migrations)
+DROP TABLE IF EXISTS public.user_activity CASCADE;
+
 -- Track user interactions with different content types
-CREATE TABLE IF NOT EXISTS public.user_activity (
+CREATE TABLE public.user_activity (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
   activity_type TEXT NOT NULL, -- 'view', 'click', 'search', 'favorite', 'create', 'share'
@@ -124,8 +127,11 @@ CREATE INDEX IF NOT EXISTS idx_recommendations_expires ON public.user_recommenda
 -- USER DASHBOARD LAYOUT PREFERENCES
 -- ============================================================================
 
+-- Drop old version if it exists
+DROP TABLE IF EXISTS public.user_dashboard_config CASCADE;
+
 -- Store user's preferred dashboard layout and widget configuration
-CREATE TABLE IF NOT EXISTS public.user_dashboard_config (
+CREATE TABLE public.user_dashboard_config (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
 

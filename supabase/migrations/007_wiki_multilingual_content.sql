@@ -138,7 +138,7 @@ CREATE POLICY "Event owners can manage translations"
     EXISTS (
       SELECT 1 FROM wiki_events
       WHERE wiki_events.id = wiki_event_translations.event_id
-      AND wiki_events.organizer_id = auth.uid()
+      AND wiki_events.author_id = auth.uid()
     )
   );
 
@@ -155,7 +155,7 @@ CREATE POLICY "Location owners can manage translations"
     EXISTS (
       SELECT 1 FROM wiki_locations
       WHERE wiki_locations.id = wiki_location_translations.location_id
-      AND wiki_locations.created_by = auth.uid()
+      AND wiki_locations.author_id = auth.uid()
     )
   );
 

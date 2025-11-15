@@ -320,7 +320,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION get_nearby_locations(
   user_lat DOUBLE PRECISION,
   user_lng DOUBLE PRECISION,
-  distance_km DOUBLE PRECISION DEFAULT 50
+  max_distance_km DOUBLE PRECISION DEFAULT 50
 )
 RETURNS TABLE(
   id UUID,
@@ -347,7 +347,7 @@ BEGIN
     AND SQRT(
       POWER(69.1 * (l.latitude - user_lat), 2) +
       POWER(69.1 * (l.longitude - user_lng) * COS(l.latitude / 57.3), 2)
-    ) * 1.60934 <= distance_km
+    ) * 1.60934 <= max_distance_km
   ORDER BY distance_km;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
