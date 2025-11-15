@@ -906,6 +906,538 @@ node scripts/generate-wiki-content.js stats
 
 ---
 
+## SQL Seed File Structure & Requirements
+
+**CRITICAL:** When creating SQL seed files for wiki content, you must follow this exact structure for the seed file viewer and analysis tools to work correctly.
+
+### File Location Standards
+
+**Active Seed Files (Ready to Load):**
+- Location: `/supabase/seeds/`
+- Purpose: Seed files that are ready to be loaded into production database
+- Naming: `00X_descriptive_name.sql` (numbered sequentially)
+- Example: `003_expanded_wiki_categories.sql`
+
+**Staged Seed Files (To Be Reviewed):**
+- Location: `/supabase/to-be-seeded/`
+- Purpose: Seed files awaiting review, testing, or approval
+- Naming: `00X_descriptive_name.sql` or descriptive names
+- Examples: `004_future_events_seed.sql`, `seed_madeira_czech.sql`
+
+### File Header Format
+
+Every seed file MUST start with this header:
+
+```sql
+/*
+ * File: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/00X_filename.sql
+ * Description: Clear description of what content this seed file adds
+ * Author: Your Name <your.email@example.com>
+ * Created: YYYY-MM-DD
+ */
+```
+
+### INSERT Statement Format
+
+#### Standard Multi-Line Format (REQUIRED)
+
+The seed file parser expects this exact format:
+
+```sql
+INSERT INTO wiki_guides (
+  title,
+  slug,
+  summary,
+  content,
+  status,
+  view_count,
+  published_at
+) VALUES (
+  'Guide Title Here',
+  'guide-slug-here',
+  'Summary text here',
+  E'# Guide Content\n\nFull markdown content with escaped newlines',
+  'published',
+  0,
+  NOW()
+);
+```
+
+**Key Requirements:**
+
+1. **Column List on Separate Lines:**
+   ```sql
+   INSERT INTO wiki_guides (
+     title,
+     slug,
+     summary
+   )
+   ```
+   - Opening `(` on same line as table name
+   - Each column on its own line
+   - Closing `)` on its own line
+
+2. **VALUES Keyword:**
+   ```sql
+   ) VALUES (
+   ```
+   - `VALUES` on same line as closing `)` of column list
+   - Opening `(` for values on same line
+
+3. **Values on Separate Lines:**
+   ```sql
+   VALUES (
+     'value1',
+     'value2',
+     'value3'
+   );
+   ```
+   - Each value on its own line
+   - Closing `);` on its own line
+
+4. **End Statement:**
+   - Must end with `);` or `) ON CONFLICT DO NOTHING;`
+   - Semicolon is REQUIRED
+
+#### String Formatting
+
+**PostgreSQL Extended Strings (for content with newlines):**
+
+Use `E'...'` format for strings containing escape sequences:
+
+```sql
+content = E'# Heading\n\nParagraph text.\n\n## Section\n\nMore text.'
+```
+
+**Escape Sequences:**
+- `\n` - Newline
+- `\t` - Tab
+- `\\` - Backslash
+- `\'` - Single quote (alternative to `''`)
+
+**SQL Escaped Quotes:**
+
+For strings without E prefix, escape single quotes by doubling them:
+
+```sql
+title = 'Farmer''s Guide to Composting'
+-- NOT: title = 'Farmer's Guide to Composting'  (will cause error)
+```
+
+**Examples:**
+
+```sql
+-- CORRECT: Using E'...' with escape sequences
+content = E'# Introduction\n\nThis is a paragraph.\n\n**Bold text** and *italic text*.'
+
+-- CORRECT: Using regular quotes with doubled single quotes
+title = 'Children''s Gardens: A Parent''s Guide'
+
+-- INCORRECT: Unescaped quote
+title = 'Children's Gardens'  -- ❌ WILL FAIL
+
+-- INCORRECT: E without escape sequences (unnecessary)
+title = E'Simple Title'  -- ⚠️ Works but unnecessary
+```
+
+### Field Value Types
+
+**Text Values:**
+```sql
+'Simple text string'
+E'Text with\nescaped\nnewlines'
+'Text with doubled''quotes'
+NULL  -- For empty/missing values
+```
+
+**Numeric Values:**
+```sql
+42          -- Integer
+3.14159     -- Decimal
+0           -- Zero
+0.00        -- Decimal zero
+```
+
+**Boolean Values:**
+```sql
+TRUE
+FALSE
+```
+
+**Date/Time Values:**
+```sql
+'2026-05-16'           -- Date (YYYY-MM-DD)
+'10:00:00'             -- Time (HH:MM:SS)
+'2025-11-15 14:30:00'  -- Timestamp
+NOW()                  -- Current timestamp function
+```
+
+**Arrays:**
+```sql
+ARRAY['tag1', 'tag2', 'tag3']
+ARRAY['permaculture', 'organic-farming', 'compost']
+```
+
+**JSONB:**
+```sql
+'{"monday": "9:00-17:00", "tuesday": "9:00-17:00"}'::jsonb
+```
+
+### Required vs Optional Fields
+
+#### wiki_guides
+
+**Required (must provide):**
+- `title` (TEXT) - 50-100 characters
+- `slug` (TEXT) - Unique, lowercase, hyphen-separated
+- `summary` (TEXT) - 150-250 characters
+- `content` (TEXT) - Full markdown content, minimum 1000 words
+
+**Optional (provide if available):**
+- `status` (TEXT) - Defaults to 'draft', use 'published' for live content
+- `view_count` (INTEGER) - Defaults to 0, can specify
+- `published_at` (TIMESTAMPTZ) - Use `NOW()` for immediate publishing
+
+**Auto-Generated (DO NOT include in INSERT):**
+- `id` (UUID) - Auto-generated primary key
+- `author_id` (UUID) - Set by RLS or NULL for seed content
+- `created_at` (TIMESTAMPTZ) - Auto-set to NOW()
+- `updated_at` (TIMESTAMPTZ) - Auto-set to NOW()
+
+#### wiki_events
+
+**Required:**
+- `title` (TEXT) - 30-80 characters
+- `slug` (TEXT) - Unique slug, include date (e.g., `event-name-2026-05`)
+- `description` (TEXT) - 300-1000 characters
+- `event_date` (DATE) - Format: 'YYYY-MM-DD'
+
+**Recommended:**
+- `start_time` (TIME) - Format: 'HH:MM:SS'
+- `end_time` (TIME) - Format: 'HH:MM:SS'
+- `location_name` (TEXT)
+- `location_address` (TEXT)
+- `latitude` (DOUBLE PRECISION)
+- `longitude` (DOUBLE PRECISION)
+- `event_type` (TEXT) - 'workshop', 'meetup', 'tour', 'course', 'workday'
+- `price` (NUMERIC) - Use 0.00 for free events
+- `price_display` (TEXT) - Human-readable: "Free", "€35", "$20"
+
+**Auto-Generated:**
+- `id`, `author_id`, `created_at`, `updated_at`
+
+#### wiki_locations
+
+**Required:**
+- `name` (TEXT) - 30-100 characters
+- `slug` (TEXT) - Unique, descriptive
+- `description` (TEXT) - 400-1500 characters
+- `latitude` (DOUBLE PRECISION) - Decimal degrees (e.g., 50.0755)
+- `longitude` (DOUBLE PRECISION) - Decimal degrees (e.g., 14.4378)
+
+**Recommended:**
+- `address` (TEXT) - Complete address
+- `location_type` (TEXT) - 'farm', 'garden', 'education', 'community', 'business'
+- `website` (TEXT) - Full URL or NULL
+- `tags` (TEXT[]) - Array of 5-15 tags
+
+**Auto-Generated:**
+- `id`, `author_id`, `created_at`, `updated_at`
+
+### Linking Content to Categories
+
+After inserting guides, link them to categories using this DO block pattern:
+
+```sql
+DO $$
+DECLARE
+  guide_id UUID;
+  category_id UUID;
+BEGIN
+  -- Get the guide ID by slug
+  SELECT id INTO guide_id FROM wiki_guides WHERE slug = 'your-guide-slug';
+
+  -- Get category ID by slug
+  SELECT id INTO category_id FROM wiki_categories WHERE slug = 'category-slug';
+
+  -- Insert link if both exist
+  IF guide_id IS NOT NULL AND category_id IS NOT NULL THEN
+    INSERT INTO wiki_guide_categories (guide_id, category_id)
+    VALUES (guide_id, category_id)
+    ON CONFLICT DO NOTHING;
+  END IF;
+END $$;
+```
+
+**For multiple categories:**
+
+```sql
+DO $$
+DECLARE
+  guide_id UUID;
+  cat_ids UUID[];
+  cat_id UUID;
+BEGIN
+  SELECT id INTO guide_id FROM wiki_guides WHERE slug = 'your-guide-slug';
+  SELECT ARRAY_AGG(id) INTO cat_ids
+  FROM wiki_categories
+  WHERE slug IN ('category-1', 'category-2', 'category-3');
+
+  IF guide_id IS NOT NULL AND cat_ids IS NOT NULL THEN
+    FOREACH cat_id IN ARRAY cat_ids
+    LOOP
+      IF cat_id IS NOT NULL THEN
+        INSERT INTO wiki_guide_categories (guide_id, category_id)
+        VALUES (guide_id, cat_id)
+        ON CONFLICT DO NOTHING;
+      END IF;
+    END LOOP;
+  END IF;
+END $$;
+```
+
+### Common Formatting Mistakes
+
+❌ **WRONG - All on one line:**
+```sql
+INSERT INTO wiki_guides (title, slug, summary, content) VALUES ('Title', 'slug', 'summary', 'content');
+```
+
+❌ **WRONG - Missing E prefix for escaped strings:**
+```sql
+content = 'Line 1\nLine 2\nLine 3'  -- \n will be literal text
+```
+
+❌ **WRONG - Unescaped single quote:**
+```sql
+title = 'Farmer's Guide'  -- Will cause syntax error
+```
+
+❌ **WRONG - Mixing formats:**
+```sql
+INSERT INTO wiki_guides (title, slug) VALUES (
+'Title', 'slug');  -- Inconsistent formatting
+```
+
+✅ **CORRECT:**
+```sql
+INSERT INTO wiki_guides (
+  title,
+  slug,
+  summary,
+  content,
+  status
+) VALUES (
+  'Farmer''s Guide to Composting',
+  'farmers-guide-composting',
+  'Learn composting techniques that work on working farms.',
+  E'# Farmer''s Guide to Composting\n\n## Introduction\n\nComposting on a farm...',
+  'published'
+);
+```
+
+### Complete Example Seed File
+
+```sql
+/*
+ * File: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/005_example_content.sql
+ * Description: Example seed file demonstrating proper formatting
+ * Author: Libor Ballaty <libor@arionetworks.com>
+ * Created: 2025-11-15
+ */
+
+-- ================================================
+-- WIKI GUIDES
+-- ================================================
+
+INSERT INTO wiki_guides (
+  title,
+  slug,
+  summary,
+  content,
+  status,
+  view_count,
+  published_at
+) VALUES (
+  'Example Guide Title',
+  'example-guide-title',
+  'This is a concise summary explaining what readers will learn in 150-250 characters.',
+  E'# Example Guide Title\n\n## Introduction\n\nFull markdown content here with proper escaping.\n\n**Key Points:**\n- Point 1\n- Point 2\n- Point 3\n\n## Section 2\n\nMore content...',
+  'published',
+  0,
+  NOW()
+);
+
+-- Link guide to categories
+DO $$
+DECLARE
+  guide_id UUID;
+  cat_ids UUID[];
+  cat_id UUID;
+BEGIN
+  SELECT id INTO guide_id FROM wiki_guides WHERE slug = 'example-guide-title';
+  SELECT ARRAY_AGG(id) INTO cat_ids FROM wiki_categories WHERE slug IN ('permaculture-design', 'gardening');
+
+  IF guide_id IS NOT NULL AND cat_ids IS NOT NULL THEN
+    FOREACH cat_id IN ARRAY cat_ids
+    LOOP
+      IF cat_id IS NOT NULL THEN
+        INSERT INTO wiki_guide_categories (guide_id, category_id)
+        VALUES (guide_id, cat_id)
+        ON CONFLICT DO NOTHING;
+      END IF;
+    END LOOP;
+  END IF;
+END $$;
+
+-- ================================================
+-- WIKI EVENTS
+-- ================================================
+
+INSERT INTO wiki_events (
+  title,
+  slug,
+  description,
+  event_date,
+  start_time,
+  end_time,
+  location_name,
+  location_address,
+  latitude,
+  longitude,
+  event_type,
+  price,
+  price_display,
+  registration_url,
+  max_attendees,
+  status
+) VALUES (
+  'Example Workshop Title',
+  'example-workshop-2026-06',
+  'Full description of the workshop including what participants will learn, what is included, who should attend, and what to bring. This should be 300-1000 characters.',
+  '2026-06-15',
+  '10:00:00',
+  '16:00:00',
+  'Example Permaculture Farm',
+  'Complete Address, City, Region, Country',
+  50.0755,
+  14.4378,
+  'workshop',
+  35.00,
+  '€35',
+  'https://example.com/register',
+  25,
+  'published'
+);
+
+-- ================================================
+-- WIKI LOCATIONS
+-- ================================================
+
+INSERT INTO wiki_locations (
+  name,
+  slug,
+  description,
+  address,
+  latitude,
+  longitude,
+  location_type,
+  website,
+  contact_email,
+  tags,
+  status
+) VALUES (
+  'Example Permaculture Farm',
+  'example-permaculture-farm-prague',
+  'Comprehensive description of the location covering its purpose, key features, educational opportunities, and significance. This should be 400-1500 characters with specific details about what makes this location unique and valuable to the permaculture community.',
+  'Street Address, Prague, Czech Republic',
+  50.0755,
+  14.4378,
+  'farm',
+  'https://example-farm.cz',
+  'info@example-farm.cz',
+  ARRAY['permaculture', 'education', 'food-forest', 'workshops', 'volunteers', 'organic', 'prague', 'czech-republic'],
+  'published'
+);
+```
+
+### Validation Tools
+
+**Seed File Viewer (Browser-based):**
+- Location: `/seed-file-viewer.html`
+- Usage: Open in browser at `http://localhost:3000/seed-file-viewer.html`
+- Purpose: Visually review and verify seed file content before loading
+
+**Seed File Analyzer (Command-line):**
+- Location: `/scripts/analyze-seed-files.js`
+- Usage: `node scripts/analyze-seed-files.js [--verbose]`
+- Purpose: Detect duplicates, overlaps, and formatting issues
+
+**Run validation BEFORE loading seed files into database!**
+
+### File Naming Conventions
+
+**Seed files should be named:**
+- `00X_descriptive_name.sql` for numbered sequence
+- `descriptive_name.sql` for special content
+- Use lowercase with underscores
+- Include subject matter in name
+
+**Good names:**
+- `003_expanded_wiki_categories.sql`
+- `004_future_events_seed.sql`
+- `005_european_locations.sql`
+- `seed_madeira_czech.sql`
+
+**Bad names:**
+- `new.sql` (not descriptive)
+- `Test123.sql` (mixed case, unclear purpose)
+- `wiki-content.sql` (use underscores not hyphens)
+
+### Loading Seed Files
+
+**Order of operations:**
+
+1. **Create and validate seed file**
+   - Write SQL following exact format above
+   - Check for syntax errors
+   - Test with seed-file-viewer.html
+
+2. **Stage file:**
+   - Place in `/supabase/to-be-seeded/` for review
+   - Run analyzer to check for duplicates
+   - Review in viewer
+
+3. **Move to seeds:**
+   - Once approved, move to `/supabase/seeds/`
+   - Number sequentially
+
+4. **Load into database:**
+   - Run in Supabase SQL Editor
+   - Or use Supabase CLI: `supabase db seed`
+
+### Troubleshooting
+
+**Parser can't find content:**
+- Check that INSERT statements match exact format
+- Verify column list is in parentheses
+- Ensure VALUES keyword is present
+- Check for closing `);` semicolon
+
+**String parsing errors:**
+- Use E'...' for content with newlines
+- Escape single quotes by doubling: `''`
+- Check for unmatched quotes
+- Verify escape sequences are correct
+
+**Category linking fails:**
+- Verify guide/category slugs exist in database
+- Check for typos in slug names
+- Ensure ON CONFLICT DO NOTHING is included
+- Run guide INSERT before category linking block
+
+---
+
 ## Quality Standards
 
 ### Accuracy Requirements
@@ -1454,6 +1986,383 @@ INSERT INTO wiki_locations (
   'published'
 );
 ```
+
+---
+
+## Content Verification & Source Citation Requirements
+
+**CRITICAL:** All guides must be verified for accuracy, relevance, and proper sourcing before publication.
+
+### 1. Content Alignment Verification
+
+Before publishing any guide, verify that all three core elements are aligned:
+
+#### Title ↔ Summary Alignment
+- Does the summary accurately reflect what the title promises?
+- Does the summary describe the same topic as the title?
+- Is the scope in the summary consistent with the title's scope?
+
+**Example - GOOD:**
+- Title: "Starting Your First Backyard Flock"
+- Summary: "Everything you need to know about raising chickens in your backyard, from coop design to daily care routines."
+- ✅ Aligned: Summary delivers on title's promise
+
+**Example - BAD:**
+- Title: "Starting Your First Backyard Flock"
+- Summary: "Learn about sustainable animal husbandry practices including chickens, ducks, rabbits, and goats."
+- ❌ Misaligned: Summary is broader than title suggests
+
+#### Title ↔ Content Alignment
+- Does the content deliver what the title promises?
+- Are all major sections relevant to the title's topic?
+- Does the content stay focused on the stated subject?
+
+**Check for:**
+- Off-topic sections that belong in different guides
+- Content that's too broad or too narrow for the title
+- Missing essential topics that the title implies
+
+#### Summary ↔ Content Alignment
+- Does the full content match what the summary describes?
+- Are the key points mentioned in the summary actually covered in depth?
+- Does the content provide what the summary promises?
+
+**Red flags:**
+- Summary promises specific information not in content
+- Content covers topics not mentioned in summary
+- Summary oversells what content delivers
+
+### 2. Subject Matter Relevance Check
+
+Every guide must demonstrate clear relevance to permaculture, sustainable living, or regenerative practices.
+
+#### Permaculture/Sustainability Focus
+Ask these questions:
+- Does this topic relate to permaculture principles or ethics?
+- Does it support sustainable living or regenerative practices?
+- Is it relevant to the Permahub community's mission?
+
+**Valid permaculture connections:**
+- Food production and preservation
+- Ecological design and systems thinking
+- Resource cycling and waste reduction
+- Community building and social permaculture
+- Renewable energy and appropriate technology
+- Biodiversity and ecosystem restoration
+- Traditional and indigenous knowledge
+- Climate adaptation and resilience
+
+**Invalid topics (don't belong in Permahub):**
+- Conventional industrial agriculture
+- Synthetic chemical-dependent practices
+- Unsustainable resource extraction
+- Topics with no connection to sustainability
+
+#### Topic Accuracy
+- Is the guide actually about what it claims to be about?
+- Does it accurately represent the topic without misleading readers?
+- Are technical terms used correctly?
+
+#### Practical Value Assessment
+- Does the guide provide actionable, useful information?
+- Can readers apply what they learn?
+- Are there specific steps, measurements, or techniques?
+- Does it go beyond surface-level information?
+
+### 3. External Source Verification
+
+**MANDATORY:** Every guide must be verified against authoritative external sources.
+
+#### Step 1: Check for Wikipedia Article
+
+Search Wikipedia for an article on the exact topic:
+
+```
+Search query: "[topic name] wikipedia"
+Example: "vermicomposting wikipedia"
+```
+
+**If Wikipedia article exists:**
+- Record the URL
+- Verify the guide's main facts against Wikipedia
+- Check that the guide's scope matches Wikipedia's treatment
+- Note any discrepancies or errors
+- Ensure information is current (check Wikipedia's last update)
+
+**If NO Wikipedia article exists:**
+- Document this fact: "No Wikipedia article found for [topic]"
+- Proceed to Step 2 (alternative sources)
+
+#### Step 2: Find Alternative Credible Sources (if no Wikipedia)
+
+If no Wikipedia article exists, find at least **2 authoritative sources** that cover this topic.
+
+**Acceptable source types:**
+- University extension services (.edu domains)
+- Government agricultural agencies (.gov domains)
+- Established permaculture organizations
+- Peer-reviewed publications
+- Recognized subject matter experts with credentials
+- Books by authorities in the field
+
+**Unacceptable source types:**
+- Personal blogs without credentials
+- Commercial sites primarily selling products
+- Social media posts
+- AI-generated content farms
+- Sites with no verifiable authorship
+
+**Source relevance requirement:**
+- Sources must be **tightly relevant** to the specific topic
+- Not just tangentially related
+- Must cover the main aspects discussed in the guide
+
+**Example - GOOD sources for "Vermicomposting Guide":**
+1. Oregon State University Extension: "Worm Composting" (https://extension.oregonstate.edu/...)
+2. EPA Guide: "Vermicomposting" (https://www.epa.gov/...)
+✅ Both directly about vermicomposting
+
+**Example - BAD sources:**
+1. "General Composting Methods" (too broad)
+2. "Selling Worm Castings as a Business" (tangentially related)
+❌ Not tightly focused on the topic
+
+#### Step 3: Verify Content Accuracy
+
+Compare the guide's content against external sources:
+
+**Check for:**
+- Factual accuracy (do facts match sources?)
+- Completeness (does guide cover main aspects from sources?)
+- Currency (is information up-to-date?)
+- Contradictions (does guide contradict authoritative sources?)
+
+**Document findings:**
+```
+Source Verification Results:
+- Wikipedia: [URL or "Not found"]
+- Source 1: [Name and URL]
+- Source 2: [Name and URL]
+- Accuracy: [Pass/Fail + notes on any discrepancies]
+- Completeness: [Covers main topics / Missing key aspects]
+- Last verified: [Date]
+```
+
+#### Step 4: Search for Better Sources (if needed)
+
+If existing sources are insufficient:
+
+**Perform thorough web research:**
+```
+Use search queries:
+- "[topic] site:.edu"
+- "[topic] site:.gov"
+- "[topic] permaculture"
+- "[topic] research study"
+- "[topic] extension service"
+```
+
+**Find and evaluate sources:**
+1. Check author credentials
+2. Verify publication date (prefer recent)
+3. Assess depth of coverage
+4. Compare multiple sources for consensus
+5. Select the 2-3 best authoritative sources
+
+**Update guide if needed:**
+- Correct any errors found
+- Add missing essential information
+- Cite sources in guide's "Resources & Further Learning" section
+
+### 4. Source Citation Format
+
+#### In Guide Content (Resources Section)
+
+Every guide must include a "Resources & Further Learning" section with cited sources:
+
+```markdown
+## Resources & Further Learning
+
+**Verified Sources:**
+- [Wikipedia: Vermicomposting](https://en.wikipedia.org/wiki/Vermicomposting) - Comprehensive overview (verified 2025-11-15)
+- [Oregon State Extension: Worm Composting](https://extension.oregonstate.edu/...) - Research-based guide
+- [EPA: Vermicomposting Guide](https://www.epa.gov/...) - Government resource
+
+**Recommended Reading:**
+- "Worms Eat My Garbage" by Mary Appelhof
+- "The Worm Farmer's Handbook" by Rhonda Sherman
+
+**Related Guides:**
+- [Composting Methods for Different Soil Types](#)
+- [Building Soil Food Web](#)
+```
+
+#### In Verification Documentation (SQL Comments)
+
+When creating guides, include verification notes in SQL comments:
+
+```sql
+-- VERIFICATION NOTES
+-- Wikipedia: https://en.wikipedia.org/wiki/Vermicomposting (verified 2025-11-15)
+-- Source 1: Oregon State Extension - Worm Composting
+-- Source 2: EPA Vermicomposting Guide
+-- Accuracy: VERIFIED - All facts checked against sources
+-- Last verification: 2025-11-15
+
+INSERT INTO wiki_guides (
+  title, slug, summary, content, status
+) VALUES (
+  'Vermicomposting: A Complete Guide',
+  'vermicomposting-complete-guide',
+  '...',
+  E'...',
+  'published'
+);
+```
+
+### 5. Verification Checklist for Reviewers
+
+Use this checklist when verifying any guide:
+
+**Content Alignment:**
+- [ ] Title accurately reflects content scope
+- [ ] Summary matches both title and content
+- [ ] Content delivers on title's promise
+- [ ] No off-topic sections or content drift
+- [ ] All sections relevant to main topic
+
+**Subject Matter Relevance:**
+- [ ] Clear connection to permaculture/sustainability
+- [ ] Topic accurately represented
+- [ ] Practical, actionable information provided
+- [ ] Appropriate depth for topic
+
+**External Source Verification:**
+- [ ] Wikipedia article checked (record URL or "not found")
+- [ ] If no Wikipedia: 2+ credible sources identified
+- [ ] Sources are tightly relevant (not tangential)
+- [ ] Sources are authoritative (.edu, .gov, experts)
+- [ ] Content facts verified against sources
+- [ ] No contradictions with authoritative sources
+- [ ] Information is current (check dates)
+- [ ] Sources cited in guide's Resources section
+
+**Source Quality:**
+- [ ] Sources have verifiable authorship
+- [ ] Authors have relevant credentials/expertise
+- [ ] Publication dates are reasonably recent
+- [ ] Sources cover main aspects of topic
+- [ ] Multiple sources show consensus on key facts
+
+**Accuracy:**
+- [ ] All facts checkable against sources
+- [ ] Measurements and quantities are accurate
+- [ ] Technical terms used correctly
+- [ ] No misleading or false information
+- [ ] Claims are supported by evidence
+
+**Completeness:**
+- [ ] Guide covers main aspects defined by sources
+- [ ] Essential topics not omitted
+- [ ] Depth appropriate for guide length
+- [ ] Resources section complete with citations
+
+### 6. Special Cases
+
+#### Topics Without Strong Online Sources
+
+For traditional/indigenous knowledge or emerging practices:
+
+1. **Document the limitation:**
+   - "Limited academic sources available for this traditional practice"
+   - "Emerging technique with limited peer-reviewed research"
+
+2. **Alternative verification:**
+   - Interview with practitioners (document credentials)
+   - Multiple practitioner accounts showing consensus
+   - Historical/anthropological sources
+   - Traditional knowledge databases
+
+3. **Transparency requirement:**
+   - Clearly state: "Based on traditional practice" or "Experimental technique"
+   - Include practitioner experience notes
+   - Encourage readers to verify locally
+
+#### Contradictory Sources
+
+If sources contradict each other:
+
+1. **Present both perspectives:**
+   - "Some sources recommend X, while others suggest Y"
+   - Explain the context for each approach
+
+2. **Cite all perspectives:**
+   - List sources for each viewpoint
+   - Let readers evaluate
+
+3. **Provide reasoning:**
+   - Explain why guide takes specific approach
+   - Based on context, climate, scale, etc.
+
+### 7. LLM Agent Instructions for Verification
+
+When verifying content programmatically:
+
+**Step-by-step process:**
+
+1. **Extract topic from title**
+   ```
+   Guide title: "Vermicomposting: A Complete Guide"
+   Topic: "vermicomposting"
+   ```
+
+2. **Search Wikipedia**
+   ```
+   Use WebSearch tool: "vermicomposting wikipedia"
+   Record: URL or "No Wikipedia article found"
+   ```
+
+3. **If no Wikipedia, search for authoritative sources**
+   ```
+   Search: "vermicomposting site:.edu"
+   Search: "vermicomposting extension service"
+   Search: "vermicomposting site:.gov"
+   Identify: 2-3 best sources
+   ```
+
+4. **Verify content against sources**
+   ```
+   Compare guide's key facts to sources
+   Check: measurements, techniques, timeframes
+   Note: any discrepancies or errors
+   ```
+
+5. **Assess alignment**
+   ```
+   Title vs Summary: Do they match?
+   Title vs Content: Content deliver on promise?
+   Summary vs Content: Content match summary?
+   ```
+
+6. **Document verification**
+   ```
+   Record:
+   - Wikipedia URL or "Not found"
+   - Alternative source URLs (if applicable)
+   - Verification date
+   - Pass/fail accuracy check
+   - Any issues found
+   ```
+
+7. **If sources insufficient, search for better ones**
+   ```
+   Use multiple search strategies
+   Evaluate source quality
+   Select best authoritative sources
+   Update documentation
+   ```
+
+**Automation note:** When generating guides, automatically include verified sources in the Resources section and SQL comments.
 
 ---
 
