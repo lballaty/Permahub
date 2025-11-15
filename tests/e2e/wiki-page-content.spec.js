@@ -31,8 +31,29 @@ test.describe('Wiki Page - Dynamic Content Loading', () => {
   });
 
   test('should load different content for different guide slugs', async ({ page }) => {
-    // First, load guide 1
-    await page.goto('http://localhost:3000/src/wiki/wiki-page.html?slug=lacto-fermentation-ancient-preservation');
+    // Get list of available guides from home page first
+    await page.goto('http://localhost:3000/src/wiki/wiki-home.html');
+    await page.waitForSelector('.guide-card', { timeout: 5000 });
+
+    // Get all guide links
+    const guideLinks = await page.locator('.guide-card a[href*="wiki-page.html?slug="]').all();
+
+    if (guideLinks.length < 2) {
+      console.log('⚠️ Not enough guides to test, skipping comparison');
+      return;
+    }
+
+    // Get slugs from first two guides
+    const href1 = await guideLinks[0].getAttribute('href');
+    const href2 = await guideLinks[1].getAttribute('href');
+
+    const slug1 = new URL(href1, 'http://localhost:3000').searchParams.get('slug');
+    const slug2 = new URL(href2, 'http://localhost:3000').searchParams.get('slug');
+
+    console.log(`Testing with slugs: ${slug1} and ${slug2}`);
+
+    // Load first guide
+    await page.goto(`http://localhost:3000/src/wiki/wiki-page.html?slug=${slug1}`);
     await page.waitForSelector('.wiki-content h1', { timeout: 5000 });
 
     const title1 = await page.locator('.wiki-content h1').textContent();
@@ -40,8 +61,8 @@ test.describe('Wiki Page - Dynamic Content Loading', () => {
 
     console.log(`First guide title: ${title1}`);
 
-    // Now load guide 2 (assuming this slug exists)
-    await page.goto('http://localhost:3000/src/wiki/wiki-page.html?slug=seed-saving-beginners-guide');
+    // Load second guide
+    await page.goto(`http://localhost:3000/src/wiki/wiki-page.html?slug=${slug2}`);
     await page.waitForSelector('.wiki-content h1', { timeout: 5000 });
 
     const title2 = await page.locator('.wiki-content h1').textContent();
