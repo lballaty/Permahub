@@ -44,8 +44,19 @@ check_supabase() {
             # Get the actual API port from supabase status
             local api_url=$(supabase status 2>/dev/null | grep "API URL" | awk '{print $NF}')
             local studio_url=$(supabase status 2>/dev/null | grep "Studio URL" | awk '{print $NF}')
+            local db_url=$(supabase status 2>/dev/null | grep "Database URL" | awk '{print $NF}')
 
-            echo -e "${GREEN}✅ Running${NC}"
+            # Verify database connectivity with a simple query
+            if [ -n "$db_url" ]; then
+                if psql "$db_url" -c "SELECT 1" &> /dev/null; then
+                    echo -e "${GREEN}✅ Running (DB Connected)${NC}"
+                else
+                    echo -e "${YELLOW}⚠️  Running (DB Connection Issue)${NC}"
+                fi
+            else
+                echo -e "${GREEN}✅ Running${NC}"
+            fi
+
             if [ -n "$studio_url" ]; then
                 echo -e "   ${CYAN}🔗 Supabase Studio: ${studio_url}${NC}"
             fi
