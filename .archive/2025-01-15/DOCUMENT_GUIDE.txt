@@ -1,0 +1,309 @@
+================================================================================
+PERMAHUB: DOCUMENT GUIDE - WHICH FILES TO READ FOR EACH PHASE
+================================================================================
+
+QUICK ANSWER: Which document do I need?
+────────────────────────────────────────────────────────────────────────────
+
+PHASE 1: Database Activation (RIGHT NOW - 30 min)
+  PRIMARY:  → SUPABASE_COPY_PASTE_GUIDE.md
+  BACKUP:   → DATABASE_ACTIVATION_GUIDE.md
+  VERIFY:   → DATABASE_READY_FOR_ACTIVATION.md
+
+PHASES 2-6: Everything Else (After Phase 1 - 5-7 hours)
+  PRIMARY:  → EXECUTION_QUICK_START.md
+  DETAILED: → SUPABASE_MIGRATION_PLAN.md
+  TRACK:    → MIGRATION_SUMMARY.md
+
+IF STUCK OR LEARNING:
+  → SUPABASE_MIGRATION_PLAN.md (Troubleshooting section)
+  → COMPLETE_ROADMAP.md (Which document for what)
+
+================================================================================
+MASTER DOCUMENT MAP
+================================================================================
+
+FILE NAME                              SIZE    PURPOSE              WHEN TO USE
+────────────────────────────────────────────────────────────────────────────
+START_HERE.md                          5 KB   Orientation          First time only
+SUPABASE_COPY_PASTE_GUIDE.md           10 KB  Phase 1 (DB setup)   DO THIS NOW
+DATABASE_ACTIVATION_GUIDE.md           20 KB  Phase 1 detailed     Phase 1 help
+DATABASE_READY_FOR_ACTIVATION.md       15 KB  Phase 1 verify       Phase 1 check
+EXECUTION_QUICK_START.md               15 KB  Phases 2-6           AFTER Phase 1
+SUPABASE_MIGRATION_PLAN.md             25 KB  All phases detail    Reference/help
+MIGRATION_SUMMARY.md                   11 KB  Quick overview       Progress check
+COMPLETE_ROADMAP.md                    15 KB  Document map         Getting oriented
+COMPREHENSIVE_PLAN_SUMMARY.txt         20 KB  Plain text ref       Printing
+
+================================================================================
+THE 3 CORE DOCUMENTS YOU ACTUALLY NEED
+================================================================================
+
+#1 SUPABASE_COPY_PASTE_GUIDE.md
+   └─ What: Copy-paste SQL to activate database
+   └─ When: Phase 1, RIGHT NOW
+   └─ Time: 5 min read + 30 min execution
+   └─ Do: Copy 3 migration files, paste in Supabase, click Run
+   └─ This gets: 15 database tables ready
+
+#2 EXECUTION_QUICK_START.md
+   └─ What: Step-by-step for everything after database
+   └─ When: Phases 2-6, after Phase 1 is done
+   └─ Time: 10 min read + 5-7 hours execution
+   └─ Do: Follow STEP 2 through STEP 7
+   └─ This gets: Live app on cloud
+
+#3 SUPABASE_MIGRATION_PLAN.md
+   └─ What: Detailed reference and troubleshooting
+   └─ When: Anytime you're stuck or learning
+   └─ Time: 20-30 min read (as needed)
+   └─ Do: Reference when EXECUTION_QUICK_START.md isn't enough
+   └─ This helps: Understand architecture, fix problems
+
+================================================================================
+PHASE BREAKDOWN: WHICH DOCUMENT TO READ
+================================================================================
+
+PHASE 1: Database Setup (30 min)
+├─ Step 1: Copy migration file → SUPABASE_COPY_PASTE_GUIDE.md
+├─ Step 2: Paste in Supabase → SUPABASE_COPY_PASTE_GUIDE.md
+├─ Step 3: Click Run → SUPABASE_COPY_PASTE_GUIDE.md
+├─ Step 4: Repeat for 3 migrations → SUPABASE_COPY_PASTE_GUIDE.md
+├─ Step 5: Verify → DATABASE_READY_FOR_ACTIVATION.md
+└─ STUCK? → DATABASE_ACTIVATION_GUIDE.md
+
+PHASE 2: Connection Testing (1-2 hours)
+├─ Step 1: Start dev server → EXECUTION_QUICK_START.md STEP 2
+├─ Step 2: Test auth → EXECUTION_QUICK_START.md STEP 2
+├─ Step 3: Create sample data → EXECUTION_QUICK_START.md STEP 3
+├─ Step 4: Verify dashboard → EXECUTION_QUICK_START.md STEP 2
+└─ STUCK? → SUPABASE_MIGRATION_PLAN.md Phase 2
+
+PHASE 3: Storage & Email (1-1.5 hours)
+├─ Step 1: Create buckets → EXECUTION_QUICK_START.md STEP 5
+├─ Step 2: Configure email → EXECUTION_QUICK_START.md STEP 6
+├─ Step 3: Test → EXECUTION_QUICK_START.md STEP 5 & 6
+└─ STUCK? → SUPABASE_MIGRATION_PLAN.md Phase 3 & 4
+
+PHASE 4: Testing (2-3 hours)
+├─ Step 1: Run tests → EXECUTION_QUICK_START.md STEP 4
+├─ Step 2: Fix issues → EXECUTION_QUICK_START.md STEP 4
+├─ Step 3: Security audit → EXECUTION_QUICK_START.md STEP 4
+└─ STUCK? → SUPABASE_MIGRATION_PLAN.md Phase 5
+
+PHASE 5: Deployment (1-2 hours)
+├─ Step 1: Deploy to Vercel → EXECUTION_QUICK_START.md STEP 7
+├─ Step 2: Configure env vars → EXECUTION_QUICK_START.md STEP 7
+├─ Step 3: Test live → EXECUTION_QUICK_START.md STEP 7
+└─ STUCK? → SUPABASE_MIGRATION_PLAN.md Phase 6
+
+PHASE 6: Go Live (30 min)
+├─ Step 1: Invite users → MIGRATION_SUMMARY.md
+├─ Step 2: Gather feedback → MIGRATION_SUMMARY.md
+└─ CELEBRATE! 🎉
+
+================================================================================
+QUICK REFERENCE TABLE
+================================================================================
+
+Need Help With...              → Read This Document
+─────────────────────────────────────────────────────────────────────────
+Database activation           → SUPABASE_COPY_PASTE_GUIDE.md
+Testing database connection   → EXECUTION_QUICK_START.md STEP 2
+Creating sample data          → EXECUTION_QUICK_START.md STEP 3
+Running tests                 → EXECUTION_QUICK_START.md STEP 4
+Configuring storage           → EXECUTION_QUICK_START.md STEP 5
+Configuring email             → EXECUTION_QUICK_START.md STEP 6
+Deploying to cloud            → EXECUTION_QUICK_START.md STEP 7
+Understanding architecture    → SUPABASE_MIGRATION_PLAN.md
+Troubleshooting errors        → SUPABASE_MIGRATION_PLAN.md Troubleshooting
+Getting quick overview        → MIGRATION_SUMMARY.md
+Finding which doc to use      → COMPLETE_ROADMAP.md
+Printing documentation        → COMPREHENSIVE_PLAN_SUMMARY.txt
+
+================================================================================
+READING RECOMMENDATIONS
+================================================================================
+
+FIRST TIME LAUNCH (Recommended Order):
+  1. Skim: START_HERE.md (3 min) - Get oriented
+  2. Read: SUPABASE_COPY_PASTE_GUIDE.md (5 min) - Learn Phase 1
+  3. Execute: Phase 1 (30 min) - Activate database
+  4. Read: EXECUTION_QUICK_START.md intro (5 min) - Preview all phases
+  5. Execute: Phases 2-6 (5-7 hours) - Follow EXECUTION_QUICK_START.md
+  6. Reference: SUPABASE_MIGRATION_PLAN.md (as needed) - When stuck
+
+LEARNING-FOCUSED LAUNCH:
+  1. Read: START_HERE.md (5 min)
+  2. Read: SUPABASE_MIGRATION_PLAN.md (30 min) - Understand why
+  3. Read: EXECUTION_QUICK_START.md (10 min) - Know what you'll do
+  4. Execute: All phases (5-7 hours) - With full understanding
+  5. Reference: Other docs as needed - Deep dive
+
+FAST LAUNCH (Experienced Developer):
+  1. Skim: EXECUTION_QUICK_START.md (5 min) - Know the path
+  2. Execute: All phases (5-7 hours) - Follow EXECUTION_QUICK_START.md
+  3. Reference: SUPABASE_MIGRATION_PLAN.md only if stuck
+
+================================================================================
+DOCUMENT SIZES & TIME COMMITMENT
+================================================================================
+
+Document Name                          Size  Read Time  Topic
+─────────────────────────────────────────────────────────────────────────
+START_HERE.md                          5 KB  5 min     Orientation
+SUPABASE_COPY_PASTE_GUIDE.md           10 KB 5 min     Phase 1
+DATABASE_ACTIVATION_GUIDE.md           20 KB 15 min    Phase 1 Detail
+DATABASE_READY_FOR_ACTIVATION.md       15 KB 10 min    Phase 1 Verify
+EXECUTION_QUICK_START.md               15 KB 10 min    Phases 2-6
+SUPABASE_MIGRATION_PLAN.md             25 KB 25 min    All Phases Detail
+MIGRATION_SUMMARY.md                   11 KB 5 min     Quick Overview
+COMPLETE_ROADMAP.md                    15 KB 10 min    Document Guide
+COMPREHENSIVE_PLAN_SUMMARY.txt         20 KB 10 min    Plain Text
+
+Total reading (all): ~95 min (but you won't read all of them)
+Minimum reading: 20 min (SUPABASE_COPY_PASTE_GUIDE + START of EXECUTION)
+
+================================================================================
+EXACTLY WHAT YOU NEED TO DO
+================================================================================
+
+STEP 1 (Right Now - 30 minutes)
+→ Open: SUPABASE_COPY_PASTE_GUIDE.md
+→ Follow: Exact copy-paste instructions
+→ Result: 15 database tables activated
+
+STEP 2 (After Step 1 - 5-7 hours)
+→ Open: EXECUTION_QUICK_START.md
+→ Follow: STEP 2 through STEP 7
+→ Result: Live app on cloud ready for users
+
+STEP 3 (If You Get Stuck)
+→ Check: SUPABASE_MIGRATION_PLAN.md Troubleshooting
+→ Reference: COMPLETE_ROADMAP.md (which doc for what)
+→ Result: Problem solved
+
+That's it! Those 3 steps with those 3 documents get you to a live app.
+
+================================================================================
+THE ABSOLUTE MINIMUM YOU NEED
+================================================================================
+
+To launch Permahub, you ONLY need:
+
+✅ SUPABASE_COPY_PASTE_GUIDE.md
+   (This alone gets you through Phase 1)
+
+✅ EXECUTION_QUICK_START.md
+   (This gets you through Phases 2-6)
+
+Everything else is:
+- Detailed reference (SUPABASE_MIGRATION_PLAN.md)
+- Quick overview (MIGRATION_SUMMARY.md)
+- Troubleshooting (same files)
+- Optional learning (START_HERE.md, etc.)
+
+You can launch with just 2 documents.
+
+================================================================================
+HOW TO USE DOCUMENTS TOGETHER
+================================================================================
+
+Setup 1: Two Browser Tabs (Recommended)
+├─ Tab 1: EXECUTION_QUICK_START.md (step-by-step)
+└─ Tab 2: SUPABASE_MIGRATION_PLAN.md (reference when needed)
+
+Setup 2: Printed + Digital
+├─ Printed: COMPREHENSIVE_PLAN_SUMMARY.txt (reference at desk)
+└─ Digital: EXECUTION_QUICK_START.md (follow on screen)
+
+Setup 3: Two Monitors
+├─ Left: EXECUTION_QUICK_START.md (instructions)
+└─ Right: SUPABASE_MIGRATION_PLAN.md (reference)
+
+Setup 4: Single Monitor (Simple)
+└─ Use: EXECUTION_QUICK_START.md only, search for what you need
+
+================================================================================
+DOCUMENT FLOW CHART
+================================================================================
+
+                    START HERE
+                        ↓
+              ┌─────────────────────┐
+              │ First time? Want    │
+              │ to understand?      │
+              └─────────────────────┘
+                   ↙               ↘
+                YES                 NO
+                ↓                   ↓
+        START_HERE.md      SKIP to PHASE
+        (5 min)
+                ↓
+        SUPABASE_COPY_PASTE_GUIDE.md
+        (5 min read)
+                ↓
+        PHASE 1: Database Setup
+        (Follow guide, 30 min)
+                ↓
+        EXECUTION_QUICK_START.md
+        (10 min read)
+                ↓
+        PHASES 2-6: Integration
+        (Follow guide, 5-7 hours)
+                ↓
+                ↙     ↓      ↘
+              OK   STUCK   LEARNING
+               ✓      ↓        ↓
+                  SUPABASE_  More docs
+                 MIGRATION_PLAN.md
+                      ↓
+                   SOLVED
+                      ↓
+                  CONTINUE
+                      ↓
+                   🎉 LIVE!
+
+================================================================================
+FINAL ANSWER
+================================================================================
+
+Q: Which documents do I need to reference to get the rest done?
+
+A:
+
+  PHASE 1 (Database): SUPABASE_COPY_PASTE_GUIDE.md
+  PHASES 2-6 (Everything): EXECUTION_QUICK_START.md
+  When Stuck: SUPABASE_MIGRATION_PLAN.md
+  Quick Check: MIGRATION_SUMMARY.md
+
+That's it. Use EXECUTION_QUICK_START.md as your main reference for
+Phases 2-6. Refer to SUPABASE_MIGRATION_PLAN.md if you need deeper
+explanation or troubleshooting.
+
+================================================================================
+NEXT ACTION
+================================================================================
+
+1. Open: SUPABASE_COPY_PASTE_GUIDE.md
+2. Follow: Copy-paste instructions (30 minutes)
+3. When done, open: EXECUTION_QUICK_START.md
+4. Follow: Steps 2-7 (5-7 hours)
+5. Celebrate: Your app is live! 🎉
+
+Questions about WHICH DOCUMENT to use?
+→ Reference this file (DOCUMENT_GUIDE.txt)
+
+Questions about HOW to execute?
+→ Reference EXECUTION_QUICK_START.md
+
+Questions about WHY things work?
+→ Reference SUPABASE_MIGRATION_PLAN.md
+
+================================================================================
+STATUS: Ready to Execute
+RECOMMENDED: Read COMPLETE_ROADMAP.md for detailed explanation
+QUICK PATH: Use only EXECUTION_QUICK_START.md
+NEXT STEP: Phase 1 - Open SUPABASE_COPY_PASTE_GUIDE.md
+TIME TO LIVE: 5-7 hours from now
+================================================================================

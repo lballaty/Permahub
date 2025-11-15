@@ -1,0 +1,179 @@
+================================================================================
+MIGRATION EXECUTION ORDER - Copy & Paste in Supabase SQL Editor
+================================================================================
+
+Instructions:
+1. Go to: https://supabase.com/dashboard/project/mcbxbaggjaxqfdvmrqsc/sql
+2. For each file below, copy entire contents
+3. Paste into SQL Editor window
+4. Click RUN button
+5. Wait for completion
+6. Move to next file
+
+================================================================================
+EXECUTION ORDER (RUN THESE IN THIS ORDER)
+================================================================================
+
+STEP 1: BOOTSTRAP RPC FUNCTION (FIRST!)
+File: database/migrations/00_bootstrap_execute_sql.sql
+Required: YES - Enables programmatic execution
+Location: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/00_bootstrap_execute_sql.sql
+Size: ~1.8 KB (very small, 11 statements)
+
+STEP 2: CORE SCHEMA
+File: database/migrations/001_initial_schema.sql
+Required: YES - Creates users, projects, resources, favorites, tags, etc.
+Location: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/001_initial_schema.sql
+Size: ~22 KB (large, 596 lines - takes 10-15 seconds)
+
+STEP 3: ANALYTICS
+File: database/migrations/002_analytics.sql
+Required: YES - Creates user_activity, user_dashboard_config tables
+Location: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/002_analytics.sql
+Size: ~9.6 KB (294 lines - takes 5-10 seconds)
+
+STEP 4: NOTIFICATIONS & PUB/SUB
+File: database/migrations/003_items_pubsub.sql
+Required: YES - Creates items, notifications, notification_preferences
+Location: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/003_items_pubsub.sql
+Size: ~17 KB (526 lines - takes 10-15 seconds)
+
+================================================================================
+OPTIONAL: FEATURE MIGRATIONS (if you want additional features)
+================================================================================
+
+STEP 5: WIKI SCHEMA
+File: database/migrations/004_wiki_schema.sql
+Required: NO - Optional wiki system
+Location: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/004_wiki_schema.sql
+
+STEP 6: WIKI MULTILINGUAL
+File: database/migrations/005_wiki_multilingual_content.sql
+Required: NO - Optional wiki translations
+Location: /Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/005_wiki_multilingual_content.sql
+
+STEP 7+: ECO-THEMES FEATURES (already deployed, can re-run if needed)
+Files: 20251107_*.sql and 20251112_*.sql
+Status: Already exist in database (11 tables found)
+Action: Only run if you get "table already exists" errors, or skip
+
+================================================================================
+FILES NEEDED FOR COPY-PASTE
+================================================================================
+
+All files are in:
+/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/database/migrations/
+
+CRITICAL FILES (must run these 4):
+1. 00_bootstrap_execute_sql.sql
+2. 001_initial_schema.sql
+3. 002_analytics.sql
+4. 003_items_pubsub.sql
+
+OPTIONAL FILES (recommended):
+5. 004_wiki_schema.sql
+6. 005_wiki_multilingual_content.sql
+7. 20251107_*.sql (eco-themes, discussions, events, reviews, etc.)
+
+================================================================================
+VERIFICATION AFTER RUNNING MIGRATIONS
+================================================================================
+
+After running the 4 critical migrations, verify tables were created:
+
+SQL Query to Run:
+---
+SELECT table_name, table_schema
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+---
+
+Expected Tables to See:
+✓ discussions
+✓ discussion_comments
+✓ eco_themes
+✓ event_registrations
+✓ events
+✓ favorites
+✓ items
+✓ landing_page_analytics
+✓ learning_resources
+✓ notifications
+✓ notification_preferences
+✓ projects
+✓ resources
+✓ reviews
+✓ user_activity
+✓ user_dashboard_config
+✓ users
+(Plus auth.* tables from Supabase)
+
+If you see all these tables: SUCCESS! Database is ready.
+
+================================================================================
+WHAT TO DO AFTER MIGRATIONS ARE COMPLETE
+================================================================================
+
+1. Test app connection:
+   npm run dev
+
+2. App should now connect to Supabase successfully
+
+3. Sign up a test user and verify dashboard works
+
+4. Then proceed with:
+   - Creating sample data
+   - Running tests (npm run test:all)
+   - Deploying to cloud (Vercel/Netlify)
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Error: "relation 'xyz' already exists"
+→ Table already created in a previous run
+→ Safe to ignore, continue to next migration
+
+Error: "column 'xyz' already exists"
+→ Column already in table
+→ Safe to ignore, continue to next migration
+
+Error: "could not find function 'auth.users'"
+→ Supabase auth not initialized
+→ Create a test user first in Supabase UI, then retry migration
+
+If SQL Editor shows "Loading..." for more than 30 seconds:
+→ Wait a bit more (large files take time)
+→ Don't refresh or click anything
+
+Questions? See: SUPABASE_MANUAL_MIGRATION_STEPS.md for detailed troubleshooting
+
+================================================================================
+TOTAL TIME TO COMPLETE ALL MIGRATIONS
+================================================================================
+
+Step 1 (Bootstrap): 2 minutes
+Step 2 (Core): 3 minutes
+Step 3 (Analytics): 2 minutes
+Step 4 (Notifications): 3 minutes
+Step 5-7 (Optional): 10 minutes
+
+TOTAL: 10-20 minutes depending on which optional migrations you run
+
+================================================================================
+NEXT STEPS SUMMARY
+================================================================================
+
+1. Copy file 00_bootstrap_execute_sql.sql and paste in SQL Editor → RUN
+2. Copy file 001_initial_schema.sql and paste in SQL Editor → RUN
+3. Copy file 002_analytics.sql and paste in SQL Editor → RUN
+4. Copy file 003_items_pubsub.sql and paste in SQL Editor → RUN
+5. Run verification query above → Confirm tables exist
+6. Run: npm run dev → Test connection
+7. Create sample data and test
+8. Deploy to cloud
+
+That's it!
+
+================================================================================
