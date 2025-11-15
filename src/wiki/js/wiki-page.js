@@ -203,10 +203,12 @@ function renderMarkdown(markdown) {
 
   let html = markdown;
 
-  // Convert headers
+  // Remove first H1 if present (title already shown in page header)
+  html = html.replace(/^# .*$/m, '');
+
+  // Convert headers (H2 and H3 only, no H1)
   html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
   html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
 
   // Convert bold and italic
   html = html.replace(/\*\*\*(.*)\*\*\*/gim, '<strong><em>$1</em></strong>');
