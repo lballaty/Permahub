@@ -162,40 +162,11 @@ BEGIN
   END IF;
 END $$;
 
--- Guide for Growing Oyster Mushrooms
-INSERT INTO wiki_guides (
-  title,
-  slug,
-  summary,
-  content,
-  status,
-  view_count,
-  published_at
-) VALUES (
-  'Growing Oyster Mushrooms on Coffee Grounds',
-  'growing-oyster-mushrooms-coffee-grounds',
-  'Turn waste coffee grounds into gourmet oyster mushrooms with this simple, beginner-friendly cultivation method.',
-  E'# Growing Oyster Mushrooms on Coffee Grounds\n\nOyster mushrooms are the perfect entry point into mushroom cultivation - fast-growing, forgiving, and thriving on coffee grounds that would otherwise go to waste.\n\n## Why Oyster Mushrooms?\n\n- Aggressive colonizers (outcompete contaminants)\n- Fruit in 7-14 days\n- Multiple flushes per bag\n- High protein content\n- Medicinal properties\n\n## Materials Needed\n\n- Fresh coffee grounds (within 24 hours)\n- Oyster mushroom spawn\n- Large plastic bags or buckets\n- Spray bottle\n- Rubber bands or zip ties\n\n## Step-by-Step Process\n\n### Day 1: Inoculation\n1. Collect fresh coffee grounds (still warm is ideal)\n2. Mix spawn at 10-20% ratio\n3. Fill bags leaving 4 inches headspace\n4. Poke 10-15 air holes\n5. Seal top loosely\n\n### Days 2-10: Colonization\n- Keep at 70-75°F\n- Check for white mycelium growth\n- No light needed\n- Minimal air exchange\n\n### Days 10-14: Pinning\n- Move to cooler area (60-70°F)\n- Increase fresh air\n- Provide indirect light\n- Mist 2-3 times daily\n\n### Days 14-21: Fruiting\n- Mushrooms double daily\n- Harvest when caps flatten\n- Twist and pull clusters\n\n## Maximizing Yields\n\n### Coffee Ground Preparation\n- Mix 80% coffee, 20% straw or cardboard\n- Add 1% gypsum for structure\n- pH should be 6.5-7.0\n\n### Environmental Controls\n- Humidity: 80-95%\n- Temperature: 60-80°F\n- Light: 12 hours indirect\n- Air exchange: 4-8 times per hour\n\n## Common Issues\n\n### Green mold (Trichoderma)\n- Grounds too old\n- Insufficient spawn ratio\n- Contaminated spawn\n\n### Slow colonization\n- Temperature too low\n- Grounds too dry\n- Old spawn\n\n### Small mushrooms\n- Insufficient fresh air\n- Too dry\n- Nutrient depletion\n\n## Subsequent Flushes\n\n1. Rest block 7-10 days\n2. Soak in cold water 12-24 hours\n3. Resume misting\n4. Expect 3-4 flushes total\n\n## Using Spent Substrate\n\n- Excellent garden mulch\n- Compost additive\n- Worm bin food\n- Spawn for outdoor beds',
-  'published',
-  0,
-  NOW()
-);
-
--- Link the mushroom guide to Mycology category
-DO $$
-DECLARE
-  guide_id UUID;
-  category_id UUID;
-BEGIN
-  SELECT id INTO guide_id FROM wiki_guides WHERE slug = 'growing-oyster-mushrooms-coffee-grounds';
-  SELECT id INTO category_id FROM wiki_categories WHERE slug = 'mycology';
-
-  IF guide_id IS NOT NULL AND category_id IS NOT NULL THEN
-    INSERT INTO wiki_guide_categories (guide_id, category_id)
-    VALUES (guide_id, category_id)
-    ON CONFLICT DO NOTHING;
-  END IF;
-END $$;
+-- NOTE: Oyster mushroom guide removed to avoid duplication
+-- A comprehensive version (1,300 words with sources) exists in:
+-- supabase/seeds/004_real_verified_wiki_content.sql
+-- Title: "Growing Oyster Mushrooms on Coffee Grounds: 2025 Complete Guide"
+-- Slug: growing-oyster-mushrooms-coffee-grounds-2025
 
 -- ================================================
 -- Create cross-references between related categories
