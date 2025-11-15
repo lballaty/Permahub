@@ -18,13 +18,10 @@ const __dirname = path.dirname(__filename);
 
 // Seed files to analyze
 const SEED_FILES = [
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seed_madeira_czech.sql',
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/004_real_verified_wiki_content.sql',
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/003_wiki_real_data_LOCATIONS_ONLY.sql',
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/004_future_events_seed.sql',
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/002_wiki_seed_data_madeira_EVENTS_LOCATIONS_ONLY.sql',
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/003_expanded_wiki_categories.sql',
-  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/006_comprehensive_global_seed_data.sql'
+  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/to-be-seeded/seed_madeira_czech.sql',
+  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/to-be-seeded/004_real_verified_wiki_content.sql',
+  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/to-be-seeded/004_future_events_seed.sql',
+  '/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/seeds/003_expanded_wiki_categories.sql'
 ];
 
 const VERBOSE = process.argv.includes('--verbose');
