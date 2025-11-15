@@ -61,7 +61,10 @@
       "Bash(supabase projects list:*)",
       "Bash(supabase db push:*)",
       "Bash(tee:*)",
-      "Bash(supabase migration repair:*)"
+      "Bash(supabase migration repair:*)",
+      "Bash(/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/scripts/db-backup-manager.sh:*)",
+      "Bash(/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/scripts/setup-backup-scheduler.sh:*)",
+      "Bash(gunzip:*)"
     ],
     "deny": [],
     "ask": []
