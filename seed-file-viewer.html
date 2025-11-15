@@ -81,11 +81,44 @@
     .file-button h3 {
       font-size: 0.9rem;
       margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .file-button p {
       font-size: 0.75rem;
       opacity: 0.7;
+    }
+
+    .file-status-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .file-status-badge.staged {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .file-status-badge.active {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .file-button.active .file-status-badge.staged {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .file-button.active .file-status-badge.active {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
     }
 
     .filters {
@@ -514,22 +547,30 @@
       {
         name: 'seed_madeira_czech.sql',
         path: 'supabase/to-be-seeded/seed_madeira_czech.sql',
-        description: 'Madeira & Czech Republic content'
+        description: 'Madeira & Czech Republic content',
+        directory: 'to-be-seeded',
+        status: 'staged'
       },
       {
         name: '004_real_verified_wiki_content.sql',
         path: 'supabase/to-be-seeded/004_real_verified_wiki_content.sql',
-        description: 'Verified guides with sources'
+        description: 'Verified guides with sources',
+        directory: 'to-be-seeded',
+        status: 'staged'
       },
       {
         name: '004_future_events_seed.sql',
         path: 'supabase/to-be-seeded/004_future_events_seed.sql',
-        description: '2025-2026 event calendar'
+        description: '2025-2026 event calendar',
+        directory: 'to-be-seeded',
+        status: 'staged'
       },
       {
         name: '003_expanded_wiki_categories.sql',
         path: 'supabase/seeds/003_expanded_wiki_categories.sql',
-        description: 'Categories & sample content'
+        description: 'Categories & sample content',
+        directory: 'seeds',
+        status: 'active'
       }
     ];
 
@@ -540,12 +581,18 @@
     // Initialize file selector
     function initFileSelector() {
       const selector = document.getElementById('fileSelector');
-      selector.innerHTML = SEED_FILES.map((file, idx) => `
-        <div class="file-button" data-index="${idx}" onclick="toggleFile(${idx})">
-          <h3>${file.name}</h3>
-          <p>${file.description}</p>
-        </div>
-      `).join('');
+      selector.innerHTML = SEED_FILES.map((file, idx) => {
+        const statusLabel = file.status === 'staged' ? 'To Review' : 'Active';
+        return `
+          <div class="file-button" data-index="${idx}" onclick="toggleFile(${idx})">
+            <h3>
+              ${file.name}
+              <span class="file-status-badge ${file.status}">${statusLabel}</span>
+            </h3>
+            <p>${file.description}</p>
+          </div>
+        `;
+      }).join('');
     }
 
     // Toggle file selection
@@ -583,7 +630,7 @@
       try {
         const response = await fetch(file.path);
         const text = await response.text();
-        return parseSQL(text, file.name);
+        return parseSQL(text, file);
       } catch (error) {
         console.error(`Error loading ${file.name}:`, error);
         return [];
@@ -591,23 +638,23 @@
     }
 
     // Parse SQL file
-    function parseSQL(content, source) {
+    function parseSQL(content, fileObj) {
       const items = [];
 
       // Parse guides - improved to handle multi-line INSERT statements
-      items.push(...parseTable(content, source, 'wiki_guides', 'guide', parseGuideRecord));
+      items.push(...parseTable(content, fileObj, 'wiki_guides', 'guide', parseGuideRecord));
 
       // Parse events
-      items.push(...parseTable(content, source, 'wiki_events', 'event', parseEventRecord));
+      items.push(...parseTable(content, fileObj, 'wiki_events', 'event', parseEventRecord));
 
       // Parse locations
-      items.push(...parseTable(content, source, 'wiki_locations', 'location', parseLocationRecord));
+      items.push(...parseTable(content, fileObj, 'wiki_locations', 'location', parseLocationRecord));
 
       return items;
     }
 
     // Generic table parser that handles multi-line INSERT statements
-    function parseTable(content, source, tableName, type, parseFunc) {
+    function parseTable(content, fileObj, tableName, type, parseFunc) {
       const items = [];
 
       // Find all INSERT INTO statements for this table
@@ -626,7 +673,9 @@
           const item = parseFunc(record);
           if (item) {
             item.type = type;
-            item.source = source;
+            item.source = fileObj.name;
+            item.directory = fileObj.directory;
+            item.status = fileObj.status;
             items.push(item);
           }
         });
@@ -974,6 +1023,7 @@
             <div class="meta-item">
               <span class="meta-icon">📄</span>
               ${item.source}
+              <span class="file-status-badge ${item.status}" style="margin-left: 0.5rem; font-size: 0.65rem;">${item.status === 'staged' ? 'To Review' : 'Active'}</span>
             </div>
           </div>
           <div class="card-footer">
@@ -1030,7 +1080,11 @@
             <div><strong>Slug:</strong> <code>${item.slug}</code></div>
             <div><strong>Summary:</strong> ${item.summary || 'N/A'}</div>
             <div><strong>Word Count:</strong> ${item.wordCount || 0} words</div>
-            <div><strong>Source File:</strong> ${item.source}</div>
+            <div>
+              <strong>Source File:</strong> ${item.source}
+              <span class="file-status-badge ${item.status}" style="margin-left: 0.5rem;">${item.status === 'staged' ? 'To Review' : 'Active'}</span>
+            </div>
+            <div><strong>Directory:</strong> <code>supabase/${item.directory}/</code></div>
           </div>
           ${sources ? `
             <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; border-left: 4px solid #ffc107;">
@@ -1048,7 +1102,11 @@
             <div><strong>Date:</strong> ${item.eventDate || 'TBD'}</div>
             ${item.eventType ? `<div><strong>Type:</strong> ${item.eventType}</div>` : ''}
             ${item.location ? `<div><strong>Location:</strong> ${item.location}</div>` : ''}
-            <div><strong>Source File:</strong> ${item.source}</div>
+            <div>
+              <strong>Source File:</strong> ${item.source}
+              <span class="file-status-badge ${item.status}" style="margin-left: 0.5rem;">${item.status === 'staged' ? 'To Review' : 'Active'}</span>
+            </div>
+            <div><strong>Directory:</strong> <code>supabase/${item.directory}/</code></div>
           </div>
           <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #ddd;">
           <div style="line-height: 1.8;">${markdownToHTML(item.description || 'No description available')}</div>
@@ -1060,7 +1118,11 @@
             ${item.locationType ? `<div><strong>Type:</strong> ${item.locationType}</div>` : ''}
             ${item.address ? `<div><strong>Address:</strong> ${item.address}</div>` : ''}
             ${item.website ? `<div><strong>Website:</strong> <a href="${item.website}" target="_blank" rel="noopener noreferrer">${item.website}</a></div>` : ''}
-            <div><strong>Source File:</strong> ${item.source}</div>
+            <div>
+              <strong>Source File:</strong> ${item.source}
+              <span class="file-status-badge ${item.status}" style="margin-left: 0.5rem;">${item.status === 'staged' ? 'To Review' : 'Active'}</span>
+            </div>
+            <div><strong>Directory:</strong> <code>supabase/${item.directory}/</code></div>
             ${item.tags && item.tags.length ? `<div><strong>Tags:</strong> ${item.tags.join(', ')}</div>` : ''}
           </div>
           <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #ddd;">
