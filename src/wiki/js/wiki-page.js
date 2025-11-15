@@ -96,10 +96,16 @@ async function loadGuide(slug) {
  * Render guide content to the page
  */
 function renderGuide() {
-  if (!currentGuide) return;
+  if (!currentGuide) {
+    console.error('❌ renderGuide called but currentGuide is null');
+    return;
+  }
+
+  console.log('🎨 Starting to render guide:', currentGuide.title);
 
   // Update page title
   document.title = `${currentGuide.title} - Community Wiki`;
+  console.log('  ✅ Updated page title');
 
   // Update breadcrumb (assuming first category for now)
   const breadcrumb = document.querySelector('.wiki-content > div:first-child');
@@ -109,12 +115,18 @@ function renderGuide() {
       <a href="wiki-home.html?category=${guideCategories[0].slug}" style="color: var(--wiki-primary);">${escapeHtml(guideCategories[0].name)}</a> /
       <span>${escapeHtml(currentGuide.title)}</span>
     `;
+    console.log('  ✅ Updated breadcrumb');
+  } else {
+    console.warn('  ⚠️ Could not find breadcrumb element or no categories');
   }
 
   // Update title
   const titleElement = document.querySelector('.wiki-content h1');
   if (titleElement) {
     titleElement.textContent = currentGuide.title;
+    console.log('  ✅ Updated h1 title to:', currentGuide.title);
+  } else {
+    console.warn('  ⚠️ Could not find h1 title element');
   }
 
   // Update meta information
@@ -137,6 +149,9 @@ function renderGuide() {
       <span><i class="fas fa-clock"></i> ${readTime} min read</span>
       <span><i class="fas fa-eye"></i> ${currentGuide.view_count || 0} views</span>
     `;
+    console.log('  ✅ Updated meta information');
+  } else {
+    console.warn('  ⚠️ Could not find .card-meta element');
   }
 
   // Update tags
@@ -145,20 +160,36 @@ function renderGuide() {
     tagsElement.innerHTML = guideCategories.map(cat => `
       <span class="tag">${escapeHtml(cat.name)}</span>
     `).join('');
+    console.log('  ✅ Updated tags');
+  } else {
+    console.warn('  ⚠️ Could not find .tags.mt-2 element or no categories');
   }
 
   // Update article content
-  const articleBody = document.querySelector('.wiki-content > div:last-child');
+  // Find the article body div (the one after action buttons)
+  const articleDivs = document.querySelectorAll('.wiki-content > div');
+  console.log(`  📊 Found ${articleDivs.length} div elements in .wiki-content`);
+  const articleBody = articleDivs[articleDivs.length - 1]; // Last div
   if (articleBody && currentGuide.content) {
     // Convert markdown to HTML (basic conversion for now)
     articleBody.innerHTML = renderMarkdown(currentGuide.content);
+    console.log('  ✅ Updated article body with guide content');
+  } else {
+    console.warn('  ⚠️ Could not find article body element to update');
+    console.warn('  articleBody:', articleBody);
+    console.warn('  currentGuide.content length:', currentGuide.content?.length);
   }
 
   // Update edit link
   const editLink = document.querySelector('a[href="wiki-editor.html"]');
   if (editLink) {
     editLink.href = `wiki-editor.html?slug=${currentGuide.slug}`;
+    console.log('  ✅ Updated edit link');
+  } else {
+    console.warn('  ⚠️ Could not find edit link');
   }
+
+  console.log('🎨 Finished rendering guide');
 
   // Update related guides section if it exists
   updateRelatedGuides();
