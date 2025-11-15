@@ -111,17 +111,20 @@ VALUES (
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| id | UUID | Auto | Primary key (auto-generated) |
 | title | TEXT | Yes | Clear, descriptive title (50-100 chars) |
 | slug | TEXT | Yes | URL-friendly identifier (lowercase, hyphens, unique) |
 | summary | TEXT | Yes | 1-2 sentence overview (150-250 chars) |
 | content | TEXT | Yes | Full markdown content (see structure below) |
 | featured_image | TEXT | No | URL to header image |
 | author_id | UUID | No | Reference to auth.users (set by system) |
-| status | TEXT | Yes | 'draft' or 'published' or 'archived' |
-| view_count | INTEGER | Auto | Starts at 0 |
+| status | TEXT | Default 'draft' | 'draft', 'published', or 'archived' |
+| view_count | INTEGER | Auto | Page view counter (starts at 0) |
 | allow_comments | BOOLEAN | Default true | Enable comments |
 | allow_edits | BOOLEAN | Default true | Enable community edits |
 | notify_group | BOOLEAN | Default false | Notify community of new guide |
+| created_at | TIMESTAMPTZ | Auto | Timestamp of creation |
+| updated_at | TIMESTAMPTZ | Auto | Timestamp of last update |
 | published_at | TIMESTAMPTZ | Auto | Set when status = 'published' |
 
 **Categories:** Guides can have multiple categories via wiki_guide_categories junction table
@@ -130,6 +133,7 @@ VALUES (
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| id | UUID | Auto | Primary key (auto-generated) |
 | title | TEXT | Yes | Event name (30-80 chars) |
 | slug | TEXT | Yes | URL-friendly identifier (unique) |
 | description | TEXT | Yes | Full event description (300-1000 chars) |
@@ -153,11 +157,13 @@ VALUES (
 | status | TEXT | Default 'published' | 'draft', 'published', 'cancelled', 'completed' |
 | created_at | TIMESTAMPTZ | Auto | Timestamp of creation |
 | updated_at | TIMESTAMPTZ | Auto | Timestamp of last update |
+| view_count | INTEGER | Auto | Page view counter (starts at 0) |
 
 ### wiki_locations Table
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| id | UUID | Auto | Primary key (auto-generated) |
 | name | TEXT | Yes | Location name (30-100 chars) |
 | slug | TEXT | Yes | URL-friendly identifier (unique) |
 | description | TEXT | Yes | Full description (400-1500 chars) |
@@ -172,9 +178,10 @@ VALUES (
 | opening_hours | JSONB | No | Structured hours (see format below) |
 | tags | TEXT[] | No | Array of relevant tags (5-15 tags) |
 | author_id | UUID | No | Reference to auth.users (set by system) |
-| status | TEXT | Yes | 'draft', 'published', 'archived' (default: 'published') |
+| status | TEXT | Default 'published' | 'draft', 'published', or 'archived' |
 | created_at | TIMESTAMPTZ | Auto | Timestamp of creation |
 | updated_at | TIMESTAMPTZ | Auto | Timestamp of last update |
+| view_count | INTEGER | Auto | Page view counter (starts at 0) |
 
 **IMPORTANT NOTES:**
 - **NO PostGIS:** Supabase does not support PostGIS extension
