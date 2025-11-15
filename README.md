@@ -138,12 +138,20 @@ npm run format:check # Check code formatting
 
 ## 📖 Documentation
 
-- [Quick Start Guide](docs/QUICKSTART.md) - Get up and running in 5 minutes
+**New to Permahub?** Start here:
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Complete setup in 30 minutes
+- **[Documentation Index](docs/INDEX.md)** - Find everything you need
+
+**Quick Links:**
+- [Quick Start](docs/QUICKSTART.md) - 5-minute overview
+- [Database Setup](docs/database/supabase-cloud-setup.md) - Set up Supabase
+- [Troubleshooting](docs/database/troubleshooting.md) - Common issues and solutions
 - [Deployment Guide](docs/guides/deployment.md) - Deploy to production
 - [Security Guide](docs/guides/security.md) - Authentication and security best practices
 - [i18n Guide](docs/guides/i18n-implementation.md) - Multi-language implementation
 - [Architecture Overview](docs/architecture/project-overview.md) - System architecture
 - [Data Model](docs/architecture/data-model.md) - Database schema documentation
+- [Roadmap](ROADMAP.md) - Project roadmap and future plans
 
 ## 🌍 Internationalization
 
