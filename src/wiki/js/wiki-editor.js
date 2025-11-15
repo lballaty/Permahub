@@ -121,17 +121,39 @@ async function loadCategories() {
  * Initialize content type selector
  */
 function initializeContentTypeSelector() {
-  const contentTypeSelect = document.getElementById('contentType');
-  if (!contentTypeSelect) return;
+  console.log('🎯 initializeContentTypeSelector() called');
 
-  contentTypeSelect.value = currentContentType;
+  // Look for radio buttons instead of select dropdown
+  const contentTypeRadios = document.querySelectorAll('input[name="contentType"]');
+  console.log(`📻 Found ${contentTypeRadios.length} content type radio buttons`);
 
-  contentTypeSelect.addEventListener('change', function() {
-    currentContentType = this.value;
-    updateFormFields();
+  if (contentTypeRadios.length === 0) {
+    console.warn('⚠️ No content type radio buttons found!');
+    return;
+  }
+
+  // Get the currently checked radio button
+  const checkedRadio = document.querySelector('input[name="contentType"]:checked');
+  if (checkedRadio) {
+    currentContentType = checkedRadio.value;
+    console.log(`✅ Initial content type from checked radio: "${currentContentType}"`);
+  }
+
+  // Add change listeners to all radio buttons
+  contentTypeRadios.forEach((radio, index) => {
+    console.log(`  📻 Radio ${index + 1}: value="${radio.value}", checked=${radio.checked}`);
+
+    radio.addEventListener('change', function() {
+      if (this.checked) {
+        currentContentType = this.value;
+        console.log(`🔄 Content type changed to: "${currentContentType}"`);
+        updateFormFields();
+      }
+    });
   });
 
   // Initial form update
+  console.log(`🚀 Calling initial updateFormFields() with type: "${currentContentType}"`);
   updateFormFields();
 }
 
@@ -139,23 +161,45 @@ function initializeContentTypeSelector() {
  * Update form fields based on content type
  */
 function updateFormFields() {
+  console.log(`🔄 updateFormFields() called with currentContentType: "${currentContentType}"`);
+
   const eventFields = document.getElementById('eventFields');
   const locationFields = document.getElementById('locationFields');
   const wikipediaFields = document.getElementById('wikipediaFields');
 
+  console.log('📋 Found elements:', {
+    eventFields: !!eventFields,
+    locationFields: !!locationFields,
+    wikipediaFields: !!wikipediaFields
+  });
+
   // Hide all type-specific fields first
-  if (eventFields) eventFields.style.display = 'none';
-  if (locationFields) locationFields.style.display = 'none';
-  if (wikipediaFields) wikipediaFields.style.display = 'none';
+  if (eventFields) {
+    eventFields.style.display = 'none';
+    console.log('  ✅ Event fields hidden');
+  }
+  if (locationFields) {
+    locationFields.style.display = 'none';
+    console.log('  ✅ Location fields hidden');
+  }
+  if (wikipediaFields) {
+    wikipediaFields.style.display = 'none';
+    console.log('  ✅ Wikipedia fields hidden');
+  }
 
   // Show relevant fields
   if (currentContentType === 'event' && eventFields) {
     eventFields.style.display = 'block';
+    console.log('  ✅ Event fields shown');
   } else if (currentContentType === 'location' && locationFields) {
     locationFields.style.display = 'block';
+    console.log('  ✅ Location fields shown');
   } else if (currentContentType === 'guide' && wikipediaFields) {
     wikipediaFields.style.display = 'block';
+    console.log('  ✅ Wikipedia fields shown for guide');
     initializeWikipediaHandlers();
+  } else {
+    console.warn(`  ⚠️ No fields shown. Type: "${currentContentType}", Wikipedia element exists: ${!!wikipediaFields}`);
   }
 
   // Update form title
@@ -166,6 +210,7 @@ function updateFormFields() {
     } else {
       formTitle.innerHTML = `<i class="fas fa-plus"></i> Create New ${capitalizeFirst(currentContentType)}`;
     }
+    console.log(`  ✅ Form title updated: "${formTitle.textContent}"`);
   }
 }
 
@@ -657,6 +702,8 @@ async function loadExistingContent(slug) {
  * Initialize Wikipedia handlers
  */
 function initializeWikipediaHandlers() {
+  console.log('🌐 initializeWikipediaHandlers() called');
+
   const wikipediaUrl = document.getElementById('wikipediaUrl');
   const verifyBtn = document.getElementById('verifyWikipedia');
   const fetchSummaryBtn = document.getElementById('fetchWikipediaSummary');
@@ -664,7 +711,19 @@ function initializeWikipediaHandlers() {
   const verifiedStatus = document.getElementById('wikipediaVerifiedStatus');
   const summaryBox = document.getElementById('wikipediaSummaryBox');
 
-  if (!wikipediaUrl) return;
+  console.log('🔍 Wikipedia elements found:', {
+    wikipediaUrl: !!wikipediaUrl,
+    verifyBtn: !!verifyBtn,
+    fetchSummaryBtn: !!fetchSummaryBtn,
+    verificationDiv: !!verificationDiv,
+    verifiedStatus: !!verifiedStatus,
+    summaryBox: !!summaryBox
+  });
+
+  if (!wikipediaUrl) {
+    console.warn('⚠️ Wikipedia URL input not found - exiting handler initialization');
+    return;
+  }
 
   // Show/hide verification section when URL is entered
   wikipediaUrl.addEventListener('input', function() {
