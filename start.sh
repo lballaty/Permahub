@@ -104,29 +104,55 @@ check_mailpit() {
     fi
 }
 
+# Function to stop dev server
+stop_dev_server() {
+    echo -e "${BLUE}🛑 Stopping existing dev server...${NC}"
+
+    # Find and kill processes on the dev server port
+    local pids=$(lsof -ti :$DEV_SERVER_PORT)
+
+    if [ -n "$pids" ]; then
+        echo "$pids" | xargs kill -9 2>/dev/null
+        sleep 2
+        echo -e "${GREEN}✅ Server stopped${NC}"
+        return 0
+    else
+        echo -e "${YELLOW}⚠️  No server found on port ${DEV_SERVER_PORT}${NC}"
+        return 1
+    fi
+}
+
 # Function to start dev server
 start_dev_server() {
+    local restart=$1
+
     echo -e "\n${MAGENTA}🚀 Starting Development Server...${NC}"
 
     if check_port $DEV_SERVER_PORT; then
-        echo -e "${GREEN}✅ Dev server already running on port ${DEV_SERVER_PORT}${NC}"
-    else
-        echo -e "${BLUE}Starting npm run dev...${NC}"
-        npm run dev &
-
-        # Wait for server to start
-        echo -n "Waiting for server to start"
-        for i in {1..10}; do
-            sleep 1
-            echo -n "."
-            if check_port $DEV_SERVER_PORT; then
-                echo -e " ${GREEN}✅ Started!${NC}"
-                return 0
-            fi
-        done
-        echo -e " ${RED}❌ Failed to start${NC}"
-        return 1
+        if [ "$restart" = "true" ]; then
+            echo -e "${YELLOW}Dev server already running - restarting fresh...${NC}"
+            stop_dev_server
+        else
+            echo -e "${GREEN}✅ Dev server already running on port ${DEV_SERVER_PORT}${NC}"
+            return 0
+        fi
     fi
+
+    echo -e "${BLUE}Starting npm run dev...${NC}"
+    npm run dev > /dev/null 2>&1 &
+
+    # Wait for server to start
+    echo -n "Waiting for server to start"
+    for i in {1..15}; do
+        sleep 1
+        echo -n "."
+        if check_port $DEV_SERVER_PORT; then
+            echo -e " ${GREEN}✅ Started!${NC}"
+            return 0
+        fi
+    done
+    echo -e " ${RED}❌ Failed to start${NC}"
+    return 1
 }
 
 # Function to find and list all wiki HTML files
@@ -241,14 +267,30 @@ main() {
     # Run system checks
     run_checks
 
-    # Start dev server if not running
-    if ! check_port $DEV_SERVER_PORT; then
+    # Handle dev server
+    if check_port $DEV_SERVER_PORT; then
+        read -p "$(echo -e ${YELLOW}Dev server already running. Restart fresh? [y/N]: ${NC})" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            start_dev_server true
+        fi
+    else
         read -p "$(echo -e ${YELLOW}Start development server? [Y/n]: ${NC})" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
-            start_dev_server
+            start_dev_server false
         fi
     fi
+
+    # Show Supabase status details
+    echo -e "\n${BOLD}${CYAN}📊 Supabase Status:${NC}"
+    echo "═══════════════════════════════════════════════════════════"
+    if command -v supabase &> /dev/null; then
+        supabase status 2>/dev/null || echo -e "${YELLOW}⚠️  Supabase not started${NC}"
+    else
+        echo -e "${RED}❌ Supabase CLI not installed${NC}"
+    fi
+    echo "═══════════════════════════════════════════════════════════"
 
     # Show service URLs
     show_service_urls
