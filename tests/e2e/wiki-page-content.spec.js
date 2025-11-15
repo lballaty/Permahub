@@ -33,10 +33,10 @@ test.describe('Wiki Page - Dynamic Content Loading', () => {
   test('should load different content for different guide slugs', async ({ page }) => {
     // Get list of available guides from home page first
     await page.goto('http://localhost:3000/src/wiki/wiki-home.html');
-    await page.waitForSelector('.guide-card', { timeout: 5000 });
+    await page.waitForSelector('#guidesGrid .card', { timeout: 5000 });
 
     // Get all guide links
-    const guideLinks = await page.locator('.guide-card a[href*="wiki-page.html?slug="]').all();
+    const guideLinks = await page.locator('#guidesGrid .card a[href*="wiki-page.html?slug="]').all();
 
     if (guideLinks.length < 2) {
       console.log('⚠️ Not enough guides to test, skipping comparison');
