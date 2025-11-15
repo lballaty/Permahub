@@ -30,19 +30,9 @@ FROM numbered_guides ng
 WHERE g.id = ng.id;
 
 -- ================================================
--- SET STAGGERED PUBLISHED_AT DATES FOR EVENTS
--- Starting 6 months ago, 1 day intervals
+-- NOTE: Events don't have published_at column
+-- They use event_date which should remain as actual event dates
 -- ================================================
-WITH numbered_events AS (
-  SELECT
-    id,
-    ROW_NUMBER() OVER (ORDER BY created_at ASC) - 1 as row_num
-  FROM wiki_events
-)
-UPDATE wiki_events e
-SET published_at = NOW() - INTERVAL '6 months' + (ne.row_num || ' days')::INTERVAL
-FROM numbered_events ne
-WHERE e.id = ne.id;
 
 -- ================================================
 -- VERIFICATION REPORT
