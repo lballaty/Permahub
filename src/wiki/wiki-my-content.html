@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="wiki.my_content.page_title">My Content - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+              <div class="lang-option" data-lang="cs">
+                <span class="lang-flag">🇨🇿</span>
+                <span class="lang-name">Čeština</span>
+              </div>
+              <div class="lang-option" data-lang="sk">
+                <span class="lang-flag">🇸🇰</span>
+                <span class="lang-name">Slovenčina</span>
+              </div>
+              <div class="lang-option" data-lang="uk">
+                <span class="lang-flag">🇺🇦</span>
+                <span class="lang-name">Українська</span>
+              </div>
+              <div class="lang-option" data-lang="ru">
+                <span class="lang-flag">🇷🇺</span>
+                <span class="lang-name">Русский</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
+            <i class="fas fa-folder-open"></i> <span data-i18n="wiki.my_content.title">My Content</span>
+          </h1>
+          <p class="text-muted" data-i18n="wiki.my_content.subtitle">Manage all your guides, events, and locations</p>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 2rem; font-weight: 600; color: var(--wiki-primary);" id="totalCount">0</div>
+          <div class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.my_content.total_items">Total Items</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="card">
+      <!-- Search Bar -->
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <div style="position: relative;">
+          <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--wiki-text-muted);"></i>
+          <input
+            type="text"
+            id="contentSearch"
+            class="form-input"
+            data-i18n-placeholder="wiki.my_content.search_placeholder"
+            placeholder="Search by title or description..."
+            style="padding-left: 2.75rem;"
+          >
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <!-- Status Filter -->
+        <div>
+          <strong style="display: block; margin-bottom: 0.5rem;">
+            <i class="fas fa-flag"></i> <span data-i18n="wiki.my_content.filter_status">Status</span>
+          </strong>
+          <div class="tags" style="flex-wrap: wrap;">
+            <a href="javascript:void(0)" class="tag status-filter active" data-filter="all">
+              <span data-i18n="wiki.my_content.all_status">All</span>
+            </a>
+            <a href="javascript:void(0)" class="tag status-filter badge-draft" data-filter="draft">
+              <span data-i18n="wiki.my_content.draft">Draft</span>
+            </a>
+            <a href="javascript:void(0)" class="tag status-filter badge-published" data-filter="published">
+              <span data-i18n="wiki.my_content.published">Published</span>
+            </a>
+            <a href="javascript:void(0)" class="tag status-filter badge-archived" data-filter="archived">
+              <span data-i18n="wiki.my_content.archived">Archived</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Type Filter -->
+        <div>
+          <strong style="display: block; margin-bottom: 0.5rem;">
+            <i class="fas fa-layer-group"></i> <span data-i18n="wiki.my_content.filter_type">Type</span>
+          </strong>
+          <div class="tags" style="flex-wrap: wrap;">
+            <a href="javascript:void(0)" class="tag type-filter active" data-filter="all">
+              <span data-i18n="wiki.my_content.all_types">All</span>
+            </a>
+            <a href="javascript:void(0)" class="tag type-filter" data-filter="guide">
+              <i class="fas fa-book"></i> <span data-i18n="wiki.my_content.guides">Guides</span>
+            </a>
+            <a href="javascript:void(0)" class="tag type-filter" data-filter="event">
+              <i class="fas fa-calendar"></i> <span data-i18n="wiki.my_content.events">Events</span>
+            </a>
+            <a href="javascript:void(0)" class="tag type-filter" data-filter="location">
+              <i class="fas fa-map-marker-alt"></i> <span data-i18n="wiki.my_content.locations">Locations</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Date Range Filter -->
+        <div>
+          <strong style="display: block; margin-bottom: 0.5rem;">
+            <i class="fas fa-calendar-alt"></i> <span data-i18n="wiki.my_content.filter_date">Date Range</span>
+          </strong>
+          <div class="tags" style="flex-wrap: wrap;">
+            <a href="javascript:void(0)" class="tag date-filter active" data-filter="all">
+              <span data-i18n="wiki.my_content.all_dates">All Time</span>
+            </a>
+            <a href="javascript:void(0)" class="tag date-filter" data-filter="7">
+              <span data-i18n="wiki.my_content.last_7_days">Last 7 Days</span>
+            </a>
+            <a href="javascript:void(0)" class="tag date-filter" data-filter="30">
+              <span data-i18n="wiki.my_content.last_30_days">Last 30 Days</span>
+            </a>
+            <a href="javascript:void(0)" class="tag date-filter" data-filter="90">
+              <span data-i18n="wiki.my_content.last_90_days">Last 90 Days</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter (populated dynamically) -->
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--wiki-border);">
+        <strong style="display: block; margin-bottom: 0.5rem;">
+          <i class="fas fa-tags"></i> <span data-i18n="wiki.my_content.filter_category">Category</span>
+        </strong>
+        <div class="tags" id="categoryFilters" style="flex-wrap: wrap;">
+          <a href="javascript:void(0)" class="tag category-filter active" data-filter="all">
+            <span data-i18n="wiki.my_content.all_categories">All Categories</span>
+          </a>
+          <!-- Categories loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Sorting -->
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--wiki-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <strong>
+            <i class="fas fa-sort"></i> <span data-i18n="wiki.my_content.sort_by">Sort by</span>:
+          </strong>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-small" id="sortNewest">
+            <i class="fas fa-arrow-down"></i> <span data-i18n="wiki.my_content.newest_first">Newest First</span>
+          </button>
+          <button class="btn btn-outline btn-small" id="sortOldest">
+            <i class="fas fa-arrow-up"></i> <span data-i18n="wiki.my_content.oldest_first">Oldest First</span>
+          </button>
+          <button class="btn btn-outline btn-small" id="sortAlphaAZ">
+            <i class="fas fa-sort-alpha-down"></i> <span data-i18n="wiki.my_content.a_to_z">A-Z</span>
+          </button>
+          <button class="btn btn-outline btn-small" id="sortAlphaZA">
+            <i class="fas fa-sort-alpha-up"></i> <span data-i18n="wiki.my_content.z_to_a">Z-A</span>
+          </button>
+          <button class="btn btn-outline btn-small" id="sortViews">
+            <i class="fas fa-eye"></i> <span data-i18n="wiki.my_content.most_viewed">Most Viewed</span>
+          </button>
+          <button class="btn btn-outline btn-small" id="sortEdited">
+            <i class="fas fa-clock"></i> <span data-i18n="wiki.my_content.last_edited">Last Edited</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Filters Summary -->
+      <div id="activeFilters" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wiki-border); display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <strong style="color: var(--wiki-text-muted); font-size: 0.9rem;">
+              <i class="fas fa-filter"></i> <span data-i18n="wiki.my_content.active_filters">Active Filters</span>:
+            </strong>
+            <div id="filterTags" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+          </div>
+          <button class="btn btn-outline btn-small" id="clearFilters">
+            <i class="fas fa-times"></i> <span data-i18n="wiki.my_content.clear_all">Clear All</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+      <p class="text-muted">
+        <span data-i18n="wiki.my_content.showing">Showing</span> <strong id="resultCount">0</strong> <span data-i18n="wiki.my_content.items">items</span>
+      </p>
+      <a href="wiki-editor.html" class="btn btn-primary btn-small">
+        <i class="fas fa-plus"></i> <span data-i18n="wiki.my_content.create_new">Create New</span>
+      </a>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="grid grid-2" id="contentGrid">
+      <!-- Content cards will be loaded here dynamically -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-my-content.js"></script>
+</body>
+</html>
