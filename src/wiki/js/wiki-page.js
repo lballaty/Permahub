@@ -179,14 +179,42 @@ function renderGuide() {
   }
 
   // Update article content
-  // Find the article body div (the one after action buttons)
+  // Find the article body div (the one with loading spinner)
   const articleDivs = document.querySelectorAll('.wiki-content > div');
   console.log(`  📊 Found ${articleDivs.length} div elements in .wiki-content`);
-  const articleBody = articleDivs[articleDivs.length - 1]; // Last div
+
+  // Find the div that contains the loading spinner
+  let articleBody = null;
+  let foundIndex = -1;
+  for (let i = 0; i < articleDivs.length; i++) {
+    const div = articleDivs[i];
+    if (div.querySelector('.fa-spinner')) {
+      articleBody = div;
+      foundIndex = i;
+      console.log(`  🎯 Found loading spinner in div at index ${i}`);
+      break;
+    }
+  }
+
+  // Fallback to last div if spinner not found
+  if (!articleBody) {
+    articleBody = articleDivs[articleDivs.length - 1];
+    foundIndex = articleDivs.length - 1;
+    console.log(`  ⚠️ Spinner not found, using last div at index ${foundIndex}`);
+  }
+
   if (articleBody && currentGuide.content) {
-    // Convert markdown to HTML (basic conversion for now)
-    articleBody.innerHTML = renderMarkdown(currentGuide.content);
-    console.log('  ✅ Updated article body with guide content');
+    console.log(`  📝 Replacing content in div at index ${foundIndex}`);
+
+    // Convert markdown to HTML
+    const renderedContent = renderMarkdown(currentGuide.content);
+
+    // Replace the entire content (this removes the loading spinner and message)
+    articleBody.innerHTML = renderedContent;
+
+    console.log(`  ✅ Updated article body with guide content`);
+    console.log(`  📝 Content length: ${renderedContent.length} characters`);
+    console.log(`  🔍 Verifying spinner removed:`, articleBody.querySelector('.fa-spinner') === null ? 'YES' : 'NO - STILL THERE!');
   } else {
     console.warn('  ⚠️ Could not find article body element to update');
     console.warn('  articleBody:', articleBody);

@@ -401,7 +401,7 @@ This ensures users see the same guide card presentation whether browsing on the 
 
 ### 2025-11-16 - Fix loading spinner persisting on wiki page content viewer
 
-**Commit:** (pending)
+**Commit:** (committing now)
 
 **Issue:**
 When viewing individual guide pages (wiki-page.html), the "Loading guide content..." spinner remained visible even after the guide content had been successfully loaded and rendered. The actual content appeared below the spinner, creating a poor user experience.
