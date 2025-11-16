@@ -19,7 +19,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 DEV_SERVER_PORT=3001
-SUPABASE_PORT=54321
+SUPABASE_PORT=3000
 MAILPIT_PORT=54324
 
 echo -e "${BOLD}${CYAN}"
@@ -272,17 +272,68 @@ list_wiki_pages() {
     echo -e "${GREEN}Total: ${count} wiki pages${NC}"
 }
 
+# Function to verify actual ports in use
+verify_ports() {
+    # Verify dev server port
+    local actual_dev_port=""
+    for port in {3001..3010}; do
+        if check_port $port; then
+            actual_dev_port=$port
+            break
+        fi
+    done
+
+    # Verify Supabase API port
+    local actual_supabase_port=""
+    for port in {3000..3010}; do
+        if check_port $port; then
+            actual_supabase_port=$port
+            break
+        fi
+    done
+
+    # Warn if ports don't match expected
+    if [ -n "$actual_dev_port" ] && [ "$actual_dev_port" != "$DEV_SERVER_PORT" ]; then
+        echo -e "${YELLOW}⚠️  WARNING: Dev server is on port ${actual_dev_port}, expected ${DEV_SERVER_PORT}${NC}"
+        DEV_SERVER_PORT=$actual_dev_port
+    fi
+
+    if [ -n "$actual_supabase_port" ] && [ "$actual_supabase_port" != "$SUPABASE_PORT" ]; then
+        echo -e "${YELLOW}⚠️  WARNING: Supabase API is on port ${actual_supabase_port}, expected ${SUPABASE_PORT}${NC}"
+        SUPABASE_PORT=$actual_supabase_port
+    fi
+}
+
 # Function to display service URLs
 show_service_urls() {
+    # Verify actual ports before displaying
+    verify_ports
+
     echo -e "\n${BOLD}${CYAN}🔗 Service URLs:${NC}"
     echo "═══════════════════════════════════════════════════════════"
     echo -e "${BOLD}Development:${NC}"
-    echo -e "  🌱 Permahub UI:      ${CYAN}http://localhost:${DEV_SERVER_PORT}/src/wiki/wiki-home.html${NC}"
+    if check_port $DEV_SERVER_PORT; then
+        echo -e "  🌱 Permahub UI:      ${GREEN}✅ http://localhost:${DEV_SERVER_PORT}/src/wiki/wiki-home.html${NC}"
+    else
+        echo -e "  🌱 Permahub UI:      ${RED}❌ http://localhost:${DEV_SERVER_PORT}/src/wiki/wiki-home.html (not running)${NC}"
+    fi
     echo ""
     echo -e "${BOLD}Backend Services:${NC}"
-    echo -e "  🗄️  Supabase Studio:  ${CYAN}http://localhost:54323${NC}"
-    echo -e "  🔌 Supabase API:     ${CYAN}http://localhost:${SUPABASE_PORT}${NC}"
-    echo -e "  📧 Mailpit:          ${CYAN}http://localhost:${MAILPIT_PORT}${NC}"
+    if check_port 54323; then
+        echo -e "  🗄️  Supabase Studio:  ${GREEN}✅ http://localhost:54323${NC}"
+    else
+        echo -e "  🗄️  Supabase Studio:  ${RED}❌ http://localhost:54323 (not running)${NC}"
+    fi
+    if check_port $SUPABASE_PORT; then
+        echo -e "  🔌 Supabase API:     ${GREEN}✅ http://localhost:${SUPABASE_PORT}${NC}"
+    else
+        echo -e "  🔌 Supabase API:     ${RED}❌ http://localhost:${SUPABASE_PORT} (not running)${NC}"
+    fi
+    if check_port $MAILPIT_PORT; then
+        echo -e "  📧 Mailpit:          ${GREEN}✅ http://localhost:${MAILPIT_PORT}${NC}"
+    else
+        echo -e "  📧 Mailpit:          ${YELLOW}⚠️  http://localhost:${MAILPIT_PORT} (not running)${NC}"
+    fi
     echo ""
     echo -e "${BOLD}Testing:${NC}"
     echo -e "  🧪 Test Suite:       ${CYAN}http://localhost:${DEV_SERVER_PORT}/test-ui-comprehensive.html${NC}"
