@@ -44,9 +44,22 @@
       "Bash(unzip:*)",
       "Bash(npm run verify:all-guides:*)",
       "Bash(node scripts/verify-i18n-keys.js:*)",
-      "Bash(node scripts/verify-i18n-simple.js:*)"
+      "Bash(node scripts/verify-i18n-simple.js:*)",
+      "Bash(git checkout:*)",
+      "Bash(/tmp/location_urls_export.csv)",
+      "Bash(/tmp/guide_sources_export.csv)",
+      "Bash(ls:*)",
+      "Bash(git restore:*)",
+      "Bash(node -c:*)",
+      "Bash(./start.sh)",
+      "Bash(./stopall.sh:*)",
+      "Bash(node scripts/verify-translations-complete.js:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)"
+    ]
   }
 }

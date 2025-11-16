@@ -5,6 +5,8 @@
  * Created: 2025-11-16
  */
 
+import { SUPABASE_CONFIG } from '../../js/config.js';
+
 /**
  * Handle authentication callback from URL hash
  *
@@ -61,10 +63,10 @@ async function handleAuthCallback() {
 
   // Fetch user data using the access token
   try {
-    const response = await fetch('http://127.0.0.1:3000/auth/v1/user', {
+    const response = await fetch(`${SUPABASE_CONFIG.url}/auth/v1/user`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
-        'apikey': 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH' // Should use config
+        'apikey': SUPABASE_CONFIG.anonKey
       }
     });
 

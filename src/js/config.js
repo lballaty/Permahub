@@ -48,11 +48,11 @@ function isLocalEnvironment() {
  */
 export const SUPABASE_CONFIG = {
   url: isLocalEnvironment()
-    ? 'http://127.0.0.1:3000'
+    ? 'http://127.0.0.1:3000'  // Local Supabase API port (from supabase/config.toml)
     : 'https://mcbxbaggjaxqfdvmrqsc.supabase.co',
 
   anonKey: isLocalEnvironment()
-    ? 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH'  // Local dev key
+    ? 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH'  // Local dev anon key (from supabase status)
     : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MDE4NDYsImV4cCI6MjA3ODA3Nzg0Nn0.agjLGl7uW0S1tGgivGBVthHWAgw0YxHjJNLHkhsViO0'  // Cloud anon key (safe to expose)
 };
 
