@@ -55,24 +55,14 @@ async function loadInitialData() {
     console.log(`✅ Loaded ${allGuides.length} guides from database`);
     console.log('📄 Guide titles:', allGuides.map(g => g.title));
 
-    // Fetch locations
+    // Fetch locations with author information
     console.log('📍 Fetching locations from wiki_locations table...');
-    allLocations = await supabase.getAll('wiki_locations', {
-      where: 'status',
-      operator: 'eq',
-      value: 'published',
-      order: 'name.asc'
-    });
+    allLocations = await fetchLocationsWithAuthors();
     console.log(`✅ Loaded ${allLocations.length} locations from database`);
 
-    // Fetch events
+    // Fetch events with author information
     console.log('📅 Fetching events from wiki_events table...');
-    allEvents = await supabase.getAll('wiki_events', {
-      where: 'status',
-      operator: 'eq',
-      value: 'published',
-      order: 'event_date.asc'
-    });
+    allEvents = await fetchEventsWithAuthors();
     console.log(`✅ Loaded ${allEvents.length} events from database`);
 
     // Update stats
@@ -140,9 +130,24 @@ async function fetchGuidesWithCategories() {
         const validCategories = categories.filter(c => c);
         console.log(`    Categories: ${validCategories.map(c => c.name).join(', ')}`);
 
+        // Fetch author information if author_id exists
+        let authorName = null;
+        if (guide.author_id) {
+          const authors = await supabase.getAll('users', {
+            where: 'id',
+            operator: 'eq',
+            value: guide.author_id
+          });
+          if (authors.length > 0) {
+            authorName = authors[0].full_name;
+            console.log(`    Author: ${authorName}`);
+          }
+        }
+
         return {
           ...guide,
-          categories: validCategories
+          categories: validCategories,
+          author_name: authorName
         };
       })
     );
@@ -152,6 +157,88 @@ async function fetchGuidesWithCategories() {
   } catch (error) {
     console.error('❌ Error fetching guides:', error);
     console.error('Error details:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch events with author information
+ */
+async function fetchEventsWithAuthors() {
+  try {
+    // Fetch published events
+    const events = await supabase.getAll('wiki_events', {
+      where: 'status',
+      operator: 'eq',
+      value: 'published',
+      order: 'event_date.asc'
+    });
+
+    // Enrich each event with author name
+    const eventsWithAuthors = await Promise.all(
+      events.map(async (event) => {
+        let authorName = null;
+        if (event.author_id) {
+          const authors = await supabase.getAll('users', {
+            where: 'id',
+            operator: 'eq',
+            value: event.author_id
+          });
+          if (authors.length > 0) {
+            authorName = authors[0].full_name;
+          }
+        }
+        return {
+          ...event,
+          author_name: authorName
+        };
+      })
+    );
+
+    return eventsWithAuthors;
+  } catch (error) {
+    console.error('❌ Error fetching events:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetch locations with author information
+ */
+async function fetchLocationsWithAuthors() {
+  try {
+    // Fetch published locations
+    const locations = await supabase.getAll('wiki_locations', {
+      where: 'status',
+      operator: 'eq',
+      value: 'published',
+      order: 'name.asc'
+    });
+
+    // Enrich each location with author name
+    const locationsWithAuthors = await Promise.all(
+      locations.map(async (location) => {
+        let authorName = null;
+        if (location.author_id) {
+          const authors = await supabase.getAll('users', {
+            where: 'id',
+            operator: 'eq',
+            value: location.author_id
+          });
+          if (authors.length > 0) {
+            authorName = authors[0].full_name;
+          }
+        }
+        return {
+          ...location,
+          author_name: authorName
+        };
+      })
+    );
+
+    return locationsWithAuthors;
+  } catch (error) {
+    console.error('❌ Error fetching locations:', error);
     return [];
   }
 }
@@ -278,7 +365,7 @@ function renderGuides() {
     <div class="card">
       <div class="card-meta">
         <span><i class="fas fa-calendar"></i> ${formatDate(guide.published_at)}</span>
-        ${guide.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
+        ${guide.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(guide.author_name)}</span>` : ''}
         <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
       </div>
       <h3 class="card-title">
@@ -485,7 +572,7 @@ function renderSearchResults() {
       <div class="card">
         <div class="card-meta">
           <span><i class="fas fa-book"></i> Guide</span>
-          ${guide.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
+          ${guide.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(guide.author_name)}</span>` : ''}
           <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
         </div>
         <h3 class="card-title">
@@ -507,7 +594,7 @@ function renderSearchResults() {
       <div class="card">
         <div class="card-meta">
           <span><i class="fas fa-map-marker-alt"></i> Location</span>
-          ${location.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
+          ${location.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</span>` : ''}
           <span><i class="fas fa-eye"></i> ${location.view_count || 0} views</span>
         </div>
         <h3 class="card-title">
@@ -530,7 +617,7 @@ function renderSearchResults() {
       <div class="card">
         <div class="card-meta">
           <span><i class="fas fa-calendar"></i> Event - ${dateStr}</span>
-          ${event.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
+          ${event.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(event.author_name)}</span>` : ''}
           <span><i class="fas fa-eye"></i> ${event.view_count || 0} views</span>
         </div>
         <h3 class="card-title">
@@ -615,7 +702,7 @@ function renderUpcomingEvents() {
           <div class="event-info">
             ${timeStr ? `<span><i class="fas fa-clock"></i> ${escapeHtml(timeStr)}</span>` : ''}
             <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name || 'TBD')}</span>
-            ${event.author_id ? `<span><i class="fas fa-user"></i> ${escapeHtml(event.author_id.substring(0, 8))}...</span>` : ''}
+            ${event.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(event.author_name)}</span>` : ''}
             <span><i class="fas fa-eye"></i> ${event.view_count || 0} views</span>
           </div>
           <p class="text-muted mt-1">
@@ -625,15 +712,14 @@ function renderUpcomingEvents() {
             <button onclick="showEventDetails('${event.id}')" class="btn btn-outline btn-small">
               <i class="fas fa-info-circle"></i> Details
             </button>
-            ${event.registration_link ? `
-              <a href="${escapeHtml(event.registration_link)}" target="_blank" rel="noopener" class="btn btn-primary btn-small">
+            ${event.registration_url ?
+              `<a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary btn-small">
                 <i class="fas fa-ticket-alt"></i> Register
-              </a>
-            ` : `
-              <button onclick="registerForEvent('${event.id}')" class="btn btn-primary btn-small">
-                <i class="fas fa-user-plus"></i> Register
-              </button>
-            `}
+              </a>` :
+              `<button onclick="showNoRegistrationModal('${escapeHtml(event.title)}')" class="btn btn-outline btn-small">
+                <i class="fas fa-info-circle"></i> No Registration Required
+              </button>`
+            }
           </div>
         </div>
       </div>
@@ -969,3 +1055,80 @@ function renderFeaturedLocations() {
 
   console.log(`✅ Rendered ${featuredLocations.length} featured locations`);
 }
+
+/**
+ * Show "No Registration Required" modal
+ */
+window.showNoRegistrationModal = function(eventTitle) {
+  const modalHTML = `
+    <div id="noRegModal" style="
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    ">
+      <div style="
+        background: white;
+        color: #333;
+        padding: 2rem;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+      ">
+        <button onclick="closeNoRegModal()" style="
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #666;
+        ">&times;</button>
+
+        <div style="font-size: 3rem; color: var(--wiki-primary); margin-bottom: 1rem;">
+          <i class="fas fa-info-circle"></i>
+        </div>
+
+        <h2 style="margin-bottom: 1rem;">No Registration Required</h2>
+
+        <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">
+          <strong>${escapeHtml(eventTitle)}</strong> is a free event that doesn't require advance registration.
+          Simply show up at the scheduled time!
+        </p>
+
+        <button onclick="closeNoRegModal()" class="btn btn-primary">
+          Got it
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Close modal on background click
+  document.getElementById('noRegModal').addEventListener('click', function(e) {
+    if (e.target.id === 'noRegModal') {
+      closeNoRegModal();
+    }
+  });
+};
+
+/**
+ * Close no registration modal
+ */
+window.closeNoRegModal = function() {
+  const modal = document.getElementById('noRegModal');
+  if (modal) {
+    modal.remove();
+  }
+};

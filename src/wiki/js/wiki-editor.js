@@ -23,6 +23,17 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Display version in header
   displayVersionInHeader();
 
+  // Check authentication status
+  const user = await supabase.getCurrentUser();
+  const authToken = localStorage.getItem('auth_token');
+  const isAuthenticated = !!(user || authToken);
+
+  if (!isAuthenticated) {
+    console.log('⚠️ User is not authenticated - showing read-only editor with banner');
+  } else {
+    console.log('✅ User is authenticated - loading full editor');
+  }
+
   // Check if we're editing existing content
   const urlParams = new URLSearchParams(window.location.search);
   const slug = urlParams.get('slug');
@@ -44,6 +55,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // Initialize image upload
   initializeImageUpload();
+
+  // If not authenticated, show banner and disable save/publish functionality
+  if (!isAuthenticated) {
+    showAuthBanner();
+    disableSaveFunctionality();
+  }
 
   // If editing, load existing content
   if (slug) {
@@ -913,4 +930,107 @@ function showLoadingState(show) {
     const indicator = document.getElementById('savingIndicator');
     if (indicator) indicator.remove();
   }
+}
+
+/**
+ * Show authentication banner at top of editor
+ *
+ * Business Purpose: Inform unauthenticated users they can explore but not save
+ */
+function showAuthBanner() {
+  const cardHeader = document.querySelector('.card-header');
+  if (!cardHeader) return;
+
+  const bannerHTML = `
+    <div id="authBanner" style="
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    ">
+      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-exclamation-circle" style="font-size: 1.5rem;"></i>
+          <div>
+            <div style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.25rem;">
+              You are not logged in
+            </div>
+            <div style="font-size: 0.95rem; opacity: 0.95;">
+              Editing is disabled. You can explore the editor, but you won't be able to save or publish content.
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-shrink: 0;">
+          <a href="wiki-login.html" class="btn" style="
+            background: white;
+            color: #ee5a6f;
+            border: none;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            white-space: nowrap;
+          ">
+            <i class="fas fa-sign-in-alt"></i> Log In
+          </a>
+          <a href="wiki-signup.html" class="btn" style="
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            white-space: nowrap;
+          ">
+            <i class="fas fa-user-plus"></i> Sign Up
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  cardHeader.insertAdjacentHTML('beforebegin', bannerHTML);
+}
+
+/**
+ * Disable save and publish functionality for unauthenticated users
+ *
+ * Business Purpose: Prevent save attempts that would fail due to backend auth
+ */
+function disableSaveFunctionality() {
+  const publishBtn = document.getElementById('publishBtn');
+  const saveDraftBtn = document.getElementById('saveDraftBtn');
+  const previewBtn = document.getElementById('previewBtn');
+
+  // Disable publish button
+  if (publishBtn) {
+    publishBtn.disabled = true;
+    publishBtn.style.opacity = '0.5';
+    publishBtn.style.cursor = 'not-allowed';
+    publishBtn.title = 'Please log in to publish content';
+    publishBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      alert('Please log in to publish content');
+    }, true);
+  }
+
+  // Disable save draft button
+  if (saveDraftBtn) {
+    saveDraftBtn.disabled = true;
+    saveDraftBtn.style.opacity = '0.5';
+    saveDraftBtn.style.cursor = 'not-allowed';
+    saveDraftBtn.title = 'Please log in to save drafts';
+    saveDraftBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      alert('Please log in to save drafts');
+    }, true);
+  }
+
+  // Keep preview button enabled (it's read-only)
+  if (previewBtn) {
+    previewBtn.title = 'Preview your content (read-only mode)';
+  }
+
+  console.log('🔒 Save functionality disabled - user not authenticated');
 }

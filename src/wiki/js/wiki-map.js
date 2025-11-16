@@ -68,14 +68,37 @@ async function loadLocations() {
 
     // Fetch all published locations
     console.log('🔍 Fetching published locations from wiki_locations table...');
-    allLocations = await supabase.getAll('wiki_locations', {
+    const locations = await supabase.getAll('wiki_locations', {
       where: 'status',
       operator: 'eq',
       value: 'published',
       order: 'name.asc'
     });
 
-    console.log(`✅ Loaded ${allLocations.length} locations from database`);
+    console.log(`✅ Loaded ${locations.length} locations from database`);
+
+    // Enrich locations with author information
+    console.log('👤 Fetching author information for locations...');
+    allLocations = await Promise.all(
+      locations.map(async (location) => {
+        let authorName = null;
+        if (location.author_id) {
+          const authors = await supabase.getAll('users', {
+            where: 'id',
+            operator: 'eq',
+            value: location.author_id
+          });
+          if (authors.length > 0) {
+            authorName = authors[0].full_name;
+          }
+        }
+        return {
+          ...location,
+          author_name: authorName
+        };
+      })
+    );
+
     console.log('📋 Location names:', allLocations.map(l => l.name));
 
     // Render locations on map and list
@@ -138,6 +161,8 @@ function renderLocations() {
           <h3 style="margin: 0 0 8px 0;">${escapeHtml(location.name)}</h3>
           ${location.description ? `<p style="margin: 8px 0; color: #666;">${escapeHtml(location.description)}</p>` : ''}
           ${location.address ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(location.address)}</p>` : ''}
+          ${location.author_name ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</p>` : ''}
+          ${location.view_count !== undefined ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-eye"></i> ${location.view_count} views</p>` : ''}
           ${location.website ? `<p style="margin: 4px 0;"><a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Visit Website</a></p>` : ''}
         </div>
       `);
@@ -193,6 +218,8 @@ function renderLocationList(locations) {
           <p>${location.description ? escapeHtml(location.description) : ''}</p>
           <div class="location-meta">
             <span><i class="fas fa-map-marker-alt"></i> ${distance}</span>
+            ${location.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</span>` : ''}
+            ${location.view_count !== undefined ? `<span><i class="fas fa-eye"></i> ${location.view_count} views</span>` : ''}
             ${location.website ? `<a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Website</a>` : ''}
           </div>
         </div>

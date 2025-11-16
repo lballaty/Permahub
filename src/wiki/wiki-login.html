@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/wiki-i18n.js"></script>
@@ -48,7 +49,6 @@
             </div>
           </div>
         </li>
-        <li><a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">Create Page</a></li>
       </ul>
     </nav>
   </header>
@@ -97,7 +97,7 @@
           <div class="form-group">
             <label class="form-label" for="password">
               Password
-              <a href="#" style="float: right; color: var(--wiki-primary); font-size: 0.9rem; font-weight: normal;">
+              <a href="wiki-forgot-password.html" style="float: right; color: var(--wiki-primary); font-size: 0.9rem; font-weight: normal;">
                 Forgot password?
               </a>
             </label>
@@ -172,7 +172,7 @@
         <div style="margin-top: 2rem; text-align: center; padding-top: 2rem; border-top: 1px solid var(--wiki-border);">
           <p class="text-muted">
             Don't have an account?
-            <a href="#" style="color: var(--wiki-primary); font-weight: 500;">Sign up for free</a>
+            <a href="wiki-signup.html" style="color: var(--wiki-primary); font-weight: 500;">Sign up for free</a>
           </p>
         </div>
       </div>
@@ -247,43 +247,6 @@
     </div>
   </footer>
 
-  <script>
-    // Tab switching
-    const emailTabBtn = document.getElementById('emailTabBtn');
-    const magicLinkTabBtn = document.getElementById('magicLinkTabBtn');
-    const emailLoginForm = document.getElementById('emailLoginForm');
-    const magicLinkForm = document.getElementById('magicLinkForm');
-
-    emailTabBtn.addEventListener('click', function() {
-      emailTabBtn.style.borderBottomColor = 'var(--wiki-primary)';
-      emailTabBtn.style.color = 'var(--wiki-primary)';
-      magicLinkTabBtn.style.borderBottomColor = 'transparent';
-      magicLinkTabBtn.style.color = 'var(--wiki-text-muted)';
-      emailLoginForm.style.display = 'block';
-      magicLinkForm.style.display = 'none';
-    });
-
-    magicLinkTabBtn.addEventListener('click', function() {
-      magicLinkTabBtn.style.borderBottomColor = 'var(--wiki-primary)';
-      magicLinkTabBtn.style.color = 'var(--wiki-primary)';
-      emailTabBtn.style.borderBottomColor = 'transparent';
-      emailTabBtn.style.color = 'var(--wiki-text-muted)';
-      magicLinkForm.style.display = 'block';
-      emailLoginForm.style.display = 'none';
-    });
-
-    // Form submissions (mockup)
-    emailLoginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('This is a mockup. In production, this would authenticate via Supabase.');
-    });
-
-    magicLinkForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('This is a mockup. In production, this would send a magic link via Supabase Auth.');
-    });
-  </script>
-
   <!-- Load shared wiki functionality and version management -->
   <script src="js/wiki.js"></script>
   <script type="module">
@@ -293,5 +256,6 @@
     displayVersionInHeader();
     console.log(`🚀 Wiki Login ${VERSION_DISPLAY}: Page initialized`);
   </script>
+  <script type="module" src="js/wiki-login.js"></script>
 </body>
 </html>

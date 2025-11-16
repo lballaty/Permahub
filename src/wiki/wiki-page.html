@@ -131,7 +131,7 @@
         <!-- Action Buttons for Logged In Users -->
         <div style="margin-top: 1rem; padding: 1rem; background-color: var(--wiki-bg); border-radius: 6px; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
           <div style="display: flex; gap: 0.5rem;">
-            <a href="wiki-editor.html" class="btn btn-outline btn-small">
+            <a href="wiki-editor.html" class="btn btn-outline btn-small" id="editPageBtn">
               <i class="fas fa-edit"></i> Edit This Page
             </a>
             <button id="favoriteBtn" class="btn btn-primary btn-small" onclick="toggleFavorite()" style="display: flex; align-items: center; gap: 0.5rem;">
@@ -253,6 +253,7 @@
   </footer>
 
   <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
   <script type="module" src="js/wiki-page.js"></script>
 </body>
 </html>

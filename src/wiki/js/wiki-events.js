@@ -34,14 +34,37 @@ async function loadEvents() {
 
     // Fetch all published events
     console.log('🔍 Fetching published events from wiki_events table...');
-    allEvents = await supabase.getAll('wiki_events', {
+    const events = await supabase.getAll('wiki_events', {
       where: 'status',
       operator: 'eq',
       value: 'published',
       order: 'event_date.asc'
     });
 
-    console.log(`✅ Loaded ${allEvents.length} events from database`);
+    console.log(`✅ Loaded ${events.length} events from database`);
+
+    // Enrich events with author information
+    console.log('👤 Fetching author information for events...');
+    allEvents = await Promise.all(
+      events.map(async (event) => {
+        let authorName = null;
+        if (event.author_id) {
+          const authors = await supabase.getAll('users', {
+            where: 'id',
+            operator: 'eq',
+            value: event.author_id
+          });
+          if (authors.length > 0) {
+            authorName = authors[0].full_name;
+          }
+        }
+        return {
+          ...event,
+          author_name: authorName
+        };
+      })
+    );
+
     console.log('📋 Event titles:', allEvents.map(e => e.title));
 
     // Render events
@@ -108,6 +131,8 @@ function renderEvents() {
         <div class="event-info">
           ${event.start_time ? `<span><i class="fas fa-clock"></i> ${formatTime(event.start_time)}${event.end_time ? ' - ' + formatTime(event.end_time) : ''}</span>` : ''}
           ${event.location_name ? `<span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name)}</span>` : ''}
+          ${event.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(event.author_name)}</span>` : ''}
+          ${event.view_count !== undefined ? `<span><i class="fas fa-eye"></i> ${event.view_count} views</span>` : ''}
         </div>
         <p class="text-muted mt-1">
           ${escapeHtml(event.description || '')}
@@ -118,7 +143,10 @@ function renderEvents() {
           ${event.max_participants ? `<span class="tag"><i class="fas fa-users"></i> ${event.max_participants} spots</span>` : ''}
         </div>
         <div style="margin-top: 1rem;">
-          ${event.registration_url ? `<a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary btn-small">Register</a>` : ''}
+          ${event.registration_url ?
+            `<a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary btn-small"><i class="fas fa-ticket-alt"></i> Register</a>` :
+            `<button onclick="showNoRegistrationModal('${escapeHtml(event.title)}')" class="btn btn-outline btn-small"><i class="fas fa-info-circle"></i> No Registration Required</button>`
+          }
           <button onclick="showEventDetails('${event.id}')" class="btn btn-outline btn-small">Details</button>
         </div>
       </div>
@@ -416,6 +444,73 @@ window.showEventDetails = function(eventId) {
  */
 window.closeEventModal = function() {
   const modal = document.getElementById('eventModal');
+  if (modal) {
+    modal.remove();
+  }
+};
+
+/**
+ * Show "No Registration Required" modal
+ */
+window.showNoRegistrationModal = function(eventTitle) {
+  const modalHTML = `
+    <div id="noRegModal" class="modal" style="display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000;">
+      <div class="modal-content" style="
+        position: relative;
+        background: white;
+        color: #333;
+        margin: 15% auto;
+        padding: 2rem;
+        width: 90%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      ">
+        <button onclick="closeNoRegModal()" style="
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #666;
+        ">&times;</button>
+
+        <div style="font-size: 3rem; color: var(--wiki-primary); margin-bottom: 1rem;">
+          <i class="fas fa-info-circle"></i>
+        </div>
+
+        <h2 style="margin-bottom: 1rem;">No Registration Required</h2>
+
+        <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">
+          <strong>${escapeHtml(eventTitle)}</strong> is a free event that doesn't require advance registration.
+          Simply show up at the scheduled time!
+        </p>
+
+        <button onclick="closeNoRegModal()" class="btn btn-primary">
+          Got it
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Close modal on background click
+  document.getElementById('noRegModal').addEventListener('click', function(e) {
+    if (e.target.id === 'noRegModal') {
+      closeNoRegModal();
+    }
+  });
+};
+
+/**
+ * Close no registration modal
+ */
+window.closeNoRegModal = function() {
+  const modal = document.getElementById('noRegModal');
   if (modal) {
     modal.remove();
   }

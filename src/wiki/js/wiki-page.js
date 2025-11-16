@@ -80,6 +80,19 @@ async function loadGuide(slug) {
     guideCategories = guideCategories.filter(c => c);
     console.log(`📁 Guide categories: ${guideCategories.map(c => c.name).join(', ')}`);
 
+    // Fetch author information if author_id exists
+    if (currentGuide.author_id) {
+      const authors = await supabase.getAll('users', {
+        where: 'id',
+        operator: 'eq',
+        value: currentGuide.author_id
+      });
+      if (authors.length > 0) {
+        currentGuide.author_name = authors[0].full_name;
+        console.log(`👤 Guide author: ${currentGuide.author_name}`);
+      }
+    }
+
     // Render guide content
     renderGuide();
 
@@ -144,7 +157,7 @@ function renderGuide() {
     const readTime = Math.ceil(wordCount / 200);
 
     metaElement.innerHTML = `
-      <span><i class="fas fa-user"></i> ${currentGuide.author_id ? 'Community' : 'Community'}</span>
+      ${currentGuide.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(currentGuide.author_name)}</span>` : ''}
       <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
       <span><i class="fas fa-clock"></i> ${readTime} min read</span>
       <span><i class="fas fa-eye"></i> ${currentGuide.view_count || 0} views</span>
