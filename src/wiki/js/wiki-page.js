@@ -5,7 +5,9 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
-import { wikiI18n } from './wiki-i18n.js';
+
+// wikiI18n is loaded globally via script tag in HTML
+const wikiI18n = window.wikiI18n;
 
 // State
 let currentGuide = null;

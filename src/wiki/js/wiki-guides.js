@@ -5,7 +5,9 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
-import { wikiI18n } from './wiki-i18n.js';
+
+// wikiI18n is loaded globally via script tag in HTML
+const wikiI18n = window.wikiI18n;
 
 // State
 let currentFilter = 'all';
@@ -59,11 +61,14 @@ function renderCategoryFilters() {
   if (!categoryFilters) return;
 
   // Keep the "All Guides" filter and add categories
-  const categoryHTML = allCategories.map(cat => `
+  const categoryHTML = allCategories.map(cat => {
+    const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+    return `
     <a href="javascript:void(0)" class="tag guide-filter" data-filter="${cat.id}">
-      ${escapeHtml(cat.name)}
+      ${translatedName}
     </a>
-  `).join('');
+  `;
+  }).join('');
 
   // Add category filters after "All Guides"
   const allFilter = categoryFilters.querySelector('[data-filter="all"]');
@@ -211,9 +216,10 @@ function renderGuides() {
         ${escapeHtml(guide.summary)}
       </p>
       <div class="tags">
-        ${guide.categories.map(cat => `
-          <span class="tag">${escapeHtml(cat.name)}</span>
-        `).join('')}
+        ${guide.categories.map(cat => {
+          const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+          return `<span class="tag">${translatedName}</span>`;
+        }).join('')}
       </div>
     </div>
   `).join('');
@@ -325,9 +331,10 @@ function initializeSearch() {
             ${escapeHtml(guide.summary)}
           </p>
           <div class="tags">
-            ${guide.categories.map(cat => `
-              <span class="tag">${escapeHtml(cat.name)}</span>
-            `).join('')}
+            ${guide.categories.map(cat => {
+              const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+              return `<span class="tag">${translatedName}</span>`;
+            }).join('')}
           </div>
         </div>
       `).join('');

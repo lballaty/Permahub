@@ -6,6 +6,9 @@
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
 
+// wikiI18n is loaded globally via script tag in HTML
+const wikiI18n = window.wikiI18n;
+
 // State
 let currentCategory = 'all';
 let currentSearchQuery = '';
@@ -377,9 +380,10 @@ function renderGuides() {
         ${escapeHtml(guide.summary)}
       </p>
       <div class="tags">
-        ${guide.categories.map(cat => `
-          <span class="tag">${escapeHtml(cat.name)}</span>
-        `).join('')}
+        ${guide.categories.map(cat => {
+          const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+          return `<span class="tag">${translatedName}</span>`;
+        }).join('')}
       </div>
     </div>
   `;
@@ -461,8 +465,10 @@ function renderCategoryFilters() {
   allCategories.forEach(category => {
     // Use icon from database or default icon
     const icon = category.icon || '<i class="fas fa-tag"></i>';
+    // Use translated category name if available, otherwise fall back to database name
+    const translatedName = wikiI18n.t(`wiki.categories.${category.slug}`) || escapeHtml(category.name);
     html += `<a href="javascript:void(0)" class="tag category-filter" data-category="${category.slug}">
-      ${icon} <span>${escapeHtml(category.name)}</span>
+      ${icon} <span>${translatedName}</span>
     </a>`;
   });
 
@@ -582,7 +588,10 @@ function renderSearchResults() {
         </h3>
         <p class="text-muted">${escapeHtml(guide.summary)}</p>
         <div class="tags">
-          ${guide.categories.map(cat => `<span class="tag">${escapeHtml(cat.name)}</span>`).join('')}
+          ${guide.categories.map(cat => {
+            const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+            return `<span class="tag">${translatedName}</span>`;
+          }).join('')}
         </div>
       </div>
     `;
