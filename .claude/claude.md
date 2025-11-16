@@ -92,6 +92,60 @@ npm run dev
 
 Dev server runs on: **http://localhost:3000**
 
+### 1.1. Fix Record Documentation
+
+**CRITICAL REQUIREMENT:** Every fix, bug resolution, or issue correction MUST be documented in `/FixRecord.md`
+
+**When to document:**
+- After fixing any bug or error
+- After resolving any console warning
+- After correcting any incorrect behavior
+- After any troubleshooting session
+
+**How to document:**
+1. Open `/FixRecord.md`
+2. Add a new entry at the bottom using this format:
+
+```markdown
+### YYYY-MM-DD - Issue Title
+
+**Commit:** `<commit-hash>` (if committed, or "pending")
+
+**Issue:**
+Brief description of the problem
+
+**Root Cause:**
+What caused the issue
+
+**Solution:**
+How it was fixed
+
+**Files Changed:**
+- path/to/file1.ext
+- path/to/file2.ext
+
+**Author:** Your Name <email>
+
+---
+```
+
+3. Save the file
+4. Include FixRecord.md in the same commit as the fix
+
+**Example:**
+See existing entries in FixRecord.md for proper formatting and level of detail.
+
+**Pre-commit Hook:**
+A git pre-commit hook automatically checks if FixRecord.md has been updated when committing fix-related code. If the hook detects a fix without FixRecord.md updates, it will:
+- ⚠️ Warn you that documentation is missing
+- ❓ Ask if you want to proceed anyway
+- ✅ Allow the commit if FixRecord.md is included
+
+To install the hook (if not already installed):
+```bash
+bash .githooks/setup-hooks.sh
+```
+
 ### 2. Running Supabase Migrations
 
 **Status:** Migrations created, ready to run in Supabase Console

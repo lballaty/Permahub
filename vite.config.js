@@ -21,6 +21,15 @@ function viteLogger() {
     configureServer(server) {
       console.log('🚀 Vite Dev Server Starting...\n');
 
+      // Handle root redirect for magic link callbacks
+      server.middlewares.use((req, res, next) => {
+        // Redirect root URL to index.html (for magic link callbacks)
+        if (req.url === '/' || req.url.startsWith('/#')) {
+          req.url = '/src/index.html' + (req.url.startsWith('/#') ? req.url.substring(1) : '');
+        }
+        next();
+      });
+
       // Log every HTTP request
       server.middlewares.use((req, res, next) => {
         const start = Date.now();
@@ -81,7 +90,7 @@ export default defineConfig({
   },
 
   server: {
-    port: 3000,
+    port: 3001,
     open: false,
     // Enable detailed logging
     hmr: {

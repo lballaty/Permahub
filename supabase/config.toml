@@ -20,8 +20,11 @@ file_size_limit = 52428800
 
 [auth]
 enabled = true
-site_url = "http://localhost:3000"
-additional_redirect_urls = []
+site_url = "http://localhost:3001/src/wiki/wiki-home.html"
+additional_redirect_urls = [
+  "http://localhost:3001/src/wiki/wiki-home.html",
+  "http://localhost:3001/src/wiki/wiki-reset-password.html"
+]
 
 # Email settings for local development with Mailpit
 [auth.email]

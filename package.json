@@ -18,7 +18,14 @@
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.{js,html,css,md}\"",
-    "format:check": "prettier --check \"src/**/*.{js,html,css,md}\""
+    "format:check": "prettier --check \"src/**/*.{js,html,css,md}\"",
+    "verify:guide": "node scripts/verify-guide.js",
+    "verify:all-guides": "node scripts/verify-guide.js --all",
+    "verify:seed": "node scripts/verify-seed-file.js",
+    "verify:seed:madeira": "node scripts/verify-seed-file.js supabase/to-be-seeded/seed_madeira_czech.sql",
+    "verify:seed:verified": "node scripts/verify-seed-file.js supabase/to-be-seeded/004_real_verified_wiki_content.sql",
+    "verify:seed:events": "node scripts/verify-seed-file.js supabase/to-be-seeded/004_future_events_seed.sql",
+    "verify:seed:all": "npm run verify:seed:madeira && npm run verify:seed:verified && npm run verify:seed:events"
   },
   "keywords": [
     "permaculture",
