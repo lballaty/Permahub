@@ -668,9 +668,11 @@ function renderCalendar() {
 
   console.log(`📅 Rendering calendar for ${monthNames[currentCalendarDate.getMonth()]} ${currentCalendarDate.getFullYear()}`);
 
-  // Count events in this month
+  // Get first and last day of the month
   const year = currentCalendarDate.getFullYear();
   const month = currentCalendarDate.getMonth();
+
+  // Count events in this month
   const eventsInMonth = allEvents.filter(event => {
     const eventDate = new Date(event.event_date);
     return eventDate.getFullYear() === year && eventDate.getMonth() === month;
@@ -679,10 +681,6 @@ function renderCalendar() {
   if (eventsInMonth.length > 0) {
     console.log('📅 Events this month:', eventsInMonth.map(e => `${e.event_date} - ${e.title}`));
   }
-
-  // Get first and last day of the month
-  const year = currentCalendarDate.getFullYear();
-  const month = currentCalendarDate.getMonth();
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
 
@@ -751,13 +749,17 @@ function renderCalendarDay(date, isOtherMonth) {
   const today = new Date();
   const isToday = isSameDay(date, today);
 
-  // Get events for this day
+  // Get events for this day (ALL events, not just upcoming)
   const dayEvents = getEventsForDate(date);
 
-  // Filter by current filter
+  // Filter by current filter (event type only)
   const filteredEvents = dayEvents.filter(event => {
     return currentFilter === 'all' || event.event_type === currentFilter;
   });
+
+  if (filteredEvents.length > 0) {
+    console.log(`📅 Day ${date.toISOString().split('T')[0]} has ${filteredEvents.length} event(s)`);
+  }
 
   const dayClasses = ['calendar-day'];
   if (isOtherMonth) dayClasses.push('other-month');
@@ -823,13 +825,13 @@ function showDayEvents(dateStr) {
   console.log(`📅 showDayEvents called with date: ${dateStr}`);
   const date = new Date(dateStr);
   const dayEvents = getEventsForDate(date);
-  console.log(`📅 Found ${dayEvents.length} events for this day`);
+  console.log(`📅 Found ${dayEvents.length} total events for this day (all events, past and future)`);
 
-  // Filter by current filter
+  // Filter by current filter (event type only, show ALL dates)
   const filteredEvents = dayEvents.filter(event => {
     return currentFilter === 'all' || event.event_type === currentFilter;
   });
-  console.log(`📅 After filtering: ${filteredEvents.length} events`);
+  console.log(`📅 After type filter: ${filteredEvents.length} events`);
 
   const selectedDayEventsDiv = document.getElementById('selectedDayEvents');
   const selectedDayTitle = document.getElementById('selectedDayTitle');
