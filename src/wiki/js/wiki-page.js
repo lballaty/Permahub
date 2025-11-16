@@ -5,6 +5,7 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { wikiI18n } from './wiki-i18n.js';
 
 // State
 let currentGuide = null;
@@ -170,9 +171,10 @@ function renderGuide() {
   // Update tags
   const tagsElement = document.querySelector('.tags.mt-2');
   if (tagsElement && guideCategories.length > 0) {
-    tagsElement.innerHTML = guideCategories.map(cat => `
-      <span class="tag">${escapeHtml(cat.name)}</span>
-    `).join('');
+    tagsElement.innerHTML = guideCategories.map(cat => {
+      const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+      return `<span class="tag">${translatedName}</span>`;
+    }).join('');
     console.log('  ✅ Updated tags');
   } else {
     console.warn('  ⚠️ Could not find .tags.mt-2 element or no categories');
@@ -229,6 +231,9 @@ function renderGuide() {
   } else {
     console.warn('  ⚠️ Could not find edit link');
   }
+
+  // Check permissions and show/hide edit/delete buttons
+  await checkUserPermissions(currentGuide);
 
   console.log('🎨 Finished rendering guide');
 
@@ -389,6 +394,131 @@ function showError(message) {
         </a>
       </div>
     `;
+  }
+}
+
+/**
+ * Check if current user has permission to edit/delete this guide
+ * Shows or hides edit/delete buttons accordingly
+ */
+async function checkUserPermissions(guide) {
+  try {
+    // Get current user
+    const user = await supabase.getCurrentUser();
+    const authToken = localStorage.getItem('auth_token');
+    const userId = localStorage.getItem('user_id');
+
+    // Check if user is authenticated
+    if (!user && !authToken && !userId) {
+      console.log('  ℹ️ User not authenticated - hiding edit/delete buttons');
+      hideEditDeleteButtons();
+      return;
+    }
+
+    // Get user ID (from user object, localStorage, or auth token)
+    const currentUserId = user?.id || userId;
+
+    // Check if user is the author
+    const isAuthor = currentUserId && guide.author_id === currentUserId;
+
+    if (isAuthor) {
+      console.log('  ✅ User is the author - showing edit/delete buttons');
+      showDeleteButton();
+    } else {
+      console.log('  ℹ️ User is not the author - hiding delete button');
+      hideDeleteButton();
+    }
+
+  } catch (error) {
+    console.error('  ❌ Error checking user permissions:', error);
+    hideEditDeleteButtons();
+  }
+}
+
+/**
+ * Show delete button
+ */
+function showDeleteButton() {
+  const deleteBtn = document.getElementById('deletePageBtn');
+  if (deleteBtn) {
+    deleteBtn.style.display = 'inline-block';
+
+    // Add click handler
+    deleteBtn.onclick = async function() {
+      await deleteGuide();
+    };
+  }
+}
+
+/**
+ * Hide delete button
+ */
+function hideDeleteButton() {
+  const deleteBtn = document.getElementById('deletePageBtn');
+  if (deleteBtn) {
+    deleteBtn.style.display = 'none';
+  }
+}
+
+/**
+ * Hide both edit and delete buttons
+ */
+function hideEditDeleteButtons() {
+  const editBtn = document.getElementById('editPageBtn');
+  const deleteBtn = document.getElementById('deletePageBtn');
+
+  if (editBtn) editBtn.style.display = 'none';
+  if (deleteBtn) deleteBtn.style.display = 'none';
+}
+
+/**
+ * Delete current guide with double confirmation
+ */
+async function deleteGuide() {
+  if (!currentGuide) {
+    alert('No guide to delete');
+    return;
+  }
+
+  try {
+    const title = currentGuide.title || 'this guide';
+
+    // First confirmation - standard confirm dialog
+    const confirmed = confirm(
+      `Are you sure you want to delete "${title}"?\n\n` +
+      `This action cannot be undone. All data including categories, ` +
+      `comments, and associations will be permanently removed.`
+    );
+
+    if (!confirmed) {
+      console.log('❌ Delete cancelled by user (first confirmation)');
+      return;
+    }
+
+    // Second confirmation - type "DELETE" to confirm
+    const deleteConfirmation = prompt(
+      `To confirm deletion, please type DELETE in capital letters:`
+    );
+
+    if (deleteConfirmation !== 'DELETE') {
+      alert('Deletion cancelled. You must type DELETE exactly to confirm.');
+      console.log('❌ Delete cancelled - confirmation text did not match');
+      return;
+    }
+
+    console.log(`🗑️ Deleting guide with ID: ${currentGuide.id}`);
+
+    // Delete the guide
+    await supabase.delete('wiki_guides', currentGuide.id);
+
+    alert(`✅ Guide deleted successfully!`);
+
+    // Redirect to guides listing page
+    window.location.href = 'wiki-guides.html';
+
+  } catch (error) {
+    console.error('Error deleting guide:', error);
+    alert(`Failed to delete guide. ${error.message || 'Please try again.'}`);
   }
 }
 
