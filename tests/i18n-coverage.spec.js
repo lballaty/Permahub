@@ -35,7 +35,7 @@ test.describe('i18n Translation Coverage', () => {
     for (const pageName of WIKI_PAGES) {
       console.log(`\n📄 Checking ${pageName}...`);
 
-      await page.goto(`http://localhost:3000/src/wiki/${pageName}`);
+      await page.goto(`http://localhost:3001/src/wiki/${pageName}`);
 
       // Wait for i18n to load
       await page.waitForTimeout(500);
@@ -102,7 +102,7 @@ test.describe('i18n Translation Coverage', () => {
   test('should translate content when language is switched', async ({ page }) => {
     console.log('\n🌐 Testing language switching...');
 
-    await page.goto('http://localhost:3000/src/wiki/wiki-login.html');
+    await page.goto('http://localhost:3001/src/wiki/wiki-login.html');
     await page.waitForTimeout(500);
 
     // Get initial English text
@@ -143,7 +143,7 @@ test.describe('i18n Translation Coverage', () => {
     const allMissingKeys = {};
 
     for (const pageName of WIKI_PAGES) {
-      await page.goto(`http://localhost:3000/src/wiki/${pageName}`);
+      await page.goto(`http://localhost:3001/src/wiki/${pageName}`);
       await page.waitForTimeout(500);
 
       const elements = await page.$$('[data-i18n], [data-i18n-placeholder]');

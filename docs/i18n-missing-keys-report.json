@@ -1,1 +1,635 @@
-{}
+{
+  "wiki-page.html": [
+    {
+      "key": "wiki.page.deletePage",
+      "defaultText": "wiki.page.deletePage",
+      "element": "SPAN"
+    }
+  ],
+  "wiki-admin.html": [
+    {
+      "key": "wiki.admin.page_title",
+      "defaultText": "Admin - Category Management",
+      "element": "TITLE"
+    },
+    {
+      "key": "wiki.admin.logo",
+      "defaultText": "Community Wiki Admin",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.nav.back_to_wiki",
+      "defaultText": "Back to Wiki",
+      "element": "A"
+    },
+    {
+      "key": "wiki.admin.nav_categories",
+      "defaultText": "Categories",
+      "element": "A"
+    },
+    {
+      "key": "wiki.admin.nav_users",
+      "defaultText": "Users",
+      "element": "A"
+    },
+    {
+      "key": "wiki.admin.nav_content",
+      "defaultText": "Content",
+      "element": "A"
+    },
+    {
+      "key": "wiki.admin.nav_settings",
+      "defaultText": "Settings",
+      "element": "A"
+    },
+    {
+      "key": "wiki.admin.category_management",
+      "defaultText": "Category Management",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.admin.category_management_desc",
+      "defaultText": "Manage categories for guides, events, and locations",
+      "element": "P"
+    },
+    {
+      "key": "wiki.admin.btn_add_category",
+      "defaultText": "Add Category",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.admin.stat_total_categories",
+      "defaultText": "Total Categories",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.admin.stat_guides_categories",
+      "defaultText": "Guides Using Categories",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.admin.stat_events_categories",
+      "defaultText": "Events Using Categories",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.admin.stat_locations_categories",
+      "defaultText": "Locations Using Categories",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.admin.tab_all_categories",
+      "defaultText": "All Categories",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.admin.tab_guide_categories",
+      "defaultText": "Guide Categories",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.admin.tab_event_categories",
+      "defaultText": "Event Categories",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.admin.tab_location_categories",
+      "defaultText": "Location Categories",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.admin.categories_heading",
+      "defaultText": "Categories",
+      "element": "H2"
+    },
+    {
+      "key": "wiki.admin.placeholder_search_categories",
+      "defaultText": "Search categories...",
+      "element": "INPUT"
+    },
+    {
+      "key": "wiki.admin.modal_add_category",
+      "defaultText": "Add New Category",
+      "element": "H2"
+    },
+    {
+      "key": "wiki.admin.form_category_name",
+      "defaultText": "Category Name *",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.admin.form_category_name_placeholder",
+      "defaultText": "e.g., Water Management",
+      "element": "INPUT"
+    },
+    {
+      "key": "wiki.admin.form_slug",
+      "defaultText": "Slug (URL-friendly name) *",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.admin.form_slug_placeholder",
+      "defaultText": "e.g., water-management",
+      "element": "INPUT"
+    },
+    {
+      "key": "wiki.admin.form_slug_hint",
+      "defaultText": "Lowercase letters, numbers, and hyphens only",
+      "element": "SMALL"
+    },
+    {
+      "key": "wiki.admin.form_description",
+      "defaultText": "Description",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.admin.form_description_placeholder",
+      "defaultText": "Brief description of this category...",
+      "element": "TEXTAREA"
+    },
+    {
+      "key": "wiki.admin.form_icon",
+      "defaultText": "Icon (Emoji)",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.admin.form_color",
+      "defaultText": "Color",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.admin.form_category_type",
+      "defaultText": "Category Type",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.admin.option_all_content_types",
+      "defaultText": "All Content Types",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.admin.option_guides_only",
+      "defaultText": "Guides Only",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.admin.option_events_only",
+      "defaultText": "Events Only",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.admin.option_locations_only",
+      "defaultText": "Locations Only",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.common.btn_cancel",
+      "defaultText": "Cancel",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.admin.btn_save_category",
+      "defaultText": "Save Category",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.admin.modal_delete_category",
+      "defaultText": "Delete Category?",
+      "element": "H2"
+    },
+    {
+      "key": "wiki.admin.delete_confirm_text",
+      "defaultText": "Are you sure you want to delete",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.admin.delete_warning",
+      "defaultText": "This action cannot be undone. Content using this category will need to be re-categorized.",
+      "element": "P"
+    },
+    {
+      "key": "wiki.common.btn_cancel",
+      "defaultText": "Cancel",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.admin.btn_delete",
+      "defaultText": "Delete",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.footer.copyright_admin",
+      "defaultText": "© 2024 Permahub Wiki Admin. Built with 💚 for sustainable communities.",
+      "element": "P"
+    }
+  ],
+  "wiki-issues.html": [
+    {
+      "key": "wiki.issues.page_title",
+      "defaultText": "Report Issue - Community Wiki",
+      "element": "TITLE"
+    },
+    {
+      "key": "wiki.common.logo",
+      "defaultText": "Community Wiki",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.nav.home",
+      "defaultText": "Home",
+      "element": "A"
+    },
+    {
+      "key": "wiki.nav.events",
+      "defaultText": "Events",
+      "element": "A"
+    },
+    {
+      "key": "wiki.nav.locations",
+      "defaultText": "Locations",
+      "element": "A"
+    },
+    {
+      "key": "wiki.nav.my_favorites",
+      "defaultText": "My Favorites",
+      "element": "A"
+    },
+    {
+      "key": "wiki.nav.issues",
+      "defaultText": "Issues",
+      "element": "A"
+    },
+    {
+      "key": "wiki.issues.issue_tracker",
+      "defaultText": "Issue Tracker",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.tracker_description",
+      "defaultText": "Report bugs, suggest features, and help improve the platform",
+      "element": "P"
+    },
+    {
+      "key": "wiki.issues.btn_report_new_issue",
+      "defaultText": "Report New Issue",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.stat_open_issues",
+      "defaultText": "Open Issues",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.stat_in_progress",
+      "defaultText": "In Progress",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.stat_resolved",
+      "defaultText": "Resolved",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.stat_total_issues",
+      "defaultText": "Total Issues",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.tab_all_issues",
+      "defaultText": "All Issues",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.tab_my_issues",
+      "defaultText": "My Issues",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.tab_bugs",
+      "defaultText": "Bugs",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.tab_features",
+      "defaultText": "Features",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.tab_resolved",
+      "defaultText": "Resolved",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.filter_all_severities",
+      "defaultText": "All Severities",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.severity_critical",
+      "defaultText": "Critical",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.severity_high",
+      "defaultText": "High",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.severity_medium",
+      "defaultText": "Medium",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.severity_low",
+      "defaultText": "Low",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.severity_trivial",
+      "defaultText": "Trivial",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.filter_all_statuses",
+      "defaultText": "All Statuses",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.status_open",
+      "defaultText": "Open",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.status_in_progress",
+      "defaultText": "In Progress",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.status_resolved",
+      "defaultText": "Resolved",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.status_closed",
+      "defaultText": "Closed",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.sort_newest",
+      "defaultText": "Newest First",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.sort_oldest",
+      "defaultText": "Oldest First",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.sort_most_voted",
+      "defaultText": "Most Voted",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.sort_severity",
+      "defaultText": "By Severity",
+      "element": "OPTION"
+    },
+    {
+      "key": "wiki.issues.placeholder_search_issues",
+      "defaultText": "Search issues...",
+      "element": "INPUT"
+    },
+    {
+      "key": "wiki.issues.modal_report_new_issue",
+      "defaultText": "Report New Issue",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_issue_type",
+      "defaultText": "Issue Type *",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.type_bug",
+      "defaultText": "Bug",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.type_feature",
+      "defaultText": "Feature",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.type_improvement",
+      "defaultText": "Improvement",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.type_ui_ux",
+      "defaultText": "UI/UX",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.type_performance",
+      "defaultText": "Performance",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.type_security",
+      "defaultText": "Security",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.form_title",
+      "defaultText": "Title *",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_title_placeholder",
+      "defaultText": "Brief description of the issue",
+      "element": "INPUT"
+    },
+    {
+      "key": "wiki.issues.form_description",
+      "defaultText": "Description *",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_how_to_write_bug",
+      "defaultText": "How to write a good bug report:",
+      "element": "STRONG"
+    },
+    {
+      "key": "wiki.issues.form_step1",
+      "defaultText": "1. What I did: Describe the steps you took",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_step2",
+      "defaultText": "2. What I expected: What should have happened",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_step3",
+      "defaultText": "3. What actually happened: The actual result or error",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_step4",
+      "defaultText": "4. How to reproduce: Step-by-step instructions to recreate the issue",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_description_placeholder",
+      "defaultText": "Example:\n1. What I did: Clicked the 'Register' button on the Food Forest event\n2. What I expected: A registration form to appear\n3. What actually happened: Page showed error 'Cannot read property id of undefined'\n4. Steps to reproduce: Go to home page → Click any event's Register button",
+      "element": "TEXTAREA"
+    },
+    {
+      "key": "wiki.issues.form_error_logs",
+      "defaultText": "Error Logs or Console Output (optional)",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_how_to_get_logs",
+      "defaultText": "How to get console logs:",
+      "element": "STRONG"
+    },
+    {
+      "key": "wiki.issues.form_get_logs_steps",
+      "defaultText": "Press F12 → Go to Console tab → Copy any red error messages",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_error_logs_placeholder",
+      "defaultText": "Paste any error messages, console logs, or relevant technical details here...",
+      "element": "TEXTAREA"
+    },
+    {
+      "key": "wiki.issues.form_attach_log_file",
+      "defaultText": "Attach Log File (optional)",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_click_upload_log",
+      "defaultText": "Click to upload log file or drag & drop",
+      "element": "P"
+    },
+    {
+      "key": "wiki.issues.form_log_file_formats",
+      "defaultText": "Supports: .log, .txt, .json files",
+      "element": "SMALL"
+    },
+    {
+      "key": "wiki.common.btn_remove",
+      "defaultText": "Remove",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.issues.form_severity",
+      "defaultText": "Severity",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.severity_critical",
+      "defaultText": "Critical",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.severity_high",
+      "defaultText": "High",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.severity_medium",
+      "defaultText": "Medium",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.severity_low",
+      "defaultText": "Low",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.severity_trivial",
+      "defaultText": "Trivial",
+      "element": "DIV"
+    },
+    {
+      "key": "wiki.issues.form_page_url",
+      "defaultText": "Page URL (where issue occurred)",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_page_url_placeholder",
+      "defaultText": "e.g., /wiki-events.html",
+      "element": "INPUT"
+    },
+    {
+      "key": "wiki.issues.form_screenshot",
+      "defaultText": "Screenshot (optional)",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_click_upload_screenshot",
+      "defaultText": "Click to upload screenshot",
+      "element": "P"
+    },
+    {
+      "key": "wiki.issues.form_system_info",
+      "defaultText": "System Information (auto-collected)",
+      "element": "LABEL"
+    },
+    {
+      "key": "wiki.issues.form_browser",
+      "defaultText": "Browser:",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_screen",
+      "defaultText": "Screen:",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.issues.form_platform",
+      "defaultText": "Platform:",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.common.btn_cancel",
+      "defaultText": "Cancel",
+      "element": "BUTTON"
+    },
+    {
+      "key": "wiki.issues.btn_submit_issue",
+      "defaultText": "Submit Issue",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.footer.copyright_issues",
+      "defaultText": "© 2024 Permahub Wiki. Report issues to help us improve!",
+      "element": "P"
+    }
+  ],
+  "wiki-editor.html": [
+    {
+      "key": "wiki.editor.save",
+      "defaultText": "wiki.editor.save",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.editor.delete",
+      "defaultText": "wiki.editor.delete",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.editor.delete",
+      "defaultText": "wiki.editor.delete",
+      "element": "SPAN"
+    },
+    {
+      "key": "wiki.editor.save",
+      "defaultText": "wiki.editor.save",
+      "element": "SPAN"
+    }
+  ]
+}
