@@ -85,12 +85,51 @@ npm install
 
 # Create .env file (already done)
 cp config/.env.example .env
-
-# Start dev server
-npm run dev
 ```
 
-Dev server runs on: **http://localhost:3000**
+### **CRITICAL: Always Use Start/Stop Scripts**
+
+**❌ NEVER run services directly:**
+- `npm run dev` ❌
+- `supabase start` ❌
+- `vite` ❌
+
+**✅ ALWAYS use the provided scripts:**
+
+```bash
+# Start ALL services (Supabase + Dev Server)
+./start.sh
+
+# Stop ALL services (clean shutdown)
+./stopall.sh
+
+# Force stop (if graceful shutdown fails)
+./stopall.sh --force
+```
+
+**Why these scripts are required:**
+
+1. **Port Management**: Scripts ensure correct ports (3001 for dev, 3000 for Supabase)
+2. **Process Cleanup**: Prevents orphaned processes on odd ports (3002, 3003, etc.)
+3. **Service Health Checks**: Verifies all services are running correctly
+4. **Graceful Shutdown**: Properly closes connections and saves state
+5. **Browser Integration**: Opens correct URLs automatically
+
+**What `start.sh` does:**
+- Checks Supabase status and starts if needed
+- Stops any existing dev server instances (prevents port conflicts)
+- Starts fresh Vite dev server on port 3001
+- Lists all available wiki pages with URLs
+- Optionally opens browser to home page
+
+**What `stopall.sh` does:**
+- Gracefully stops Vite dev server
+- Stops Supabase (with backup)
+- Kills any orphaned npm/vite/playwright processes
+- Verifies all services stopped
+- Shows summary of stopped services
+
+Dev server runs on: **http://localhost:3001** (when using start.sh)
 
 ### 1.1. Fix Record Documentation
 
