@@ -483,3 +483,58 @@ Tags enable selective test execution: `npx playwright test --grep @imports` or `
 
 ---
 
+### 2025-11-16 - Create test coverage documentation for all regression tests
+
+**Commit:** (committing now)
+
+**Issue:**
+With comprehensive regression tests now in place, there was no central documentation explaining what tests exist, what they cover, how to run them selectively, and how the tagging system works.
+
+**Root Cause:**
+Four regression test files were created covering all fixes from FixRecord.md, but no documentation existed to help developers understand the test structure, coverage, or execution strategies.
+
+**Solution:**
+Created comprehensive test coverage documentation `tests/TEST_COVERAGE.md` containing:
+
+1. **Test Execution Guide:**
+   - How to run all regression tests
+   - How to run specific test suites by tag
+   - How to run tests by feature area
+   - Examples of selective test execution
+
+2. **Test Files and Coverage:**
+   - Detailed description of each test file
+   - List of all test suites within each file
+   - Mapping of tests to FixRecord.md entries
+   - Test counts for each file
+
+3. **Coverage Statistics:**
+   - Total of 4 regression test files created
+   - Total of 100 regression tests
+   - 11 distinct fixes covered
+   - 100% coverage of FixRecord.md entries from 2025-11-16
+
+4. **Tag Reference:**
+   - Complete list of all test tags
+   - Explanation of priority, feature, functionality, and quality tags
+   - Examples of how to use tags for selective execution
+
+5. **CI/CD Integration:**
+   - GitHub Actions example configuration
+   - Test report generation instructions
+   - Best practices for automated testing
+
+6. **Maintenance Guidelines:**
+   - Process for adding tests for new fixes
+   - How to handle test failures
+   - Test file naming conventions
+
+This documentation provides a single source of truth for understanding and working with the regression test suite.
+
+**Files Changed:**
+- tests/TEST_COVERAGE.md (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
