@@ -312,3 +312,125 @@ But prevents them from:
 
 ---
 
+### 2025-11-16 - Fix guides page not loading guides from database
+
+**Commit:** (pending)
+
+**Issue:**
+The guides page (wiki-guides.html) was not loading any guides from the database. The page displayed correctly but the guides grid remained empty or showed a loading spinner indefinitely.
+
+**Root Cause:**
+The HTML file referenced a JavaScript module `js/wiki-guides.js` on line 208, but this file did not exist in the codebase. Without this script, no database queries were executed and no guides could be displayed.
+
+**Solution:**
+Created the missing wiki-guides.js file with complete functionality:
+
+1. **Database Integration:**
+   - Fetches published guides from `wiki_guides` table
+   - Loads categories from `wiki_categories` table
+   - Fetches guide-category relationships from `wiki_guide_categories` junction table
+   - Enriches guides with author information from `users` table
+
+2. **User Interface Features:**
+   - Dynamic category filter buttons generated from database
+   - Search functionality (filters by title, summary, and category names)
+   - Three sorting options: newest, most popular (by view count), alphabetical
+   - Responsive grid display with featured images
+   - Shows guide summary, categories, author name, and view count
+   - Links each guide to the detail page (wiki-page.html)
+
+3. **Implementation Pattern:**
+   - Followed the same architectural pattern as wiki-home.js and wiki-events.js
+   - Uses the supabase client wrapper for database queries
+   - Includes proper error handling and loading states
+   - Implements XSS protection via escapeHtml() function
+
+The implementation ensures guides load and display correctly with all filtering, searching, and sorting functionality working as designed.
+
+**Files Changed:**
+- src/wiki/js/wiki-guides.js (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-16 - Standardize guide card format across guides page and home page
+
+**Commit:** (pending)
+
+**Issue:**
+The guide cards displayed on wiki-guides.html had a different format than those on wiki-home.html. The guides page showed featured images, "Read Guide" buttons, and a different metadata layout, creating an inconsistent user experience across the wiki.
+
+**Root Cause:**
+When wiki-guides.js was created, it used a custom card format instead of matching the existing card format established in wiki-home.js. The two pages should present guides in the same way for consistency.
+
+**Solution:**
+Updated wiki-guides.js to match the guide card format from wiki-home.js:
+
+**Changes made:**
+1. Removed featured image display from guide cards
+2. Removed "Read Guide" button (title is now the clickable link)
+3. Added card-meta section showing date, author, and view count in same format
+4. Made guide title a clickable link (previously was plain text with separate button)
+5. Changed URL parameter from `?id=` to `?slug=` for consistency
+6. Added `formatDate()` function to display relative dates (e.g., "2 days ago", "1 week ago")
+7. Simplified card layout to match home page structure exactly
+
+**Before:**
+- Featured image at top
+- Plain text title
+- Author/views split left/right
+- "Read Guide" button
+- Link: `wiki-page.html?id={id}`
+
+**After:**
+- Card-meta header (date, author, views)
+- Clickable title link
+- Summary text
+- Category tags
+- Link: `wiki-page.html?slug={slug}`
+
+This ensures users see the same guide card presentation whether browsing on the home page or the dedicated guides page.
+
+**Files Changed:**
+- src/wiki/js/wiki-guides.js
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-16 - Fix loading spinner persisting on wiki page content viewer
+
+**Commit:** (pending)
+
+**Issue:**
+When viewing individual guide pages (wiki-page.html), the "Loading guide content..." spinner remained visible even after the guide content had been successfully loaded and rendered. The actual content appeared below the spinner, creating a poor user experience.
+
+**Root Cause:**
+The JavaScript code in wiki-page.js was selecting the wrong div element to replace. It was using `articleDivs[articleDivs.length - 1]` (the last div) to insert content, but the loading spinner was in a different div (index 4 out of 6 divs). This caused the content to be inserted into the wrong location while the spinner remained untouched.
+
+**Solution:**
+Updated the content replacement logic in wiki-page.js to:
+
+1. **Search for the spinner div specifically**: Loop through all divs in `.wiki-content` and find the one containing `.fa-spinner` class
+2. **Replace its content**: Once found, replace the innerHTML of that specific div with the rendered guide content
+3. **Verify removal**: Added console logging to confirm the spinner was successfully removed
+4. **Fallback**: If spinner is not found (edge case), fall back to the last div
+
+**Code changes:**
+- Changed from: `const articleBody = articleDivs[articleDivs.length - 1]`
+- Changed to: Loop through divs, find the one with `div.querySelector('.fa-spinner')`
+- Added verification: `articleBody.querySelector('.fa-spinner') === null` to confirm removal
+
+**Results:**
+- Loading spinner is now properly removed when content loads
+- Guide content displays cleanly without loading artifacts
+- Console logs confirm: "🔍 Verifying spinner removed: YES"
+
+**Files Changed:**
+- src/wiki/js/wiki-page.js
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
