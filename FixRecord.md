@@ -790,3 +790,40 @@ This is a new feature addition, not a fix. However, documenting deployment confi
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-11-16 - Fix orphaned dev server instances in start.sh
+
+**Commit:** (pending)
+
+**Issue:**
+Running `./start.sh` multiple times created orphaned Vite dev server instances. The script didn't properly detect existing running servers, causing:
+1. Multiple Vite processes running simultaneously on different ports
+2. Port conflicts when Vite auto-incremented ports (3001 → 3002 → 3003)
+3. Resource waste from orphaned background processes
+4. Confusion about which server instance was actually serving the app
+
+**Root Cause:**
+The script only checked port 3001 for existing servers. However, when Vite found port 3001 occupied, it automatically selected the next available port (3002, 3003, etc.) without the script detecting this change. The script ran `npm run dev` with output redirected to `/dev/null`, making it impossible to detect the actual port Vite chose.
+
+**Solution:**
+1. **Enhanced `stop_dev_server()` function:**
+   - Now checks ports 3001-3010 to catch Vite instances on any port
+   - Also kills orphaned Vite processes by name using `pgrep -f "vite"`
+   - Provides clear feedback about which ports/processes were killed
+
+2. **Modified startup workflow:**
+   - Always calls `stop_dev_server()` before asking to start new instance
+   - Ensures clean slate on every run
+   - Prevents orphaned processes from accumulating
+
+**Behavior Changes:**
+- **Before:** Script asked user whether to restart if a server was found on port 3001
+- **After:** Script automatically stops ALL dev server instances (any port) before prompting to start fresh
+
+**Files Changed:**
+- start.sh (lines 132-164: enhanced stop_dev_server function)
+- start.sh (lines 324-333: simplified main execution to always stop first)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
