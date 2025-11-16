@@ -48,6 +48,19 @@ async function loadEvents() {
 
     console.log(`✅ Loaded ${events.length} events from database`);
 
+    // Log event date distribution
+    if (events.length > 0) {
+      const eventsByMonth = {};
+      events.forEach(event => {
+        const date = new Date(event.event_date);
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        eventsByMonth[monthKey] = (eventsByMonth[monthKey] || 0) + 1;
+      });
+      console.log('📊 Events by month:', eventsByMonth);
+      console.log('📅 First event:', events[0].event_date, '-', events[0].title);
+      console.log('📅 Last event:', events[events.length - 1].event_date, '-', events[events.length - 1].title);
+    }
+
     // Enrich events with author information
     console.log('👤 Fetching author information for events...');
     allEvents = await Promise.all(
@@ -652,6 +665,20 @@ function renderCalendar() {
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
   currentMonthHeader.textContent = `${monthNames[currentCalendarDate.getMonth()]} ${currentCalendarDate.getFullYear()}`;
+
+  console.log(`📅 Rendering calendar for ${monthNames[currentCalendarDate.getMonth()]} ${currentCalendarDate.getFullYear()}`);
+
+  // Count events in this month
+  const year = currentCalendarDate.getFullYear();
+  const month = currentCalendarDate.getMonth();
+  const eventsInMonth = allEvents.filter(event => {
+    const eventDate = new Date(event.event_date);
+    return eventDate.getFullYear() === year && eventDate.getMonth() === month;
+  });
+  console.log(`📊 Found ${eventsInMonth.length} events in this month`);
+  if (eventsInMonth.length > 0) {
+    console.log('📅 Events this month:', eventsInMonth.map(e => `${e.event_date} - ${e.title}`));
+  }
 
   // Get first and last day of the month
   const year = currentCalendarDate.getFullYear();
