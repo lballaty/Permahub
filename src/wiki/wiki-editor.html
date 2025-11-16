@@ -61,18 +61,32 @@
       <div class="card-header">
         <h1 class="card-title" data-i18n="wiki.editor.title">Create New Guide</h1>
         <div class="flex gap-2">
+          <!-- Current Status Badge (only when editing) -->
+          <div id="currentStatusBadge" style="display: none; align-items: center; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+            <span id="statusBadgeText">Draft</span>
+          </div>
+
           <button class="btn btn-outline btn-small" id="previewBtn">
             <i class="fas fa-eye"></i> <span data-i18n="wiki.editor.preview">Preview</span>
           </button>
-          <button class="btn btn-secondary btn-small" id="saveDraftBtn">
-            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save_draft">Save Draft</span>
+
+          <!-- Status Selector -->
+          <select id="statusSelect" class="form-input" style="width: auto; padding: 0.5rem;">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
+          </select>
+
+          <button class="btn btn-primary btn-small" id="saveBtn">
+            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save">Save</span>
           </button>
-          <button class="btn btn-primary btn-small" id="publishBtn">
-            <i class="fas fa-check"></i> <span data-i18n="wiki.editor.publish">Publish</span>
+
+          <!-- Delete Button (only when editing) -->
+          <button class="btn btn-danger btn-small" id="deleteBtn" style="display: none;">
+            <i class="fas fa-trash"></i> <span data-i18n="wiki.editor.delete">Delete</span>
           </button>
         </div>
       </div>
-
       <form id="editorForm">
         <!-- Content Type Selection -->
         <div class="form-group">
@@ -255,6 +269,68 @@
             <label class="form-label" for="eventLocation" data-i18n="wiki.editor.location_field">Location</label>
             <input type="text" id="eventLocation" class="form-input" placeholder="e.g., Green Valley Farm, 123 Farm Road">
           </div>
+
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">
+            <i class="fas fa-address-card"></i> Organizer & Contact Information
+          </h3>
+          <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> Help attendees reach you! All fields are optional.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="organizerName">Organizer Name</label>
+            <input
+              type="text"
+              id="organizerName"
+              class="form-input"
+              placeholder="e.g., Sarah Chen"
+            >
+            <small class="text-muted">Name of the person organizing this event</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="organizerOrganization">Organization</label>
+            <input
+              type="text"
+              id="organizerOrganization"
+              class="form-input"
+              placeholder="e.g., Brooklyn Botanic Garden"
+            >
+            <small class="text-muted">Organization or group hosting the event</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactEmail">Contact Email</label>
+            <input
+              type="email"
+              id="contactEmail"
+              class="form-input"
+              placeholder="e.g., info@organization.org"
+            >
+            <small class="text-muted">Email address for event inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactPhone">Contact Phone</label>
+            <input
+              type="tel"
+              id="contactPhone"
+              class="form-input"
+              placeholder="e.g., +1 555 123 4567"
+            >
+            <small class="text-muted">Phone number for event inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactWebsite">Contact Website</label>
+            <input
+              type="url"
+              id="contactWebsite"
+              class="form-input"
+              placeholder="e.g., https://www.organization.org"
+            >
+            <small class="text-muted">Event-specific website (if different from registration URL)</small>
+          </div>
         </div>
 
         <div id="locationFields" style="display: none;">
@@ -279,6 +355,69 @@
           <p class="text-muted" style="font-size: 0.9rem;">
             <i class="fas fa-info-circle"></i> You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a>
           </p>
+
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">
+            <i class="fas fa-address-card"></i> Contact Information
+          </h3>
+          <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> Help visitors connect with this location! All fields are optional.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactName">Contact Name</label>
+            <input
+              type="text"
+              id="locationContactName"
+              class="form-input"
+              placeholder="e.g., John Smith"
+            >
+            <small class="text-muted">Name of primary contact person for this location</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactEmail">Contact Email</label>
+            <input
+              type="email"
+              id="locationContactEmail"
+              class="form-input"
+              placeholder="e.g., contact@location.org"
+            >
+            <small class="text-muted">Email address for location inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactPhone">Contact Phone</label>
+            <input
+              type="tel"
+              id="locationContactPhone"
+              class="form-input"
+              placeholder="e.g., +1 555 123 4567"
+            >
+            <small class="text-muted">Phone number for location inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationWebsite">Website</label>
+            <input
+              type="url"
+              id="locationWebsite"
+              class="form-input"
+              placeholder="e.g., https://www.location.org"
+            >
+            <small class="text-muted">Location's official website</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactHours">Operating Hours</label>
+            <textarea
+              id="locationContactHours"
+              class="form-input"
+              rows="3"
+              placeholder="e.g., Monday-Friday 9am-5pm&#10;Saturday 10am-3pm&#10;Closed Sunday"
+              style="resize: vertical;"
+            ></textarea>
+            <small class="text-muted">When is this location open to visitors?</small>
+          </div>
         </div>
 
         <!-- Settings -->
@@ -308,16 +447,21 @@
         </div>
 
         <!-- Action Buttons -->
-        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
-          <button type="button" class="btn btn-outline" onclick="history.back()">
-            <i class="fas fa-times"></i> <span data-i18n="wiki.editor.cancel">Cancel</span>
-          </button>
-          <button type="button" class="btn btn-secondary" id="saveDraftBtn2">
-            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save_draft">Save as Draft</span>
-          </button>
-          <button type="submit" class="btn btn-primary" id="publishBtn2">
-            <i class="fas fa-check"></i> <span data-i18n="wiki.editor.publish_now">Publish Now</span>
-          </button>
+        <div style="display: flex; gap: 1rem; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
+          <div>
+            <!-- Delete Button (only when editing) -->
+            <button type="button" class="btn btn-danger" id="deleteBtn2" style="display: none;">
+              <i class="fas fa-trash"></i> <span data-i18n="wiki.editor.delete">Delete</span>
+            </button>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <button type="button" class="btn btn-outline" onclick="history.back()">
+              <i class="fas fa-times"></i> <span data-i18n="wiki.editor.cancel">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveBtn2">
+              <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save">Save</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
