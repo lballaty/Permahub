@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <div style="display: flex; align-items: center; justify-content: center; height: 100vh; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="text-align: center;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">🌱</div>
+      <h1 style="margin-bottom: 0.5rem;">Redirecting...</h1>
+      <p style="color: #666;">Please wait while we redirect you to the wiki home page.</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle authentication callback from magic links
+    const hash = window.location.hash;
+
+    if (hash && hash.includes('access_token')) {
+      console.log('🔐 Auth callback detected, redirecting to wiki home with token...');
+      // Redirect to wiki home page with the hash
+      window.location.href = 'http://localhost:3001/src/wiki/wiki-home.html' + hash;
+    } else {
+      // Regular redirect to wiki home
+      console.log('📍 Redirecting to wiki home...');
+      window.location.href = 'http://localhost:3001/src/wiki/wiki-home.html';
+    }
+  </script>
+</body>
+</html>
