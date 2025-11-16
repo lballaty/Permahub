@@ -755,3 +755,38 @@ During initial development, service role key was added to SUPABASE_CONFIG object
 
 ---
 
+### 2025-11-16 - Add GitHub Pages deployment configuration
+
+**Commit:** (pending)
+
+**Issue:**
+Project needed automated deployment to GitHub Pages for public testing. Vite build required proper base path configuration for GitHub Pages subdirectory deployment (https://user.github.io/Permahub/).
+
+**Root Cause:**
+This is a new feature addition, not a fix. However, documenting deployment configuration helps maintain project history and deployment procedures.
+
+**Solution:**
+1. **Updated vite.config.js:**
+   - Added `base` configuration: `process.env.NODE_ENV === 'production' ? '/Permahub/' : '/'`
+   - Ensures asset paths work correctly on GitHub Pages subdirectory
+   - Automatically uses root path for local development
+
+2. **Created GitHub Actions workflow:**
+   - File: `.github/workflows/deploy-gh-pages.yml`
+   - Triggers on push to `release/**` branches
+   - Automatically builds project with `npm run build`
+   - Deploys `dist/` directory to `gh-pages` branch
+   - Uses official GitHub Pages actions (checkout@v4, setup-node@v4, upload-pages-artifact@v3, deploy-pages@v4)
+
+**Deployment Process:**
+1. Push to any `release/*` branch
+2. GitHub Actions automatically builds and deploys
+3. Site becomes available at: https://lballaty.github.io/Permahub/
+
+**Files Changed:**
+- vite.config.js
+- .github/workflows/deploy-gh-pages.yml (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
