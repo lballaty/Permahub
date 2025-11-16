@@ -176,16 +176,52 @@ Before making ANY code change that affects:
 
 ### 4. Git Workflow
 
+**CRITICAL: Incremental Commits Required**
+
+Commits MUST be incremental, one logical change per commit. This allows for:
+- Easy review of individual changes
+- Precise rollback of specific features
+- Clear commit history
+- Matching code changes to FixRecord.md entries
+
+**Rules:**
+1. **One change = One commit**: Each distinct fix, feature, or refactor gets its own commit
+2. **Commit immediately after each change**: Don't batch multiple changes together
+3. **Match FixRecord.md to code**: Each FixRecord.md entry should correspond to exactly one commit
+4. **Update FixRecord.md BEFORE committing**: Add the FixRecord entry, then commit both the code change and the FixRecord update together
+
+**Workflow:**
+
 1. Check current branch: `git branch`
 2. If on main: Ask user before proceeding
-3. Create feature branch: `git checkout -b feature/descriptive-name`
-4. Make changes incrementally
-5. Commit each file/change separately:
+3. Create feature branch if needed: `git checkout -b feature/descriptive-name`
+4. Make ONE logical change (fix one bug, add one feature, etc.)
+5. Update FixRecord.md with entry for this change
+6. Commit the change AND FixRecord.md together:
    ```bash
-   git add path/to/specific/file.js
+   git add path/to/changed/file.js FixRecord.md
    git commit -m "feat: Clear description of change"
    ```
-6. **DO NOT PUSH** - let user handle pushes
+7. Repeat steps 4-6 for each additional change
+8. **DO NOT PUSH** - let user handle pushes
+
+**Example - CORRECT (incremental):**
+```bash
+# Change 1: Create new file
+git add src/wiki/js/wiki-guides.js FixRecord.md
+git commit -m "feat: Create wiki-guides.js to load guides from database"
+
+# Change 2: Fix different file
+git add src/wiki/js/wiki-page.js FixRecord.md
+git commit -m "fix: Remove persistent loading spinner on wiki page"
+```
+
+**Example - WRONG (batched):**
+```bash
+# DON'T DO THIS - multiple changes in one commit
+git add src/wiki/js/wiki-guides.js src/wiki/js/wiki-page.js FixRecord.md
+git commit -m "feat: Add guides page and fix spinner"
+```
 
 ---
 
