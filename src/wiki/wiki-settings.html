@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script src="js/wiki-i18n.js"></script>
+  <style>
+    /* Settings-specific styles */
+    .settings-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .settings-section {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .settings-section h2 {
+      color: var(--wiki-primary);
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .settings-section p.description {
+      color: var(--wiki-text-muted);
+      margin: 0 0 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .settings-group {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .settings-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .settings-group label {
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+      cursor: pointer;
+      padding: 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .settings-group label:hover {
+      background: var(--wiki-accent);
+    }
+
+    .settings-group input[type="checkbox"],
+    .settings-group input[type="radio"] {
+      margin-top: 0.25rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .settings-group .label-content {
+      flex: 1;
+    }
+
+    .settings-group .label-title {
+      font-weight: 600;
+      color: var(--wiki-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .settings-group .label-description {
+      font-size: 0.85rem;
+      color: var(--wiki-text-muted);
+      line-height: 1.4;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-left: 2.25rem;
+    }
+
+    .radio-group label {
+      padding: 0.5rem;
+    }
+
+    .master-toggle {
+      background: var(--wiki-accent);
+      border: 2px solid var(--wiki-primary);
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .master-toggle label {
+      margin: 0;
+    }
+
+    .master-toggle .label-title {
+      font-size: 1.1rem;
+      color: var(--wiki-primary);
+    }
+
+    .privacy-warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 4px;
+    }
+
+    .privacy-warning i {
+      color: #ffc107;
+      margin-right: 0.5rem;
+    }
+
+    .save-btn {
+      background: var(--wiki-primary);
+      color: white;
+      border: none;
+      padding: 0.875rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .save-btn:hover:not(:disabled) {
+      background: #1a5f3f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+    }
+
+    .save-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .success-message,
+    .error-message {
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error-message {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--wiki-text);
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--wiki-primary);
+    }
+
+    .form-group .help-text {
+      font-size: 0.85rem;
+      color: var(--wiki-text-muted);
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <!-- Language options (same as other pages) -->
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+            </div>
+          </div>
+        </li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="settings-container">
+    <!-- Page Header -->
+    <div class="settings-section">
+      <h1 style="margin: 0 0 0.5rem 0; color: var(--wiki-primary); font-size: 2rem;">
+        <i class="fas fa-user-cog"></i> Account Settings
+      </h1>
+      <p style="margin: 0; color: var(--wiki-text-muted);">
+        Manage your profile, privacy preferences, and contact information visibility
+      </p>
+    </div>
+
+    <!-- Messages -->
+    <div class="success-message" id="successMessage">
+      <i class="fas fa-check-circle"></i>
+      <span id="successText"></span>
+    </div>
+    <div class="error-message" id="errorMessage">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="errorText"></span>
+    </div>
+
+    <!-- Profile Information Section -->
+    <div class="settings-section">
+      <h2><i class="fas fa-user"></i> Profile Information</h2>
+      <p class="description">Update your basic profile information</p>
+
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="Your full name">
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="your-username" readonly disabled>
+        <p class="help-text">Username cannot be changed after account creation</p>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" readonly disabled>
+        <p class="help-text">Email is managed through your account authentication</p>
+      </div>
+
+      <div class="form-group">
+        <label for="contactPhone">Phone Number</label>
+        <input type="tel" id="contactPhone" placeholder="+1 (555) 123-4567">
+        <p class="help-text">Optional. Only visible if you choose to share it below.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="website">Website</label>
+        <input type="text" id="website" placeholder="https://your-website.com">
+        <p class="help-text">Your personal or business website</p>
+      </div>
+    </div>
+
+    <!-- Privacy Settings Section -->
+    <div class="settings-section">
+      <h2><i class="fas fa-shield-alt"></i> Privacy & Visibility</h2>
+      <p class="description">Control who can see your profile and contact information</p>
+
+      <!-- Master Toggle -->
+      <div class="master-toggle">
+        <div class="settings-group" style="margin: 0; padding: 0; border: none;">
+          <label>
+            <input type="checkbox" id="isPublicProfile">
+            <div class="label-content">
+              <div class="label-title">Make my profile public</div>
+              <div class="label-description">
+                When unchecked, your profile will be completely hidden from other users.
+                When checked, you can control which specific contact details to show.
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Contact Information Visibility -->
+      <div id="contactVisibilitySettings" style="opacity: 0.5; pointer-events: none;">
+        <div class="privacy-warning">
+          <i class="fas fa-info-circle"></i>
+          <strong>Privacy first:</strong> Your profile is currently private. Enable "Make my profile public" above to control individual contact information visibility.
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-envelope"></i> Email Address Visibility
+          </div>
+          <label>
+            <input type="checkbox" id="emailVisible">
+            <div class="label-content">
+              <div class="label-title">Show my email address</div>
+              <div class="label-description">
+                Allow others to see your email address on your public profile
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-phone"></i> Phone Number Visibility
+          </div>
+          <label>
+            <input type="checkbox" id="phoneVisible">
+            <div class="label-content">
+              <div class="label-title">Show my phone number</div>
+              <div class="label-description">
+                Allow others to see your phone number on your public profile
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-globe"></i> Website Visibility
+          </div>
+          <label>
+            <input type="checkbox" id="websiteVisible">
+            <div class="label-content">
+              <div class="label-title">Show my website</div>
+              <div class="label-description">
+                Allow others to see your website link on your public profile
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-share-alt"></i> Social Media Visibility
+          </div>
+          <label>
+            <input type="checkbox" id="socialMediaVisible">
+            <div class="label-content">
+              <div class="label-title">Show my social media links</div>
+              <div class="label-description">
+                Allow others to see your social media profiles (Instagram, Facebook, YouTube, etc.)
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-map-marker-alt"></i> Location Precision
+          </div>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.75rem;">
+            Choose how much location detail to show on your public profile
+          </p>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="locationPrecision" value="exact">
+              <div class="label-content">
+                <div class="label-title">Exact location</div>
+                <div class="label-description">Show precise coordinates and full address</div>
+              </div>
+            </label>
+            <label>
+              <input type="radio" name="locationPrecision" value="city">
+              <div class="label-content">
+                <div class="label-title">City level (recommended)</div>
+                <div class="label-description">Show only city and country, hide exact coordinates</div>
+              </div>
+            </label>
+            <label>
+              <input type="radio" name="locationPrecision" value="country">
+              <div class="label-content">
+                <div class="label-title">Country only</div>
+                <div class="label-description">Show only country, hide city and coordinates</div>
+              </div>
+            </label>
+            <label>
+              <input type="radio" name="locationPrecision" value="hidden">
+              <div class="label-content">
+                <div class="label-title">Hidden</div>
+                <div class="label-description">Don't show any location information</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-comment-alt"></i> Contact Options
+          </div>
+          <label>
+            <input type="checkbox" id="showContactButton">
+            <div class="label-content">
+              <div class="label-title">Show "Contact Me" button</div>
+              <div class="label-description">
+                Display a button on your profile allowing others to send you messages through the platform (protects your email)
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div style="text-align: right; margin-bottom: 3rem;">
+      <button type="button" class="save-btn" id="saveSettingsBtn">
+        <i class="fas fa-save"></i> Save Settings
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <p>&copy; 2025 Community Wiki. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-settings.js"></script>
+</body>
+</html>
