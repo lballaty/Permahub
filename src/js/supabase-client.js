@@ -212,19 +212,37 @@ class SupabaseClient {
    */
   async signInWithMagicLink(email) {
     try {
-      const response = await fetch(`${this.url}/auth/v1/magiclink`, {
+      console.log('📧 Sending magic link request to:', `${this.url}/auth/v1/otp`);
+      console.log('📧 Request body:', {
+        email: email,
+        options: {
+          email_redirect_to: window.location.origin + '/src/wiki/wiki-home.html'
+        }
+      });
+
+      const response = await fetch(`${this.url}/auth/v1/otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'apikey': SUPABASE_CONFIG.anonKey
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({
+          email: email,
+          options: {
+            email_redirect_to: window.location.origin + '/src/wiki/wiki-home.html'
+          }
+        })
       });
 
       const data = await response.json();
-      
+
+      console.log('📧 Magic link response status:', response.status);
+      console.log('📧 Magic link response data:', data);
+
       if (!response.ok) {
-        throw new Error(data.error_description || data.message || 'Magic link failed');
+        const errorMsg = data.error_description || data.error || data.message || data.msg || 'Magic link failed';
+        console.error('❌ Magic link failed with error:', errorMsg);
+        throw new Error(errorMsg);
       }
 
       return data;
@@ -258,6 +276,168 @@ class SupabaseClient {
     }
 
     return null;
+  }
+
+  /**
+   * Sign up a new user with email and password
+   *
+   * @param {string} email - User's email address
+   * @param {string} password - User's password
+   * @param {Object} metadata - Additional user data (username, full_name)
+   * @returns {Promise<Object>} Signup response data
+   */
+  async signUp(email, password, metadata = {}) {
+    try {
+      console.log('📝 Signing up new user:', email);
+      console.log('📝 Metadata:', metadata);
+
+      const response = await fetch(`${this.url}/auth/v1/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_CONFIG.anonKey
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          data: {
+            username: metadata.username,
+            full_name: metadata.full_name
+          }
+        })
+      });
+
+      const data = await response.json();
+
+      console.log('📝 Signup response status:', response.status);
+      console.log('📝 Signup response data:', data);
+
+      if (!response.ok) {
+        const errorMsg = data.error_description || data.error || data.message || data.msg || 'Signup failed';
+        console.error('❌ Signup failed with error:', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Signup error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Check if a username is available
+   *
+   * @param {string} username - Username to check
+   * @returns {Promise<boolean>} True if available, false if taken
+   */
+  async checkUsernameAvailability(username) {
+    try {
+      console.log('🔍 Checking username availability:', username);
+
+      const users = await this.getAll('users', {
+        select: 'username',
+        where: 'username',
+        operator: 'eq',
+        value: username
+      });
+
+      const isAvailable = users.length === 0;
+      console.log(`🔍 Username "${username}" is ${isAvailable ? 'available' : 'taken'}`);
+
+      return isAvailable;
+    } catch (error) {
+      console.error('Username check error:', error);
+      // On error, assume not available to be safe
+      return false;
+    }
+  }
+
+  /**
+   * Send password reset email
+   *
+   * @param {string} email - User's email address
+   * @returns {Promise<Object>} Reset email response
+   */
+  async resetPasswordForEmail(email) {
+    try {
+      console.log('🔑 Sending password reset email to:', email);
+
+      const response = await fetch(`${this.url}/auth/v1/recover`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_CONFIG.anonKey
+        },
+        body: JSON.stringify({
+          email: email,
+          options: {
+            redirect_to: window.location.origin + '/src/wiki/wiki-reset-password.html'
+          }
+        })
+      });
+
+      const data = await response.json();
+
+      console.log('🔑 Password reset response status:', response.status);
+      console.log('🔑 Password reset response data:', data);
+
+      if (!response.ok) {
+        const errorMsg = data.error_description || data.error || data.message || data.msg || 'Password reset failed';
+        console.error('❌ Password reset failed with error:', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Password reset error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update user's password
+   *
+   * @param {string} newPassword - New password to set
+   * @returns {Promise<Object>} Update response
+   */
+  async updatePassword(newPassword) {
+    try {
+      console.log('🔒 Updating password...');
+
+      const token = localStorage.getItem('auth_token');
+      if (!token) {
+        throw new Error('No active session. Please log in first.');
+      }
+
+      const response = await fetch(`${this.url}/auth/v1/user`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_CONFIG.anonKey,
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          password: newPassword
+        })
+      });
+
+      const data = await response.json();
+
+      console.log('🔒 Password update response status:', response.status);
+      console.log('🔒 Password update response data:', data);
+
+      if (!response.ok) {
+        const errorMsg = data.error_description || data.error || data.message || data.msg || 'Password update failed';
+        console.error('❌ Password update failed with error:', errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Password update error:', error);
+      throw error;
+    }
   }
 
   /**
