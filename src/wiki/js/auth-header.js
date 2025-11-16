@@ -78,8 +78,9 @@ async function updateAuthHeader() {
     try {
       const userId = user?.id || JSON.parse(localStorage.getItem('user') || '{}').id;
       if (userId) {
-        const userProfile = await supabase.getById('users', userId);
-        if (userProfile) {
+        const userProfileData = await supabase.getOne('users', userId);
+        if (userProfileData && userProfileData.length > 0) {
+          const userProfile = userProfileData[0];
           userName = userProfile.username || userName;
           fullName = userProfile.full_name;
           console.log('👤 User profile loaded:', { username: userName, fullName });
@@ -110,6 +111,9 @@ async function updateAuthHeader() {
           </a>
           <a href="wiki-favorites.html" style="display: block; padding: 0.75rem 1rem; color: var(--wiki-text); text-decoration: none; border-bottom: 1px solid var(--wiki-border);">
             <i class="fas fa-heart"></i> My Favorites
+          </a>
+          <a href="wiki-settings.html" style="display: block; padding: 0.75rem 1rem; color: var(--wiki-text); text-decoration: none; border-bottom: 1px solid var(--wiki-border);">
+            <i class="fas fa-cog"></i> Settings
           </a>
           <button id="logoutBtn" style="display: block; width: 100%; padding: 0.75rem 1rem; text-align: left; background: none; border: none; color: #c33; cursor: pointer; font-size: 1rem;">
             <i class="fas fa-sign-out-alt"></i> Logout
