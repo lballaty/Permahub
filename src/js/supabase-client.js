@@ -18,9 +18,11 @@ class SupabaseClient {
 
   /**
    * Make authenticated API call to Supabase
+   * Uses either the user's auth token (if logged in) or the anonymous key (if not logged in)
+   * NEVER uses service role key - that should only be used server-side
    */
-  async request(method, path, body = null, useServiceRole = false) {
-    const token = useServiceRole ? SUPABASE_CONFIG.serviceRoleKey : (this.authToken || SUPABASE_CONFIG.anonKey);
+  async request(method, path, body = null) {
+    const token = this.authToken || SUPABASE_CONFIG.anonKey;
     const fullUrl = `${this.url}/rest/v1${path}`;
 
     // Log request details

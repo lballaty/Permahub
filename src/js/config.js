@@ -27,21 +27,33 @@ function getEnv(key, fallback = '') {
 }
 
 /**
+ * Detect environment based on hostname
+ * Returns true if running on localhost/127.0.0.1
+ */
+function isLocalEnvironment() {
+  if (typeof window === 'undefined') return true; // Server-side/build time
+  const hostname = window.location.hostname;
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
+}
+
+/**
  * Supabase Configuration
- * Load from environment variables or use defaults for development
+ * Automatically detects environment and uses appropriate credentials
  *
- * TODO: Fix Vite environment variable loading
- * Currently hardcoded because import.meta.env.VITE_SUPABASE_URL is undefined
- * Despite having .env and .env.local files with correct values
- * Need to investigate why Vite is not picking up environment variables
+ * LOCAL (localhost): Uses local Supabase instance
+ * CLOUD (GitHub Pages): Uses cloud Supabase instance
  *
- * TEMPORARY WORKAROUND: Hardcoded to local Supabase instance
- * In production, these MUST come from environment variables
+ * NOTE: Anon key is safe to expose in frontend - it's meant to be public.
+ * Service role key has been REMOVED for security - it should never be in frontend code.
  */
 export const SUPABASE_CONFIG = {
-  url: 'http://127.0.0.1:3000', // Local Supabase API URL
-  anonKey: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
-  serviceRoleKey: 'sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz'
+  url: isLocalEnvironment()
+    ? 'http://127.0.0.1:3000'
+    : 'https://mcbxbaggjaxqfdvmrqsc.supabase.co',
+
+  anonKey: isLocalEnvironment()
+    ? 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH'  // Local dev key
+    : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MDE4NDYsImV4cCI6MjA3ODA3Nzg0Nn0.agjLGl7uW0S1tGgivGBVthHWAgw0YxHjJNLHkhsViO0'  // Cloud anon key (safe to expose)
 };
 
 // Warn if using fallback values in production

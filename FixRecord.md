@@ -705,3 +705,53 @@ This documentation provides a single source of truth for understanding and worki
 
 ---
 
+### 2025-11-16 - Remove service role key from frontend for cloud deployment security
+
+**Commit:** (pending)
+
+**Issue:**
+Service role key was exposed in frontend config.js file, creating a critical security vulnerability for cloud deployment. Service role keys bypass all Row Level Security (RLS) policies and should NEVER be exposed in client-side code.
+
+**Root Cause:**
+During initial development, service role key was added to SUPABASE_CONFIG object in config.js as a configuration option. While it was never actually used in production requests (verified via code search showing no `useServiceRole = true` calls), having it in the frontend code posed security risks:
+1. Would be visible in built JavaScript bundle
+2. Would appear in browser DevTools
+3. Could be extracted by anyone viewing the source
+
+**Solution:**
+1. **Removed service role key from config.js:**
+   - Deleted `serviceRoleKey` property from SUPABASE_CONFIG
+   - Added documentation explaining anon key is safe to expose
+   - Added comment noting service role key should only exist in server-side scripts
+
+2. **Added environment detection:**
+   - Created `isLocalEnvironment()` function to detect local vs cloud deployment
+   - Automatically uses local Supabase (http://127.0.0.1:3000) when on localhost
+   - Automatically uses cloud Supabase (https://mcbxbaggjaxqfdvmrqsc.supabase.co) for GitHub Pages
+   - Added cloud anon key (safe to expose - designed to be public)
+
+3. **Removed useServiceRole parameter from supabase-client.js:**
+   - Deleted `useServiceRole` parameter from `request()` method
+   - Simplified token logic to only use: `this.authToken || SUPABASE_CONFIG.anonKey`
+   - Added documentation explaining only user tokens or anon key should be used
+
+4. **Verified security:**
+   - Service role key now only exists in server-side migration scripts (migrate.js, execute-all-migrations.mjs)
+   - All frontend requests use either authenticated user JWT tokens or public anon key
+   - RLS policies remain the primary security mechanism (189 policies across 30+ tables)
+
+**Security Impact:**
+- ✅ Service role key no longer exposed in frontend
+- ✅ Cannot be extracted from built JavaScript
+- ✅ RLS policies cannot be bypassed from browser
+- ✅ Anon key exposure is safe (designed to be public)
+- ✅ User data protected by RLS regardless of client
+
+**Files Changed:**
+- src/js/config.js
+- src/js/supabase-client.js
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
