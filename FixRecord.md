@@ -827,3 +827,253 @@ The script only checked port 3001 for existing servers. However, when Vite found
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-11-16 - Fix anonymous user access to published content
+
+**Commit:** (pending)
+
+**Issue:**
+Anonymous (not logged in) users could not view individual pages for guides, events, and locations. When accessing URLs like `/wiki-page.html?id=123`, the content would not load unless the user was authenticated. This prevented public discovery and sharing of published content.
+
+**Root Cause:**
+The Row-Level Security (RLS) policies in Supabase were incorrectly written. The existing SELECT policies used conditions like:
+```sql
+USING (status = 'published' OR auth.uid() = author_id)
+```
+
+When an anonymous user accesses the database, `auth.uid()` returns `NULL`. The condition `NULL = author_id` always evaluates to `NULL` (not `true`), so even published content was blocked for anonymous users. The policy required at least partial authentication to work.
+
+**Solution:**
+Created migration [20251116_011_fix_anonymous_read_access.sql](database/migrations/20251116_011_fix_anonymous_read_access.sql) that splits each SELECT policy into two separate policies:
+
+1. **Public access policy:** Allows ALL users (including anonymous) to view published content
+   - `USING (status = 'published')` - No auth check needed
+
+2. **Author access policy:** Allows authenticated authors to view their own drafts
+   - `USING (auth.uid() = author_id)` - Only evaluated for authenticated users
+
+This approach follows PostgreSQL RLS best practice: multiple SELECT policies are combined with OR logic, so if ANY policy passes, the row is visible.
+
+**Tables Fixed:**
+- `wiki_guides` - Now allows anonymous viewing of published guides
+- `wiki_events` - Now allows anonymous viewing of published/completed events
+- `wiki_locations` - Now allows anonymous viewing of published locations
+
+**Files Changed:**
+- database/migrations/20251116_011_fix_anonymous_read_access.sql (created)
+- FixRecord.md (this file)
+
+**Testing Required:**
+1. Log out completely (clear session)
+2. Visit a published guide/event/location page
+3. Verify content loads without authentication
+4. Log in as author
+5. Verify you can still see your draft content
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-16 - Add granular contact information visibility controls
+
+**Commit:** (pending)
+
+**Issue:**
+Users needed the ability to control visibility of their contact information (email, phone, website, social media) on a granular level. The existing system only had an all-or-nothing `is_public_profile` toggle - either the entire profile was public or completely private with no control over individual contact fields.
+
+**Root Cause:**
+This is a feature addition rather than a bug fix. The database schema lacked:
+1. A phone number field in the users table (only existed in wiki_events and wiki_locations)
+2. Granular privacy controls for individual contact fields
+3. Location precision settings (exact coordinates vs. city-level vs. hidden)
+4. Helper functions to check contact field visibility based on privacy settings
+5. RLS policies that respect granular contact preferences
+
+**Solution:**
+Created comprehensive database migration [20251116_012_contact_visibility_preferences.sql](database/migrations/20251116_012_contact_visibility_preferences.sql) implementing:
+
+1. **New Database Fields:**
+   - `contact_phone TEXT` - Phone number field for user contact
+   - `contact_preferences JSONB` - Stores granular privacy settings with secure defaults:
+     ```json
+     {
+       "email_visible": false,
+       "phone_visible": false,
+       "website_visible": true,
+       "social_media_visible": true,
+       "location_precision": "city",
+       "show_contact_button": true
+     }
+     ```
+
+2. **Privacy Model - Hybrid Approach:**
+   - Kept `is_public_profile` as master privacy switch (default: false)
+   - Added granular controls via `contact_preferences` JSONB
+   - Logic: If profile is private, nothing visible; if public, respect individual field preferences
+   - All existing users set to private by default (must opt-in to public)
+
+3. **Helper Functions:**
+   - `is_contact_field_visible(user_row, field_name, requesting_user_id)` - Checks if specific contact field should be visible to requesting user
+   - `get_user_profile_with_privacy(target_user_id, requesting_user_id)` - Returns sanitized user data with contact fields filtered by privacy preferences
+   - Handles location precision: "exact" (lat/long), "city" (city name), "country" (country only), "hidden" (no location)
+
+4. **Updated RLS Policies:**
+   - Replaced single SELECT policy with comprehensive policy respecting privacy settings
+   - Users always see their own complete profile
+   - Others only see public profiles with fields filtered by contact_preferences
+   - Application should use `get_user_profile_with_privacy()` function for proper filtering
+
+5. **Performance Optimizations:**
+   - Added GIN index on `contact_preferences` for efficient JSONB querying
+   - Added index on `is_public_profile` for faster filtering
+   - Created BEFORE INSERT trigger to ensure new users get secure default settings
+
+6. **Security Features:**
+   - Default to private profile (`is_public_profile = false`)
+   - Default to hidden email/phone (`email_visible: false`, `phone_visible: false`)
+   - Default to visible website/social (`website_visible: true`, `social_media_visible: true`)
+   - Default to city-level location precision (`location_precision: "city"`)
+   - Support for "Contact Me" button feature (`show_contact_button: true`)
+
+**Implementation Details:**
+- All changes wrapped in transaction (BEGIN/COMMIT) for atomicity
+- Includes comprehensive comments and documentation
+- Provides rollback script for reverting migration if needed
+- Includes verification queries (commented out) for manual testing
+- Follows PostgreSQL best practices for JSONB usage and RLS policies
+
+**Next Steps (Frontend Implementation Required):**
+1. Create privacy settings UI in user profile settings page
+2. Update profile display logic to use `get_user_profile_with_privacy()` function
+3. Add "Contact Me" button option (respects `show_contact_button` preference)
+4. Update project pages to hide/show contact info based on preferences
+5. Add phone number input field to profile creation/edit forms
+
+**Default Privacy Settings:**
+- **New users:** Profile private by default, must opt-in to public
+- **Existing users:** Set to private, must explicitly choose to make profile public
+- **Contact info:** Conservative defaults (email/phone hidden, website/social visible)
+- **Location:** City-level precision (coordinates hidden)
+
+**Files Changed:**
+- database/migrations/20251116_012_contact_visibility_preferences.sql (created)
+- FixRecord.md (this file)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-16 - Implement frontend for contact information visibility controls
+
+**Commit:** (pending)
+
+**Issue:**
+After creating the database migration for granular contact visibility controls, the frontend needed to be implemented to allow users to actually manage their privacy preferences through a user-friendly interface.
+
+**Root Cause:**
+This is a feature addition (part 2 of contact visibility feature). The system had no user settings page where users could:
+1. View their current privacy settings
+2. Toggle their public profile on/off
+3. Control individual contact field visibility (email, phone, website, social media)
+4. Set location precision level
+5. Update basic profile information (name, phone, website)
+
+**Solution:**
+Created comprehensive frontend implementation for privacy controls:
+
+**1. User Settings Page (wiki-settings.html):**
+- Clean, intuitive interface for managing all privacy settings
+- Organized into logical sections:
+  - Profile Information: Name, username, email, phone, website
+  - Privacy & Visibility: All privacy controls
+- Master toggle for public/private profile with visual feedback
+- Granular controls for each contact field:
+  - Email visibility (checkbox)
+  - Phone visibility (checkbox)
+  - Website visibility (checkbox)
+  - Social media visibility (checkbox)
+  - Location precision (radio buttons: exact/city/country/hidden)
+  - Contact button visibility (checkbox)
+- Disabled state for granular controls when profile is private
+- Success/error message display
+- Save button with loading states
+
+**2. JavaScript Module (wiki-settings.js):**
+- Authentication check (redirects to login if not authenticated)
+- Loads user settings from database on page load
+- Populates form fields with current values
+- Master toggle logic:
+  - When profile is private: granular controls are disabled (grayed out)
+  - When profile is public: granular controls are enabled
+- Form data collection and validation
+- PATCH request to update user profile
+- Success/error handling with user feedback
+- Proper JSONB handling for contact_preferences field
+
+**3. Navigation Integration (auth-header.js):**
+- Added "Settings" link to user dropdown menu (between "My Favorites" and "Logout")
+- Accessible from any wiki page when logged in
+- Consistent with existing navigation patterns
+
+**Implementation Details:**
+
+**Privacy Controls Flow:**
+1. User loads settings page
+2. System fetches current user profile from database
+3. Form fields populated with existing values
+4. Master toggle (`is_public_profile`) controls granular settings visibility
+5. User makes changes
+6. Clicks "Save Settings"
+7. System collects form data into proper structure:
+   ```javascript
+   {
+     full_name: "...",
+     contact_phone: "...",
+     website: "...",
+     is_public_profile: true/false,
+     contact_preferences: {
+       email_visible: true/false,
+       phone_visible: true/false,
+       website_visible: true/false,
+       social_media_visible: true/false,
+       location_precision: "exact"|"city"|"country"|"hidden",
+       show_contact_button: true/false
+     }
+   }
+   ```
+8. System sends PATCH request to `/users?id=eq.{userId}`
+9. Success/error message displayed
+
+**UI/UX Features:**
+- Visual hierarchy with clear section headers and icons
+- Privacy-first design: profile defaults to private
+- Warning banner when profile is private explaining why granular controls are disabled
+- Hover effects on all interactive elements
+- Smooth animations for save button and messages
+- Auto-scroll to success/error messages
+- Disabled username/email fields (can't be changed in settings)
+- Help text for each field explaining purpose
+- Responsive design works on mobile and desktop
+
+**Security Considerations:**
+- Only authenticated users can access settings page
+- Users can only modify their own profile (userId from auth token)
+- No ability to change username or email from this page (managed by auth system)
+- XSS protection via proper escaping in auth-header.js
+- Privacy defaults to conservative settings (email/phone hidden)
+
+**Next Steps:**
+1. Phone number field still needs to be added to signup form (wiki-signup.html)
+2. Profile display logic needs to be updated to respect `contact_preferences`
+3. "Contact Me" button functionality needs to be implemented
+4. Consider adding profile view page to see how profile appears to others
+
+**Files Changed:**
+- src/wiki/wiki-settings.html (created)
+- src/wiki/js/wiki-settings.js (created)
+- src/wiki/js/auth-header.js (modified - added Settings link)
+- FixRecord.md (this file)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
