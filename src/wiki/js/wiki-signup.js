@@ -302,6 +302,22 @@ function setupFormSubmission(signupForm) {
 
       console.log('✅ Signup response:', response);
 
+      // Record terms and privacy policy acceptance
+      if (response && response.user && response.user.id) {
+        try {
+          console.log('📜 Recording terms acceptance for user:', response.user.id);
+          await supabaseClient.rpc('accept_terms', {
+            user_id: response.user.id,
+            terms_version_param: '2025-01-01',
+            privacy_version_param: '2025-01-01'
+          });
+          console.log('✅ Terms acceptance recorded');
+        } catch (termsError) {
+          console.error('⚠️ Failed to record terms acceptance:', termsError);
+          // Don't block signup if terms recording fails - user still created
+        }
+      }
+
       // Show success message
       showMessage(
         signupMessage,
