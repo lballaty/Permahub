@@ -483,9 +483,58 @@ Tags enable selective test execution: `npx playwright test --grep @imports` or `
 
 ---
 
-### 2025-11-16 - Create test coverage documentation for all regression tests
+### 2025-11-16 - Create regression tests for authentication UI fixes
 
 **Commit:** (committing now)
+
+**Issue:**
+Authentication UI fixes (Create Page button visibility, content creation buttons, editor UX) did not have Playwright regression tests to prevent future regressions.
+
+**Root Cause:**
+Tests were needed to verify that authentication-based UI controls work correctly for both authenticated and unauthenticated users across all wiki pages.
+
+**Solution:**
+Created comprehensive Playwright test file `tests/e2e/auth-ui-regression.spec.js` with 27 tests covering:
+
+1. **Create Page Button Visibility:**
+   - Tests button is hidden for unauthenticated users on wiki-home.html
+   - Tests button is hidden across all wiki pages when logged out
+   - Tests button is not present on auth pages
+
+2. **Content Creation Buttons:**
+   - Tests "Add Event" button is disabled when logged out
+   - Tests "Add Location" button is disabled when logged out
+   - Tests "Edit This Page" button is disabled when logged out
+   - Tests tooltips appear on disabled buttons
+   - Tests navigation is prevented with alerts
+
+3. **Editor UX:**
+   - Tests authentication banner is shown
+   - Tests editor remains visible for exploration
+   - Tests Publish/Save Draft buttons are disabled
+   - Tests Preview button remains enabled
+   - Tests Login/Sign Up buttons appear in banner
+   - Tests users can type in fields for exploration
+
+4. **Auth Header & UX:**
+   - Tests auth header initializes correctly
+   - Tests UI updates based on auth state
+   - Tests clear visual feedback (opacity, tooltips)
+   - Tests explanations for disabled actions
+
+**Test Tags:**
+@regression @auth @ui @create-button @content-buttons @critical @editor @banner @auth-header @ux
+
+**Files Changed:**
+- tests/e2e/auth-ui-regression.spec.js (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-16 - Create test coverage documentation for all regression tests
+
+**Commit:** (pending)
 
 **Issue:**
 With comprehensive regression tests now in place, there was no central documentation explaining what tests exist, what they cover, how to run them selectively, and how the tagging system works.
