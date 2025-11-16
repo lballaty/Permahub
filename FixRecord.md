@@ -601,6 +601,55 @@ Created comprehensive Playwright test file `tests/e2e/wiki-guides-regression.spe
 
 ---
 
+### 2025-11-16 - Create regression tests for wiki page spinner fix
+
+**Commit:** (committing now)
+
+**Issue:**
+The loading spinner fix on wiki page content viewer did not have Playwright regression tests to prevent future regressions.
+
+**Root Cause:**
+Tests were needed to verify that the loading spinner is correctly removed after content loads and that the div selection logic works as intended.
+
+**Solution:**
+Created comprehensive Playwright test file `tests/e2e/wiki-page-spinner-regression.spec.js` with 18 tests covering:
+
+1. **Loading Spinner Removal:**
+   - Tests spinner is removed after content loads
+   - Tests "Loading guide content..." message is removed
+   - Tests guide content displays without loading artifacts
+   - Tests verification message is logged in console
+   - Tests correct div containing spinner is found
+
+2. **Content Rendering:**
+   - Tests guide title renders correctly
+   - Tests guide metadata (author, date, views) renders
+   - Tests category tags render
+   - Tests markdown content is converted to HTML
+
+3. **Div Selection Logic:**
+   - Tests div with .fa-spinner class is found
+   - Tests content is replaced in correct div
+   - Tests content length is logged after replacement
+
+4. **Error Handling:**
+   - Tests guide not found is handled gracefully
+   - Tests fallback to last div if spinner not found
+   - Tests no console errors occur
+
+5. **View Count Increment:**
+   - Tests view count is incremented when page loads
+
+**Test Tags:**
+@regression @wiki-page @critical @spinner @content @implementation @error @analytics
+
+**Files Changed:**
+- tests/e2e/wiki-page-spinner-regression.spec.js (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
 ### 2025-11-16 - Create test coverage documentation for all regression tests
 
 **Commit:** (pending)
