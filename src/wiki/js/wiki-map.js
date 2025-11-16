@@ -5,7 +5,9 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
-import { wikiI18n } from './wiki-i18n.js';
+
+// wikiI18n is loaded globally via script tag in HTML
+const wikiI18n = window.wikiI18n;
 
 // State
 let currentFilter = 'all';
@@ -164,7 +166,15 @@ function renderLocations() {
           ${location.address ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(location.address)}</p>` : ''}
           ${location.author_name ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</p>` : ''}
           ${location.view_count !== undefined ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-eye"></i> ${location.view_count} views</p>` : ''}
-          ${location.website ? `<p style="margin: 4px 0;"><a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Visit Website</a></p>` : ''}
+          ${location.contact_email || location.contact_phone || location.contact_name ? `
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+              <strong style="font-size: 0.9em;">Contact:</strong>
+              ${location.contact_name ? `<p style="margin: 4px 0; font-size: 0.9em;">${escapeHtml(location.contact_name)}</p>` : ''}
+              ${location.contact_email ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-envelope"></i> <a href="mailto:${location.contact_email}">${escapeHtml(location.contact_email)}</a></p>` : ''}
+              ${location.contact_phone ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-phone"></i> <a href="tel:${location.contact_phone}">${escapeHtml(location.contact_phone)}</a></p>` : ''}
+            </div>
+          ` : ''}
+          ${location.website ? `<p style="margin: 8px 0 4px 0;"><a href="${escapeHtml(location.website)}" target="_blank" rel="noopener" style="color: var(--wiki-primary);">Visit Website <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a></p>` : ''}
         </div>
       `);
 
@@ -221,7 +231,9 @@ function renderLocationList(locations) {
             <span><i class="fas fa-map-marker-alt"></i> ${distance}</span>
             ${location.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</span>` : ''}
             ${location.view_count !== undefined ? `<span><i class="fas fa-eye"></i> ${location.view_count} views</span>` : ''}
-            ${location.website ? `<a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Website</a>` : ''}
+            ${location.contact_email ? `<a href="mailto:${location.contact_email}" title="${escapeHtml(location.contact_email)}" style="color: var(--wiki-primary);"><i class="fas fa-envelope"></i></a>` : ''}
+            ${location.contact_phone ? `<a href="tel:${location.contact_phone}" title="${escapeHtml(location.contact_phone)}" style="color: var(--wiki-primary);"><i class="fas fa-phone"></i></a>` : ''}
+            ${location.website ? `<a href="${escapeHtml(location.website)}" target="_blank" rel="noopener"><i class="fas fa-globe"></i> Website</a>` : ''}
           </div>
         </div>
       </div>
@@ -425,7 +437,15 @@ function initializeLocationSearch() {
           <div style="min-width: 200px;">
             <h3 style="margin: 0 0 8px 0;">${escapeHtml(location.name)}</h3>
             ${location.description ? `<p style="margin: 8px 0; color: #666;">${escapeHtml(location.description)}</p>` : ''}
-            ${location.website ? `<p style="margin: 4px 0;"><a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Visit Website</a></p>` : ''}
+            ${location.contact_email || location.contact_phone || location.contact_name ? `
+              <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+                <strong style="font-size: 0.9em;">Contact:</strong>
+                ${location.contact_name ? `<p style="margin: 4px 0; font-size: 0.9em;">${escapeHtml(location.contact_name)}</p>` : ''}
+                ${location.contact_email ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-envelope"></i> <a href="mailto:${location.contact_email}">${escapeHtml(location.contact_email)}</a></p>` : ''}
+                ${location.contact_phone ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-phone"></i> <a href="tel:${location.contact_phone}">${escapeHtml(location.contact_phone)}</a></p>` : ''}
+              </div>
+            ` : ''}
+            ${location.website ? `<p style="margin: 8px 0 4px 0;"><a href="${escapeHtml(location.website)}" target="_blank" rel="noopener" style="color: var(--wiki-primary);">Visit Website <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a></p>` : ''}
           </div>
         `);
 
