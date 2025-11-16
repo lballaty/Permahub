@@ -505,7 +505,8 @@ function renderSearchResults() {
       <div class="card">
         <div class="card-meta">
           <span><i class="fas fa-map-marker-alt"></i> Location</span>
-          <span>${escapeHtml(location.location_type || 'Place')}</span>
+          ${location.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
+          <span><i class="fas fa-eye"></i> ${location.view_count || 0} views</span>
         </div>
         <h3 class="card-title">
           <a href="wiki-map.html#location-${location.id}" style="text-decoration: none; color: inherit;">
@@ -527,7 +528,8 @@ function renderSearchResults() {
       <div class="card">
         <div class="card-meta">
           <span><i class="fas fa-calendar"></i> Event - ${dateStr}</span>
-          <span>${escapeHtml(event.event_type)}</span>
+          ${event.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
+          <span><i class="fas fa-eye"></i> ${event.view_count || 0} views</span>
         </div>
         <h3 class="card-title">
           <a href="wiki-events.html#event-${event.id}" style="text-decoration: none; color: inherit;">
@@ -611,6 +613,8 @@ function renderUpcomingEvents() {
           <div class="event-info">
             ${timeStr ? `<span><i class="fas fa-clock"></i> ${escapeHtml(timeStr)}</span>` : ''}
             <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name || 'TBD')}</span>
+            ${event.author_id ? `<span><i class="fas fa-user"></i> ${escapeHtml(event.author_id.substring(0, 8))}...</span>` : ''}
+            <span><i class="fas fa-eye"></i> ${event.view_count || 0} views</span>
           </div>
           <p class="text-muted mt-1">
             ${escapeHtml(event.description || '')}
