@@ -141,14 +141,36 @@
       </button>
     </div>
 
-    <!-- Upcoming Events Section -->
-    <section class="mb-3">
+    <!-- List View Section -->
+    <section class="mb-3" id="listViewSection">
       <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.events.upcoming_events">
         <i class="fas fa-calendar-day"></i> Upcoming Events
       </h2>
 
       <div class="grid grid-2" id="eventsGrid">
         <!-- Events will be loaded dynamically from database -->
+      </div>
+    </section>
+
+    <!-- Calendar View Section -->
+    <section class="mb-3" id="calendarViewSection" style="display: none;">
+      <div class="card">
+        <div class="calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <button class="btn btn-outline btn-small" id="prevMonth">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <h2 id="currentMonth" style="margin: 0; color: var(--wiki-primary);"></h2>
+          <button class="btn btn-outline btn-small" id="nextMonth">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+
+      <!-- Selected Events for Day -->
+      <div id="selectedDayEvents" style="display: none; margin-top: 2rem;">
+        <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);" id="selectedDayTitle"></h3>
+        <div class="grid grid-2" id="selectedEventsGrid"></div>
       </div>
     </section>
 

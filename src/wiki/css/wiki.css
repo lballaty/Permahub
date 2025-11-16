@@ -979,3 +979,126 @@ body {
 .lang-name {
   flex: 1;
 }
+
+/* Calendar View Styles */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendar-day-header {
+  text-align: center;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: var(--wiki-primary);
+  border-bottom: 2px solid var(--wiki-border);
+  font-size: 0.875rem;
+}
+
+.calendar-day {
+  min-height: 100px;
+  padding: 0.5rem;
+  border: 1px solid var(--wiki-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--wiki-white);
+  position: relative;
+}
+
+.calendar-day:hover {
+  border-color: var(--wiki-primary);
+  box-shadow: 0 2px 8px var(--wiki-shadow);
+  transform: translateY(-2px);
+}
+
+.calendar-day.other-month {
+  background-color: #f9f9f9;
+  opacity: 0.5;
+}
+
+.calendar-day.today {
+  background-color: var(--wiki-accent);
+  border-color: var(--wiki-primary);
+  border-width: 2px;
+}
+
+.calendar-day-number {
+  font-weight: 600;
+  color: var(--wiki-text);
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.calendar-day.other-month .calendar-day-number {
+  color: var(--wiki-text-muted);
+}
+
+.calendar-day.today .calendar-day-number {
+  color: var(--wiki-primary);
+  font-size: 1rem;
+}
+
+.calendar-events {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.calendar-event-dot {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--wiki-text);
+  padding: 0.125rem 0.25rem;
+  background-color: var(--wiki-accent);
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-event-dot i {
+  font-size: 0.625rem;
+  color: var(--wiki-primary);
+}
+
+.calendar-event-count {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background-color: var(--wiki-primary);
+  color: var(--wiki-white);
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Responsive calendar */
+@media (max-width: 768px) {
+  .calendar-day {
+    min-height: 80px;
+    padding: 0.25rem;
+  }
+
+  .calendar-day-number {
+    font-size: 0.75rem;
+  }
+
+  .calendar-event-dot {
+    font-size: 0.625rem;
+  }
+
+  .calendar-day-header {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+}
