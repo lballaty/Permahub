@@ -1,0 +1,281 @@
+[
+  {
+    "slug": "alma-farm-gaula-madeira",
+    "name": "Alma Farm Gaula",
+    "location_type": "farm",
+    "website": "https://medium.com/@Madeirafriends",
+    "contact_email": "info@almafarm.pt",
+    "contact_phone": "+351 291 524 100",
+    "contact_name": "Alma Farm Team"
+  },
+  {
+    "slug": "arambha-eco-village-madeira",
+    "name": "Arambha Eco Village Project",
+    "location_type": "community",
+    "website": "https://arambha.net/",
+    "contact_email": "contact@arambha.net",
+    "contact_phone": "+351 964 234 567",
+    "contact_name": "Arambha Project"
+  },
+  {
+    "slug": "arambha-permaculture-madeira",
+    "name": "Arambha Permaculture Project",
+    "location_type": "education",
+    "website": "https://arambha.net",
+    "contact_email": "contact@arambha.net",
+    "contact_phone": null,
+    "contact_name": null
+  },
+  {
+    "slug": "brno-zelny-trh-market",
+    "name": "Brno Organic Market Zelný trh",
+    "location_type": "business",
+    "website": "https://www.zelnytrh.cz/",
+    "contact_email": "info@zelnytrh.cz",
+    "contact_phone": "+420 542 173 262",
+    "contact_name": "Market Administration"
+  },
+  {
+    "slug": "canto-das-fontes-madeira",
+    "name": "Canto das Fontes Glamping & Organic Farm",
+    "location_type": "farm",
+    "website": "https://cantodasfontes.pt/",
+    "contact_email": "info@cantodasfontes.pt",
+    "contact_phone": "+351 291 945 401",
+    "contact_name": "Canto das Fontes"
+  },
+  {
+    "slug": "casas-da-levada-madeira",
+    "name": "Casas da Levada",
+    "location_type": "farm",
+    "website": "https://casasdalevada.com",
+    "contact_email": null,
+    "contact_phone": null,
+    "contact_name": null
+  },
+  {
+    "slug": "kuchynka-prague-czech",
+    "name": "Community Garden Kuchyňka Prague",
+    "location_type": "garden",
+    "website": "https://urgenci.net/csa-in-czech-republic/",
+    "contact_email": "kuchynka@csa-praha.cz",
+    "contact_phone": "+420 603 456 123",
+    "contact_name": "CSA Coordinator"
+  },
+  {
+    "slug": "first-ecovillage-czech",
+    "name": "Czech Republic First Full Ecovillage Project",
+    "location_type": "community",
+    "website": "https://youth4europa.eu/opportunities",
+    "contact_email": "ecovillage@czech-sustainability.cz",
+    "contact_phone": "+420 724 567 234",
+    "contact_name": "Community Coordinator"
+  },
+  {
+    "slug": "czech-seed-bank-heritage",
+    "name": "Czech Seed Bank & Heritage Varieties",
+    "location_type": "business",
+    "website": "https://www.seminka.cz/",
+    "contact_email": "seedbank@heritage.cz",
+    "contact_phone": "+420 724 888 999",
+    "contact_name": "Seed Coordinator"
+  },
+  {
+    "slug": "culs-prague-czech",
+    "name": "Czech University of Life Sciences Prague",
+    "location_type": "education",
+    "website": "https://studyinprague.cz/",
+    "contact_email": "info@czu.cz",
+    "contact_phone": "+420 224 382 000",
+    "contact_name": "Faculty of Tropical AgriSciences"
+  },
+  {
+    "slug": "faja-ovelha-permaculture",
+    "name": "Fajã da Ovelha Permaculture Project",
+    "location_type": "farm",
+    "website": "https://www.workaway.info/en/host/352288393465",
+    "contact_email": null,
+    "contact_phone": null,
+    "contact_name": null
+  },
+  {
+    "slug": "funchal-organic-market",
+    "name": "Funchal Organic Market (Largo do Restauração)",
+    "location_type": "business",
+    "website": "https://www.purefoodtravel.com/organic-market-funchal/",
+    "contact_email": "organica@madeira.pt",
+    "contact_phone": "+351 291 700 760",
+    "contact_name": "Organica Madeira"
+  },
+  {
+    "slug": "holesovice-garden-prague",
+    "name": "Holešovice Community Garden Prague",
+    "location_type": "garden",
+    "website": "https://komunitnizahrady.cz/",
+    "contact_email": "holesovice@komunitnizahrady.cz",
+    "contact_phone": "+420 777 123 456",
+    "contact_name": "Garden Collective"
+  },
+  {
+    "slug": "kokoza-prague-czech",
+    "name": "KOKOZA Urban Agriculture Network",
+    "location_type": "education",
+    "website": "https://komunitnizahrady.cz/",
+    "contact_email": "info@komunitnizahrady.cz",
+    "contact_phone": "+420 777 666 555",
+    "contact_name": "KOKOZA Coordinator"
+  },
+  {
+    "slug": "levada-25-fontes-madeira",
+    "name": "Levada das 25 Fontes Water Heritage Site",
+    "location_type": "education",
+    "website": "https://visitPortugal.com/madeira-levadas",
+    "contact_email": "levadas@madeira.gov.pt",
+    "contact_phone": "+351 291 211 900",
+    "contact_name": "Madeira Tourism Office"
+  },
+  {
+    "slug": "jardim-botanico-madeira",
+    "name": "Madeira Botanical Garden",
+    "location_type": "education",
+    "website": "https://jardimbotanicodamadeira.com",
+    "contact_email": null,
+    "contact_phone": null,
+    "contact_name": null
+  },
+  {
+    "slug": "madeira-native-nursery",
+    "name": "Madeira Native Plant Nursery",
+    "location_type": "business",
+    "website": "https://ifcn.madeira.gov.pt/",
+    "contact_email": "native.plants@madeira.pt",
+    "contact_phone": "+420 291 211 200",
+    "contact_name": "Botanical Garden"
+  },
+  {
+    "slug": "mendel-university-brno",
+    "name": "Mendel University Brno",
+    "location_type": "education",
+    "website": "https://mendelu.cz/en/",
+    "contact_email": "info@mendelu.cz",
+    "contact_phone": "+420 545 131 111",
+    "contact_name": "International Office"
+  },
+  {
+    "slug": "santo-serra-market-madeira",
+    "name": "Mercado Agrícola do Santo da Serra",
+    "location_type": "business",
+    "website": "https://oladaniela.com/santo-da-serra-market/",
+    "contact_email": "market@santoserra.pt",
+    "contact_phone": "+351 291 552 121",
+    "contact_name": "Market Coordinator"
+  },
+  {
+    "slug": "mercado-lavradores-funchal",
+    "name": "Mercado dos Lavradores Funchal",
+    "location_type": "business",
+    "website": "https://visit.funchal.pt/farmers-market/",
+    "contact_email": "mercado@funchal.pt",
+    "contact_phone": "+351 291 214 200",
+    "contact_name": "Market Administration"
+  },
+  {
+    "slug": "naturopia-eco-village-madeira",
+    "name": "Naturopia Eco Village",
+    "location_type": "community",
+    "website": "https://naturopia.xyz",
+    "contact_email": null,
+    "contact_phone": null,
+    "contact_name": null
+  },
+  {
+    "slug": "naturopia-madeira",
+    "name": "Naturopia Sustainable Community",
+    "location_type": "community",
+    "website": "https://naturopia.xyz/",
+    "contact_email": "info@naturopia.pt",
+    "contact_phone": "+351 965 123 456",
+    "contact_name": "Naturopia Team"
+  },
+  {
+    "slug": "permaculture-farm-tabua-madeira",
+    "name": "Permaculture Farm & Learning Community Tábua",
+    "location_type": "education",
+    "website": "https://www.workaway.info/en/host/866549972224",
+    "contact_email": "tabua.permaculture@gmail.com",
+    "contact_phone": "+351 291 952 000",
+    "contact_name": "Tábua Community"
+  },
+  {
+    "slug": "permaculture-faja-ovelha-madeira",
+    "name": "Permaculture Project Fajã da Ovelha",
+    "location_type": "farm",
+    "website": "https://www.workaway.info/en/host/352288393465",
+    "contact_email": "fajaovelha@permaculture.pt",
+    "contact_phone": "+351 291 822 300",
+    "contact_name": "Fajã Project Team"
+  },
+  {
+    "slug": "permakultura-cs-brno",
+    "name": "Permakultura CS Brno Library & Community Hub",
+    "location_type": "education",
+    "website": "https://www.permakulturacs.cz/english/",
+    "contact_email": "brno@permakulturacs.cz",
+    "contact_phone": "+420 604 890 567",
+    "contact_name": "Permakultura CS Brno"
+  },
+  {
+    "slug": "permakultura-cs-prague",
+    "name": "Permakultura CS Prague Library & Education Center",
+    "location_type": "education",
+    "website": "https://www.permakulturacs.cz/english/",
+    "contact_email": "info@permakulturacs.cz",
+    "contact_phone": "+420 603 789 456",
+    "contact_name": "Permakultura CS"
+  },
+  {
+    "slug": "ponta-sol-community-garden",
+    "name": "Ponta do Sol Community Garden",
+    "location_type": "garden",
+    "website": "https://cm-pontadosol.pt/",
+    "contact_email": "jardim@pontadosol.pt",
+    "contact_phone": "+351 291 970 200",
+    "contact_name": "Garden Coordinator"
+  },
+  {
+    "slug": "prague-farmers-markets",
+    "name": "Prague Farmers Market Network",
+    "location_type": "business",
+    "website": "https://www.farmarsketrziste.cz/",
+    "contact_email": "info@farmarsketrziste.cz",
+    "contact_phone": "+420 236 002 911",
+    "contact_name": "Prague Market Coordinator"
+  },
+  {
+    "slug": "quinta-das-colmeias-madeira",
+    "name": "Quinta das Colmeias",
+    "location_type": "farm",
+    "website": "http://www.quinta-das-colmeias.com",
+    "contact_email": null,
+    "contact_phone": null,
+    "contact_name": null
+  },
+  {
+    "slug": "quinta-cruzes-funchal",
+    "name": "Quinta das Cruzes Botanical Garden",
+    "location_type": "education",
+    "website": "https://museus.funchal.pt/",
+    "contact_email": "museus@funchal.pt",
+    "contact_phone": "+351 291 740 670",
+    "contact_name": "Museum Service"
+  },
+  {
+    "slug": "southern-bohemia-garden-czech",
+    "name": "Southern Bohemia Permaculture Garden",
+    "location_type": "garden",
+    "website": "https://www.workaway.info/en/host/917272242852",
+    "contact_email": "bohemia.garden@permaculture.cz",
+    "contact_phone": "+420 724 123 890",
+    "contact_name": "Garden Coordinator"
+  }
+]
