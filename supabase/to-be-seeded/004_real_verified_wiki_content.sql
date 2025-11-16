@@ -26,7 +26,9 @@ INSERT INTO wiki_guides (
   'Complete guide to keeping backyard chickens based on 2025 best practices, including space requirements, biosecurity, and avian flu prevention.',
   E'# Raising Backyard Chickens: A Beginner''s Guide for 2025
 
-Backyard chickens offer fresh eggs, pest control, and endless entertainment. This guide covers modern best practices based on 2025 research and recommendations from agricultural universities.
+## Introduction
+
+Backyard chickens offer fresh eggs, pest control, and endless entertainment. This guide covers modern best practices based on 2025 research and recommendations from agricultural universities, including critical biosecurity measures in response to ongoing avian influenza concerns.
 
 ## Before You Start: Legal Requirements
 
@@ -232,7 +234,15 @@ INSERT INTO wiki_guides (
   'Evidence-based guide to lacto-fermentation of vegetables, including the latest 2025 research on health benefits, microbiology, and safety practices.',
   E'# The Science of Lacto-Fermentation: From Sauerkraut to Kimchi
 
-Lacto-fermentation is an ancient food preservation technique experiencing renewed interest due to modern research on gut health. This guide covers the science, methods, and safety based on 2025 scientific literature.
+## Introduction
+
+Lacto-fermentation is an ancient food preservation technique experiencing renewed interest due to modern research on gut health and food security. For thousands of years, cultures worldwide have used this simple process to preserve vegetables, enhance nutrition, and create complex flavors without refrigeration or canning equipment.
+
+This guide covers the science, methods, and safety of lacto-fermentation based on 2025 scientific literature and traditional practices. Whether you''re interested in making classic sauerkraut, Korean kimchi, or experimenting with your own vegetable combinations, understanding the underlying biology and chemistry will help you create safe, delicious fermented foods at home.
+
+**Why Ferment Vegetables?**
+
+Beyond preservation, fermentation offers multiple benefits: enhanced nutrient bioavailability, production of beneficial probiotics, development of unique flavors, and reduction of anti-nutrients in raw vegetables. Modern research has validated many traditional claims about fermented foods while also revealing new health benefits at the molecular level.
 
 ## What is Lacto-Fermentation?
 
@@ -361,6 +371,79 @@ Fermented vegetables provide:
 
 *Source: Revolution Fermentation*
 
+## Fermentation Stages & Timeline
+
+Understanding the phases of fermentation helps you monitor progress and identify problems early.
+
+### Phase 1: Initiation (Days 0-2)
+
+- **Leuconostoc mesenteroides** bacteria begin multiplying rapidly
+- Oxygen is depleted from the brine
+- pH begins to drop as lactic acid is produced
+- Carbon dioxide bubbles may appear
+- Brine may become cloudy (normal)
+
+### Phase 2: Active Fermentation (Days 3-7)
+
+- **Lactobacillus plantarum** becomes dominant species
+- Vigorous CO2 production creates bubbles
+- pH drops to 4.0-4.5
+- Sour flavor develops noticeably
+- Temperature of fermentation vessel may rise slightly
+
+### Phase 3: Maturation (Days 8-28)
+
+- Fermentation rate slows
+- Flavors mellow and become more complex
+- pH stabilizes around 3.5-4.0
+- Vegetables soften slightly while retaining crunch
+- Probiotic diversity increases
+
+*Source: Virginia Tech Extension FST-328*
+
+## Advanced Techniques
+
+### Temperature Control
+
+Temperature dramatically affects fermentation rate and final flavor:
+
+- **60-65°F (15-18°C)**: Slow fermentation, 4-6 weeks, complex flavors, very crunchy
+- **65-72°F (18-22°C)**: Optimal fermentation, 2-4 weeks, balanced flavor and texture
+- **72-80°F (22-27°C)**: Fast fermentation, 1-2 weeks, softer texture, simpler flavors
+
+**Pro Tip:** Start fermentation at room temperature for 3-5 days, then move to cooler location for slow maturation.
+
+### Flavor Layering
+
+Create unique ferments by adding aromatic ingredients:
+
+**Spice Additions (per quart jar):**
+- 1-2 teaspoons caraway, dill, or mustard seeds
+- 2-4 cloves garlic
+- 1 inch fresh ginger or turmeric root
+- Bay leaves, peppercorns, coriander seeds
+- Fresh herbs (dill, cilantro, basil)
+
+**Vegetable Combinations:**
+- Cabbage + apple + caraway (Polish style)
+- Cabbage + beet + carrot (pink kraut)
+- Daikon + carrot + ginger (Japanese-inspired)
+- Mixed garden vegetables (summer ferment)
+
+### Brine vs. Dry Salt Method
+
+**Dry Salt (Sauerkraut Method):**
+- Best for: Cabbage, vegetables that release liquid easily
+- Salt percentage: 2-2.5% by weight
+- Technique: Massage salt into shredded vegetables
+- Advantages: Vegetables create their own brine, no dilution
+
+**Brine Method (Pickle Method):**
+- Best for: Whole or chunked vegetables, firm vegetables
+- Salt percentage: 3-5% brine solution
+- Technique: Pack vegetables, pour brine over
+- Advantages: Easier for beginners, consistent salinity
+
 ## Troubleshooting
 
 ### White Film on Surface (Kahm Yeast)
@@ -473,7 +556,9 @@ INSERT INTO wiki_guides (
   'Step-by-step guide to cultivating oyster mushrooms using waste coffee grounds, based on current research and practical growing methods from 2025 sources.',
   E'# Growing Oyster Mushrooms on Coffee Grounds: 2025 Complete Guide
 
-Turn waste coffee grounds into gourmet oyster mushrooms with this sustainable growing method. This guide compiles current best practices from multiple 2025 sources.
+## Introduction
+
+Turn waste coffee grounds into gourmet oyster mushrooms with this sustainable growing method. This guide compiles current best practices from multiple 2025 sources, combining mycology science with practical growing techniques accessible to beginners.
 
 ## Why Coffee Grounds?
 

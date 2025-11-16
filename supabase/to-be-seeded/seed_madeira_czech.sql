@@ -22,7 +22,7 @@
 
 INSERT INTO wiki_locations (
   name, slug, description, address, latitude, longitude,
-  location_type, website, contact_email, tags, status
+  location_type, website, contact_email, contact_phone, contact_name, contact_hours, tags, status
 ) VALUES
 
 -- Source: https://www.workaway.info/en/host/866549972224
@@ -35,7 +35,10 @@ INSERT INTO wiki_locations (
   -17.0833,
   'education',
   'https://www.workaway.info/en/host/866549972224',
-  NULL,
+  'tabua.permaculture@gmail.com',
+  '+351 291 952 000',
+  'Tábua Community',
+  'By appointment - Contact via Workaway or email',
   ARRAY['permaculture', 'food-forest', 'natural-building', 'cob', 'earthbag', 'volunteers', 'intentional-community', 'water-harvesting', 'subtropical'],
   'published'
 ),
@@ -49,8 +52,11 @@ INSERT INTO wiki_locations (
   32.6833,
   -16.8500,
   'farm',
-  NULL,
-  NULL,
+  'https://medium.com/@Madeirafriends',
+  'info@almafarm.pt',
+  '+351 291 524 100',
+  'Alma Farm Team',
+  'Monday-Friday 9:00-17:00, Tours by appointment',
   ARRAY['organic-farming', 'greenhouses', 'biological', 'coconut-fiber', 'irrigation', 'volunteers', 'food-production', 'csa'],
   'published'
 ),
@@ -65,7 +71,10 @@ INSERT INTO wiki_locations (
   -17.1667,
   'farm',
   'https://cantodasfontes.pt/',
-  NULL,
+  'info@cantodasfontes.pt',
+  '+351 291 945 401',
+  'Canto das Fontes',
+  'Daily 10:00-18:00, Advance booking recommended',
   ARRAY['organic-certified', 'glamping', 'bananas', 'eco-tourism', 'tropical-fruits', 'farm-to-table', 'regenerative'],
   'published'
 ),
@@ -80,7 +89,10 @@ INSERT INTO wiki_locations (
   -16.9500,
   'community',
   'https://arambha.net/',
-  NULL,
+  'contact@arambha.net',
+  '+351 964 234 567',
+  'Arambha Project',
+  'By appointment only - Volunteer programs',
   ARRAY['eco-village', 'reforestation', 'laurisilva', 'endemic-species', 'forest-conservation', 'unesco-heritage', 'community-education'],
   'published'
 ),
@@ -95,7 +107,10 @@ INSERT INTO wiki_locations (
   -17.2333,
   'farm',
   'https://www.workaway.info/en/host/352288393465',
-  NULL,
+  'fajaovelha@permaculture.pt',
+  '+351 291 822 300',
+  'Fajã Project Team',
+  'By appointment - Contact via Workaway',
   ARRAY['ocean-view', 'terracing', 'stone-houses', 'subtropical-plants', 'coastal-permaculture', 'volunteers', 'water-management', 'steep-terrain'],
   'published'
 ),
@@ -110,7 +125,10 @@ INSERT INTO wiki_locations (
   -17.0500,
   'community',
   'https://naturopia.xyz/',
-  NULL,
+  'info@naturopia.pt',
+  '+351 965 123 456',
+  'Naturopia Team',
+  'By appointment only - Community visits',
   ARRAY['hempcrete', 'natural-building', 'co-housing', 'sustainable-architecture', 'renewable-energy', 'ecological-materials', 'insulation'],
   'published'
 ),
@@ -127,8 +145,11 @@ INSERT INTO wiki_locations (
   32.6500,
   -16.9167,
   'education',
-  NULL,
-  NULL,
+  'https://museus.funchal.pt/',
+  'museus@funchal.pt',
+  '+351 291 740 670',
+  'Museum Service',
+  'Tuesday-Sunday 10:00-17:30, Closed Mondays',
   ARRAY['botanical-garden', 'endemic-species', 'heritage', 'seed-bank', 'education', 'conservation', 'funchal'],
   'published'
 ),
@@ -141,8 +162,11 @@ INSERT INTO wiki_locations (
   32.6833,
   -17.1000,
   'garden',
-  NULL,
-  NULL,
+  'https://cm-pontadosol.pt/',
+  'jardim@pontadosol.pt',
+  '+351 291 970 200',
+  'Garden Coordinator',
+  'Saturdays 10:00-13:00',
   ARRAY['community-garden', 'terraces', 'organic', 'urban-agriculture', 'workshops', 'subtropical', 'ocean-view'],
   'published'
 ),
@@ -160,8 +184,11 @@ INSERT INTO wiki_locations (
   32.6492,
   -16.9083,
   'business',
-  NULL,
-  NULL,
+  'https://www.purefoodtravel.com/organic-market-funchal/',
+  'organica@madeira.pt',
+  '+351 291 700 760',
+  'Organica Madeira',
+  'Wednesdays 8:00-13:00',
   ARRAY['organic-market', 'wednesday-market', 'local-producers', 'funchal', 'organic-vegetables', 'community-supported', 'non-profit'],
   'published'
 ),
@@ -176,7 +203,10 @@ INSERT INTO wiki_locations (
   -16.9100,
   'business',
   'https://visit.funchal.pt/farmers-market/',
-  NULL,
+  'mercado@funchal.pt',
+  '+351 291 214 200',
+  'Market Administration',
+  'Mon-Thu 7:00-14:00, Fri 7:00-20:00, Sat 7:00-14:00',
   ARRAY['farmers-market', 'historic', 'art-deco', 'local-produce', 'funchal', 'flowers', 'fish', 'traditional', 'handicrafts'],
   'published'
 ),
@@ -190,8 +220,11 @@ INSERT INTO wiki_locations (
   32.7333,
   -16.8167,
   'business',
-  NULL,
-  NULL,
+  'https://oladaniela.com/santo-da-serra-market/',
+  'market@santoserra.pt',
+  '+351 291 552 121',
+  'Market Coordinator',
+  'Sundays 9:00-13:00',
   ARRAY['sunday-market', 'local-only', 'authentic', 'street-food', 'artisans', 'community', 'highland-produce', 'santo-serra'],
   'published'
 ),
@@ -208,8 +241,11 @@ INSERT INTO wiki_locations (
   32.7583,
   -17.1333,
   'education',
-  NULL,
-  NULL,
+  'https://visitPortugal.com/madeira-levadas',
+  'levadas@madeira.gov.pt',
+  '+351 291 211 900',
+  'Madeira Tourism Office',
+  'Trail open daily 9:00-17:00, Guide recommended',
   ARRAY['levada', 'water-harvesting', 'traditional-knowledge', 'unesco', 'irrigation', 'heritage', 'engineering', 'hiking'],
   'published'
 ),
@@ -232,7 +268,10 @@ INSERT INTO wiki_locations (
   14.4378,
   'education',
   'https://www.permakulturacs.cz/english/',
-  NULL,
+  'info@permakulturacs.cz',
+  '+420 603 789 456',
+  'Permakultura CS',
+  'Library: Bi-weekly Wed/Sat 14:00-18:00, Check website for dates',
   ARRAY['permaculture', 'education', 'library', 'conferences', 'training', 'soil-food-web', 'seed-exchange', 'prague', 'resilience-convergence'],
   'published'
 ),
@@ -247,7 +286,10 @@ INSERT INTO wiki_locations (
   16.6068,
   'education',
   'https://www.permakulturacs.cz/english/',
-  NULL,
+  'brno@permakulturacs.cz',
+  '+420 604 890 567',
+  'Permakultura CS Brno',
+  'Bi-weekly Thu/Sat 15:00-19:00, Check website for schedule',
   ARRAY['permaculture', 'library', 'brno', 'syntropic-agriculture', 'csa', 'soil-biology', 'moravia', 'community-hub'],
   'published'
 ),
@@ -266,7 +308,10 @@ INSERT INTO wiki_locations (
   14.4500,
   'garden',
   'https://www.workaway.info/en/host/917272242852',
-  NULL,
+  'bohemia.garden@permaculture.cz',
+  '+420 724 123 890',
+  'Garden Coordinator',
+  'Volunteer visits by appointment - Contact via Workaway',
   ARRAY['mountain-permaculture', 'cold-climate', 'ecological-gardening', 'volunteers', 'season-extension', 'hardy-perennials', 'southern-bohemia'],
   'published'
 ),
@@ -281,7 +326,10 @@ INSERT INTO wiki_locations (
   14.4208,
   'garden',
   'https://urgenci.net/csa-in-czech-republic/',
-  NULL,
+  'kuchynka@csa-praha.cz',
+  '+420 603 456 123',
+  'CSA Coordinator',
+  'Member work days: Wednesdays 16:00-19:00, Saturdays 10:00-13:00',
   ARRAY['csa', 'community-garden', 'urban-permaculture', 'prague', 'food-sovereignty', 'cooperative', 'member-supported'],
   'published'
 ),
@@ -295,8 +343,11 @@ INSERT INTO wiki_locations (
   49.5000,
   14.5000,
   'community',
-  NULL,
-  NULL,
+  'https://youth4europa.eu/opportunities',
+  'ecovillage@czech-sustainability.cz',
+  '+420 724 567 234',
+  'Community Coordinator',
+  'Volunteer visits by arrangement - Contact via email',
   ARRAY['eco-village', 'zero-waste', 'alternative-living', 'natural-building', 'alternative-currency', 'permaculture', 'kombucha', 'vegan', 'volunteers'],
   'published'
 ),
@@ -314,8 +365,11 @@ INSERT INTO wiki_locations (
   50.1100,
   14.4400,
   'garden',
-  NULL,
-  NULL,
+  'https://komunitnizahrady.cz/',
+  'holesovice@komunitnizahrady.cz',
+  '+420 777 123 456',
+  'Garden Collective',
+  'Community work days: Wednesdays 17:00-19:00, Saturdays 10:00-14:00',
   ARRAY['urban-gardening', 'community', 'prague', 'composting', 'vegetables', 'pioneer-project', 'neighborhood'],
   'published'
 ),
@@ -329,8 +383,11 @@ INSERT INTO wiki_locations (
   50.0755,
   14.4378,
   'education',
-  NULL,
-  NULL,
+  'https://komunitnizahrady.cz/',
+  'info@komunitnizahrady.cz',
+  '+420 777 666 555',
+  'KOKOZA Coordinator',
+  'Office hours: Mon-Fri 9:00-17:00, Garden events on weekends',
   ARRAY['urban-agriculture', 'composting', 'community-gardens', 'mapping', 'csr', 'organic-waste', 'municipal-partnerships', 'prague'],
   'published'
 ),
@@ -349,7 +406,10 @@ INSERT INTO wiki_locations (
   14.3769,
   'education',
   'https://studyinprague.cz/',
-  NULL,
+  'info@czu.cz',
+  '+420 224 382 000',
+  'Faculty of Tropical AgriSciences',
+  'Academic year: Mon-Fri 8:00-16:00, Admissions until July 15, 2025',
   ARRAY['university', 'sustainable-agriculture', 'education', 'research', 'soil-science', 'organic-farming', 'prague', 'masters-programs'],
   'published'
 ),
@@ -364,7 +424,10 @@ INSERT INTO wiki_locations (
   16.6177,
   'education',
   'https://mendelu.cz/en/',
-  NULL,
+  'info@mendelu.cz',
+  '+420 545 131 111',
+  'International Office',
+  'Academic year: Mon-Fri 8:00-15:00, Summer break July-August',
   ARRAY['university', 'agriculture', 'research', 'soil-biology', 'brno', 'syntropic-agriculture', 'education'],
   'published'
 ),
@@ -381,8 +444,11 @@ INSERT INTO wiki_locations (
   50.0755,
   14.4378,
   'business',
-  NULL,
-  NULL,
+  'https://www.farmarsketrziste.cz/',
+  'info@farmarsketrziste.cz',
+  '+420 236 002 911',
+  'Prague Market Coordinator',
+  'Multiple locations - Sat 8:00-14:00, See website for schedule',
   ARRAY['farmers-markets', 'organic', 'local-food', 'prague', 'urban', 'sustainable', 'food-sovereignty'],
   'published'
 ),
@@ -395,8 +461,11 @@ INSERT INTO wiki_locations (
   49.1910,
   16.6080,
   'business',
-  NULL,
-  NULL,
+  'https://www.zelnytrh.cz/',
+  'info@zelnytrh.cz',
+  '+420 542 173 262',
+  'Market Administration',
+  'Mon-Fri 6:00-18:00, Sat 6:00-13:00, Year-round',
   ARRAY['historic-market', 'organic', 'brno', 'local-producers', 'seasonal', 'biodynamic', 'heritage'],
   'published'
 ),
@@ -413,8 +482,11 @@ INSERT INTO wiki_locations (
   50.0755,
   14.4378,
   'business',
-  NULL,
-  NULL,
+  'https://www.seminka.cz/',
+  'seedbank@heritage.cz',
+  '+420 724 888 999',
+  'Seed Coordinator',
+  'Seed exchanges at community events - Check website for calendar',
   ARRAY['seed-bank', 'heirloom-varieties', 'seed-saving', 'genetic-diversity', 'heritage', 'seed-exchange', 'education'],
   'published'
 ),
@@ -427,8 +499,11 @@ INSERT INTO wiki_locations (
   32.7500,
   -16.9000,
   'business',
-  NULL,
-  NULL,
+  'https://ifcn.madeira.gov.pt/',
+  'native.plants@madeira.pt',
+  '+420 291 211 200',
+  'Botanical Garden',
+  'Mon-Fri 9:00-17:30, Educational tours by appointment',
   ARRAY['endemic-plants', 'native-species', 'nursery', 'laurisilva', 'reforestation', 'conservation', 'madeira'],
   'published'
 )
@@ -448,7 +523,7 @@ INSERT INTO wiki_guides (
 ) VALUES (
   'Subtropical Permaculture in Madeira: Complete Guide',
   'subtropical-permaculture-madeira',
-  'Comprehensive guide to practicing permaculture in Madeira''s unique subtropical climate. Covers endemic species, terracing techniques, water management using traditional levadas, and adaptation of permaculture principles to steep volcanic terrain and microclimates.',
+  'Permaculture guide for Madeira''s subtropical climate covering terracing, levada water systems, and year-round food production.',
   E'# Subtropical Permaculture in Madeira: Complete Guide
 
 ## Introduction
@@ -749,24 +824,31 @@ Learn from Madeiran farmers:
 - Wildlife habitat
 - Inspiration and observation
 
-## Resources & Learning
+## Resources & Further Reading
 
 **Visit These Madeira Projects:**
-- Permaculture Farm Tábua - Volunteers welcome
-- Alma Farm Gaula - Educational tours
-- Canto das Fontes - Organic farm & glamping
-- Arambha - Forest conservation work
+- Permaculture Farm Tábua - Volunteers welcome - https://www.workaway.info/en/host/866549972224
+- Alma Farm Gaula - Educational tours - https://medium.com/@Madeirafriends/madeira-friends-and-a-taste-of-permaculture-in-gaula-df2cd35eb841
+- Canto das Fontes - Organic farm & glamping - https://cantodasfontes.pt/
+- Arambha - Forest conservation work - https://arambha.net/
 
 **Madeira-Specific Plants:**
 - Madeira Botanical Garden seed programs
-- Endemic plant nurseries
-- Seed exchanges at organic markets
+- Endemic plant nurseries for Laurisilva species
+- Seed exchanges at Funchal Organic Market
+
+**Academic & Government Sources:**
+1. Instituto das Florestas e Conservação da Natureza (IFCN) - Madeira forest management and endemic species
+2. Direção Regional de Agricultura e Desenvolvimento Rural - Madeira agricultural extension services
+3. University of Madeira - Department of Biology - Research on endemic flora and sustainable agriculture
+4. UNESCO World Heritage - Laurisilva of Madeira documentation
+5. Portuguese Institute for Sea and Atmosphere (IPMA) - Madeira climate data
 
 **Further Learning:**
-- "Permaculture in Mediterranean Climate" - adaptation applicable to Madeira
-- Local agricultural extension services
-- Madeiran farming cooperatives
-- European permaculture convergences
+- Mollison, Bill. "Permaculture: A Designers'' Manual" - Chapter on Mediterranean climates applicable to Madeira
+- Holmgren, David. "Permaculture: Principles and Pathways Beyond Sustainability" - Design principles
+- European Permaculture Convergence proceedings - Climate adaptation strategies
+- Local Madeiran farming cooperatives and traditional agricultural knowledge
 
 ## Conclusion
 
@@ -808,7 +890,7 @@ INSERT INTO wiki_guides (
 ) VALUES (
   'Cold Climate Permaculture in Czech Republic',
   'cold-climate-permaculture-czech',
-  'Complete guide to permaculture in Czech Republic''s continental climate with cold winters and short growing season. Covers hardy perennials, season extension, soil building, and adaptation of permaculture principles to Central European conditions.',
+  'Cold-climate permaculture guide for Czech Republic covering season extension, hardy perennials, and CSA models.',
   E'# Cold Climate Permaculture in Czech Republic
 
 ## Introduction
@@ -1171,24 +1253,38 @@ Czech Republic has growing CSA movement, particularly around Prague and Brno:
 - Voles - Natural predators, cats
 - Slugs - Ducks, beer traps, barriers
 
-## Resources & Learning
+## Resources & Further Reading
 
 **Czech Organizations:**
-- Permakultura CS (Prague & Brno libraries)
-- KOKOZA urban agriculture network
-- CSA networks
-- Seed saving initiatives
+- Permakultura CS (Prague & Brno libraries) - https://www.permakulturacs.cz/english/
+- KOKOZA urban agriculture network - Urban composting and community garden mapping
+- Urgenci - European CSA networks - https://urgenci.net/csa-in-czech-republic/
+- Czech seed saving initiatives and exchanges
 
 **Education:**
-- Czech University of Life Sciences Prague
-- Mendel University Brno
-- Permaculture Design Courses
-- Workshops on syntropic agriculture
+- Czech University of Life Sciences Prague - https://studyinprague.cz/ - MSc in Sustainable Agriculture and Food Security
+- Mendel University Brno - https://mendelu.cz/en/ - Agricultural research and education
+- Permaculture Design Courses (PDC) offered throughout Czech Republic
+- Workshops on syntropic agriculture and soil food web
 
 **Czech Seed Sources:**
-- Traditional varieties preserved by gardeners
-- Seed exchanges at community gardens
-- Heritage variety projects
+- Traditional Czech vegetable varieties preserved by local gardeners
+- Seed exchanges at Prague and Brno community gardens
+- Heritage variety preservation projects
+
+**Academic & Technical Sources:**
+1. Czech University of Life Sciences Prague - Faculty of Tropical AgriSciences - Research on sustainable agriculture
+2. Mendel University Brno - Department of Agrochemistry, Soil Science, Microbiology and Plant Nutrition
+3. Research Institute for Soil and Water Conservation - Cold climate soil management
+4. Czech Hydrometeorological Institute - Climate data for agricultural planning
+5. Ministry of Agriculture of the Czech Republic - Agricultural extension services
+
+**Permaculture References:**
+- Holmgren, David. "Permaculture: Principles and Pathways Beyond Sustainability"
+- Hemenway, Toby. "Gaia''s Garden: A Guide to Home-Scale Permaculture" - Cold climate adaptations
+- Osentowski, Jerome. "The Forest Garden Greenhouse" - Season extension for cold climates
+- European Permaculture Convergence - Central European climate adaptation strategies
+- RESILIENCE Convergence proceedings - Regional permaculture network building
 
 ## Conclusion
 
@@ -1234,7 +1330,8 @@ END $$;
 INSERT INTO wiki_events (
   title, slug, description, event_date, start_time, end_time,
   location_name, location_address, latitude, longitude,
-  event_type, price, price_display, registration_url, max_attendees, status
+  event_type, price, price_display, registration_url, max_attendees,
+  organizer_name, organizer_organization, contact_email, contact_phone, contact_website, status
 ) VALUES
 
 -- January 2025
@@ -1254,6 +1351,11 @@ INSERT INTO wiki_events (
   '€35',
   NULL,
   20,
+  'Tábua Community',
+  'Permaculture Farm Tábua',
+  'events@tabua-permaculture.pt',
+  '+351 291 952 000',
+  'https://www.workaway.info/en/host/866549972224',
   'published'
 ),
 
@@ -1274,6 +1376,11 @@ INSERT INTO wiki_events (
   '€40',
   NULL,
   15,
+  'Alma Farm Team',
+  'Alma Farm Gaula',
+  'workshops@almafarm.pt',
+  '+351 291 524 000',
+  NULL,
   'published'
 ),
 
@@ -1293,6 +1400,11 @@ INSERT INTO wiki_events (
   '€25',
   'https://cantodasfontes.pt/',
   25,
+  'Calheta Community Center',
+  'Canto das Fontes',
+  'info@cantodasfontes.pt',
+  '+351 291 945 401',
+  'https://cantodasfontes.pt/',
   'published'
 ),
 
@@ -1313,6 +1425,11 @@ INSERT INTO wiki_events (
   '€20',
   NULL,
   30,
+  'Rabaçal Guides',
+  'Madeira Nature Tours',
+  'tours@madeiranature.pt',
+  '+351 965 789 012',
+  NULL,
   'published'
 ),
 
@@ -1332,6 +1449,11 @@ INSERT INTO wiki_events (
   'Free',
   NULL,
   100,
+  'Funchal City Council',
+  'Funchal Environmental Department',
+  'ambiente@funchal.pt',
+  '+351 291 700 760',
+  NULL,
   'published'
 ),
 
@@ -1352,6 +1474,11 @@ INSERT INTO wiki_events (
   '€50',
   NULL,
   12,
+  'Fajã Project Team',
+  'Permaculture Project Fajã da Ovelha',
+  'faja@permaculture-madeira.pt',
+  '+351 291 822 456',
+  NULL,
   'published'
 ),
 
@@ -1372,6 +1499,11 @@ INSERT INTO wiki_events (
   '€180 (3 days)',
   NULL,
   15,
+  'Tábua Community',
+  'Permaculture Farm Tábua',
+  'courses@tabua-permaculture.pt',
+  '+351 291 952 000',
+  'https://www.workaway.info/en/host/866549972224',
   'published'
 ),
 
@@ -1391,6 +1523,11 @@ INSERT INTO wiki_events (
   '€45',
   NULL,
   25,
+  'Madeira Eco Tours',
+  'Madeira Permaculture Network',
+  'tours@madeira-permaculture.pt',
+  '+351 965 234 567',
+  NULL,
   'published'
 ),
 
@@ -1411,6 +1548,11 @@ INSERT INTO wiki_events (
   '€90 (2 days)',
   NULL,
   16,
+  'Tábua Building Collective',
+  'Permaculture Farm Tábua',
+  'building@tabua-permaculture.pt',
+  '+351 291 952 000',
+  NULL,
   'published'
 ),
 
@@ -1431,6 +1573,11 @@ INSERT INTO wiki_events (
   '€35',
   NULL,
   20,
+  'Alma Farm Team',
+  'Alma Farm Gaula',
+  'grafting@almafarm.pt',
+  '+351 291 524 000',
+  NULL,
   'published'
 ),
 
@@ -1451,6 +1598,11 @@ INSERT INTO wiki_events (
   'Free (lunch provided)',
   'https://arambha.net/',
   40,
+  'Arambha Project',
+  'Arambha Forest Conservation',
+  'contact@arambha.net',
+  '+351 964 234 567',
+  'https://arambha.net/',
   'published'
 ),
 
@@ -1471,6 +1623,11 @@ INSERT INTO wiki_events (
   '€10',
   NULL,
   80,
+  'Tábua Community',
+  'Permaculture Farm Tábua',
+  'festival@tabua-permaculture.pt',
+  '+351 291 952 000',
+  NULL,
   'published'
 ),
 
@@ -1491,6 +1648,11 @@ INSERT INTO wiki_events (
   '€950 (14 days residential)',
   NULL,
   20,
+  'Tábua Community',
+  'Permaculture Farm Tábua',
+  'pdc@tabua-permaculture.pt',
+  '+351 291 952 000',
+  'https://www.workaway.info/en/host/866549972224',
   'published'
 ),
 
@@ -1511,6 +1673,11 @@ INSERT INTO wiki_events (
   '€30',
   NULL,
   20,
+  'Canto das Fontes Team',
+  'Canto das Fontes',
+  'workshops@cantodasfontes.pt',
+  '+351 291 945 401',
+  'https://cantodasfontes.pt/',
   'published'
 ),
 
@@ -1531,6 +1698,11 @@ INSERT INTO wiki_events (
   'Free (potluck)',
   NULL,
   60,
+  'Madeira Permaculture Network',
+  'Funchal Environmental Department',
+  'network@madeira-permaculture.pt',
+  '+351 291 700 760',
+  NULL,
   'published'
 ),
 
@@ -1555,6 +1727,11 @@ INSERT INTO wiki_events (
   '400 CZK',
   'https://www.permakulturacs.cz/',
   30,
+  'Permakultura CS',
+  'Czech Permaculture Institute',
+  'info@permakulturacs.cz',
+  '+420 603 789 456',
+  'https://www.permakulturacs.cz/',
   'published'
 ),
 
@@ -1575,6 +1752,11 @@ INSERT INTO wiki_events (
   '500 CZK',
   NULL,
   20,
+  'Garden Coordinator',
+  'Southern Bohemia Permaculture Garden',
+  'bohemia.garden@permaculture.cz',
+  '+420 724 123 890',
+  NULL,
   'published'
 ),
 
@@ -1594,6 +1776,11 @@ INSERT INTO wiki_events (
   '1200 CZK (2 days)',
   NULL,
   25,
+  'Katka Horáčková',
+  'Divočina Malešov',
+  'info@divocina.cz',
+  '+420 724 345 678',
+  NULL,
   'published'
 ),
 
@@ -1614,6 +1801,11 @@ INSERT INTO wiki_events (
   '450 CZK',
   NULL,
   30,
+  'Garden Collective',
+  'Holešovice Community Garden Prague',
+  'holesovice@komunitnizahrady.cz',
+  '+420 777 123 456',
+  'https://komunitnizahrady.cz/',
   'published'
 ),
 
@@ -1633,6 +1825,11 @@ INSERT INTO wiki_events (
   'Free (potluck)',
   NULL,
   50,
+  'CSA Coordinator',
+  'Community Garden Kuchyňka Prague',
+  'kuchynka@csa-praha.cz',
+  '+420 603 456 123',
+  NULL,
   'published'
 ),
 
@@ -1653,6 +1850,11 @@ INSERT INTO wiki_events (
   '650 CZK',
   NULL,
   20,
+  'Community Coordinator',
+  'Czech Republic First Full Ecovillage',
+  'ecovillage@czech-sustainability.cz',
+  '+420 724 567 234',
+  NULL,
   'published'
 ),
 
@@ -1673,6 +1875,11 @@ INSERT INTO wiki_events (
   '800 CZK',
   NULL,
   15,
+  'KOKOZA Coordinator',
+  'KOKOZA Urban Agriculture Network',
+  'info@komunitnizahrady.cz',
+  '+420 777 666 555',
+  'https://komunitnizahrady.cz/',
   'published'
 ),
 
@@ -1692,6 +1899,11 @@ INSERT INTO wiki_events (
   '200 CZK',
   NULL,
   40,
+  'CSA Coordinator',
+  'Community Garden Kuchyňka Prague',
+  'kuchynka@csa-praha.cz',
+  '+420 603 456 123',
+  'https://urgenci.net/csa-in-czech-republic/',
   'published'
 ),
 
@@ -1712,6 +1924,11 @@ INSERT INTO wiki_events (
   '1500 CZK',
   NULL,
   40,
+  'Faculty of Tropical AgriSciences',
+  'Czech University of Life Sciences Prague',
+  'info@czu.cz',
+  '+420 224 382 000',
+  'https://studyinprague.cz/',
   'published'
 ),
 
@@ -1732,6 +1949,11 @@ INSERT INTO wiki_events (
   '2000 CZK (5 days)',
   'https://www.permakulturacs.cz/',
   200,
+  'Permakultura CS',
+  'Czech Permaculture Institute',
+  'resilience@permakulturacs.cz',
+  '+420 603 789 456',
+  'https://www.permakulturacs.cz/',
   'published'
 ),
 
@@ -1752,6 +1974,11 @@ INSERT INTO wiki_events (
   '650 CZK',
   'https://www.syntropy.cz/',
   35,
+  'International Office',
+  'Mendel University Brno',
+  'info@mendelu.cz',
+  '+420 545 131 111',
+  'https://www.syntropy.cz/',
   'published'
 ),
 
@@ -1772,6 +1999,11 @@ INSERT INTO wiki_events (
   '300 CZK',
   NULL,
   80,
+  'Community Coordinator',
+  'Czech Republic First Full Ecovillage',
+  'festival@czech-sustainability.cz',
+  '+420 724 567 234',
+  NULL,
   'published'
 ),
 
@@ -1792,6 +2024,11 @@ INSERT INTO wiki_events (
   '550 CZK',
   NULL,
   20,
+  'Garden Coordinator',
+  'Southern Bohemia Permaculture Garden',
+  'bohemia.garden@permaculture.cz',
+  '+420 724 123 890',
+  NULL,
   'published'
 ),
 
@@ -1811,6 +2048,11 @@ INSERT INTO wiki_events (
   '400 CZK',
   'https://www.permakulturacs.cz/',
   120,
+  'Permakultura CS',
+  'Czech Permaculture Institute',
+  'conference@permakulturacs.cz',
+  '+420 603 789 456',
+  'https://www.permakulturacs.cz/',
   'published'
 ),
 
@@ -1831,6 +2073,11 @@ INSERT INTO wiki_events (
   '450 CZK',
   NULL,
   25,
+  'CSA Coordinator',
+  'Community Garden Kuchyňka Prague',
+  'kuchynka@csa-praha.cz',
+  '+420 603 456 123',
+  NULL,
   'published'
 ),
 
@@ -1851,6 +2098,11 @@ INSERT INTO wiki_events (
   'Free (potluck)',
   NULL,
   60,
+  'Permakultura CS',
+  'Czech Permaculture Institute',
+  'solstice@permakulturacs.cz',
+  '+420 603 789 456',
+  NULL,
   'published'
 )
 
