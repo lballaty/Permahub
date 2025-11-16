@@ -129,20 +129,36 @@ check_mailpit() {
     fi
 }
 
-# Function to stop dev server
+# Function to stop ALL dev server instances (including orphaned ones)
 stop_dev_server() {
-    echo -e "${BLUE}🛑 Stopping existing dev server...${NC}"
+    echo -e "${BLUE}🛑 Stopping ALL existing dev server instances...${NC}"
 
-    # Find and kill processes on the dev server port
-    local pids=$(lsof -ti :$DEV_SERVER_PORT)
+    local killed=0
 
-    if [ -n "$pids" ]; then
-        echo "$pids" | xargs kill -9 2>/dev/null
+    # Check ports 3001-3010 (in case Vite picked a different port)
+    for port in {3001..3010}; do
+        local pids=$(lsof -ti :$port 2>/dev/null)
+        if [ -n "$pids" ]; then
+            echo -e "   ${YELLOW}Found process on port ${port}, killing...${NC}"
+            echo "$pids" | xargs kill -9 2>/dev/null
+            killed=$((killed + 1))
+        fi
+    done
+
+    # Also kill any orphaned Vite processes by name
+    local vite_pids=$(pgrep -f "vite" 2>/dev/null)
+    if [ -n "$vite_pids" ]; then
+        echo -e "   ${YELLOW}Found orphaned Vite processes, killing...${NC}"
+        echo "$vite_pids" | xargs kill -9 2>/dev/null
+        killed=$((killed + 1))
+    fi
+
+    if [ $killed -gt 0 ]; then
         sleep 2
-        echo -e "${GREEN}✅ Server stopped${NC}"
+        echo -e "${GREEN}✅ Stopped ${killed} instance(s)${NC}"
         return 0
     else
-        echo -e "${YELLOW}⚠️  No server found on port ${DEV_SERVER_PORT}${NC}"
+        echo -e "${YELLOW}⚠️  No running instances found${NC}"
         return 1
     fi
 }
@@ -305,19 +321,15 @@ main() {
         fi
     fi
 
-    # Handle dev server
-    if check_port $DEV_SERVER_PORT; then
-        read -p "$(echo -e ${YELLOW}Dev server already running. Restart fresh? [y/N]: ${NC})" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            start_dev_server true
-        fi
-    else
-        read -p "$(echo -e ${YELLOW}Start development server? [Y/n]: ${NC})" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
-            start_dev_server false
-        fi
+    # Handle dev server - always stop existing instances and restart fresh
+    echo ""
+    stop_dev_server
+
+    echo ""
+    read -p "$(echo -e ${YELLOW}Start development server? [Y/n]: ${NC})" -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+        start_dev_server false
     fi
 
     # Show Supabase status details
