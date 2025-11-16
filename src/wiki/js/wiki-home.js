@@ -278,6 +278,7 @@ function renderGuides() {
     <div class="card">
       <div class="card-meta">
         <span><i class="fas fa-calendar"></i> ${formatDate(guide.published_at)}</span>
+        ${guide.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
         <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
       </div>
       <h3 class="card-title">
@@ -484,6 +485,7 @@ function renderSearchResults() {
       <div class="card">
         <div class="card-meta">
           <span><i class="fas fa-book"></i> Guide</span>
+          ${guide.author_id ? `<span><i class="fas fa-user"></i> Author</span>` : ''}
           <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
         </div>
         <h3 class="card-title">
