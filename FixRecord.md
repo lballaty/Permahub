@@ -434,3 +434,52 @@ Updated the content replacement logic in wiki-page.js to:
 
 ---
 
+### 2025-11-16 - Create comprehensive regression tests for authentication page fixes
+
+**Commit:** (committing now)
+
+**Issue:**
+Authentication page fixes from earlier (JavaScript import errors, favicon 404s, HTML pattern validation) did not have Playwright regression tests to prevent future regressions.
+
+**Root Cause:**
+Tests were created for recent fixes (guides page, spinner, auth UI) but earlier fixes from the same day were not covered by automated tests.
+
+**Solution:**
+Created comprehensive Playwright test file `tests/e2e/auth-pages-regression.spec.js` covering:
+
+1. **JavaScript Import Errors Fix:**
+   - Tests that wiki-signup.js, wiki-forgot-password.js, wiki-reset-password.js load without module import errors
+   - Verifies no "does not provide an export named" errors appear in console
+   - Confirms forms initialize correctly
+
+2. **Favicon 404 Errors Fix:**
+   - Tests that favicon loads without 404 errors on all auth pages
+   - Verifies explicit favicon link exists in HTML head
+   - Confirms SVG favicon format is used
+
+3. **Invalid HTML Pattern Regex Fix:**
+   - Tests that no HTML pattern validation warnings appear in console
+   - Verifies username pattern accepts valid input
+   - Confirms no HTML validation errors across all auth pages
+
+4. **General Auth Pages Health:**
+   - Smoke tests for all auth pages loading without errors
+   - Verifies forms are visible on all pages
+   - Confirms Create Page button is not present on auth pages
+
+**Test Tags:**
+- @regression, @auth-pages (main suite)
+- @imports, @critical (JavaScript imports)
+- @favicon, @assets (favicon loading)
+- @validation, @html, @forms (HTML validation)
+- @smoke, @health (general health checks)
+
+Tags enable selective test execution: `npx playwright test --grep @imports` or `npx playwright test --grep @favicon`
+
+**Files Changed:**
+- tests/e2e/auth-pages-regression.spec.js (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
