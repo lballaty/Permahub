@@ -532,6 +532,75 @@ Created comprehensive Playwright test file `tests/e2e/auth-ui-regression.spec.js
 
 ---
 
+### 2025-11-16 - Create regression tests for guides page functionality
+
+**Commit:** (committing now)
+
+**Issue:**
+Guides page fixes (loading from database, card format standardization) did not have Playwright regression tests to prevent future regressions.
+
+**Root Cause:**
+Tests were needed to verify that the guides page loads correctly from the database, displays guides in the standardized format, and provides all search/filter/sort functionality.
+
+**Solution:**
+Created comprehensive Playwright test file `tests/e2e/wiki-guides-regression.spec.js` with 35 tests covering:
+
+1. **Guides Loading from Database:**
+   - Tests guides load from wiki_guides table
+   - Tests guide count displays correctly
+   - Tests data enrichment with author information
+   - Tests data enrichment with category information
+   - Tests only published guides are displayed
+   - Tests no console errors during loading
+
+2. **Guide Card Format Standardization:**
+   - Tests cards use standardized format matching home page
+   - Tests card-meta section (date, author, views)
+   - Tests guide titles are clickable links
+   - Tests slug parameter instead of id
+   - Tests categories display as tags
+   - Tests overall format consistency
+
+3. **Search Functionality:**
+   - Tests search filters by title, summary, category names
+   - Tests search updates guide count
+   - Tests empty search shows all guides
+
+4. **Sorting Functionality:**
+   - Tests sort by newest (created_at desc)
+   - Tests sort by popular (view_count desc)
+   - Tests sort alphabetically
+   - Tests active sort button states
+   - Tests sorting persists with search
+
+5. **Category Filtering:**
+   - Tests "All Guides" shows all guides
+   - Tests category filters load from database
+   - Tests category filtering works correctly
+   - Tests filter count updates
+   - Tests active filter states
+
+6. **Data Enrichment:**
+   - Tests author names fetched from users table
+   - Tests categories fetched via junction table
+   - Tests view counts displayed
+   - Tests relative date formatting
+
+7. **Security & Error Handling:**
+   - Tests XSS protection via escapeHtml()
+   - Tests empty state displays helpful message
+   - Tests database error handling
+
+**Test Tags:**
+@regression @guides @critical @database @ui @search @sorting @filtering @data @security @xss
+
+**Files Changed:**
+- tests/e2e/wiki-guides-regression.spec.js (created)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
 ### 2025-11-16 - Create test coverage documentation for all regression tests
 
 **Commit:** (pending)
