@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Community Wiki</title>
+  <title data-i18n="wiki.auth.login_page_title">Login - Community Wiki</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -21,7 +21,7 @@
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
         <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
         <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
-        <li><a href="wiki-login.html" class="active">Login</a></li>
+        <li><a href="wiki-login.html" class="active" data-i18n="wiki.nav.login">Login</a></li>
         <li>
           <!-- Language Selector -->
           <div class="lang-selector">
@@ -59,8 +59,8 @@
       <div class="card">
         <div style="text-align: center; margin-bottom: 2rem;">
           <div style="font-size: 4rem; margin-bottom: 1rem;">🌱</div>
-          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Welcome Back</h1>
-          <p class="text-muted">Login to contribute to our community knowledge base</p>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.auth.welcome_back">Welcome Back</h1>
+          <p class="text-muted" data-i18n="wiki.auth.login_subtitle">Login to contribute to our community knowledge base</p>
         </div>
 
         <!-- Login Tabs -->
@@ -69,6 +69,7 @@
             id="emailTabBtn"
             class="tab-btn active"
             style="flex: 1; padding: 1rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid var(--wiki-primary); color: var(--wiki-primary);"
+            data-i18n="wiki.auth.email_login"
           >
             Email Login
           </button>
@@ -76,6 +77,7 @@
             id="magicLinkTabBtn"
             class="tab-btn"
             style="flex: 1; padding: 1rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted);"
+            data-i18n="wiki.auth.magic_link"
           >
             Magic Link
           </button>
@@ -84,11 +86,12 @@
         <!-- Email/Password Login Form -->
         <form id="emailLoginForm">
           <div class="form-group">
-            <label class="form-label" for="email">Email Address</label>
+            <label class="form-label" for="email" data-i18n="wiki.auth.email_address">Email Address</label>
             <input
               type="email"
               id="email"
               class="form-input"
+              data-i18n-placeholder="wiki.auth.email_placeholder"
               placeholder="your@email.com"
               required
             >
@@ -96,8 +99,8 @@
 
           <div class="form-group">
             <label class="form-label" for="password">
-              Password
-              <a href="wiki-forgot-password.html" style="float: right; color: var(--wiki-primary); font-size: 0.9rem; font-weight: normal;">
+              <span data-i18n="wiki.auth.password">Password</span>
+              <a href="wiki-forgot-password.html" style="float: right; color: var(--wiki-primary); font-size: 0.9rem; font-weight: normal;" data-i18n="wiki.auth.forgot_password">
                 Forgot password?
               </a>
             </label>
@@ -113,16 +116,16 @@
           <div class="form-group">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" name="remember">
-              <span>Remember me for 30 days</span>
+              <span data-i18n="wiki.auth.remember_me">Remember me for 30 days</span>
             </label>
           </div>
 
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
-            <i class="fas fa-sign-in-alt"></i> Sign In
+            <i class="fas fa-sign-in-alt"></i> <span data-i18n="wiki.auth.sign_in">Sign In</span>
           </button>
 
           <div style="text-align: center; margin: 1.5rem 0; color: var(--wiki-text-muted); position: relative;">
-            <span style="background: var(--wiki-white); padding: 0 1rem; position: relative; z-index: 1;">or continue with</span>
+            <span style="background: var(--wiki-white); padding: 0 1rem; position: relative; z-index: 1;" data-i18n="wiki.auth.or_continue_with">or continue with</span>
             <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--wiki-border); z-index: 0;"></div>
           </div>
 
@@ -143,49 +146,50 @@
             <div style="display: flex; gap: 0.5rem; align-items: start;">
               <i class="fas fa-info-circle" style="color: var(--wiki-primary); margin-top: 0.25rem;"></i>
               <div style="font-size: 0.9rem;">
-                <strong>Magic link login:</strong> We'll send you a secure link to your email. Click the link to instantly log in without a password.
+                <strong data-i18n="wiki.auth.magic_link_title">Magic link login:</strong> <span data-i18n="wiki.auth.magic_link_description">We'll send you a secure link to your email. Click the link to instantly log in without a password.</span>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="magicEmail">Email Address</label>
+            <label class="form-label" for="magicEmail" data-i18n="wiki.auth.email_address">Email Address</label>
             <input
               type="email"
               id="magicEmail"
               class="form-input"
+              data-i18n-placeholder="wiki.auth.email_placeholder"
               placeholder="your@email.com"
               required
             >
           </div>
 
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
-            <i class="fas fa-paper-plane"></i> Send Magic Link
+            <i class="fas fa-paper-plane"></i> <span data-i18n="wiki.auth.send_magic_link">Send Magic Link</span>
           </button>
 
           <div style="text-align: center; font-size: 0.9rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-lock"></i> Secure, passwordless authentication
+            <i class="fas fa-lock"></i> <span data-i18n="wiki.auth.secure_passwordless">Secure, passwordless authentication</span>
           </div>
         </form>
 
         <!-- Sign Up Link -->
         <div style="margin-top: 2rem; text-align: center; padding-top: 2rem; border-top: 1px solid var(--wiki-border);">
           <p class="text-muted">
-            Don't have an account?
-            <a href="wiki-signup.html" style="color: var(--wiki-primary); font-weight: 500;">Sign up for free</a>
+            <span data-i18n="wiki.auth.no_account">Don't have an account?</span>
+            <a href="wiki-signup.html" style="color: var(--wiki-primary); font-weight: 500;" data-i18n="wiki.auth.sign_up_free">Sign up for free</a>
           </p>
         </div>
       </div>
 
       <!-- Benefits of Creating Account -->
       <div class="card" style="margin-top: 2rem;">
-        <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">Why create an account?</h3>
+        <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.auth.why_create_account">Why create an account?</h3>
         <div style="display: grid; gap: 1rem;">
           <div style="display: flex; gap: 1rem;">
             <div style="font-size: 1.5rem;">✍️</div>
             <div>
-              <strong>Create & Edit Content</strong>
-              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+              <strong data-i18n="wiki.auth.benefit_create_edit">Create & Edit Content</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;" data-i18n="wiki.auth.benefit_create_edit_desc">
                 Share your knowledge through guides, events, and location listings
               </p>
             </div>
@@ -193,8 +197,8 @@
           <div style="display: flex; gap: 1rem;">
             <div style="font-size: 1.5rem;">💬</div>
             <div>
-              <strong>Join Discussions</strong>
-              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+              <strong data-i18n="wiki.auth.benefit_discussions">Join Discussions</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;" data-i18n="wiki.auth.benefit_discussions_desc">
                 Comment on articles and connect with community members
               </p>
             </div>
@@ -202,8 +206,8 @@
           <div style="display: flex; gap: 1rem;">
             <div style="font-size: 1.5rem;">🔔</div>
             <div>
-              <strong>Get Notifications</strong>
-              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+              <strong data-i18n="wiki.auth.benefit_notifications">Get Notifications</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;" data-i18n="wiki.auth.benefit_notifications_desc">
                 Stay updated on new content, events, and topics you follow
               </p>
             </div>
@@ -211,8 +215,8 @@
           <div style="display: flex; gap: 1rem;">
             <div style="font-size: 1.5rem;">📚</div>
             <div>
-              <strong>Save Favorites</strong>
-              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;">
+              <strong data-i18n="wiki.auth.benefit_favorites">Save Favorites</strong>
+              <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.9rem;" data-i18n="wiki.auth.benefit_favorites_desc">
                 Bookmark articles and locations to reference later
               </p>
             </div>
@@ -223,12 +227,12 @@
       <!-- Privacy Note -->
       <div style="margin-top: 2rem; text-align: center; font-size: 0.85rem; color: var(--wiki-text-muted);">
         <p>
-          By signing in, you agree to our
-          <a href="#" style="color: var(--wiki-primary);">Terms of Service</a> and
-          <a href="#" style="color: var(--wiki-primary);">Privacy Policy</a>
+          <span data-i18n="wiki.auth.by_signing_in">By signing in, you agree to our</span>
+          <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.auth.terms">Terms of Service</a> <span data-i18n="wiki.auth.and">and</span>
+          <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.auth.privacy">Privacy Policy</a>
         </p>
         <p style="margin-top: 0.5rem;">
-          <i class="fas fa-shield-alt"></i> Your data is secure and will never be sold to third parties
+          <i class="fas fa-shield-alt"></i> <span data-i18n="wiki.auth.data_secure">Your data is secure and will never be sold to third parties</span>
         </p>
       </div>
     </div>
@@ -237,12 +241,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
       </p>
     </div>
   </footer>

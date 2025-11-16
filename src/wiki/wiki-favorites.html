@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Favorites - Community Wiki</title>
+  <title data-i18n="wiki.favorites.pageTitle">My Favorites - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/wiki-i18n.js"></script>
@@ -18,9 +18,10 @@
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
         <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
         <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
-        <li><a href="wiki-favorites.html" class="active">My Favorites</a></li>
+        <li><a href="wiki-favorites.html" class="active" data-i18n="wiki.nav.favorites">My Favorites</a></li>
         <li>
           <!-- Language Selector -->
           <div class="lang-selector">
@@ -67,18 +68,18 @@
       <div class="flex-between">
         <div>
           <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
-            <i class="fas fa-star"></i> My Favorites
+            <i class="fas fa-star"></i> <span data-i18n="wiki.favorites.heading">My Favorites</span>
           </h1>
-          <p class="text-muted">Your personalized collection of saved content</p>
+          <p class="text-muted" data-i18n="wiki.favorites.subtitle">Your personalized collection of saved content</p>
         </div>
         <div style="display: flex; gap: 1rem; align-items: center;">
-          <select class="form-input" style="width: auto;" id="sortBy">
-            <option>Recently Added</option>
-            <option>Alphabetical</option>
-            <option>Most Viewed</option>
-            <option>By Category</option>
+          <select class="form-input" style="width: auto;" id="sortBy" data-i18n-attr-placeholder="wiki.favorites.sortLabel">
+            <option data-i18n="wiki.favorites.sortRecent">Recently Added</option>
+            <option data-i18n="wiki.favorites.sortAlpha">Alphabetical</option>
+            <option data-i18n="wiki.favorites.sortViewed">Most Viewed</option>
+            <option data-i18n="wiki.favorites.sortCategory">By Category</option>
           </select>
-          <button class="btn btn-outline btn-small" id="exportBtn">
+          <button class="btn btn-outline btn-small" id="exportBtn" data-i18n="wiki.favorites.export">
             <i class="fas fa-download"></i> Export
           </button>
         </div>
@@ -90,46 +91,46 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; text-align: center;">
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">12</div>
-          <div class="text-muted">Saved Guides</div>
+          <div class="text-muted" data-i18n="wiki.favorites.savedGuides">Saved Guides</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-secondary);">5</div>
-          <div class="text-muted">Saved Locations</div>
+          <div class="text-muted" data-i18n="wiki.favorites.savedLocations">Saved Locations</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-accent);">3</div>
-          <div class="text-muted">Upcoming Events</div>
+          <div class="text-muted" data-i18n="wiki.favorites.upcomingEvents">Upcoming Events</div>
         </div>
         <div>
           <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">8</div>
-          <div class="text-muted">Collections</div>
+          <div class="text-muted" data-i18n="wiki.favorites.collections">Collections</div>
         </div>
       </div>
     </div>
 
     <!-- Tabs for Different Content Types -->
     <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--wiki-border); overflow-x: auto;">
-      <button class="favorites-tab active" data-tab="all" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid var(--wiki-primary); color: var(--wiki-primary); white-space: nowrap;">
+      <button class="favorites-tab active" data-tab="all" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid var(--wiki-primary); color: var(--wiki-primary); white-space: nowrap;" data-i18n="wiki.favorites.tabAll">
         All (20)
       </button>
-      <button class="favorites-tab" data-tab="guides" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;">
+      <button class="favorites-tab" data-tab="guides" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;" data-i18n="wiki.favorites.tabGuides">
         <i class="fas fa-book"></i> Guides (12)
       </button>
-      <button class="favorites-tab" data-tab="events" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;">
+      <button class="favorites-tab" data-tab="events" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;" data-i18n="wiki.favorites.tabEvents">
         <i class="fas fa-calendar"></i> Events (3)
       </button>
-      <button class="favorites-tab" data-tab="locations" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;">
+      <button class="favorites-tab" data-tab="locations" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;" data-i18n="wiki.favorites.tabLocations">
         <i class="fas fa-map-marker-alt"></i> Locations (5)
       </button>
-      <button class="favorites-tab" data-tab="collections" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;">
+      <button class="favorites-tab" data-tab="collections" style="padding: 1rem 1.5rem; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; color: var(--wiki-text-muted); white-space: nowrap;" data-i18n="wiki.favorites.tabCollections">
         <i class="fas fa-folder"></i> Collections (8)
       </button>
     </div>
 
     <!-- Collections Section (Optional organizing feature) -->
     <div id="collectionsView" style="display: none;">
-      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">My Collections</h2>
-      <p class="text-muted" style="margin-bottom: 2rem;">Organize your favorites into custom collections</p>
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.favorites.myCollections">My Collections</h2>
+      <p class="text-muted" style="margin-bottom: 2rem;" data-i18n="wiki.favorites.collectionsDesc">Organize your favorites into custom collections</p>
 
       <div class="grid grid-3">
         <div class="card" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
@@ -139,8 +140,8 @@
             </div>
             <button class="btn btn-outline btn-small"><i class="fas fa-ellipsis-v"></i></button>
           </div>
-          <h3 style="margin-bottom: 0.5rem;">Water Management</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">Everything about swales, ponds, and irrigation</p>
+          <h3 style="margin-bottom: 0.5rem;" data-i18n="wiki.favorites.waterTitle">Water Management</h3>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="wiki.favorites.waterDesc">Everything about swales, ponds, and irrigation</p>
           <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
             <i class="fas fa-bookmark"></i> 5 items
           </div>
@@ -153,8 +154,8 @@
             </div>
             <button class="btn btn-outline btn-small"><i class="fas fa-ellipsis-v"></i></button>
           </div>
-          <h3 style="margin-bottom: 0.5rem;">Garden Planning</h3>
-          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">Guides for planning my garden this season</p>
+          <h3 style="margin-bottom: 0.5rem;" data-i18n="wiki.favorites.gardenTitle">Garden Planning</h3>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;" data-i18n="wiki.favorites.gardenDesc">Guides for planning my garden this season</p>
           <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
             <i class="fas fa-bookmark"></i> 7 items
           </div>
@@ -162,7 +163,7 @@
 
         <div class="card" style="cursor: pointer; transition: transform 0.2s; border: 2px dashed var(--wiki-border); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px;" onmouseover="this.style.borderColor='var(--wiki-primary)'" onmouseout="this.style.borderColor='var(--wiki-border)'">
           <i class="fas fa-plus" style="font-size: 2rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-          <h3 style="color: var(--wiki-text-muted);">New Collection</h3>
+          <h3 style="color: var(--wiki-text-muted);" data-i18n="wiki.favorites.newCollection">New Collection</h3>
         </div>
       </div>
     </div>
@@ -170,8 +171,8 @@
     <!-- Saved Guides -->
     <div id="guidesView">
       <div class="flex-between mb-2">
-        <h2>Saved Guides</h2>
-        <a href="#" class="text-muted" style="font-size: 0.9rem;">
+        <h2 data-i18n="wiki.favorites.savedGuidesSection">Saved Guides</h2>
+        <a href="#" class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.favorites.filter">
           <i class="fas fa-filter"></i> Filter
         </a>
       </div>
@@ -199,7 +200,7 @@
             <span class="tag">Earthworks</span>
           </div>
           <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wiki-border); font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-folder"></i> In: <strong>Water Management</strong> collection
+            <i class="fas fa-folder"></i> <span data-i18n="wiki.favorites.inCollection">In:</span> <strong>Water Management</strong> <span data-i18n="wiki.favorites.collectionLabel">collection</span>
           </div>
         </div>
 
@@ -225,7 +226,7 @@
             <span class="tag">Food Production</span>
           </div>
           <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wiki-border); font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-folder"></i> In: <strong>Garden Planning</strong> collection
+            <i class="fas fa-folder"></i> <span data-i18n="wiki.favorites.inCollection">In:</span> <strong>Garden Planning</strong> <span data-i18n="wiki.favorites.collectionLabel">collection</span>
           </div>
         </div>
 
@@ -250,7 +251,7 @@
             <span class="tag">Composting</span>
             <span class="tag">Waste Management</span>
           </div>
-          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wiki-border); font-size: 0.85rem; color: var(--wiki-text-muted);">
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wiki-border); font-size: 0.85rem; color: var(--wiki-text-muted);" data-i18n="wiki.favorites.notInCollection">
             <i class="fas fa-folder"></i> Not in any collection
           </div>
         </div>
@@ -277,7 +278,7 @@
             <span class="tag">Water Management</span>
           </div>
           <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wiki-border); font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <i class="fas fa-folder"></i> In: <strong>Water Management</strong> collection
+            <i class="fas fa-folder"></i> <span data-i18n="wiki.favorites.inCollection">In:</span> <strong>Water Management</strong> <span data-i18n="wiki.favorites.collectionLabel">collection</span>
           </div>
         </div>
       </div>
@@ -286,8 +287,8 @@
     <!-- Saved Events -->
     <section class="mb-3 mt-3">
       <div class="flex-between mb-2">
-        <h2>Registered Events</h2>
-        <a href="wiki-events.html" class="text-muted">View Calendar →</a>
+        <h2 data-i18n="wiki.favorites.registeredEvents">Registered Events</h2>
+        <a href="wiki-events.html" class="text-muted" data-i18n="wiki.favorites.viewCalendar">View Calendar →</a>
       </div>
 
       <div class="grid grid-2">
@@ -305,7 +306,7 @@
               <span><i class="fas fa-clock"></i> 10:00 AM - 2:00 PM</span>
               <span><i class="fas fa-map-marker-alt"></i> Green Valley Farm</span>
             </div>
-            <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--wiki-accent); border-radius: 4px; font-size: 0.85rem;">
+            <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--wiki-accent); border-radius: 4px; font-size: 0.85rem;" data-i18n="wiki.favorites.registered">
               <i class="fas fa-check-circle"></i> You're registered!
             </div>
           </div>
@@ -325,7 +326,7 @@
               <span><i class="fas fa-clock"></i> 9:00 AM - 12:00 PM</span>
               <span><i class="fas fa-map-marker-alt"></i> Community Seed Bank</span>
             </div>
-            <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--wiki-accent); border-radius: 4px; font-size: 0.85rem;">
+            <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--wiki-accent); border-radius: 4px; font-size: 0.85rem;" data-i18n="wiki.favorites.registered">
               <i class="fas fa-check-circle"></i> You're registered!
             </div>
           </div>
@@ -345,7 +346,7 @@
               <span><i class="fas fa-clock"></i> 2:00 PM - 5:00 PM</span>
               <span><i class="fas fa-map-marker-alt"></i> Sunset Permaculture</span>
             </div>
-            <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--wiki-accent); border-radius: 4px; font-size: 0.85rem;">
+            <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--wiki-accent); border-radius: 4px; font-size: 0.85rem;" data-i18n="wiki.favorites.registered">
               <i class="fas fa-check-circle"></i> You're registered!
             </div>
           </div>
@@ -356,8 +357,8 @@
     <!-- Saved Locations -->
     <section class="mb-3">
       <div class="flex-between mb-2">
-        <h2>Saved Locations</h2>
-        <a href="wiki-map.html" class="text-muted">View Map →</a>
+        <h2 data-i18n="wiki.favorites.savedLocationsSection">Saved Locations</h2>
+        <a href="wiki-map.html" class="text-muted" data-i18n="wiki.favorites.viewMap">View Map →</a>
       </div>
 
       <div class="grid grid-3">
@@ -373,8 +374,8 @@
             <i class="fas fa-map-marker-alt"></i> 3.2 km away
           </div>
           <div style="display: flex; gap: 0.5rem;">
-            <a href="wiki-map.html" class="btn btn-outline btn-small" style="flex: 1;">View on Map</a>
-            <a href="#" class="btn btn-primary btn-small" style="flex: 1;">Directions</a>
+            <a href="wiki-map.html" class="btn btn-outline btn-small" style="flex: 1;" data-i18n="wiki.favorites.viewOnMap">View on Map</a>
+            <a href="#" class="btn btn-primary btn-small" style="flex: 1;" data-i18n="wiki.favorites.directions">Directions</a>
           </div>
         </div>
 
@@ -390,8 +391,8 @@
             <i class="fas fa-map-marker-alt"></i> 5.7 km away
           </div>
           <div style="display: flex; gap: 0.5rem;">
-            <a href="wiki-map.html" class="btn btn-outline btn-small" style="flex: 1;">View on Map</a>
-            <a href="#" class="btn btn-primary btn-small" style="flex: 1;">Directions</a>
+            <a href="wiki-map.html" class="btn btn-outline btn-small" style="flex: 1;" data-i18n="wiki.favorites.viewOnMap">View on Map</a>
+            <a href="#" class="btn btn-primary btn-small" style="flex: 1;" data-i18n="wiki.favorites.directions">Directions</a>
           </div>
         </div>
 
@@ -407,8 +408,8 @@
             <i class="fas fa-map-marker-alt"></i> 12.4 km away
           </div>
           <div style="display: flex; gap: 0.5rem;">
-            <a href="wiki-map.html" class="btn btn-outline btn-small" style="flex: 1;">View on Map</a>
-            <a href="#" class="btn btn-primary btn-small" style="flex: 1;">Directions</a>
+            <a href="wiki-map.html" class="btn btn-outline btn-small" style="flex: 1;" data-i18n="wiki.favorites.viewOnMap">View on Map</a>
+            <a href="#" class="btn btn-primary btn-small" style="flex: 1;" data-i18n="wiki.favorites.directions">Directions</a>
           </div>
         </div>
       </div>
@@ -416,18 +417,18 @@
 
     <!-- Share & Export -->
     <div class="card text-center">
-      <h2 style="margin-bottom: 1rem;">Share Your Favorites</h2>
-      <p class="text-muted" style="margin-bottom: 2rem;">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.favorites.shareTitle">Share Your Favorites</h2>
+      <p class="text-muted" style="margin-bottom: 2rem;" data-i18n="wiki.favorites.shareDesc">
         Share your curated collection with friends or export for offline reference
       </p>
       <div class="flex gap-2" style="justify-content: center;">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" data-i18n="wiki.favorites.shareLink">
           <i class="fas fa-share-alt"></i> Get Shareable Link
         </button>
-        <button class="btn btn-outline">
+        <button class="btn btn-outline" data-i18n="wiki.favorites.exportPdf">
           <i class="fas fa-download"></i> Export as PDF
         </button>
-        <button class="btn btn-outline">
+        <button class="btn btn-outline" data-i18n="wiki.favorites.exportCsv">
           <i class="fas fa-file-csv"></i> Export as CSV
         </button>
       </div>
@@ -437,12 +438,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.reportIssue"><i class="fas fa-bug"></i> Report Issue</a>
       </p>
     </div>
   </footer>

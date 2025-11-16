@@ -15,6 +15,12 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}🔍 Pre-commit hook: Checking for FixRecord.md updates...${NC}"
 
+# Detect if --no-verify was suggested to be used inappropriately
+# This won't stop --no-verify but logs when hook runs normally
+if [ -f ".git/NO_VERIFY_USED" ]; then
+    echo -e "${YELLOW}⚠️  Warning: --no-verify was recently used. Use sparingly!${NC}"
+fi
+
 # Get the list of staged files
 STAGED_FILES=$(git diff --cached --name-only)
 

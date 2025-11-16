@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Report Issue - Community Wiki</title>
+  <title data-i18n="wiki.issues.page_title">Report Issue - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -157,14 +157,14 @@
     <nav class="wiki-nav">
       <a href="wiki-home.html" class="wiki-logo">
         <span class="wiki-logo-icon">🌱</span>
-        <span>Community Wiki</span>
+        <span data-i18n="wiki.common.logo">Community Wiki</span>
       </a>
       <ul class="wiki-menu">
-        <li><a href="wiki-home.html">Home</a></li>
-        <li><a href="wiki-events.html">Events</a></li>
-        <li><a href="wiki-map.html">Locations</a></li>
-        <li><a href="wiki-favorites.html">My Favorites</a></li>
-        <li><a href="wiki-issues.html" class="active">Issues</a></li>
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-favorites.html" data-i18n="wiki.nav.my_favorites">My Favorites</a></li>
+        <li><a href="wiki-issues.html" class="active" data-i18n="wiki.nav.issues">Issues</a></li>
         <li>
           <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
             <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
@@ -183,12 +183,12 @@
       <div class="flex-between">
         <div>
           <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
-            <i class="fas fa-bug"></i> Issue Tracker
+            <i class="fas fa-bug"></i> <span data-i18n="wiki.issues.issue_tracker">Issue Tracker</span>
           </h1>
-          <p class="text-muted">Report bugs, suggest features, and help improve the platform</p>
+          <p class="text-muted" data-i18n="wiki.issues.tracker_description">Report bugs, suggest features, and help improve the platform</p>
         </div>
         <button class="btn btn-primary" onclick="showReportForm()">
-          <i class="fas fa-plus"></i> Report New Issue
+          <i class="fas fa-plus"></i> <span data-i18n="wiki.issues.btn_report_new_issue">Report New Issue</span>
         </button>
       </div>
     </div>
@@ -197,56 +197,56 @@
     <div class="grid grid-4 mb-3">
       <div class="card" style="text-align: center;">
         <div style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);" id="openCount">0</div>
-        <div class="text-muted">Open Issues</div>
+        <div class="text-muted" data-i18n="wiki.issues.stat_open_issues">Open Issues</div>
       </div>
       <div class="card" style="text-align: center;">
         <div style="font-size: 2rem; font-weight: bold; color: #0277bd;" id="progressCount">0</div>
-        <div class="text-muted">In Progress</div>
+        <div class="text-muted" data-i18n="wiki.issues.stat_in_progress">In Progress</div>
       </div>
       <div class="card" style="text-align: center;">
         <div style="font-size: 2rem; font-weight: bold; color: #2e7d32;" id="resolvedCount">0</div>
-        <div class="text-muted">Resolved</div>
+        <div class="text-muted" data-i18n="wiki.issues.stat_resolved">Resolved</div>
       </div>
       <div class="card" style="text-align: center;">
         <div style="font-size: 2rem; font-weight: bold; color: #616161;" id="totalCount">0</div>
-        <div class="text-muted">Total Issues</div>
+        <div class="text-muted" data-i18n="wiki.issues.stat_total_issues">Total Issues</div>
       </div>
     </div>
 
     <!-- Issue Tabs -->
     <div class="issue-tabs">
-      <div class="issue-tab active" data-tab="all">All Issues</div>
-      <div class="issue-tab" data-tab="my">My Issues</div>
-      <div class="issue-tab" data-tab="bugs">Bugs</div>
-      <div class="issue-tab" data-tab="features">Features</div>
-      <div class="issue-tab" data-tab="resolved">Resolved</div>
+      <div class="issue-tab active" data-tab="all" data-i18n="wiki.issues.tab_all_issues">All Issues</div>
+      <div class="issue-tab" data-tab="my" data-i18n="wiki.issues.tab_my_issues">My Issues</div>
+      <div class="issue-tab" data-tab="bugs" data-i18n="wiki.issues.tab_bugs">Bugs</div>
+      <div class="issue-tab" data-tab="features" data-i18n="wiki.issues.tab_features">Features</div>
+      <div class="issue-tab" data-tab="resolved" data-i18n="wiki.issues.tab_resolved">Resolved</div>
     </div>
 
     <!-- Filter Bar -->
     <div class="card mb-3">
       <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
         <select class="form-input" style="width: auto;" id="filterSeverity">
-          <option value="">All Severities</option>
-          <option value="critical">Critical</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-          <option value="trivial">Trivial</option>
+          <option value="" data-i18n="wiki.issues.filter_all_severities">All Severities</option>
+          <option value="critical" data-i18n="wiki.issues.severity_critical">Critical</option>
+          <option value="high" data-i18n="wiki.issues.severity_high">High</option>
+          <option value="medium" data-i18n="wiki.issues.severity_medium">Medium</option>
+          <option value="low" data-i18n="wiki.issues.severity_low">Low</option>
+          <option value="trivial" data-i18n="wiki.issues.severity_trivial">Trivial</option>
         </select>
         <select class="form-input" style="width: auto;" id="filterStatus">
-          <option value="">All Statuses</option>
-          <option value="open">Open</option>
-          <option value="in_progress">In Progress</option>
-          <option value="resolved">Resolved</option>
-          <option value="closed">Closed</option>
+          <option value="" data-i18n="wiki.issues.filter_all_statuses">All Statuses</option>
+          <option value="open" data-i18n="wiki.issues.status_open">Open</option>
+          <option value="in_progress" data-i18n="wiki.issues.status_in_progress">In Progress</option>
+          <option value="resolved" data-i18n="wiki.issues.status_resolved">Resolved</option>
+          <option value="closed" data-i18n="wiki.issues.status_closed">Closed</option>
         </select>
         <select class="form-input" style="width: auto;" id="sortBy">
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="most-voted">Most Voted</option>
-          <option value="severity">By Severity</option>
+          <option value="newest" data-i18n="wiki.issues.sort_newest">Newest First</option>
+          <option value="oldest" data-i18n="wiki.issues.sort_oldest">Oldest First</option>
+          <option value="most-voted" data-i18n="wiki.issues.sort_most_voted">Most Voted</option>
+          <option value="severity" data-i18n="wiki.issues.sort_severity">By Severity</option>
         </select>
-        <input type="text" class="form-input" placeholder="Search issues..." id="searchIssues" style="flex: 1; min-width: 200px;">
+        <input type="text" class="form-input" placeholder="Search issues..." id="searchIssues" style="flex: 1; min-width: 200px;" data-i18n-placeholder="wiki.issues.placeholder_search_issues">
       </div>
     </div>
 
@@ -255,7 +255,7 @@
       <!-- Issues will be loaded here -->
       <div class="card" style="text-align: center; padding: 3rem;">
         <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary);"></i>
-        <p class="text-muted" style="margin-top: 1rem;">Loading issues...</p>
+        <p class="text-muted" style="margin-top: 1rem;" data-i18n="wiki.issues.loading_issues">Loading issues...</p>
       </div>
     </div>
   </main>
@@ -264,7 +264,7 @@
   <div id="reportModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
     <div style="background: white; max-width: 800px; margin: 2rem auto; padding: 2rem; border-radius: 12px;">
       <div class="flex-between mb-3">
-        <h2><i class="fas fa-bug"></i> Report New Issue</h2>
+        <h2><i class="fas fa-bug"></i> <span data-i18n="wiki.issues.modal_report_new_issue">Report New Issue</span></h2>
         <button class="btn btn-outline btn-small" onclick="hideReportForm()">
           <i class="fas fa-times"></i>
         </button>
@@ -273,31 +273,31 @@
       <form id="issueForm">
         <!-- Issue Type Selection -->
         <div class="form-group">
-          <label class="form-label">Issue Type *</label>
+          <label class="form-label" data-i18n="wiki.issues.form_issue_type">Issue Type *</label>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
             <div class="issue-type-card" data-type="bug">
               <div class="issue-type-icon">🐛</div>
-              <div>Bug</div>
+              <div data-i18n="wiki.issues.type_bug">Bug</div>
             </div>
             <div class="issue-type-card" data-type="feature">
               <div class="issue-type-icon">✨</div>
-              <div>Feature</div>
+              <div data-i18n="wiki.issues.type_feature">Feature</div>
             </div>
             <div class="issue-type-card" data-type="improvement">
               <div class="issue-type-icon">💡</div>
-              <div>Improvement</div>
+              <div data-i18n="wiki.issues.type_improvement">Improvement</div>
             </div>
             <div class="issue-type-card" data-type="ui">
               <div class="issue-type-icon">🎨</div>
-              <div>UI/UX</div>
+              <div data-i18n="wiki.issues.type_ui_ux">UI/UX</div>
             </div>
             <div class="issue-type-card" data-type="performance">
               <div class="issue-type-icon">⚡</div>
-              <div>Performance</div>
+              <div data-i18n="wiki.issues.type_performance">Performance</div>
             </div>
             <div class="issue-type-card" data-type="security">
               <div class="issue-type-icon">🔒</div>
-              <div>Security</div>
+              <div data-i18n="wiki.issues.type_security">Security</div>
             </div>
           </div>
           <input type="hidden" id="issueType" required>
@@ -305,100 +305,100 @@
 
         <!-- Title -->
         <div class="form-group">
-          <label class="form-label">Title *</label>
-          <input type="text" class="form-input" id="issueTitle" required placeholder="Brief description of the issue">
+          <label class="form-label" data-i18n="wiki.issues.form_title">Title *</label>
+          <input type="text" class="form-input" id="issueTitle" required placeholder="Brief description of the issue" data-i18n-placeholder="wiki.issues.form_title_placeholder">
         </div>
 
         <!-- Description with Better Instructions -->
         <div class="form-group">
-          <label class="form-label">Description *</label>
+          <label class="form-label" data-i18n="wiki.issues.form_description">Description *</label>
           <div style="background: #e3f2fd; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem;">
             <i class="fas fa-info-circle" style="color: #1976d2;"></i>
-            <strong>How to write a good bug report:</strong><br>
-            1. <strong>What I did:</strong> Describe the steps you took<br>
-            2. <strong>What I expected:</strong> What should have happened<br>
-            3. <strong>What actually happened:</strong> The actual result or error<br>
-            4. <strong>How to reproduce:</strong> Step-by-step instructions to recreate the issue
+            <strong data-i18n="wiki.issues.form_how_to_write_bug">How to write a good bug report:</strong><br>
+            <span data-i18n="wiki.issues.form_step1">1. <strong>What I did:</strong> Describe the steps you took</span><br>
+            <span data-i18n="wiki.issues.form_step2">2. <strong>What I expected:</strong> What should have happened</span><br>
+            <span data-i18n="wiki.issues.form_step3">3. <strong>What actually happened:</strong> The actual result or error</span><br>
+            <span data-i18n="wiki.issues.form_step4">4. <strong>How to reproduce:</strong> Step-by-step instructions to recreate the issue</span>
           </div>
           <textarea class="form-input" id="issueDescription" rows="8" required placeholder="Example:
 1. What I did: Clicked the 'Register' button on the Food Forest event
 2. What I expected: A registration form to appear
 3. What actually happened: Page showed error 'Cannot read property id of undefined'
-4. Steps to reproduce: Go to home page → Click any event's Register button"></textarea>
+4. Steps to reproduce: Go to home page → Click any event's Register button" data-i18n-placeholder="wiki.issues.form_description_placeholder"></textarea>
         </div>
 
         <!-- Error Logs / Console Output -->
         <div class="form-group">
-          <label class="form-label">Error Logs or Console Output (optional)</label>
+          <label class="form-label" data-i18n="wiki.issues.form_error_logs">Error Logs or Console Output (optional)</label>
           <div style="background: #fff3e0; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem;">
             <i class="fas fa-lightbulb" style="color: #f57c00;"></i>
-            <strong>How to get console logs:</strong> Press F12 → Go to Console tab → Copy any red error messages
+            <strong data-i18n="wiki.issues.form_how_to_get_logs">How to get console logs:</strong> <span data-i18n="wiki.issues.form_get_logs_steps">Press F12 → Go to Console tab → Copy any red error messages</span>
           </div>
-          <textarea class="form-input" id="errorLogs" rows="4" placeholder="Paste any error messages, console logs, or relevant technical details here..."></textarea>
+          <textarea class="form-input" id="errorLogs" rows="4" placeholder="Paste any error messages, console logs, or relevant technical details here..." data-i18n-placeholder="wiki.issues.form_error_logs_placeholder"></textarea>
         </div>
 
         <!-- Log File Upload -->
         <div class="form-group">
-          <label class="form-label">Attach Log File (optional)</label>
+          <label class="form-label" data-i18n="wiki.issues.form_attach_log_file">Attach Log File (optional)</label>
           <input type="file" id="logFile" accept=".log,.txt,.json" style="display: none;">
           <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer;" onclick="document.getElementById('logFile').click()" id="logFileDropZone">
             <i class="fas fa-file-alt" style="font-size: 2rem; color: var(--wiki-text-muted);"></i>
-            <p class="text-muted" style="margin: 0.5rem 0;">Click to upload log file or drag & drop</p>
-            <small class="text-muted">Supports: .log, .txt, .json files</small>
+            <p class="text-muted" style="margin: 0.5rem 0;" data-i18n="wiki.issues.form_click_upload_log">Click to upload log file or drag & drop</p>
+            <small class="text-muted" data-i18n="wiki.issues.form_log_file_formats">Supports: .log, .txt, .json files</small>
           </div>
           <div id="logFilePreview" style="display: none; margin-top: 1rem; padding: 1rem; background: var(--wiki-bg-secondary); border-radius: 6px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span><i class="fas fa-file"></i> <span id="logFileName"></span></span>
-              <button type="button" class="btn btn-outline btn-small" onclick="removeLogFile()">Remove</button>
+              <button type="button" class="btn btn-outline btn-small" onclick="removeLogFile()" data-i18n="wiki.common.btn_remove">Remove</button>
             </div>
           </div>
         </div>
 
         <!-- Severity -->
         <div class="form-group">
-          <label class="form-label">Severity</label>
+          <label class="form-label" data-i18n="wiki.issues.form_severity">Severity</label>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <div class="severity-option severity-critical" data-severity="critical">Critical</div>
-            <div class="severity-option severity-high" data-severity="high">High</div>
-            <div class="severity-option severity-medium selected" data-severity="medium">Medium</div>
-            <div class="severity-option severity-low" data-severity="low">Low</div>
-            <div class="severity-option severity-trivial" data-severity="trivial">Trivial</div>
+            <div class="severity-option severity-critical" data-severity="critical" data-i18n="wiki.issues.severity_critical">Critical</div>
+            <div class="severity-option severity-high" data-severity="high" data-i18n="wiki.issues.severity_high">High</div>
+            <div class="severity-option severity-medium selected" data-severity="medium" data-i18n="wiki.issues.severity_medium">Medium</div>
+            <div class="severity-option severity-low" data-severity="low" data-i18n="wiki.issues.severity_low">Low</div>
+            <div class="severity-option severity-trivial" data-severity="trivial" data-i18n="wiki.issues.severity_trivial">Trivial</div>
           </div>
           <input type="hidden" id="issueSeverity" value="medium">
         </div>
 
         <!-- Page URL -->
         <div class="form-group">
-          <label class="form-label">Page URL (where issue occurred)</label>
-          <input type="text" class="form-input" id="pageUrl" placeholder="e.g., /wiki-events.html">
+          <label class="form-label" data-i18n="wiki.issues.form_page_url">Page URL (where issue occurred)</label>
+          <input type="text" class="form-input" id="pageUrl" placeholder="e.g., /wiki-events.html" data-i18n-placeholder="wiki.issues.form_page_url_placeholder">
         </div>
 
         <!-- Screenshot -->
         <div class="form-group">
-          <label class="form-label">Screenshot (optional)</label>
+          <label class="form-label" data-i18n="wiki.issues.form_screenshot">Screenshot (optional)</label>
           <input type="file" id="screenshot" accept="image/*" style="display: none;">
           <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" onclick="document.getElementById('screenshot').click()">
             <i class="fas fa-image" style="font-size: 2rem; color: var(--wiki-text-muted);"></i>
-            <p class="text-muted">Click to upload screenshot</p>
+            <p class="text-muted" data-i18n="wiki.issues.form_click_upload_screenshot">Click to upload screenshot</p>
           </div>
           <img id="screenshotPreview" class="screenshot-preview" style="display: none;">
         </div>
 
         <!-- System Info (auto-collected) -->
         <div class="form-group" style="background: var(--wiki-bg-secondary); padding: 1rem; border-radius: 8px;">
-          <label class="form-label">System Information (auto-collected)</label>
+          <label class="form-label" data-i18n="wiki.issues.form_system_info">System Information (auto-collected)</label>
           <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <div>Browser: <span id="browserInfo"></span></div>
-            <div>Screen: <span id="screenInfo"></span></div>
-            <div>Platform: <span id="platformInfo"></span></div>
+            <div><span data-i18n="wiki.issues.form_browser">Browser:</span> <span id="browserInfo"></span></div>
+            <div><span data-i18n="wiki.issues.form_screen">Screen:</span> <span id="screenInfo"></span></div>
+            <div><span data-i18n="wiki.issues.form_platform">Platform:</span> <span id="platformInfo"></span></div>
           </div>
         </div>
 
         <!-- Submit Buttons -->
         <div class="flex-between">
-          <button type="button" class="btn btn-outline" onclick="hideReportForm()">Cancel</button>
+          <button type="button" class="btn btn-outline" onclick="hideReportForm()" data-i18n="wiki.common.btn_cancel">Cancel</button>
           <button type="submit" class="btn btn-primary">
-            <i class="fas fa-paper-plane"></i> Submit Issue
+            <i class="fas fa-paper-plane"></i> <span data-i18n="wiki.issues.btn_submit_issue">Submit Issue</span>
           </button>
         </div>
       </form>
@@ -418,7 +418,7 @@
   <footer class="wiki-footer">
     <div class="wiki-container">
       <div style="text-align: center; color: var(--wiki-text-muted);">
-        <p>© 2024 Permahub Wiki. Report issues to help us improve!</p>
+        <p data-i18n="wiki.footer.copyright_issues">© 2024 Permahub Wiki. Report issues to help us improve!</p>
       </div>
     </div>
   </footer>

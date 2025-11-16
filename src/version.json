@@ -1,0 +1,37 @@
+{
+  "app": "Permahub Wiki",
+  "version": "1.0.0",
+  "platform": "electron",
+  "webVersion": "1.0.0",
+  "releaseDate": "2025-01-16",
+  "buildDate": "",
+  "changelog": [
+    "Initial Electron desktop release for macOS",
+    "Full feature parity with web version",
+    "Connects to Supabase cloud database",
+    "Requires internet connection"
+  ],
+  "platforms": {
+    "macOS": {
+      "status": "in_development",
+      "minVersion": "10.15"
+    },
+    "iOS": {
+      "status": "planned",
+      "minVersion": "14.0"
+    },
+    "windows": {
+      "status": "planned",
+      "minVersion": "10"
+    },
+    "android": {
+      "status": "planned",
+      "minVersion": "8.0"
+    }
+  },
+  "requirements": {
+    "internet": true,
+    "supabase": "https://mcbxbaggjaxqfdvmrqsc.supabase.co",
+    "openstreetmap": true
+  }
+}

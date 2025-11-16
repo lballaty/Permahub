@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "winter-garden-planning-2025",
+    "title": "Winter Garden Planning Workshop",
+    "event_type": "workshop",
+    "event_date": "2025-01-25",
+    "organizer_organization": "Urban Farm Lisboa",
+    "registration_url": "https://urbanfarmlisboa.pt/workshops",
+    "contact_website": "https://urbanfarmlisboa.pt/workshops",
+    "contact_email": "workshops@urbanfarmlisboa.pt"
+  },
+  {
+    "slug": "pdc-module-1-jan-2025",
+    "title": "Permaculture Design Certificate - Module 1",
+    "event_type": "course",
+    "event_date": "2025-01-28",
+    "organizer_organization": "Eco Caminhos",
+    "registration_url": "https://ecocaminhos.com/pdc",
+    "contact_website": "https://ecocaminhos.com/pdc",
+    "contact_email": "info@ecocaminhos.com"
+  },
+  {
+    "slug": "seed-starting-feb-2025",
+    "title": "Seed Starting & Propagation",
+    "event_type": "workshop",
+    "event_date": "2025-02-08",
+    "organizer_organization": "Permakultura CZ",
+    "registration_url": "https://www.permakultura.cz/akce",
+    "contact_website": "https://www.permakultura.cz/akce",
+    "contact_email": "info@permakultura.cz"
+  },
+  {
+    "slug": "community-composting-feb-2025",
+    "title": "Community Composting Day",
+    "event_type": "workday",
+    "event_date": "2025-02-15",
+    "organizer_organization": "Transition Town Totnes",
+    "registration_url": "https://www.transitiontowntotnes.org/events",
+    "contact_website": "https://www.transitiontowntotnes.org/events",
+    "contact_email": "info@transitiontowntotnes.org"
+  },
+  {
+    "slug": "cob-oven-workshop-feb-2025",
+    "title": "Natural Building Workshop: Cob Oven",
+    "event_type": "workshop",
+    "event_date": "2025-02-22",
+    "organizer_organization": "Sunseed Desert Technology",
+    "registration_url": "https://sunseed.org.uk/workshops",
+    "contact_website": "https://sunseed.org.uk/workshops",
+    "contact_email": "info@sunseed.org.uk"
+  },
+  {
+    "slug": "farm-tour-march-2025",
+    "title": "Permaculture Farm Tour",
+    "event_type": "tour",
+    "event_date": "2025-03-15",
+    "organizer_organization": "Ferme du Bec Hellouin",
+    "registration_url": "https://www.fermedubec.com/en/",
+    "contact_website": "https://www.fermedubec.com/en/",
+    "contact_email": "contact@fermedubec.com"
+  },
+  {
+    "slug": "spring-equinox-2025",
+    "title": "Spring Equinox Celebration & Seed Swap",
+    "event_type": "meetup",
+    "event_date": "2025-03-20",
+    "organizer_organization": "Quinta do Vale",
+    "registration_url": "https://quintadovale.pt/events",
+    "contact_website": "https://quintadovale.pt/events",
+    "contact_email": "events@quintadovale.pt"
+  },
+  {
+    "slug": "water-harvesting-march-2025",
+    "title": "Water Harvesting Systems Design",
+    "event_type": "workshop",
+    "event_date": "2025-03-29",
+    "organizer_organization": "Permaculture Plus",
+    "registration_url": "https://www.permacultureplus.com.au/courses",
+    "contact_website": "https://www.permacultureplus.com.au/courses",
+    "contact_email": "info@permacultureplus.com.au"
+  },
+  {
+    "slug": "urban-permaculture-apr-2025",
+    "title": "Urban Permaculture Intensive",
+    "event_type": "course",
+    "event_date": "2025-04-05",
+    "organizer_organization": "Growing Home",
+    "registration_url": "https://growinghomeinc.org/events",
+    "contact_website": "https://growinghomeinc.org/events",
+    "contact_email": "info@growinghomeinc.org"
+  },
+  {
+    "slug": "mushroom-cultivation-apr-2025",
+    "title": "Mushroom Cultivation Workshop",
+    "event_type": "workshop",
+    "event_date": "2025-04-12",
+    "organizer_organization": "Fungi Ally",
+    "registration_url": "https://fungially.com/pages/workshops",
+    "contact_website": "https://fungially.com/pages/workshops",
+    "contact_email": "info@fungially.com"
+  },
+  {
+    "slug": "earth-day-planting-2025",
+    "title": "Earth Day Community Planting",
+    "event_type": "workday",
+    "event_date": "2025-04-22",
+    "organizer_organization": "TreePeople",
+    "registration_url": "https://www.treepeople.org/calendar",
+    "contact_website": "https://www.treepeople.org/calendar",
+    "contact_email": "info@treepeople.org"
+  },
+  {
+    "slug": "beekeeping-basics-may-2025",
+    "title": "Beekeeping for Beginners",
+    "event_type": "workshop",
+    "event_date": "2025-05-10",
+    "organizer_organization": "The Natural Beekeeping Trust",
+    "registration_url": "https://www.naturalbeekeepingtrust.org/events",
+    "contact_website": "https://www.naturalbeekeepingtrust.org/events",
+    "contact_email": "info@naturalbeekeepingtrust.org"
+  },
+  {
+    "slug": "permaculture-convergence-2025",
+    "title": "Permaculture Convergence 2025",
+    "event_type": "meetup",
+    "event_date": "2025-05-23",
+    "organizer_organization": "Findhorn Foundation",
+    "registration_url": "https://www.findhorn.org/events",
+    "contact_website": "https://www.findhorn.org/events",
+    "contact_email": "reception@findhorn.org"
+  },
+  {
+    "slug": "food-forest-may-2025",
+    "title": "Food Forest Design & Planting",
+    "event_type": "workshop",
+    "event_date": "2025-05-31",
+    "organizer_organization": "Permaculture Artisans",
+    "registration_url": "https://permacultureartisans.com/events",
+    "contact_website": "https://permacultureartisans.com/events",
+    "contact_email": "info@permacultureartisans.com"
+  },
+  {
+    "slug": "renewable-energy-june-2025",
+    "title": "Renewable Energy for Homesteads",
+    "event_type": "workshop",
+    "event_date": "2025-06-14",
+    "organizer_organization": "Solar Living Institute",
+    "registration_url": "https://www.solarliving.org/workshops",
+    "contact_website": "https://www.solarliving.org/workshops",
+    "contact_email": "sli@solarliving.org"
+  },
+  {
+    "slug": "solstice-herb-walk-2025",
+    "title": "Summer Solstice Herb Walk",
+    "event_type": "tour",
+    "event_date": "2025-06-21",
+    "organizer_organization": "Herb Pharm",
+    "registration_url": "https://www.herb-pharm.com/events",
+    "contact_website": "https://www.herb-pharm.com/events",
+    "contact_email": "info@herb-pharm.com"
+  },
+  {
+    "slug": "csa-open-day-2025",
+    "title": "Community Supported Agriculture Open Day",
+    "event_type": "tour",
+    "event_date": "2025-06-28",
+    "organizer_organization": "Full Belly Farm",
+    "registration_url": "https://fullbellyfarm.com/events",
+    "contact_website": "https://fullbellyfarm.com/events",
+    "contact_email": "info@fullbellyfarm.com"
+  },
+  {
+    "slug": "soil-biology-july-2025",
+    "title": "Soil Biology & Composting Intensive",
+    "event_type": "course",
+    "event_date": "2025-07-12",
+    "organizer_organization": "Rodale Institute",
+    "registration_url": "https://rodaleinstitute.org/education",
+    "contact_website": "https://rodaleinstitute.org/education",
+    "contact_email": "info@rodaleinstitute.org"
+  },
+  {
+    "slug": "kids-camp-july-2025",
+    "title": "Permaculture Kids Camp",
+    "event_type": "course",
+    "event_date": "2025-07-21",
+    "organizer_organization": "Urban Tilth",
+    "registration_url": "https://www.urbantilth.org/programs",
+    "contact_website": "https://www.urbantilth.org/programs",
+    "contact_email": "info@urbantilth.org"
+  },
+  {
+    "slug": "greywater-july-2025",
+    "title": "Greywater Systems Installation",
+    "event_type": "workshop",
+    "event_date": "2025-07-26",
+    "organizer_organization": "Greywater Action",
+    "registration_url": "https://greywateraction.org/workshops",
+    "contact_website": "https://greywateraction.org/workshops",
+    "contact_email": "info@greywateraction.org"
+  },
+  {
+    "slug": "preserving-harvest-aug-2025",
+    "title": "Preserving the Harvest",
+    "event_type": "workshop",
+    "event_date": "2025-08-09",
+    "organizer_organization": "Stone Barns Center",
+    "registration_url": "https://www.stonebarnscenter.org/engage",
+    "contact_website": "https://www.stonebarnscenter.org/engage",
+    "contact_email": "info@stonebarnscenter.org"
+  },
+  {
+    "slug": "bamboo-construction-aug-2025",
+    "title": "Bamboo Construction Workshop",
+    "event_type": "workshop",
+    "event_date": "2025-08-16",
+    "organizer_organization": "Pun Pun Organic Farm",
+    "registration_url": "https://punpunthailand.org/workshops",
+    "contact_website": "https://punpunthailand.org/workshops",
+    "contact_email": "punpun@punpunthailand.org"
+  },
+  {
+    "slug": "permablitz-school-aug-2025",
+    "title": "Permablitz: School Garden",
+    "event_type": "workday",
+    "event_date": "2025-08-23",
+    "organizer_organization": "Permablitz Melbourne",
+    "registration_url": "https://www.permablitz.net/events",
+    "contact_website": "https://www.permablitz.net/events",
+    "contact_email": "info@permablitz.net"
+  },
+  {
+    "slug": "earthship-academy-sep-2025",
+    "title": "Earthship Academy",
+    "event_type": "course",
+    "event_date": "2025-09-01",
+    "organizer_organization": "Earthship Biotecture",
+    "registration_url": "https://www.earthshipglobal.com/academy",
+    "contact_website": "https://www.earthshipglobal.com/academy",
+    "contact_email": "info@earthshipglobal.com"
+  },
+  {
+    "slug": "orchard-management-sep-2025",
+    "title": "Holistic Orchard Management",
+    "event_type": "workshop",
+    "event_date": "2025-09-13",
+    "organizer_organization": "Michael Phillips Orchard",
+    "registration_url": "https://www.groworganicapples.com/workshops",
+    "contact_website": "https://www.groworganicapples.com/workshops",
+    "contact_email": "info@groworganicapples.com"
+  },
+  {
+    "slug": "harvest-festival-sep-2025",
+    "title": "Autumn Equinox Harvest Festival",
+    "event_type": "meetup",
+    "event_date": "2025-09-22",
+    "organizer_organization": "Polyface Farm",
+    "registration_url": "https://www.polyfacefarms.com/events",
+    "contact_website": "https://www.polyfacefarms.com/events",
+    "contact_email": "farm@polyfacefarms.com"
+  },
+  {
+    "slug": "forest-medicine-oct-2025",
+    "title": "Wildcrafting & Forest Medicine",
+    "event_type": "workshop",
+    "event_date": "2025-10-11",
+    "organizer_organization": "Wilderness Awareness School",
+    "registration_url": "https://www.wildernessawareness.org/programs",
+    "contact_website": "https://www.wildernessawareness.org/programs",
+    "contact_email": "info@wildernessawareness.org"
+  },
+  {
+    "slug": "cover-crops-oct-2025",
+    "title": "Cover Crops & Green Manures",
+    "event_type": "workshop",
+    "event_date": "2025-10-18",
+    "organizer_organization": "UC Davis Student Farm",
+    "registration_url": "https://asi.ucdavis.edu/programs/sf",
+    "contact_website": "https://asi.ucdavis.edu/programs/sf",
+    "contact_email": "studentfarm@ucdavis.edu"
+  },
+  {
+    "slug": "tech-fair-oct-2025",
+    "title": "Appropriate Technology Fair",
+    "event_type": "meetup",
+    "event_date": "2025-10-25",
+    "organizer_organization": "Aprovecho Research Center",
+    "registration_url": "https://www.aprovecho.org/events",
+    "contact_website": "https://www.aprovecho.org/events",
+    "contact_email": "info@aprovecho.org"
+  },
+  {
+    "slug": "winter-prep-nov-2025",
+    "title": "Winter Preparation Workshop",
+    "event_type": "workshop",
+    "event_date": "2025-11-08",
+    "organizer_organization": "Four Season Farm",
+    "registration_url": "https://www.fourseasonfarm.com/workshops",
+    "contact_website": "https://www.fourseasonfarm.com/workshops",
+    "contact_email": "info@fourseasonfarm.com"
+  },
+  {
+    "slug": "biochar-nov-2025",
+    "title": "Biochar Production & Application",
+    "event_type": "workshop",
+    "event_date": "2025-11-15",
+    "organizer_organization": "Carbon Gold",
+    "registration_url": "https://www.carbongold.com/workshops",
+    "contact_website": "https://www.carbongold.com/workshops",
+    "contact_email": "info@carbongold.com"
+  },
+  {
+    "slug": "thanksgiving-feast-2025",
+    "title": "Thanksgiving Community Feast",
+    "event_type": "meetup",
+    "event_date": "2025-11-27",
+    "organizer_organization": "Occidental Arts & Ecology Center",
+    "registration_url": "https://oaec.org/events",
+    "contact_website": "https://oaec.org/events",
+    "contact_email": "info@oaec.org"
+  },
+  {
+    "slug": "greenhouse-winter-dec-2025",
+    "title": "Greenhouse Management in Winter",
+    "event_type": "workshop",
+    "event_date": "2025-12-06",
+    "organizer_organization": "Growing Power",
+    "registration_url": "https://www.growingpower.org/education",
+    "contact_website": "https://www.growingpower.org/education",
+    "contact_email": "info@growingpower.org"
+  },
+  {
+    "slug": "year-planning-dec-2025",
+    "title": "Year-End Reflection & Planning",
+    "event_type": "meetup",
+    "event_date": "2025-12-13",
+    "organizer_organization": "Common Ground Garden",
+    "registration_url": "https://www.commongroundgarden.org/events",
+    "contact_website": "https://www.commongroundgarden.org/events",
+    "contact_email": "info@commongroundgarden.org"
+  },
+  {
+    "slug": "solstice-seeds-dec-2025",
+    "title": "Winter Solstice Seed Blessing",
+    "event_type": "meetup",
+    "event_date": "2025-12-21",
+    "organizer_organization": "Seed Savers Exchange",
+    "registration_url": "https://www.seedsavers.org/events",
+    "contact_website": "https://www.seedsavers.org/events",
+    "contact_email": "info@seedsavers.org"
+  },
+  {
+    "slug": "garden-planning-jan-2026",
+    "title": "New Year Garden Planning",
+    "event_type": "workshop",
+    "event_date": "2026-01-10",
+    "organizer_organization": "Brooklyn Botanic Garden",
+    "registration_url": "https://www.bbg.org/education",
+    "contact_website": "https://www.bbg.org/education",
+    "contact_email": "info@bbg.org"
+  },
+  {
+    "slug": "pruning-workshop-jan-2026",
+    "title": "Pruning Workshop: Fruit Trees",
+    "event_type": "workshop",
+    "event_date": "2026-01-17",
+    "organizer_organization": "Portland Fruit Tree Project",
+    "registration_url": "https://www.portlandfruit.org/events",
+    "contact_website": "https://www.portlandfruit.org/events",
+    "contact_email": "info@portlandfruit.org"
+  },
+  {
+    "slug": "pdc-start-jan-2026",
+    "title": "Permaculture Design Course Start",
+    "event_type": "course",
+    "event_date": "2026-01-24",
+    "organizer_organization": "Permaculture Institute of Santa Fe",
+    "registration_url": "https://www.permaculture.org/courses",
+    "contact_website": "https://www.permaculture.org/courses",
+    "contact_email": "info@permaculture.org"
+  },
+  {
+    "slug": "maple-syrup-feb-2026",
+    "title": "Maple Syrup Workshop",
+    "event_type": "workshop",
+    "event_date": "2026-02-07",
+    "organizer_organization": "Cornell University Maple Program",
+    "registration_url": "https://blogs.cornell.edu/cornellmaple",
+    "contact_website": "https://blogs.cornell.edu/cornellmaple",
+    "contact_email": "cornellmaple@cornell.edu"
+  },
+  {
+    "slug": "seed-starting-feb-2026",
+    "title": "Seed Starting Marathon",
+    "event_type": "workshop",
+    "event_date": "2026-02-14",
+    "organizer_organization": "Johnny Selected Seeds",
+    "registration_url": "https://www.johnnyseeds.com/growers-library",
+    "contact_website": "https://www.johnnyseeds.com/growers-library",
+    "contact_email": "info@johnnyseeds.com"
+  },
+  {
+    "slug": "aquaponics-feb-2026",
+    "title": "Aquaponics System Design",
+    "event_type": "workshop",
+    "event_date": "2026-02-21",
+    "organizer_organization": "Growing Warriors",
+    "registration_url": "https://growingwarriors.org/training",
+    "contact_website": "https://growingwarriors.org/training",
+    "contact_email": "info@growingwarriors.org"
+  },
+  {
+    "slug": "biodynamic-feb-2026",
+    "title": "Biodynamic Preparations Workshop",
+    "event_type": "workshop",
+    "event_date": "2026-02-28",
+    "organizer_organization": "Josephine Porter Institute for Applied Biodynamics",
+    "registration_url": "https://www.jpibiodynamics.org/events",
+    "contact_website": "https://www.jpibiodynamics.org/events",
+    "contact_email": "info@jpibiodynamics.org"
+  },
+  {
+    "slug": "grafting-workshop-mar-2026",
+    "title": "Spring Grafting Workshop",
+    "event_type": "workshop",
+    "event_date": "2026-03-07",
+    "organizer_organization": "California Rare Fruit Growers",
+    "registration_url": "https://crfg.org/events",
+    "contact_website": "https://crfg.org/events",
+    "contact_email": "info@crfg.org"
+  },
+  {
+    "slug": "permaculture-day-2026",
+    "title": "International Permaculture Day",
+    "event_type": "meetup",
+    "event_date": "2026-03-14",
+    "organizer_organization": "International Permaculture Network",
+    "registration_url": "https://www.permacultureday.org",
+    "contact_website": "https://www.permacultureday.org",
+    "contact_email": "info@permacultureday.org"
+  },
+  {
+    "slug": "equinox-planting-2026",
+    "title": "Spring Equinox Planting Festival",
+    "event_type": "meetup",
+    "event_date": "2026-03-20",
+    "organizer_organization": "Esalen Institute",
+    "registration_url": "https://www.esalen.org/workshops",
+    "contact_website": "https://www.esalen.org/workshops",
+    "contact_email": "info@esalen.org"
+  }
+]

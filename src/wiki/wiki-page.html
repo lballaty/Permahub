@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading... - Community Wiki</title>
+  <title data-i18n="wiki.page.pageTitle">Loading... - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/wiki-i18n.js"></script>
@@ -18,9 +18,10 @@
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
         <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
         <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
-        <li><a href="wiki-favorites.html"><i class="fas fa-star"></i> My Favorites</a></li>
+        <li><a href="wiki-favorites.html" data-i18n="wiki.nav.favorites"><i class="fas fa-star"></i> My Favorites</a></li>
         <li>
           <!-- Language Selector -->
           <div class="lang-selector">
@@ -112,15 +113,15 @@
       <article class="wiki-content">
         <!-- Breadcrumb (populated by JavaScript) -->
         <div style="margin-bottom: 1rem; color: var(--wiki-text-muted); font-size: 0.9rem;">
-          <a href="wiki-home.html" style="color: var(--wiki-primary);">Home</a>
+          <a href="wiki-home.html" style="color: var(--wiki-primary);" data-i18n="wiki.nav.home">Home</a>
         </div>
 
         <!-- Article Header (populated by JavaScript) -->
-        <h1>Loading...</h1>
+        <h1 data-i18n="wiki.page.loading">Loading...</h1>
 
         <!-- Metadata (populated by JavaScript) -->
         <div class="card-meta" style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--wiki-border);">
-          <span><i class="fas fa-spinner fa-spin"></i> Loading...</span>
+          <span data-i18n="wiki.page.loadingMetadata"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
         </div>
 
         <!-- Tags (populated by JavaScript) -->
@@ -131,19 +132,19 @@
         <!-- Action Buttons for Logged In Users -->
         <div style="margin-top: 1rem; padding: 1rem; background-color: var(--wiki-bg); border-radius: 6px; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
           <div style="display: flex; gap: 0.5rem;">
-            <a href="wiki-editor.html" class="btn btn-outline btn-small" id="editPageBtn">
+            <a href="wiki-editor.html" class="btn btn-outline btn-small" id="editPageBtn" data-i18n="wiki.page.editPage">
               <i class="fas fa-edit"></i> Edit This Page
             </a>
             <button id="favoriteBtn" class="btn btn-primary btn-small" onclick="toggleFavorite()" style="display: flex; align-items: center; gap: 0.5rem;">
               <i class="far fa-star" id="favoriteIcon"></i>
-              <span id="favoriteText">Save to Favorites</span>
+              <span id="favoriteText" data-i18n="wiki.page.saveToFavorites">Save to Favorites</span>
             </button>
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <button class="btn btn-outline btn-small" title="Share">
+            <button class="btn btn-outline btn-small" title="Share" data-i18n="wiki.page.share">
               <i class="fas fa-share-alt"></i>
             </button>
-            <button class="btn btn-outline btn-small" title="Print">
+            <button class="btn btn-outline btn-small" title="Print" data-i18n="wiki.page.print">
               <i class="fas fa-print"></i>
             </button>
           </div>
@@ -180,7 +181,7 @@
 
         <!-- Article Body (populated by JavaScript) -->
         <div style="margin-top: 2rem;">
-          <p style="text-align: center; padding: 3rem; color: var(--wiki-text-muted);">
+          <p style="text-align: center; padding: 3rem; color: var(--wiki-text-muted);" data-i18n="wiki.page.loadingContent">
             <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
             Loading guide content...
           </p>
@@ -190,14 +191,14 @@
         <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
           <div class="flex-between">
             <div>
-              <strong>Last edited:</strong> November 8, 2025 by Emma Wilson
+              <strong data-i18n="wiki.page.lastEdited">Last edited:</strong> November 8, 2025 by Emma Wilson
             </div>
             <div>
-              <strong>Contributors:</strong> 3 people
+              <strong data-i18n="wiki.page.contributors">Contributors:</strong> 3 people
             </div>
           </div>
           <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--wiki-text-muted);">
-            This page has been viewed 127 times | <a href="#" style="color: var(--wiki-primary);">View edit history</a>
+            <span data-i18n="wiki.page.viewCount">This page has been viewed 127 times</span> | <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.page.viewHistory">View edit history</a>
           </div>
         </div>
       </article>
@@ -206,7 +207,7 @@
       <aside>
         <!-- Table of Contents (future feature) -->
         <div class="sidebar mb-3" style="display: none;">
-          <h3 class="sidebar-title">On This Page</h3>
+          <h3 class="sidebar-title" data-i18n="wiki.page.onThisPage">On This Page</h3>
           <ul class="sidebar-list">
             <!-- Table of contents will be generated here -->
           </ul>
@@ -214,7 +215,7 @@
 
         <!-- Author Info (future feature) -->
         <div class="sidebar mb-3" style="display: none;">
-          <h3 class="sidebar-title">About the Author</h3>
+          <h3 class="sidebar-title" data-i18n="wiki.page.aboutAuthor">About the Author</h3>
           <div style="text-align: center;">
             <!-- Author info will be populated here -->
           </div>
@@ -222,15 +223,15 @@
 
         <!-- Related Pages (populated by JavaScript) -->
         <div class="card">
-          <h3 class="sidebar-title">Related Guides</h3>
+          <h3 class="sidebar-title" data-i18n="wiki.page.relatedGuides">Related Guides</h3>
           <ul>
-            <li><i class="fas fa-spinner fa-spin"></i> Loading...</li>
+            <li data-i18n="wiki.page.loadingRelated"><i class="fas fa-spinner fa-spin"></i> Loading...</li>
           </ul>
         </div>
 
         <!-- Categories (populated by JavaScript) -->
         <div class="sidebar" style="display: none;">
-          <h3 class="sidebar-title">Categories</h3>
+          <h3 class="sidebar-title" data-i18n="wiki.page.categories">Categories</h3>
           <div class="tags">
             <!-- Categories will be populated here -->
           </div>
@@ -242,12 +243,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.reportIssue"><i class="fas fa-bug"></i> Report Issue</a>
       </p>
     </div>
   </footer>

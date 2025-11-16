@@ -3,18 +3,47 @@
   "version": "1.0.0",
   "description": "A global platform connecting permaculture practitioners, projects, and sustainable living communities",
   "type": "module",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:unit": "vitest run tests/unit",
-    "test:ui": "vitest --ui",
-    "test:e2e": "playwright test",
+    "electron:dev": "NODE_ENV=development electron .",
+    "electron:build": "electron-builder",
+    "electron:build:mac": "electron-builder --mac",
+    "electron:build:win": "electron-builder --win",
+    "electron:build:all": "electron-builder --mac --win",
+    "test": "npm run test:smoke && npm run test:unit && npm run test:integration",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "playwright test tests/unit --project=chromium",
+    "test:unit:watch": "vitest tests/unit",
+    "test:integration": "playwright test tests/integration --project=chromium",
+    "test:integration:wiki": "playwright test tests/integration/wiki",
+    "test:integration:auth": "playwright test tests/integration/auth",
+    "test:e2e": "playwright test tests/e2e",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
-    "test:all": "npm run test:unit && npm run test:e2e",
-    "test:coverage": "vitest run --coverage",
+    "test:e2e:critical": "playwright test --grep @critical",
+    "test:e2e:smoke": "playwright test tests/e2e/smoke",
+    "test:e2e:regression": "playwright test tests/e2e/regression",
+    "test:smoke": "playwright test tests/e2e/smoke --project=chromium",
+    "test:critical": "playwright test --grep @critical --project=chromium",
+    "test:wiki": "playwright test --grep @wiki",
+    "test:auth": "playwright test --grep @auth",
+    "test:database": "playwright test --grep @database",
+    "test:search": "playwright test --grep @search",
+    "test:filters": "playwright test --grep @filters",
+    "test:mobile": "playwright test --grep @mobile --project=mobile-chrome",
+    "test:responsive": "playwright test --grep @responsive",
+    "test:browsers": "playwright test --project=chromium --project=firefox --project=webkit",
+    "test:cross-browser": "playwright test tests/e2e/smoke --project=chromium --project=firefox --project=webkit",
+    "test:debug": "playwright test --debug",
+    "test:headed:slow": "SLOW_MO=100 playwright test --headed",
+    "test:trace": "playwright test --trace on",
+    "test:report": "playwright show-report",
+    "test:quick": "npm run test:smoke",
+    "test:ci": "npm run test:smoke && npm run test:critical && npm run test:integration",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write \"src/**/*.{js,html,css,md}\"",
@@ -39,6 +68,8 @@
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@testing-library/dom": "^10.4.1",
+    "electron": "^39.2.1",
+    "electron-builder": "^26.0.12",
     "eslint": "^8.56.0",
     "jsdom": "^26.1.0",
     "prettier": "^3.1.1",
@@ -52,5 +83,60 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.78.0",
     "dotenv": "^17.2.3"
+  },
+  "build": {
+    "appId": "com.permahub.wiki",
+    "productName": "Permahub Wiki",
+    "copyright": "Copyright © 2025 Permahub",
+    "directories": {
+      "output": "dist-electron",
+      "buildResources": "electron"
+    },
+    "files": [
+      "src/wiki/**/*",
+      "src/js/**/*",
+      "src/assets/**/*",
+      "src/version.json",
+      "electron/**/*",
+      "package.json",
+      "!**/*.map",
+      "!**/node_modules/**/*",
+      "!src/pages/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.education",
+      "icon": "electron/icon.icns",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "icon": "electron/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }

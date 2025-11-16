@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Guides - Community Wiki</title>
+  <title data-i18n="wiki.guides.page_title">Community Guides - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/wiki-i18n.js"></script>
@@ -18,8 +18,8 @@
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
-        <li><a href="wiki-guides.html" class="active">Guides</a></li>
-        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-guides.html" class="active" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
         <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
         <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
         <li>
@@ -105,11 +105,11 @@
     <div class="card">
       <div class="flex-between">
         <div>
-          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Guides</h1>
-          <p class="text-muted">Comprehensive how-to guides for permaculture, homesteading, and sustainable living</p>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.guides.title">Community Guides</h1>
+          <p class="text-muted" data-i18n="wiki.guides.subtitle">Comprehensive how-to guides for permaculture, homesteading, and sustainable living</p>
         </div>
         <a href="wiki-editor.html" class="btn btn-primary">
-          <i class="fas fa-plus-circle"></i> Create Guide
+          <i class="fas fa-plus-circle"></i> <span data-i18n="wiki.guides.create_guide">Create Guide</span>
         </a>
       </div>
     </div>
@@ -122,6 +122,7 @@
           <input
             type="text"
             id="guideSearch"
+            data-i18n-placeholder="wiki.guides.search_placeholder"
             placeholder="Search guides..."
             class="form-input"
             style="padding-left: 2.5rem; width: 100%;"
@@ -134,10 +135,10 @@
     <div class="card">
       <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
         <div>
-          <strong>Filter by category:</strong>
+          <strong data-i18n="wiki.guides.filter_category">Filter by category:</strong>
         </div>
         <div class="tags" id="categoryFilters">
-          <a href="javascript:void(0)" class="tag guide-filter active" data-filter="all">All Guides</a>
+          <a href="javascript:void(0)" class="tag guide-filter active" data-filter="all" data-i18n="wiki.guides.all_guides">All Guides</a>
           <!-- Category filters will be loaded dynamically -->
         </div>
       </div>
@@ -147,18 +148,18 @@
     <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
       <div>
         <span style="margin-right: 1rem; color: var(--wiki-text-muted);">
-          <span id="guideCount">0</span> guides found
+          <span id="guideCount">0</span> <span data-i18n="wiki.guides.guides_found">guides found</span>
         </span>
       </div>
       <div style="display: flex; gap: 0.5rem;">
         <button class="btn btn-outline btn-small" id="sortNewest">
-          <i class="fas fa-clock"></i> Newest
+          <i class="fas fa-clock"></i> <span data-i18n="wiki.guides.sort_newest">Newest</span>
         </button>
         <button class="btn btn-outline btn-small" id="sortPopular">
-          <i class="fas fa-fire"></i> Most Popular
+          <i class="fas fa-fire"></i> <span data-i18n="wiki.guides.sort_popular">Most Popular</span>
         </button>
         <button class="btn btn-outline btn-small" id="sortAlpha">
-          <i class="fas fa-sort-alpha-down"></i> A-Z
+          <i class="fas fa-sort-alpha-down"></i> <span data-i18n="wiki.guides.sort_alpha">A-Z</span>
         </button>
       </div>
     </div>
@@ -172,19 +173,20 @@
 
     <!-- Newsletter -->
     <div class="card text-center">
-      <h2 style="margin-bottom: 1rem;">Stay Updated</h2>
-      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.guides.stay_updated">Stay Updated</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.guides.newsletter_desc">
         Get notified when new guides are published
       </p>
       <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
         <input
           type="email"
+          data-i18n-placeholder="wiki.guides.email_placeholder"
           placeholder="Enter your email"
           class="form-input"
           style="flex: 1;"
         >
         <button class="btn btn-primary">
-          <i class="fas fa-bell"></i> Subscribe
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.guides.subscribe">Subscribe</span>
         </button>
       </div>
     </div>
@@ -193,12 +195,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
       </p>
     </div>
   </footer>

@@ -5,6 +5,7 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { wikiI18n } from './wiki-i18n.js';
 
 // State
 let currentFilter = 'all';
@@ -147,7 +148,7 @@ async function loadGuides() {
       message: error.message,
       stack: error.stack
     });
-    showError('Failed to load guides. Please refresh the page.');
+    showError(wikiI18n.t('wiki.guides.error_loading'));
   }
 }
 
@@ -187,8 +188,8 @@ function renderGuides() {
     guidesGrid.innerHTML = `
       <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
         <i class="fas fa-book-open" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">No guides found</h3>
-        <p class="text-muted">Try selecting a different category or check back later</p>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.guides.no_guides_found')}</h3>
+        <p class="text-muted">${wikiI18n.t('wiki.guides.try_different_filter')}</p>
       </div>
     `;
     return;
@@ -299,8 +300,8 @@ function initializeSearch() {
         guidesGrid.innerHTML = `
           <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
             <i class="fas fa-search" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-            <h3 style="color: var(--wiki-text-muted);">No guides found</h3>
-            <p class="text-muted">No guides match your search</p>
+            <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.guides.no_guides_found')}</h3>
+            <p class="text-muted">${wikiI18n.t('wiki.guides.no_search_results')}</p>
           </div>
         `;
         return;
@@ -398,7 +399,7 @@ function showLoading() {
     guidesGrid.innerHTML = `
       <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--wiki-primary); margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">Loading guides...</h3>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.guides.loading')}</h3>
       </div>
     `;
   }
@@ -413,7 +414,7 @@ function showError(message) {
     guidesGrid.innerHTML = `
       <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e63946; margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">Error</h3>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.common.error')}</h3>
         <p class="text-muted">${escapeHtml(message)}</p>
       </div>
     `;
@@ -424,18 +425,24 @@ function showError(message) {
  * Format date for display
  */
 function formatDate(dateString) {
-  if (!dateString) return 'Unknown date';
+  if (!dateString) return wikiI18n.t('wiki.time.unknown_date');
 
   const date = new Date(dateString);
   const now = new Date();
   const diffTime = Math.abs(now - date);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  if (diffDays === 0) return 'Today';
-  if (diffDays === 1) return 'Yesterday';
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) !== 1 ? 's' : ''} ago`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} month${Math.floor(diffDays / 30) !== 1 ? 's' : ''} ago`;
+  if (diffDays === 0) return wikiI18n.t('wiki.time.today');
+  if (diffDays === 1) return wikiI18n.t('wiki.time.yesterday');
+  if (diffDays < 7) return `${diffDays} ${wikiI18n.t('wiki.time.days_ago')}`;
+  if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    return `${weeks} ${weeks !== 1 ? wikiI18n.t('wiki.time.weeks_ago') : wikiI18n.t('wiki.time.week_ago')}`;
+  }
+  if (diffDays < 365) {
+    const months = Math.floor(diffDays / 30);
+    return `${months} ${months !== 1 ? wikiI18n.t('wiki.time.months_ago') : wikiI18n.t('wiki.time.month_ago')}`;
+  }
 
   return date.toLocaleDateString();
 }

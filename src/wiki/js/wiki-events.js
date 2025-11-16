@@ -5,6 +5,7 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { wikiI18n } from './wiki-i18n.js';
 
 // State
 let currentFilter = 'all';
@@ -78,7 +79,7 @@ async function loadEvents() {
       message: error.message,
       stack: error.stack
     });
-    showError('Failed to load events. Please refresh the page.');
+    showError(wikiI18n.t('wiki.events.error_loading'));
   }
 }
 
@@ -113,8 +114,8 @@ function renderEvents() {
     eventsGrid.innerHTML = `
       <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
         <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">No events found</h3>
-        <p class="text-muted">Try selecting a different filter or check back later</p>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.events.no_events_found')}</h3>
+        <p class="text-muted">${wikiI18n.t('wiki.events.try_different_filter')}</p>
       </div>
     `;
     return;
@@ -139,7 +140,7 @@ function renderEvents() {
         </p>
         <div class="tags mt-1">
           <span class="tag">${formatEventType(event.event_type)}</span>
-          ${event.cost ? `<span class="tag">${event.cost === 0 || event.cost === '0' ? 'Free' : '$' + event.cost}</span>` : ''}
+          ${event.cost ? `<span class="tag">${event.cost === 0 || event.cost === '0' ? wikiI18n.t('wiki.events.free') : '$' + event.cost}</span>` : ''}
           ${event.max_participants ? `<span class="tag"><i class="fas fa-users"></i> ${event.max_participants} spots</span>` : ''}
         </div>
         <div style="margin-top: 1rem;">
@@ -163,7 +164,7 @@ function showLoading() {
     eventsGrid.innerHTML = `
       <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--wiki-primary); margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">Loading events...</h3>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.events.loading')}</h3>
       </div>
     `;
   }
@@ -178,7 +179,7 @@ function showError(message) {
     eventsGrid.innerHTML = `
       <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e63946; margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">Error</h3>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.common.error')}</h3>
         <p class="text-muted">${escapeHtml(message)}</p>
       </div>
     `;
@@ -233,7 +234,7 @@ function initializeViewToggles() {
   if (calendarViewBtn) {
     calendarViewBtn.addEventListener('click', function() {
       console.log('📅 Calendar view not yet implemented');
-      alert('Calendar view coming soon!');
+      alert(wikiI18n.t('wiki.events.calendar_coming_soon'));
     });
   }
 }

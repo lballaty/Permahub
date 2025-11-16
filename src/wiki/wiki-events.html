@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Events - Community Wiki</title>
+  <title data-i18n="wiki.events.page_title">Community Events - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/wiki-i18n.js"></script>
@@ -18,7 +18,8 @@
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
-        <li><a href="wiki-events.html" class="active">Events</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" class="active" data-i18n="wiki.nav.events">Events</a></li>
         <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
         <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
         <li>
@@ -104,11 +105,11 @@
     <div class="card">
       <div class="flex-between">
         <div>
-          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Events</h1>
-          <p class="text-muted">Workshops, meetups, and gatherings for our permaculture community</p>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.events.title">Community Events</h1>
+          <p class="text-muted" data-i18n="wiki.events.subtitle">Workshops, meetups, and gatherings for our permaculture community</p>
         </div>
         <a href="wiki-editor.html" class="btn btn-primary" id="addEventBtn">
-          <i class="fas fa-calendar-plus"></i> Add Event
+          <i class="fas fa-calendar-plus"></i> <span data-i18n="wiki.events.create_event">Add Event</span>
         </a>
       </div>
     </div>
@@ -117,15 +118,15 @@
     <div class="card">
       <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
         <div>
-          <strong>Filter by:</strong>
+          <strong data-i18n="wiki.events.filter_type">Filter by type:</strong>
         </div>
         <div class="tags">
-          <a href="javascript:void(0)" class="tag event-filter active" data-filter="all">All Events</a>
-          <a href="javascript:void(0)" class="tag event-filter" data-filter="workshop">Workshops</a>
-          <a href="javascript:void(0)" class="tag event-filter" data-filter="meetup">Meetups</a>
-          <a href="javascript:void(0)" class="tag event-filter" data-filter="tour">Tours</a>
-          <a href="javascript:void(0)" class="tag event-filter" data-filter="course">Courses</a>
-          <a href="javascript:void(0)" class="tag event-filter" data-filter="workday">Work Days</a>
+          <a href="javascript:void(0)" class="tag event-filter active" data-filter="all" data-i18n="wiki.events.all_events">All Events</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workshop" data-i18n="wiki.events.type_workshop">Workshops</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="meetup" data-i18n="wiki.events.type_meetup">Meetups</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="tour" data-i18n="wiki.events.type_tour">Tours</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="course" data-i18n="wiki.events.type_course">Courses</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workday" data-i18n="wiki.events.type_workday">Work Days</a>
         </div>
       </div>
     </div>
@@ -133,16 +134,16 @@
     <!-- View Toggle -->
     <div style="margin-bottom: 2rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
       <button class="btn btn-primary btn-small" id="listView">
-        <i class="fas fa-list"></i> List View
+        <i class="fas fa-list"></i> <span data-i18n="wiki.events.list_view">List View</span>
       </button>
       <button class="btn btn-outline btn-small" id="calendarView">
-        <i class="fas fa-calendar"></i> Calendar View
+        <i class="fas fa-calendar"></i> <span data-i18n="wiki.events.calendar_view">Calendar View</span>
       </button>
     </div>
 
     <!-- Upcoming Events Section -->
     <section class="mb-3">
-      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.events.upcoming_events">
         <i class="fas fa-calendar-day"></i> Upcoming Events
       </h2>
 
@@ -153,23 +154,24 @@
 
     <!-- Subscribe -->
     <div class="card text-center">
-      <h2 style="margin-bottom: 1rem;">Never Miss an Event</h2>
-      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.events.never_miss">Never Miss an Event</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.events.notification_desc">
         Get email notifications about new events and changes to your registered events
       </p>
       <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
         <input
           type="email"
+          data-i18n-placeholder="wiki.events.email_placeholder"
           placeholder="Enter your email"
           class="form-input"
           style="flex: 1;"
         >
         <button class="btn btn-primary">
-          <i class="fas fa-bell"></i> Subscribe
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.events.subscribe">Subscribe</span>
         </button>
       </div>
       <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
-        Or sync to your calendar: <a href="#" style="color: var(--wiki-primary);">Google Calendar</a> | <a href="#" style="color: var(--wiki-primary);">iCal</a>
+        <span data-i18n="wiki.events.sync_calendar">Or sync to your calendar:</span> <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.events.google_calendar">Google Calendar</a> | <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.events.ical">iCal</a>
       </p>
     </div>
   </main>
@@ -177,12 +179,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
       </p>
     </div>
   </footer>

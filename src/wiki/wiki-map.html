@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Locations - Community Wiki</title>
+  <title data-i18n="wiki.map.page_title">Community Locations - Community Wiki</title>
   <link rel="stylesheet" href="css/wiki.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="js/wiki-i18n.js"></script>
@@ -19,8 +19,9 @@
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
         <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
-        <li><a href="wiki-map.html" class="active">Locations</a></li>
+        <li><a href="wiki-map.html" class="active" data-i18n="wiki.nav.locations">Locations</a></li>
         <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
         <li>
           <!-- Language Selector -->
@@ -60,10 +61,10 @@
     <div class="card">
       <div class="flex-between">
         <div>
-          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Locations</h1>
-          <p class="text-muted">Discover farms, gardens, and permaculture sites in our region</p>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.map.title">Community Locations</h1>
+          <p class="text-muted" data-i18n="wiki.map.subtitle">Discover farms, gardens, and permaculture sites in our region</p>
         </div>
-        <a href="wiki-editor.html" class="btn btn-primary" id="addLocationBtn">
+        <a href="wiki-editor.html" class="btn btn-primary" id="addLocationBtn" data-i18n="wiki.map.add">
           <i class="fas fa-map-pin"></i> Add Location
         </a>
       </div>
@@ -78,6 +79,7 @@
           <input
             type="text"
             class="search-input"
+            data-i18n-placeholder="wiki.map.search"
             placeholder="Search locations..."
             id="locationSearch"
           >
@@ -86,25 +88,25 @@
         <!-- Filters -->
         <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
           <div>
-            <strong>Filter by type:</strong>
+            <strong data-i18n="wiki.map.filter_type">Filter by type:</strong>
           </div>
           <div class="tags">
-            <a href="#" class="tag filter-tag" data-filter="all" style="background-color: var(--wiki-primary); color: white;">
+            <a href="#" class="tag filter-tag" data-filter="all" style="background-color: var(--wiki-primary); color: white;" data-i18n="wiki.map.all">
               All Locations
             </a>
-            <a href="#" class="tag filter-tag" data-filter="farm">
+            <a href="#" class="tag filter-tag" data-filter="farm" data-i18n="wiki.map.farms">
               🌾 Farms
             </a>
-            <a href="#" class="tag filter-tag" data-filter="garden">
+            <a href="#" class="tag filter-tag" data-filter="garden" data-i18n="wiki.map.gardens">
               🏡 Gardens
             </a>
-            <a href="#" class="tag filter-tag" data-filter="education">
+            <a href="#" class="tag filter-tag" data-filter="education" data-i18n="wiki.map.education">
               📚 Education Centers
             </a>
-            <a href="#" class="tag filter-tag" data-filter="community">
+            <a href="#" class="tag filter-tag" data-filter="community" data-i18n="wiki.map.community">
               👥 Community Spaces
             </a>
-            <a href="#" class="tag filter-tag" data-filter="business">
+            <a href="#" class="tag filter-tag" data-filter="business" data-i18n="wiki.map.business">
               🏪 Businesses
             </a>
           </div>
@@ -123,7 +125,7 @@
       <div style="overflow-y: auto; max-height: 700px;">
         <div style="background-color: var(--wiki-white); border-radius: 8px; padding: 1rem;">
           <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
-            <i class="fas fa-list"></i> Locations (<span id="locationCount">0</span>)
+            <i class="fas fa-list"></i> <span data-i18n="wiki.map.locations_count">Locations</span> (<span id="locationCount">0</span>)
           </h3>
 
           <div id="locationList">
@@ -134,27 +136,27 @@
 
     <!-- Location Stats - Loaded dynamically from database -->
     <div class="card">
-      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">Location Statistics</h2>
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.map.stats_title">Location Statistics</h2>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
         <div style="text-align: center;">
           <div data-stat="total" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-primary);">0</div>
-          <div class="text-muted">Total Locations</div>
+          <div class="text-muted" data-i18n="wiki.map.total">Total Locations</div>
         </div>
         <div style="text-align: center;">
           <div data-stat="farm" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-secondary);">0</div>
-          <div class="text-muted">Farms & Gardens</div>
+          <div class="text-muted" data-i18n="wiki.map.farms_gardens">Farms & Gardens</div>
         </div>
         <div style="text-align: center;">
           <div data-stat="education" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-accent);">0</div>
-          <div class="text-muted">Education Centers</div>
+          <div class="text-muted" data-i18n="wiki.map.education">Education Centers</div>
         </div>
         <div style="text-align: center;">
           <div data-stat="community" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-primary);">0</div>
-          <div class="text-muted">Community Spaces</div>
+          <div class="text-muted" data-i18n="wiki.map.community">Community Spaces</div>
         </div>
         <div style="text-align: center;">
           <div data-stat="business" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-secondary);">0</div>
-          <div class="text-muted">Businesses</div>
+          <div class="text-muted" data-i18n="wiki.map.business">Businesses</div>
         </div>
       </div>
     </div>
@@ -163,12 +165,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p>&copy; 2025 Permahub Community Wiki. <span data-i18n="wiki.footer.made_with">Made with</span> 🌱 <span data-i18n="wiki.footer.for">for the global permaculture community</span>.</p>
       <p style="margin-top: 0.5rem;">
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
       </p>
     </div>
   </footer>

@@ -5,6 +5,7 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { wikiI18n } from './wiki-i18n.js';
 
 // State
 let currentFilter = 'all';
@@ -116,7 +117,7 @@ async function loadLocations() {
       message: error.message,
       stack: error.stack
     });
-    showError('Failed to load locations. Please refresh the page.');
+    showError(wikiI18n.t('wiki.map.error_loading'));
   }
 }
 
@@ -199,8 +200,8 @@ function renderLocationList(locations) {
     locationList.innerHTML = `
       <div class="card" style="text-align: center; padding: 2rem;">
         <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">No locations found</h3>
-        <p class="text-muted">Try selecting a different filter or check back later</p>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.map.no_locations_found')}</h3>
+        <p class="text-muted">${wikiI18n.t('wiki.map.try_different_filter')}</p>
       </div>
     `;
     return;
@@ -451,7 +452,7 @@ function showLoading() {
     locationList.innerHTML = `
       <div class="card" style="text-align: center; padding: 2rem;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--wiki-primary); margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">Loading locations...</h3>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.map.loading')}</h3>
       </div>
     `;
   }
@@ -466,7 +467,7 @@ function showError(message) {
     locationList.innerHTML = `
       <div class="card" style="text-align: center; padding: 2rem;">
         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e63946; margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--wiki-text-muted);">Error</h3>
+        <h3 style="color: var(--wiki-text-muted);">${wikiI18n.t('wiki.common.error')}</h3>
         <p class="text-muted">${escapeHtml(message)}</p>
       </div>
     `;
