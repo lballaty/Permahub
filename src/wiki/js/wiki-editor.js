@@ -5,6 +5,7 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { wikiI18n } from './wiki-i18n.js';
 
 // State
 let currentContentType = 'guide';
@@ -120,12 +121,15 @@ async function loadCategories() {
     if (!container) return;
 
     // Render category checkboxes
-    container.innerHTML = categories.map(cat => `
+    container.innerHTML = categories.map(cat => {
+      const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+      return `
       <label style="display: inline-block; margin-right: 1rem; margin-bottom: 0.5rem;">
         <input type="checkbox" value="${cat.id}" data-slug="${cat.slug}" class="category-checkbox">
-        ${cat.icon || ''} ${escapeHtml(cat.name)}
+        ${cat.icon || ''} ${translatedName}
       </label>
-    `).join('');
+    `;
+    }).join('');
 
     console.log(`✅ Loaded ${categories.length} categories`);
 
@@ -211,22 +215,40 @@ function initializeFormHandlers() {
   // Main form submission
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    await saveContent('publish');
+    await saveContent();
   });
 
-  // Save draft buttons
-  const saveDraftBtns = document.querySelectorAll('#saveDraftBtn, #saveDraftBtn2');
-  saveDraftBtns.forEach(btn => {
-    btn.addEventListener('click', async function() {
-      await saveContent('draft');
+  // Save button (unified - reads status from dropdown)
+  const saveBtns = document.querySelectorAll('#saveBtn');
+  saveBtns.forEach(btn => {
+    btn.addEventListener('click', async function(e) {
+      e.preventDefault();
+      await saveContent();
     });
   });
+
+  // Delete button
+  const deleteBtn = document.getElementById('deleteBtn');
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', async function(e) {
+      e.preventDefault();
+      await deleteContent();
+    });
+  }
 
   // Preview button
   const previewBtn = document.getElementById('previewBtn');
   if (previewBtn) {
     previewBtn.addEventListener('click', function() {
       showPreview();
+    });
+  }
+
+  // Status dropdown change handler - update badge
+  const statusSelect = document.getElementById('statusSelect');
+  if (statusSelect) {
+    statusSelect.addEventListener('change', function() {
+      updateStatusBadge();
     });
   }
 
@@ -347,8 +369,12 @@ async function uploadImage(file) {
 /**
  * Save content to database
  */
-async function saveContent(status = 'draft') {
+async function saveContent() {
   try {
+    // Get status from dropdown
+    const statusSelect = document.getElementById('statusSelect');
+    const status = statusSelect ? statusSelect.value : 'draft';
+
     console.log(`💾 Saving ${currentContentType} as ${status}...`);
 
     // Show loading state
@@ -535,7 +561,13 @@ async function saveGuide(data) {
 async function saveEvent(data) {
   const eventData = {
     ...data,
-    organizer_id: MOCK_USER_ID
+    organizer_id: MOCK_USER_ID,
+    // Add contact fields
+    organizer_name: document.getElementById('organizerName')?.value?.trim() || null,
+    organizer_organization: document.getElementById('organizerOrganization')?.value?.trim() || null,
+    contact_email: document.getElementById('contactEmail')?.value?.trim() || null,
+    contact_phone: document.getElementById('contactPhone')?.value?.trim() || null,
+    contact_website: document.getElementById('contactWebsite')?.value?.trim() || null
   };
 
   if (editingContentId) {
@@ -554,7 +586,13 @@ async function saveLocation(data) {
   const locationData = {
     ...data,
     location_type: 'community', // Default type
-    created_by: MOCK_USER_ID
+    created_by: MOCK_USER_ID,
+    // Add contact fields
+    contact_name: document.getElementById('locationContactName')?.value?.trim() || null,
+    contact_email: document.getElementById('locationContactEmail')?.value?.trim() || null,
+    contact_phone: document.getElementById('locationContactPhone')?.value?.trim() || null,
+    website: document.getElementById('locationWebsite')?.value?.trim() || null,
+    contact_hours: document.getElementById('locationContactHours')?.value?.trim() || null
   };
 
   if (editingContentId) {
@@ -647,10 +685,22 @@ async function loadExistingContent(slug) {
       if (content.time) document.getElementById('startTime').value = content.time;
       if (content.end_time) document.getElementById('endTime').value = content.end_time;
       if (content.location) document.getElementById('eventLocation').value = content.location;
+      // Load contact fields
+      if (content.organizer_name) document.getElementById('organizerName').value = content.organizer_name;
+      if (content.organizer_organization) document.getElementById('organizerOrganization').value = content.organizer_organization;
+      if (content.contact_email) document.getElementById('contactEmail').value = content.contact_email;
+      if (content.contact_phone) document.getElementById('contactPhone').value = content.contact_phone;
+      if (content.contact_website) document.getElementById('contactWebsite').value = content.contact_website;
     } else if (currentContentType === 'location') {
       if (content.address) document.getElementById('address').value = content.address;
       if (content.latitude) document.getElementById('latitude').value = content.latitude;
       if (content.longitude) document.getElementById('longitude').value = content.longitude;
+      // Load contact fields
+      if (content.contact_name) document.getElementById('locationContactName').value = content.contact_name;
+      if (content.contact_email) document.getElementById('locationContactEmail').value = content.contact_email;
+      if (content.contact_phone) document.getElementById('locationContactPhone').value = content.contact_phone;
+      if (content.website) document.getElementById('locationWebsite').value = content.website;
+      if (content.contact_hours) document.getElementById('locationContactHours').value = content.contact_hours;
     }
 
     // Load image if exists
@@ -676,6 +726,9 @@ async function loadExistingContent(slug) {
 
     // Update form title
     updateFormFields();
+
+    // Show editing controls (status badge and delete button)
+    showEditingControls(content.status);
 
     console.log('✅ Content loaded for editing');
 
@@ -929,6 +982,119 @@ function showLoadingState(show) {
   } else {
     const indicator = document.getElementById('savingIndicator');
     if (indicator) indicator.remove();
+  }
+}
+
+/**
+ * Show editing controls when editing existing content
+ * Displays status badge and delete button
+ */
+function showEditingControls(currentStatus = 'draft') {
+  // Show and update status badge
+  const statusBadge = document.getElementById('currentStatusBadge');
+  const statusBadgeText = document.getElementById('statusBadgeText');
+
+  if (statusBadge && statusBadgeText) {
+    statusBadge.style.display = 'flex';
+    statusBadgeText.textContent = capitalizeFirst(currentStatus);
+
+    // Apply appropriate badge class
+    statusBadge.className = '';
+    statusBadge.classList.add('badge', `badge-${currentStatus}`);
+  }
+
+  // Update status dropdown to match current status
+  const statusSelect = document.getElementById('statusSelect');
+  if (statusSelect) {
+    statusSelect.value = currentStatus;
+  }
+
+  // Show delete button
+  const deleteBtn = document.getElementById('deleteBtn');
+  if (deleteBtn) {
+    deleteBtn.style.display = 'inline-block';
+  }
+
+  console.log(`✅ Editing controls shown for status: ${currentStatus}`);
+}
+
+/**
+ * Update status badge when dropdown changes
+ */
+function updateStatusBadge() {
+  const statusSelect = document.getElementById('statusSelect');
+  const statusBadgeText = document.getElementById('statusBadgeText');
+  const statusBadge = document.getElementById('currentStatusBadge');
+
+  if (!statusSelect || !statusBadgeText || !statusBadge) return;
+
+  const newStatus = statusSelect.value;
+  statusBadgeText.textContent = capitalizeFirst(newStatus);
+
+  // Update badge class
+  statusBadge.className = '';
+  statusBadge.classList.add('badge', `badge-${newStatus}`);
+}
+
+/**
+ * Delete current content with double confirmation
+ */
+async function deleteContent() {
+  if (!editingContentId) {
+    alert('No content to delete');
+    return;
+  }
+
+  try {
+    const title = document.getElementById('title')?.value || 'this content';
+
+    // First confirmation - standard confirm dialog
+    const confirmed = confirm(
+      `Are you sure you want to delete "${title}"?\n\n` +
+      `This action cannot be undone. All data including categories, ` +
+      `comments, and associations will be permanently removed.`
+    );
+
+    if (!confirmed) {
+      console.log('❌ Delete cancelled by user (first confirmation)');
+      return;
+    }
+
+    // Second confirmation - type "DELETE" to confirm
+    const deleteConfirmation = prompt(
+      `To confirm deletion, please type DELETE in capital letters:`
+    );
+
+    if (deleteConfirmation !== 'DELETE') {
+      alert('Deletion cancelled. You must type DELETE exactly to confirm.');
+      console.log('❌ Delete cancelled - confirmation text did not match');
+      return;
+    }
+
+    console.log(`🗑️ Deleting ${currentContentType} with ID: ${editingContentId}`);
+
+    // Determine table name based on content type
+    const tableName = currentContentType === 'guide' ? 'wiki_guides' :
+                     currentContentType === 'event' ? 'wiki_events' :
+                     'wiki_locations';
+
+    // Delete the content
+    await supabase.delete(tableName, editingContentId);
+
+    alert(`✅ ${capitalizeFirst(currentContentType)} deleted successfully!`);
+
+    // Redirect to appropriate listing page
+    if (currentContentType === 'guide') {
+      window.location.href = 'wiki-guides.html';
+    } else if (currentContentType === 'event') {
+      window.location.href = 'wiki-events.html';
+    } else if (currentContentType === 'location') {
+      window.location.href = 'wiki-map.html';
+    }
+
+  } catch (error) {
+    console.error('Error deleting content:', error);
+    alert(`Failed to delete ${currentContentType}. ${error.message || 'Please try again.'}`);
   }
 }
 
