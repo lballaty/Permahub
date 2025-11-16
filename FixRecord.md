@@ -1077,3 +1077,35 @@ Created comprehensive frontend implementation for privacy controls:
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-01-16 - i18n JavaScript Syntax Error & Module Import Conflicts
+
+**Commit:** (pending)
+
+**Issue:**
+JavaScript syntax error preventing wiki pages from loading: `Uncaught SyntaxError: Unexpected token 'export' at wiki-i18n.js:1601`. Additionally, module files were attempting to import wikiI18n as an ES6 module, but the file was loaded as a regular script tag in HTML.
+
+**Root Cause:**
+1. Added ES6 `export { wikiI18n };` statement to wiki-i18n.js to support module imports
+2. However, wiki-i18n.js is loaded via `<script src="js/wiki-i18n.js"></script>` (not as a module)
+3. Regular scripts cannot use ES6 export syntax
+4. Six module files (wiki-editor.js, wiki-home.js, wiki-guides.js, wiki-page.js, wiki-events.js, wiki-map.js) were trying to import from a non-module script
+
+**Solution:**
+1. Removed ES6 `export { wikiI18n };` statement from wiki-i18n.js
+2. Updated all 6 JavaScript module files to use global `window.wikiI18n` instead of ES6 imports
+3. Changed pattern from `import { wikiI18n } from './wiki-i18n.js';` to `const wikiI18n = window.wikiI18n;`
+4. Kept CommonJS export for Node.js compatibility and global window export for browser
+
+**Files Changed:**
+- src/wiki/js/wiki-i18n.js (removed ES6 export)
+- src/wiki/js/wiki-editor.js (use global wikiI18n)
+- src/wiki/js/wiki-home.js (use global wikiI18n)
+- src/wiki/js/wiki-guides.js (use global wikiI18n)
+- src/wiki/js/wiki-page.js (use global wikiI18n)
+- src/wiki/js/wiki-events.js (use global wikiI18n)
+- src/wiki/js/wiki-map.js (use global wikiI18n)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
