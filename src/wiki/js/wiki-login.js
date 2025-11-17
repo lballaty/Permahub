@@ -23,6 +23,9 @@ async function initLoginPage() {
     return;
   }
 
+  // Prepopulate email from localStorage if remembered
+  prepopulateRememberedEmail();
+
   // Set up form handlers
   setupEmailLoginForm();
   setupMagicLinkForm();
@@ -49,6 +52,37 @@ async function checkExistingSession() {
 }
 
 /**
+ * Prepopulate email field with remembered email if exists
+ *
+ * Business Purpose: Improve UX by remembering user's email for faster login
+ */
+function prepopulateRememberedEmail() {
+  const rememberedEmail = localStorage.getItem('remembered_email');
+
+  if (rememberedEmail) {
+    console.log('📧 Found remembered email, prepopulating fields');
+
+    // Prepopulate email login form
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+      emailInput.value = rememberedEmail;
+    }
+
+    // Prepopulate magic link form
+    const magicEmailInput = document.getElementById('magicEmail');
+    if (magicEmailInput) {
+      magicEmailInput.value = rememberedEmail;
+    }
+
+    // Check the remember me checkbox
+    const rememberCheckbox = document.querySelector('input[name="remember"]');
+    if (rememberCheckbox) {
+      rememberCheckbox.checked = true;
+    }
+  }
+}
+
+/**
  * Set up email/password login form
  *
  * Business Purpose: Handle traditional email/password authentication
@@ -65,6 +99,8 @@ function setupEmailLoginForm() {
 
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
+    const rememberCheckbox = document.querySelector('input[name="remember"]');
+    const rememberMe = rememberCheckbox ? rememberCheckbox.checked : false;
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
 
@@ -85,6 +121,15 @@ function setupEmailLoginForm() {
       const data = await supabase.signIn(email, password);
 
       console.log('✅ Login successful:', data);
+
+      // Handle "Remember Me" functionality
+      if (rememberMe) {
+        console.log('💾 Saving email to localStorage (Remember Me checked)');
+        localStorage.setItem('remembered_email', email);
+      } else {
+        console.log('🗑️ Removing saved email (Remember Me unchecked)');
+        localStorage.removeItem('remembered_email');
+      }
 
       // Show success message
       showSuccess('Login successful! Redirecting...');

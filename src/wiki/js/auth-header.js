@@ -201,11 +201,16 @@ async function handleLogout() {
   console.log('🔐 Logging out user...');
 
   try {
-    // Clear localStorage
+    // Clear authentication localStorage items
     localStorage.removeItem('auth_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('token_expiry');
     localStorage.removeItem('user');
+    localStorage.removeItem('user_id');
+
+    // Note: We intentionally DO NOT clear 'remembered_email'
+    // This allows users to quickly log back in with their saved email
+    // They can manually uncheck "Remember Me" on next login if desired
 
     // Call Supabase signOut
     await supabase.signOut();
