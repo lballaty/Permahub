@@ -537,6 +537,38 @@ INSERT INTO wiki_events (
 [Closing sentence with registration or attendance information]
 ```
 
+### Event Description Best Practices
+
+**Length Guidelines:**
+- **Target:** 200-400 characters for good card display
+- **Include link** to organizer's website for full details
+- **Focus:** Key information (what, when, where, who should attend)
+- **Avoid:** Excessive details better suited for organizer's website
+
+**Why Keep Events Concise:**
+- Event cards display well at 300-400 characters
+- Organizers maintain authoritative details on their own site
+- Registration, updates, and changes happen on external platform
+- Reduces duplicate information maintenance
+
+**Example - Good Event Description:**
+```
+Full-day introduction to permaculture design principles. Learn zone planning,
+water management, and food forest basics through hands-on activities. Includes
+lunch, materials, and certificate. Beginners welcome. Register at
+www.permaculturecenter.org/workshops
+```
+
+**Example - Too Detailed:**
+```
+This comprehensive workshop will take you through every aspect of permaculture
+in great detail. We will start at 9am with coffee and introductions, then move
+into a detailed lecture about the history of permaculture from Bill Mollison's
+early work in Tasmania through to modern applications worldwide. After that we
+will break for morning tea at 10:30am where you can enjoy organic snacks...
+(continues for 800+ characters)
+```
+
 ### Event Quality Checklist
 
 - [ ] Title is clear and engaging (30-80 characters)
@@ -598,6 +630,49 @@ INSERT INTO wiki_events (
 
 [1-2 sentences about the location's impact, achievements, or significance]
 ```
+
+### Description Display & Truncation
+
+**Important:** Location descriptions are displayed in multiple contexts with different space constraints:
+
+| Display Context | Card Width | Truncation | Visible Length |
+|----------------|------------|------------|----------------|
+| **Home Featured Cards** | 250px min | 3 lines | ~60-80 characters |
+| **Search Results** | 300px min | 4 lines | ~100-130 characters |
+| **Map Sidebar List** | 400px fixed | 4 lines | ~130-160 characters |
+| **Map Popups** | 200px min | 2 lines | ~40-60 characters |
+
+**Writing Best Practices:**
+- **Front-load key information** - Most important details in first 1-2 sentences
+- **Keep descriptions concise** - 150-250 characters optimal for card display
+- **Full details in first paragraph** - First 3-4 sentences show before truncation
+- **Aim for 400-600 characters total** - Provides context without overwhelming
+- **Avoid starting with filler** - No "This location is...", "Welcome to..."
+
+**Example - Good Front-Loading:**
+```
+Organic permaculture farm specializing in Mediterranean food forests and
+regenerative agriculture. Features over 500 fruit and nut trees, natural
+spring water systems, and seed-saving library. Offers workshops, volunteer
+programs, and seasonal farm tours.
+```
+
+**Example - Poor Front-Loading:**
+```
+Welcome to our beautiful location in the countryside. This is a very special
+place that has been practicing sustainable agriculture for many years. We
+believe in working with nature and creating harmony...
+```
+
+**Truncation Behavior:**
+- Descriptions automatically truncate with ellipsis (...) when exceeding line limit
+- Users can click "View on Map" or card itself to see full content
+- Mobile devices: Even more limited space, prioritize first sentence
+
+**Character Count Recommendations:**
+- **Soft maximum:** 250 characters (displays well in most contexts)
+- **Hard maximum:** 600 characters (full detail without excessive length)
+- **Minimum:** 150 characters (provides sufficient context)
 
 ### Tag Guidelines
 
