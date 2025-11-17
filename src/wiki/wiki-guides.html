@@ -133,14 +133,32 @@
 
     <!-- Filters -->
     <div class="card">
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-        <div>
-          <strong data-i18n="wiki.guides.filter_category">Filter by category:</strong>
+      <!-- Dropdown Filters -->
+      <div class="filter-controls">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="wiki.home.filter_theme">Theme</label>
+            <select class="filter-select" id="themeSelect">
+              <option value="" data-i18n="wiki.home.all_themes">All Themes</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="wiki.home.filter_category">Category</label>
+            <select class="filter-select" id="categorySelect">
+              <option value="" data-i18n="wiki.home.all_categories">All Categories</option>
+            </select>
+          </div>
         </div>
-        <div class="tags" id="categoryFilters">
-          <a href="javascript:void(0)" class="tag guide-filter active" data-filter="all" data-i18n="wiki.guides.all_guides">All Guides</a>
-          <!-- Category filters will be loaded dynamically -->
+
+        <!-- Active Filters Row -->
+        <div class="filter-row" id="activeFiltersRow" style="display: none;">
+          <div class="active-filters" id="activeFilters"></div>
         </div>
+      </div>
+
+      <!-- Summary Bar (desktop only) -->
+      <div class="summary-bar" id="summaryBar">
+        <span data-i18n="wiki.home.showing">Showing</span> <strong id="currentCount">0</strong> <span data-i18n="wiki.home.of">of</span> <strong id="totalCount">0</strong> <span data-i18n="wiki.home.guides">guides</span>
       </div>
     </div>
 
