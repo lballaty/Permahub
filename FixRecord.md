@@ -1109,3 +1109,164 @@ JavaScript syntax error preventing wiki pages from loading: `Uncaught SyntaxErro
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-01-17 - Fix JWT expiration blocking content access for logged-in users
+
+**Commit:** (pending)
+
+**Issue:**
+When JWT access tokens expired but users appeared logged in on the frontend, they could no longer see any content (guides, events, locations). Content should still load anonymously when tokens expire, but instead all API requests failed completely, leaving users staring at loading spinners indefinitely.
+
+**Root Cause:**
+The custom Supabase client in [src/js/supabase-client.js:25](src/js/supabase-client.js#L25) used a simple token selection pattern:
+```javascript
+const token = this.authToken || SUPABASE_CONFIG.anonKey;
+```
+
+This created a critical flow issue:
+1. User logs in → JWT stored in localStorage
+2. JWT expires after 1 hour (Supabase default)
+3. Frontend still has expired JWT in localStorage
+4. `getCurrentUser()` loads expired JWT without validation
+5. All API requests use expired JWT: `Authorization: Bearer <expired-jwt>`
+6. Supabase auth middleware rejects requests with 401/403
+7. RLS policies never execute (request blocked before RLS)
+8. Content fails to load even though RLS allows anonymous access
+
+The expired JWT "poisoned" every request, preventing fallback to anonymous mode.
+
+**Missing Functionality:**
+- No token expiry validation
+- No automatic token refresh using refresh_token
+- No fallback to anonymous access when tokens can't be refreshed
+- No cleanup of invalid session data
+
+**Solution:**
+Implemented comprehensive token lifecycle management in [src/js/supabase-client.js](src/js/supabase-client.js):
+
+**1. Token Expiry Validation (Lines 19-27):**
+```javascript
+isTokenExpired() {
+  const expiry = localStorage.getItem('token_expiry');
+  if (!expiry) return true;
+  return Date.now() >= parseInt(expiry);
+}
+```
+
+**2. Automatic Token Refresh (Lines 29-75):**
+```javascript
+async refreshToken() {
+  const refreshToken = localStorage.getItem('refresh_token');
+  if (!refreshToken) return false;
+
+  const response = await fetch(`${this.url}/auth/v1/token?grant_type=refresh_token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_CONFIG.anonKey
+    },
+    body: JSON.stringify({ refresh_token: refreshToken })
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    this.authToken = data.access_token;
+    localStorage.setItem('auth_token', data.access_token);
+
+    // Store new expiry time
+    const expiry = Date.now() + (data.expires_in * 1000);
+    localStorage.setItem('token_expiry', expiry.toString());
+
+    // Update refresh token if provided
+    if (data.refresh_token) {
+      localStorage.setItem('refresh_token', data.refresh_token);
+    }
+
+    return true;
+  }
+  return false;
+}
+```
+
+**3. Request Method with Graceful Fallback (Lines 77-99):**
+```javascript
+async request(method, path, body = null) {
+  // Check if token is expired and attempt refresh
+  let token = this.authToken;
+  if (token && this.isTokenExpired()) {
+    console.log('⚠️ Token expired, attempting refresh...');
+    const refreshed = await this.refreshToken();
+    if (!refreshed) {
+      console.log('⚠️ Token refresh failed, falling back to anonymous access');
+      token = null;
+      this.authToken = null;
+    } else {
+      token = this.authToken;
+    }
+  }
+
+  // Use valid token or fall back to anonymous key
+  token = token || SUPABASE_CONFIG.anonKey;
+  // ... rest of request
+}
+```
+
+**4. Updated getCurrentUser() (Lines 345-377):**
+- Validates token expiry when loading from localStorage
+- Attempts refresh if token is expired
+- Clears invalid session data if refresh fails
+- Returns null for expired sessions that can't be refreshed
+
+**5. Updated Auth Methods:**
+- `signIn()` now stores `refresh_token` and `token_expiry` (Lines 278-285)
+- `signUp()` now stores `refresh_token` and `token_expiry` (Lines 244-251)
+- `signOut()` now clears `refresh_token` and `token_expiry` (Lines 357-358)
+
+**Expected Flow After Fix:**
+
+**Scenario 1: Token expires, refresh succeeds**
+1. User loads page with expired token
+2. `request()` detects expiry via `isTokenExpired()`
+3. Calls `refreshToken()` using stored refresh_token
+4. Gets new access_token from Supabase
+5. Updates localStorage with new token and expiry
+6. Request continues with valid token
+7. Content loads successfully
+
+**Scenario 2: Token expires, refresh fails (refresh_token invalid/expired)**
+1. User loads page with expired token
+2. `request()` detects expiry
+3. `refreshToken()` fails (refresh_token also expired)
+4. Sets `token = null` and `this.authToken = null`
+5. Falls back to `SUPABASE_CONFIG.anonKey`
+6. Request uses anonymous key: `Authorization: Bearer <anon-key>`
+7. RLS policies allow anonymous access to published content
+8. Content loads successfully as anonymous user
+
+**Scenario 3: Fresh login**
+1. User logs in with password
+2. Receives access_token, refresh_token, expires_in
+3. Stores all three in localStorage with calculated expiry timestamp
+4. Content loads with valid JWT
+
+**Security Considerations:**
+- Token expiry checks happen on every API request
+- Refresh tokens are only used when needed (not on every request)
+- Invalid sessions are automatically cleaned up
+- Users seamlessly transition to anonymous access if session can't be refreshed
+- No interruption to user experience (no forced logouts or error messages)
+
+**User Experience Impact:**
+- ✅ Content continues loading even with expired tokens
+- ✅ Automatic token refresh when possible
+- ✅ Seamless fallback to anonymous access
+- ✅ No more infinite loading spinners
+- ✅ No forced logouts
+- ✅ Users stay "logged in" as long as refresh_token is valid
+
+**Files Changed:**
+- [src/js/supabase-client.js](src/js/supabase-client.js) - Added token lifecycle management
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---

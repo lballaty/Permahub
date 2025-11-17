@@ -17,12 +17,86 @@ class SupabaseClient {
   }
 
   /**
+   * Check if the current auth token is expired
+   * @returns {boolean} True if token is expired or missing expiry data
+   */
+  isTokenExpired() {
+    const expiry = localStorage.getItem('token_expiry');
+    if (!expiry) return true;
+    return Date.now() >= parseInt(expiry);
+  }
+
+  /**
+   * Refresh the authentication token using the refresh token
+   * @returns {Promise<boolean>} True if refresh succeeded, false otherwise
+   */
+  async refreshToken() {
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+      console.log('⚠️ No refresh token available');
+      return false;
+    }
+
+    try {
+      console.log('🔄 Attempting to refresh expired token...');
+      const response = await fetch(`${this.url}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_CONFIG.anonKey
+        },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.authToken = data.access_token;
+        localStorage.setItem('auth_token', data.access_token);
+
+        // Calculate and store token expiry time
+        const expiry = Date.now() + (data.expires_in * 1000);
+        localStorage.setItem('token_expiry', expiry.toString());
+
+        // Update refresh token if provided
+        if (data.refresh_token) {
+          localStorage.setItem('refresh_token', data.refresh_token);
+        }
+
+        console.log('✅ Token refreshed successfully');
+        return true;
+      } else {
+        console.log('❌ Token refresh failed:', response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ Token refresh error:', error);
+      return false;
+    }
+  }
+
+  /**
    * Make authenticated API call to Supabase
    * Uses either the user's auth token (if logged in) or the anonymous key (if not logged in)
    * NEVER uses service role key - that should only be used server-side
+   * Automatically handles token expiry with refresh and fallback to anonymous access
    */
   async request(method, path, body = null) {
-    const token = this.authToken || SUPABASE_CONFIG.anonKey;
+    // Check if token is expired and attempt refresh
+    let token = this.authToken;
+    if (token && this.isTokenExpired()) {
+      console.log('⚠️ Token expired, attempting refresh...');
+      const refreshed = await this.refreshToken();
+      if (!refreshed) {
+        console.log('⚠️ Token refresh failed, falling back to anonymous access');
+        token = null;
+        this.authToken = null;
+      } else {
+        token = this.authToken;
+      }
+    }
+
+    // Use valid token or fall back to anonymous key
+    token = token || SUPABASE_CONFIG.anonKey;
     const fullUrl = `${this.url}/rest/v1${path}`;
 
     // Log request details
@@ -156,7 +230,7 @@ class SupabaseClient {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error_description || data.message || 'Sign up failed');
       }
@@ -166,6 +240,15 @@ class SupabaseClient {
         this.user = data.user;
         localStorage.setItem('auth_token', this.authToken);
         localStorage.setItem('user', JSON.stringify(this.user));
+
+        // Store refresh token and expiry for automatic token refresh
+        if (data.session.refresh_token) {
+          localStorage.setItem('refresh_token', data.session.refresh_token);
+        }
+        if (data.session.expires_in) {
+          const expiry = Date.now() + (data.session.expires_in * 1000);
+          localStorage.setItem('token_expiry', expiry.toString());
+        }
       }
 
       return data;
@@ -190,7 +273,7 @@ class SupabaseClient {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error_description || data.message || 'Sign in failed');
       }
@@ -200,6 +283,15 @@ class SupabaseClient {
         this.user = data.user;
         localStorage.setItem('auth_token', this.authToken);
         localStorage.setItem('user', JSON.stringify(this.user));
+
+        // Store refresh token and expiry for automatic token refresh
+        if (data.refresh_token) {
+          localStorage.setItem('refresh_token', data.refresh_token);
+        }
+        if (data.expires_in) {
+          const expiry = Date.now() + (data.expires_in * 1000);
+          localStorage.setItem('token_expiry', expiry.toString());
+        }
       }
 
       return data;
@@ -262,17 +354,41 @@ class SupabaseClient {
     this.user = null;
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('token_expiry');
   }
 
   /**
    * Get current authenticated user
+   * Validates token expiry and clears invalid tokens
    */
   async getCurrentUser() {
     const token = localStorage.getItem('auth_token');
     const user = localStorage.getItem('user');
 
     if (token && user) {
-      this.authToken = token;
+      // Check if token is expired
+      if (this.isTokenExpired()) {
+        console.log('⚠️ Stored token is expired, attempting refresh...');
+        this.authToken = token; // Set temporarily for refresh
+        const refreshed = await this.refreshToken();
+
+        if (!refreshed) {
+          console.log('⚠️ Token refresh failed, clearing invalid session');
+          // Clear invalid session data
+          this.authToken = null;
+          this.user = null;
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('user');
+          localStorage.removeItem('token_expiry');
+          localStorage.removeItem('refresh_token');
+          return null;
+        }
+      } else {
+        // Token is still valid
+        this.authToken = token;
+      }
+
       this.user = JSON.parse(user);
       return this.user;
     }
