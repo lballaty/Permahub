@@ -162,7 +162,7 @@ function renderLocations() {
       marker.bindPopup(`
         <div style="min-width: 200px;">
           <h3 style="margin: 0 0 8px 0;">${escapeHtml(location.name)}</h3>
-          ${location.description ? `<p style="margin: 8px 0; color: #666;">${escapeHtml(location.description)}</p>` : ''}
+          ${location.description ? `<p class="location-description-truncate-popup" style="margin: 8px 0; color: #666;">${escapeHtml(location.description)}</p>` : ''}
           ${location.address ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(location.address)}</p>` : ''}
           ${location.author_name ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</p>` : ''}
           ${location.view_count !== undefined ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-eye"></i> ${location.view_count} views</p>` : ''}
@@ -226,7 +226,7 @@ function renderLocationList(locations) {
         <div class="location-icon">${icon}</div>
         <div class="location-details">
           <h3>${escapeHtml(location.name)}</h3>
-          <p>${location.description ? escapeHtml(location.description) : ''}</p>
+          <p class="location-description-truncate-large">${location.description ? escapeHtml(location.description) : ''}</p>
           <div class="location-meta">
             <span><i class="fas fa-map-marker-alt"></i> ${distance}</span>
             ${location.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(location.author_name)}</span>` : ''}
