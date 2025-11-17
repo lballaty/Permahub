@@ -262,6 +262,57 @@ git add src/wiki/js/wiki-guides.js src/wiki/js/wiki-page.js FixRecord.md
 git commit -m "feat: Add guides page and fix spinner"
 ```
 
+### 5. Automated GitHub Sync
+
+**Status:** Active - Auto-sync runs every 2 hours
+
+**What it does:**
+- Automatically pushes all local branches with commits to GitHub
+- Runs every 2 hours (7200 seconds)
+- Only syncs committed changes (doesn't touch uncommitted files)
+- Detects and notifies on merge conflicts
+- Logs all activity to `/tmp/permahub-autosync.log`
+
+**Management Commands:**
+
+```bash
+# Check sync status and view recent activity
+./scripts/sync-status.sh
+
+# Stop auto-sync service
+./scripts/sync-stop.sh
+
+# Start auto-sync service
+./scripts/sync-start.sh
+```
+
+**How it works:**
+1. Every 2 hours, `launchd` triggers the sync script
+2. Script fetches latest from GitHub
+3. For each local branch, checks if it has new commits
+4. Pushes branches that are ahead of remote
+5. If conflict detected, sends macOS notification and logs error
+6. Continues running in background automatically
+
+**Log files:**
+- Main log: `/tmp/permahub-autosync.log`
+- Stdout: `/tmp/permahub-autosync-stdout.log`
+- Stderr: `/tmp/permahub-autosync-stderr.log`
+
+**Service configuration:**
+- Plist file: `~/Library/LaunchAgents/com.permahub.autosync.plist`
+- Main script: `/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/scripts/auto-sync-github.sh`
+
+**Conflict handling:**
+If a branch has diverged from remote (both local and remote have different commits):
+- Sync script stops processing that branch
+- Sends macOS notification: "Conflict detected on branch 'X'. Manual resolution required."
+- Logs warning in log file
+- Continues processing other branches
+- You must manually resolve the conflict using `git pull --rebase` or `git pull`
+
+**Note:** The auto-sync is completely independent of commits. You continue to commit incrementally as before, and the sync happens automatically in the background.
+
 ---
 
 ## 📝 Coding Standards
