@@ -49,18 +49,25 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('🌍 Language changed, re-populating dropdowns...');
         // Re-populate dropdowns with new translations
         if (categoryGroups.length > 0) {
-          renderCategoryFilters();
-          // Restore current selections
+          // Store current selections before re-rendering
           const themeSelect = document.getElementById('themeSelect');
           const categorySelect = document.getElementById('categorySelect');
-          if (themeSelect && currentTheme) {
-            themeSelect.value = currentTheme;
-            filterCategoriesByTheme(currentTheme);
+          const savedTheme = currentTheme;
+          const savedCategory = currentCategory;
+
+          // Re-render with new language
+          renderCategoryFilters();
+
+          // Restore selections after re-rendering
+          if (themeSelect && savedTheme) {
+            themeSelect.value = savedTheme;
+            filterCategoriesByTheme(savedTheme);
           }
-          if (categorySelect && currentCategory && currentCategory !== 'all') {
-            categorySelect.value = currentCategory;
+          if (categorySelect && savedCategory && savedCategory !== 'all') {
+            categorySelect.value = savedCategory;
           }
           updateActiveFilters();
+          renderGuides(); // Re-render guides with translated category names
         }
       }
     });

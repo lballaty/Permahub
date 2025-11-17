@@ -14,7 +14,7 @@ test.describe('Wiki Events Page - Database Integration', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to wiki events page
-    await page.goto('http://localhost:3000/src/wiki/wiki-events.html');
+    await page.goto('http://localhost:3001/src/wiki/wiki-events.html');
   });
 
   test('should load wiki events page without errors', async ({ page }) => {
@@ -189,16 +189,196 @@ test.describe('Wiki Events Page - Database Integration', () => {
     await expect(calendarViewBtn).toContainText('Calendar View');
   });
 
-  test('should show calendar view alert when clicked', async ({ page }) => {
-    // Set up dialog handler before clicking
-    page.on('dialog', async dialog => {
-      expect(dialog.message()).toContain('Calendar view coming soon');
-      await dialog.accept();
-    });
+  test('should switch to calendar view when clicked', async ({ page }) => {
+    // Wait for page to load
+    await page.waitForSelector('#eventsGrid', { timeout: 5000 });
 
     // Click calendar view button
     const calendarViewBtn = page.locator('#calendarView');
     await calendarViewBtn.click();
+
+    // Calendar view section should be visible
+    const calendarSection = page.locator('#calendarViewSection');
+    await expect(calendarSection).toBeVisible();
+
+    // List view section should be hidden
+    const listSection = page.locator('#listViewSection');
+    await expect(listSection).toBeHidden();
+
+    // Calendar button should be active
+    await expect(calendarViewBtn).toHaveClass(/btn-primary/);
+
+    // List button should not be active
+    const listViewBtn = page.locator('#listView');
+    await expect(listViewBtn).toHaveClass(/btn-outline/);
+  });
+
+  test('should display calendar grid with days', async ({ page }) => {
+    // Switch to calendar view
+    const calendarViewBtn = page.locator('#calendarView');
+    await calendarViewBtn.click();
+
+    // Wait for calendar to render
+    await page.waitForSelector('.calendar-grid', { timeout: 3000 });
+
+    // Should have day headers
+    const dayHeaders = page.locator('.calendar-day-header');
+    const headerCount = await dayHeaders.count();
+    expect(headerCount).toBe(7); // Sun-Sat
+
+    // Should have calendar days
+    const calendarDays = page.locator('.calendar-day');
+    const dayCount = await calendarDays.count();
+    expect(dayCount).toBeGreaterThan(28); // At least one month worth
+
+    // Should have current month/year header
+    const monthHeader = page.locator('#currentMonth');
+    await expect(monthHeader).toBeVisible();
+    const monthText = await monthHeader.textContent();
+    expect(monthText).toMatch(/\w+ \d{4}/); // e.g., "November 2025"
+  });
+
+  test('should navigate months with prev/next buttons', async ({ page }) => {
+    // Switch to calendar view
+    const calendarViewBtn = page.locator('#calendarView');
+    await calendarViewBtn.click();
+
+    // Get current month
+    const monthHeader = page.locator('#currentMonth');
+    const initialMonth = await monthHeader.textContent();
+
+    // Click next month
+    const nextMonthBtn = page.locator('#nextMonth');
+    await nextMonthBtn.click();
+    await page.waitForTimeout(300);
+
+    const nextMonth = await monthHeader.textContent();
+    expect(nextMonth).not.toBe(initialMonth);
+
+    // Click previous month
+    const prevMonthBtn = page.locator('#prevMonth');
+    await prevMonthBtn.click();
+    await page.waitForTimeout(300);
+
+    const backToInitial = await monthHeader.textContent();
+    expect(backToInitial).toBe(initialMonth);
+  });
+
+  test('should show events on calendar days', async ({ page }) => {
+    // Switch to calendar view
+    const calendarViewBtn = page.locator('#calendarView');
+    await calendarViewBtn.click();
+
+    // Wait for calendar to render
+    await page.waitForSelector('.calendar-grid', { timeout: 3000 });
+
+    // Look for days with event indicators
+    const daysWithEvents = page.locator('.calendar-day:has(.calendar-event-dot)');
+    const count = await daysWithEvents.count();
+
+    // If we have events in the database, some days should show event indicators
+    // (This might be 0 if there are no events in the current month)
+    console.log(`Found ${count} days with events in calendar view`);
+  });
+
+  test('should click calendar day and show events - anonymous user', async ({ page }) => {
+    // This test should work for anonymous users (no login required)
+
+    // Capture console logs
+    const consoleLogs = [];
+    page.on('console', msg => {
+      consoleLogs.push(`${msg.type()}: ${msg.text()}`);
+    });
+
+    // Switch to calendar view
+    const calendarViewBtn = page.locator('#calendarView');
+    await calendarViewBtn.click();
+
+    // Wait for calendar to render
+    await page.waitForSelector('.calendar-grid', { timeout: 3000 });
+
+    // Wait a bit for events to load
+    await page.waitForTimeout(1000);
+
+    // Find all calendar days with events (using event dots as indicator)
+    const daysWithEvents = page.locator('.calendar-day:has(.calendar-event-dot)');
+    const dayCount = await daysWithEvents.count();
+
+    console.log(`Found ${dayCount} calendar days with event dots`);
+
+    if (dayCount > 0) {
+      // Try clicking up to 3 days until we find one that shows events
+      let foundEvents = false;
+      for (let i = 0; i < Math.min(3, dayCount) && !foundEvents; i++) {
+        const day = daysWithEvents.nth(i);
+
+        // Get the date from the calendar day
+        const dateStr = await day.getAttribute('data-date');
+        console.log(`Attempting to click day ${i} with date: ${dateStr}`);
+
+        await day.click();
+        await page.waitForTimeout(800);
+
+        // Check console logs for click event
+        const clickLogs = consoleLogs.filter(log => log.includes('Calendar day clicked'));
+        console.log(`Click logs: ${clickLogs.join(', ')}`);
+
+        // Check if events section became visible
+        const selectedDayEvents = page.locator('#selectedDayEvents');
+        const isVisible = await selectedDayEvents.isVisible().catch(() => false);
+
+        console.log(`Events section visible: ${isVisible}`);
+
+        if (isVisible) {
+          foundEvents = true;
+
+          // Should have events grid
+          const selectedEventsGrid = page.locator('#selectedEventsGrid');
+          await expect(selectedEventsGrid).toBeVisible();
+
+          // Should have at least one event card
+          const eventCards = selectedEventsGrid.locator('.event-card');
+          const cardCount = await eventCards.count();
+          expect(cardCount).toBeGreaterThan(0);
+        }
+      }
+
+      // Print all console logs if test fails
+      if (!foundEvents) {
+        console.log('\n=== All Console Logs ===');
+        consoleLogs.forEach(log => console.log(log));
+      }
+
+      // At least one day should have shown events
+      expect(foundEvents).toBeTruthy();
+    } else {
+      // Skip test if no events in current month
+      console.log('No events found in current calendar month - skipping test');
+    }
+  });
+
+  test('should display export buttons on event cards in calendar', async ({ page }) => {
+    // Switch to calendar view
+    const calendarViewBtn = page.locator('#calendarView');
+    await calendarViewBtn.click();
+
+    // Find and click a day with events
+    const dayWithEvents = page.locator('.calendar-day:has(.calendar-event-dot)').first();
+
+    if (await dayWithEvents.isVisible({ timeout: 1000 }).catch(() => false)) {
+      await dayWithEvents.click();
+      await page.waitForTimeout(500);
+
+      // Check for export button
+      const exportBtn = page.locator('button:has-text("Export")').first();
+      if (await exportBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await expect(exportBtn).toContainText('Export');
+
+        // Should have calendar icon
+        const icon = exportBtn.locator('i.fa-calendar-plus');
+        await expect(icon).toBeVisible();
+      }
+    }
   });
 
   test('should verify Supabase connection is active', async ({ page }) => {

@@ -11,6 +11,7 @@ const wikiI18n = window.wikiI18n;
 
 // State
 let currentFilter = 'all';
+let currentTimeFilter = 'upcoming'; // 'upcoming', 'past', 'all'
 let allEvents = [];
 let currentView = 'list'; // 'list' or 'calendar'
 let currentCalendarDate = new Date(); // Track current month in calendar view
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   await loadEvents();
   initializeEventFilters();
+  initializeTimeFilters();
   initializeViewToggles();
 
   console.log(`✅ Wiki Events ${VERSION_DISPLAY}: Initialization complete`);
@@ -52,7 +54,7 @@ async function loadEvents() {
     if (events.length > 0) {
       const eventsByMonth = {};
       events.forEach(event => {
-        const date = new Date(event.event_date);
+        const date = parseLocalDate(event.event_date);
         const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         eventsByMonth[monthKey] = (eventsByMonth[monthKey] || 0) + 1;
       });
@@ -111,20 +113,30 @@ function renderEvents() {
     return;
   }
 
-  // Filter events based on current filter and future dates
+  // Filter events based on current filters
   const now = new Date();
   const filteredEvents = allEvents.filter(event => {
-    // Only show future events (or events from today)
-    const eventDate = new Date(event.event_date);
-    const isUpcoming = eventDate >= now || isSameDay(eventDate, now);
+    const eventDate = parseLocalDate(event.event_date);
+    const isToday = isSameDay(eventDate, now);
+    const isPast = eventDate < now && !isToday;
+    const isUpcoming = eventDate >= now || isToday;
+
+    // Time filter
+    let matchesTimeFilter = true;
+    if (currentTimeFilter === 'upcoming') {
+      matchesTimeFilter = isUpcoming;
+    } else if (currentTimeFilter === 'past') {
+      matchesTimeFilter = isPast;
+    }
+    // 'all' shows everything
 
     // Type filter
-    const matchesFilter = currentFilter === 'all' || event.event_type === currentFilter;
+    const matchesTypeFilter = currentFilter === 'all' || event.event_type === currentFilter;
 
-    return isUpcoming && matchesFilter;
+    return matchesTimeFilter && matchesTypeFilter;
   });
 
-  console.log(`📊 Rendering ${filteredEvents.length} events (filtered from ${allEvents.length} total)`);
+  console.log(`📊 Rendering ${filteredEvents.length} events (filtered from ${allEvents.length} total, time: ${currentTimeFilter}, type: ${currentFilter})`);
 
   // Render events
   if (filteredEvents.length === 0) {
@@ -230,7 +242,7 @@ function showError(message) {
 }
 
 /**
- * Initialize event filters
+ * Initialize event type filters
  */
 function initializeEventFilters() {
   const filterTags = document.querySelectorAll('.event-filter');
@@ -246,7 +258,7 @@ function initializeEventFilters() {
       // Update current filter
       currentFilter = this.dataset.filter;
 
-      console.log(`🔍 Filter changed to: ${currentFilter}`);
+      console.log(`🔍 Type filter changed to: ${currentFilter}`);
 
       // Re-render based on current view
       if (currentView === 'calendar') {
@@ -261,6 +273,68 @@ function initializeEventFilters() {
       }
     });
   });
+}
+
+/**
+ * Initialize time filters (upcoming/past/all)
+ */
+function initializeTimeFilters() {
+  const timeFilterBtns = document.querySelectorAll('.time-filter');
+
+  timeFilterBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Update active state
+      timeFilterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      // Update current time filter
+      currentTimeFilter = this.dataset.timefilter;
+
+      console.log(`⏰ Time filter changed to: ${currentTimeFilter}`);
+
+      // Update section header based on filter
+      updateSectionHeader();
+
+      // Re-render based on current view
+      if (currentView === 'calendar') {
+        renderCalendar();
+        // Hide selected day events when filter changes
+        const selectedDayEventsDiv = document.getElementById('selectedDayEvents');
+        if (selectedDayEventsDiv) {
+          selectedDayEventsDiv.style.display = 'none';
+        }
+      } else {
+        renderEvents();
+      }
+    });
+  });
+}
+
+/**
+ * Update section header based on time filter
+ */
+function updateSectionHeader() {
+  const listViewHeader = document.querySelector('#listViewSection h2');
+  if (!listViewHeader) return;
+
+  const icons = {
+    'upcoming': 'fa-calendar-day',
+    'past': 'fa-history',
+    'all': 'fa-calendar-alt'
+  };
+
+  const titles = {
+    'upcoming': 'Upcoming Events',
+    'past': 'Past Events',
+    'all': 'All Events'
+  };
+
+  const icon = icons[currentTimeFilter] || 'fa-calendar-day';
+  const title = titles[currentTimeFilter] || 'Events';
+
+  listViewHeader.innerHTML = `<i class="fas ${icon}"></i> ${title}`;
 }
 
 /**
@@ -468,7 +542,7 @@ window.showEventDetails = function(eventId) {
         <div style="margin-bottom: 1.5rem;">
           <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-calendar-alt"></i> When</h3>
           <p>
-            ${new Date(event.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            ${parseLocalDate(event.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             ${event.start_time ? `<br>${formatTime(event.start_time)}${event.end_time ? ' - ' + formatTime(event.end_time) : ''}` : ''}
           </p>
         </div>
@@ -674,7 +748,7 @@ function renderCalendar() {
 
   // Count events in this month
   const eventsInMonth = allEvents.filter(event => {
-    const eventDate = new Date(event.event_date);
+    const eventDate = parseLocalDate(event.event_date);
     return eventDate.getFullYear() === year && eventDate.getMonth() === month;
   });
   console.log(`📊 Found ${eventsInMonth.length} events in this month`);
@@ -799,9 +873,18 @@ function renderCalendarDay(date, isOtherMonth) {
  */
 function getEventsForDate(date) {
   return allEvents.filter(event => {
-    const eventDate = new Date(event.event_date);
+    const eventDate = parseLocalDate(event.event_date);
     return isSameDay(eventDate, date);
   });
+}
+
+/**
+ * Parse a date string as local date (not UTC)
+ * This prevents timezone offset issues where "2025-11-08" becomes Nov 7 in some timezones
+ */
+function parseLocalDate(dateStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
 }
 
 /**
@@ -904,7 +987,7 @@ function showDayEvents(dateStr) {
  */
 function generateICS(event) {
   // Format dates for ICS (YYYYMMDDTHHMMSS format)
-  const eventDate = new Date(event.event_date);
+  const eventDate = parseLocalDate(event.event_date);
 
   // Parse start time if available
   let startDateTime = new Date(eventDate);
