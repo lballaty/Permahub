@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2025-11-16T22:13:30.480Z",
+  "generatedAt": "2025-11-17T11:34:41.965Z",
   "baseline": {
     "language": "en",
-    "totalKeys": 645
+    "totalKeys": 767
   },
   "languages": {
     "pt": {
       "name": "Portuguese",
-      "total": 765,
+      "total": 889,
       "missing": [],
       "extra": [
+        "wiki.editor.location_website_hint",
         "wiki.common.submit",
         "wiki.common.view",
         "wiki.common.clear",
@@ -129,29 +130,39 @@
         "wiki.categories.windbreak-planting",
         "wiki.categories.worm-farming",
         "wiki.categories.zero-waste",
-        "wiki.categories.zone-planning"
+        "wiki.categories.zone-planning",
+        "wiki.settings.location_hidden_desc"
       ],
       "coverage": "100.00"
     },
     "es": {
       "name": "Spanish",
-      "total": 645,
+      "total": 769,
       "missing": [],
-      "extra": [],
+      "extra": [
+        "wiki.editor.location_website_hint",
+        "wiki.settings.location_hidden_desc"
+      ],
       "coverage": "100.00"
     },
     "cs": {
       "name": "Czech",
-      "total": 645,
+      "total": 769,
       "missing": [],
-      "extra": [],
+      "extra": [
+        "wiki.editor.location_website_hint",
+        "wiki.settings.location_hidden_desc"
+      ],
       "coverage": "100.00"
     },
     "de": {
       "name": "German",
-      "total": 645,
+      "total": 769,
       "missing": [],
-      "extra": [],
+      "extra": [
+        "wiki.editor.location_website_hint",
+        "wiki.settings.location_hidden_desc"
+      ],
       "coverage": "100.00"
     }
   }
