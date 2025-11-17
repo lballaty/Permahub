@@ -1,14 +1,14 @@
 {
   "name": "permahub",
   "version": "1.0.0",
-  "description": "A global platform connecting permaculture practitioners, projects, and sustainable living communities",
   "type": "module",
-  "main": "electron/main.js",
+  "description": "A global platform connecting permaculture practitioners, projects, and sustainable living communities",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "electron:dev": "NODE_ENV=development electron .",
+    "electron:dev": "NODE_ENV=development ./node_modules/.bin/electron .",
     "electron:build": "electron-builder",
     "electron:build:mac": "electron-builder --mac",
     "electron:build:win": "electron-builder --win",
@@ -109,11 +109,17 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         },
         {
           "target": "zip",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "hardenedRuntime": false,
@@ -124,11 +130,15 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
