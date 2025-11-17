@@ -292,11 +292,11 @@ Events are global (Lisboa, Brazil, Czech, UK, Australia, USA) and dates range fr
 
 ## 🎯 Incremental Execution Plan
 
-### Session 1 (Today - 45 min)
+### Session 1 (Completed - 2025-11-16)
 - ✅ Verify wiki guides complete
 - ✅ Create this plan document
-- [ ] Phase 1: Expand 3 critical locations
-- [ ] Commit: "feat: expand 3 critical location descriptions"
+- ✅ Phase 1: Expand 3 critical locations
+- ✅ Commit: "docs: complete subtropical and cold-climate guides with Why This Matters sections"
 
 ### Session 2 (Future - 45 min)
 - [ ] Phase 2, Batch 1: Czech educational centers (5 locations)
@@ -325,7 +325,7 @@ Events are global (Lisboa, Brazil, Czech, UK, Australia, USA) and dates range fr
 | Phase | Locations/Events | Status | Completion |
 |-------|------------------|--------|------------|
 | Wiki Guides | 5 guides | ✅ Complete | 100% |
-| Phase 1 | 3 critical locations | ⏳ Pending | 0% |
+| Phase 1 | 3 critical locations | ✅ Complete | 100% |
 | Phase 2.1 | 5 Czech educational | ⏳ Pending | 0% |
 | Phase 2.2 | 7 Czech markets/gardens | ⏳ Pending | 0% |
 | Phase 2.3 | 6 Madeira farms | ⏳ Pending | 0% |
@@ -333,8 +333,8 @@ Events are global (Lisboa, Brazil, Czech, UK, Australia, USA) and dates range fr
 | Phase 3 | 10-15 selected events | ⏳ Pending | 0% |
 
 **Overall Progress:**
-- Guides: 100% ✅
-- Locations: 26% → Target: 100%
+- Guides: 100% ✅ (5/5 complete)
+- Locations: 35% ✅ → Target: 100% (12/34 complete, +3 in Phase 1)
 - Events: 0% → Target: 33% (15/45)
 
 ---
