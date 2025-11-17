@@ -11,11 +11,13 @@ const wikiI18n = window.wikiI18n;
 
 // State
 let currentCategory = 'all';
+let currentTheme = '';
 let currentSearchQuery = '';
 let allGuides = [];
 let allCategories = [];
 let allLocations = [];
 let allEvents = [];
+let categoryGroups = [];
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   initializeSearch();
   renderUpcomingEvents(); // Render upcoming events section
   renderFeaturedLocations(); // Render featured locations section
+  updateCountDisplay(); // Initialize count display
 
   console.log(`✅ Wiki Home ${VERSION_DISPLAY}: Initialization complete`);
 });
@@ -316,11 +319,37 @@ async function updateStats() {
 }
 
 /**
+ * Get filtered guides based on current filters
+ */
+function getFilteredGuides() {
+  return allGuides.filter(guide => {
+    // Category filter
+    const matchesCategory = currentCategory === 'all' ||
+                           guide.categories.some(cat => cat.slug === currentCategory);
+
+    return matchesCategory;
+  });
+}
+
+/**
+ * Update responsive count display
+ */
+function updateCountDisplay() {
+  const currentCountEl = document.getElementById('currentCount');
+  const totalCountEl = document.getElementById('totalCount');
+
+  if (currentCountEl && totalCountEl) {
+    const filteredGuides = getFilteredGuides();
+    currentCountEl.textContent = filteredGuides.length;
+    totalCountEl.textContent = allGuides.length;
+  }
+}
+
+/**
  * Render guides to the page (and search results from all types)
  */
 function renderGuides() {
   const guidesGrid = document.getElementById('guidesGrid');
-  const guideCount = document.getElementById('guideCount');
 
   if (!guidesGrid) return;
 
@@ -331,22 +360,7 @@ function renderGuides() {
   }
 
   // Otherwise, filter guides based on current category
-  const filteredGuides = allGuides.filter(guide => {
-    // Category filter
-    const matchesCategory = currentCategory === 'all' ||
-                           guide.categories.some(cat => cat.slug === currentCategory);
-
-    return matchesCategory;
-  });
-
-  // Update count
-  if (guideCount) {
-    if (currentCategory === 'all' && currentSearchQuery === '') {
-      guideCount.textContent = `Showing all ${allGuides.length} guides`;
-    } else {
-      guideCount.textContent = `Showing ${filteredGuides.length} guide${filteredGuides.length !== 1 ? 's' : ''}`;
-    }
-  }
+  const filteredGuides = getFilteredGuides();
 
   // Render guides
   if (filteredGuides.length === 0) {
@@ -452,53 +466,214 @@ function escapeHtml(text) {
 }
 
 /**
- * Render category filters from database
+ * Group categories by theme based on seed file structure
  */
-function renderCategoryFilters() {
-  const categoryFiltersContainer = document.getElementById('categoryFilters');
-  if (!categoryFiltersContainer) return;
+function groupCategoriesByTheme() {
+  // Define the 15 theme groups as per seed file structure
+  const themeDefinitions = [
+    { name: 'Animal Husbandry & Livestock', icon: '🐓', slugs: ['animal-husbandry', 'beekeeping', 'poultry-keeping'] },
+    { name: 'Food Preservation & Storage', icon: '🫙', slugs: ['food-preservation', 'fermentation', 'root-cellaring'] },
+    { name: 'Mycology & Mushrooms', icon: '🍄', slugs: ['mycology', 'mushroom-cultivation', 'mycoremediation'] },
+    { name: 'Indigenous & Traditional Knowledge', icon: '🪶', slugs: ['indigenous-knowledge', 'ethnobotany', 'bioregionalism'] },
+    { name: 'Fiber Arts & Textiles', icon: '🧶', slugs: ['fiber-arts', 'natural-dyeing', 'textile-production'] },
+    { name: 'Appropriate Technology', icon: '⚙️', slugs: ['appropriate-technology', 'solar-technology', 'bicycle-power'] },
+    { name: 'Herbal Medicine', icon: '🌿', slugs: ['herbal-medicine', 'plant-medicine-making', 'medicinal-gardens'] },
+    { name: 'Soil Science & Regeneration', icon: '🔬', slugs: ['soil-science', 'regenerative-agriculture', 'cover-cropping'] },
+    { name: 'Foraging & Wildcrafting', icon: '🫐', slugs: ['foraging', 'wild-edibles', 'ethical-wildcrafting'] },
+    { name: 'Aquaculture & Water Systems', icon: '🐟', slugs: ['aquaculture', 'aquaponics', 'pond-management'] },
+    { name: 'Ecosystem Restoration', icon: '🌍', slugs: ['bioremediation', 'erosion-control', 'pollinator-support'] },
+    { name: 'Community & Social Systems', icon: '🤝', slugs: ['social-permaculture', 'ecovillage-design', 'consensus-decision-making'] },
+    { name: 'Alternative Economics', icon: '💱', slugs: ['alternative-economics', 'time-banking', 'gift-economy'] },
+    { name: 'Climate Resilience', icon: '🌡️', slugs: ['climate-adaptation', 'drought-strategies', 'fire-smart-landscaping'] },
+    { name: 'Family & Education', icon: '👶', slugs: ['childrens-gardens', 'nature-education', 'family-homesteading'] }
+  ];
 
-  // Keep the "All" button
-  let html = '<a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> <span data-i18n="wiki.home.all_categories">All</span></a>';
+  categoryGroups = themeDefinitions.map(theme => ({
+    name: theme.name,
+    icon: theme.icon,
+    categories: theme.slugs
+      .map(slug => allCategories.find(cat => cat.slug === slug))
+      .filter(Boolean) // Remove undefined entries if category not found
+  })).filter(group => group.categories.length > 0); // Only keep groups with categories
 
-  // Add categories from database
-  allCategories.forEach(category => {
-    // Use icon from database or default icon
-    const icon = category.icon || '<i class="fas fa-tag"></i>';
-    // Use translated category name if available, otherwise fall back to database name
-    const translatedName = wikiI18n.t(`wiki.categories.${category.slug}`) || escapeHtml(category.name);
-    html += `<a href="javascript:void(0)" class="tag category-filter" data-category="${category.slug}">
-      ${icon} <span>${translatedName}</span>
-    </a>`;
-  });
-
-  // Update the container
-  categoryFiltersContainer.innerHTML = html;
-
-  console.log(`✅ Rendered ${allCategories.length} category filters`);
+  console.log(`✅ Grouped ${allCategories.length} categories into ${categoryGroups.length} themes`);
 }
 
 /**
- * Initialize category filters
+ * Render category filter dropdowns
+ */
+function renderCategoryFilters() {
+  groupCategoriesByTheme();
+
+  const themeSelect = document.getElementById('themeSelect');
+  const categorySelect = document.getElementById('categorySelect');
+
+  if (!themeSelect || !categorySelect) return;
+
+  // Populate theme dropdown
+  themeSelect.innerHTML = '<option value="">' + wikiI18n.t('wiki.home.all_themes') + '</option>' +
+    categoryGroups.map(group =>
+      `<option value="${escapeHtml(group.name)}">${group.icon} ${escapeHtml(group.name)}</option>`
+    ).join('');
+
+  // Populate category dropdown with all categories initially
+  populateAllCategories();
+
+  console.log(`✅ Rendered ${categoryGroups.length} theme options and ${allCategories.length} category options`);
+}
+
+/**
+ * Populate category dropdown with all categories
+ */
+function populateAllCategories() {
+  const categorySelect = document.getElementById('categorySelect');
+  if (!categorySelect) return;
+
+  categorySelect.innerHTML = '<option value="">' + wikiI18n.t('wiki.home.all_categories') + '</option>' +
+    allCategories.map(cat => {
+      const icon = cat.icon || '🏷️';
+      const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+      return `<option value="${cat.slug}">${icon} ${translatedName}</option>`;
+    }).join('');
+}
+
+/**
+ * Filter categories by selected theme
+ */
+function filterCategoriesByTheme(themeName) {
+  const categorySelect = document.getElementById('categorySelect');
+  if (!categorySelect) return;
+
+  if (!themeName) {
+    populateAllCategories();
+    return;
+  }
+
+  const group = categoryGroups.find(g => g.name === themeName);
+  if (group) {
+    categorySelect.innerHTML = '<option value="">' + wikiI18n.t('wiki.home.all_categories_in_theme') + '</option>' +
+      group.categories.map(cat => {
+        const icon = cat.icon || '🏷️';
+        const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+        return `<option value="${cat.slug}">${icon} ${translatedName}</option>`;
+      }).join('');
+  }
+}
+
+/**
+ * Update active filter tags display
+ */
+function updateActiveFilters() {
+  const container = document.getElementById('activeFilters');
+  const row = document.getElementById('activeFiltersRow');
+  if (!container || !row) return;
+
+  const filters = [];
+
+  if (currentTheme) {
+    const group = categoryGroups.find(g => g.name === currentTheme);
+    if (group) {
+      filters.push(`
+        <div class="active-filter-tag">
+          <span>${group.icon} ${escapeHtml(currentTheme)}</span>
+          <button class="remove-filter" data-type="theme">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `);
+    }
+  }
+
+  if (currentCategory && currentCategory !== 'all') {
+    const cat = allCategories.find(c => c.slug === currentCategory);
+    if (cat) {
+      // Get filtered guides count for mobile display in tag
+      const filteredGuides = getFilteredGuides();
+      const count = filteredGuides.length;
+      const icon = cat.icon || '🏷️';
+      const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
+
+      filters.push(`
+        <div class="active-filter-tag">
+          <span>${icon} ${translatedName} • ${count} ${count === 1 ? wikiI18n.t('wiki.home.guide') : wikiI18n.t('wiki.home.guides')}</span>
+          <button class="remove-filter" data-type="category">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `);
+    }
+  }
+
+  if (filters.length > 0) {
+    container.innerHTML = filters.join('') + `
+      <button class="clear-all-filters">${wikiI18n.t('wiki.home.clear_all_filters')}</button>
+    `;
+    row.style.display = 'flex';
+  } else {
+    row.style.display = 'none';
+  }
+}
+
+/**
+ * Initialize category filter dropdowns
  */
 function initializeCategoryFilters() {
-  const categoryFilters = document.querySelectorAll('.category-filter');
+  const themeSelect = document.getElementById('themeSelect');
+  const categorySelect = document.getElementById('categorySelect');
+  const activeFilters = document.getElementById('activeFilters');
 
-  categoryFilters.forEach(filter => {
-    filter.addEventListener('click', function(e) {
-      e.preventDefault();
+  if (!themeSelect || !categorySelect) return;
 
-      // Update active state
-      categoryFilters.forEach(f => f.classList.remove('active'));
-      this.classList.add('active');
-
-      // Update current category
-      currentCategory = this.dataset.category;
-
-      // Re-render guides
-      renderGuides();
-    });
+  // Theme dropdown change handler
+  themeSelect.addEventListener('change', function() {
+    currentTheme = this.value;
+    currentCategory = 'all';
+    categorySelect.value = '';
+    filterCategoriesByTheme(currentTheme);
+    updateActiveFilters();
+    renderGuides();
+    updateCountDisplay();
   });
+
+  // Category dropdown change handler
+  categorySelect.addEventListener('change', function() {
+    currentCategory = this.value || 'all';
+    updateActiveFilters();
+    renderGuides();
+    updateCountDisplay();
+  });
+
+  // Active filters remove button handlers
+  if (activeFilters) {
+    activeFilters.addEventListener('click', function(e) {
+      const removeBtn = e.target.closest('.remove-filter');
+      if (removeBtn) {
+        const type = removeBtn.dataset.type;
+        if (type === 'theme') {
+          currentTheme = '';
+          themeSelect.value = '';
+          populateAllCategories();
+        } else if (type === 'category') {
+          currentCategory = 'all';
+          categorySelect.value = '';
+        }
+        updateActiveFilters();
+        renderGuides();
+        updateCountDisplay();
+      }
+
+      if (e.target.closest('.clear-all-filters')) {
+        currentTheme = '';
+        currentCategory = 'all';
+        themeSelect.value = '';
+        categorySelect.value = '';
+        populateAllCategories();
+        updateActiveFilters();
+        renderGuides();
+        updateCountDisplay();
+      }
+    });
+  }
 }
 
 /**
