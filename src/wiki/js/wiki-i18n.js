@@ -751,6 +751,17 @@ const wikiI18n = {
       'wiki.category.circular_economy': 'Circular Economy',
       'wiki.category.native_species': 'Native Species',
 
+      // Themes
+      'wiki.themes.animal-husbandry-livestock': 'Animal Husbandry & Livestock',
+      'wiki.themes.food-preservation-storage': 'Food Preservation & Storage',
+      'wiki.themes.water-management-systems': 'Water Management Systems',
+      'wiki.themes.renewable-energy': 'Renewable Energy',
+      'wiki.themes.forest-gardening': 'Forest Gardening',
+      'wiki.themes.ecosystem-management': 'Ecosystem Management',
+      'wiki.themes.soil-regeneration': 'Soil Regeneration',
+      'wiki.themes.community-education': 'Community Education',
+      'wiki.themes.specialized-techniques': 'Specialized Techniques',
+
       // Time
       'wiki.time.today': 'Today',
       'wiki.time.yesterday': 'Yesterday',
@@ -1568,6 +1579,18 @@ const wikiI18n = {
       'wiki.category.terracing': 'Socalcos',
       'wiki.category.circular_economy': 'Economia Circular',
       'wiki.category.native_species': 'Espécies Nativas',
+
+      // Themes
+      'wiki.themes.animal-husbandry-livestock': 'Criação de Animais e Pecuária',
+      'wiki.themes.food-preservation-storage': 'Preservação e Armazenamento de Alimentos',
+      'wiki.themes.water-management-systems': 'Sistemas de Gestão de Água',
+      'wiki.themes.renewable-energy': 'Energia Renovável',
+      'wiki.themes.forest-gardening': 'Jardinagem Florestal',
+      'wiki.themes.ecosystem-management': 'Gestão de Ecossistemas',
+      'wiki.themes.soil-regeneration': 'Regeneração do Solo',
+      'wiki.themes.community-education': 'Educação Comunitária',
+      'wiki.themes.specialized-techniques': 'Técnicas Especializadas',
+
       'wiki.categories.agroforestry-systems': 'Sistemas Agroflorestais',
       'wiki.categories.animal-care': 'Cuidado Animal',
       'wiki.categories.animal-husbandry': 'Criação de Animais',
@@ -2499,6 +2522,17 @@ const wikiI18n = {
       'wiki.category.circular_economy': 'Economía Circular',
       'wiki.category.native_species': 'Especies Nativas',
 
+      // Themes
+      'wiki.themes.animal-husbandry-livestock': 'Cría de Animales y Ganadería',
+      'wiki.themes.food-preservation-storage': 'Preservación y Almacenamiento de Alimentos',
+      'wiki.themes.water-management-systems': 'Sistemas de Gestión del Agua',
+      'wiki.themes.renewable-energy': 'Energía Renovable',
+      'wiki.themes.forest-gardening': 'Jardinería Forestal',
+      'wiki.themes.ecosystem-management': 'Gestión de Ecosistemas',
+      'wiki.themes.soil-regeneration': 'Regeneración del Suelo',
+      'wiki.themes.community-education': 'Educación Comunitaria',
+      'wiki.themes.specialized-techniques': 'Técnicas Especializadas',
+
       // Time
       'wiki.time.today': 'Hoy',
       'wiki.time.yesterday': 'Ayer',
@@ -3408,6 +3442,17 @@ const wikiI18n = {
       'wiki.category.terracing': 'Terrassierung',
       'wiki.category.circular_economy': 'Kreislaufwirtschaft',
       'wiki.category.native_species': 'Heimische Arten',
+
+      // Themes
+      'wiki.themes.animal-husbandry-livestock': 'Tierhaltung & Viehhaltung',
+      'wiki.themes.food-preservation-storage': 'Lebensmittelkonservierung & Lagerung',
+      'wiki.themes.water-management-systems': 'Wassermanagementsysteme',
+      'wiki.themes.renewable-energy': 'Erneuerbare Energie',
+      'wiki.themes.forest-gardening': 'Waldgarten',
+      'wiki.themes.ecosystem-management': 'Ökosystemmanagement',
+      'wiki.themes.soil-regeneration': 'Bodenregeneration',
+      'wiki.themes.community-education': 'Gemeinschaftsbildung',
+      'wiki.themes.specialized-techniques': 'Spezialisierte Techniken',
 
       // Time
       'wiki.time.today': 'Heute',
@@ -4415,6 +4460,17 @@ const wikiI18n = {
       'wiki.category.terracing': 'Terasování',
       'wiki.category.circular_economy': 'Oběhové hospodářství',
       'wiki.category.native_species': 'Původní druhy',
+
+      // Themes
+      'wiki.themes.animal-husbandry-livestock': 'Chov zvířat a dobytek',
+      'wiki.themes.food-preservation-storage': 'Konzervace a skladování potravin',
+      'wiki.themes.water-management-systems': 'Systémy řízení vody',
+      'wiki.themes.renewable-energy': 'Obnovitelná energie',
+      'wiki.themes.forest-gardening': 'Lesní zahradnictví',
+      'wiki.themes.ecosystem-management': 'Řízení ekosystémů',
+      'wiki.themes.soil-regeneration': 'Regenerace půdy',
+      'wiki.themes.community-education': 'Komunitní vzdělávání',
+      'wiki.themes.specialized-techniques': 'Specializované techniky',
 
       // Settings Page
       'wiki.settings.contact_options': 'Možnosti kontaktu',
