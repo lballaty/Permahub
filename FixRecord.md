@@ -1460,3 +1460,57 @@ Implemented complete "Remember Me" functionality following UX best practices:
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-11-17 - Calendar View Timezone Date Parsing Bug
+
+**Commit:** `pending`
+
+**Issue:**
+Calendar view was displaying events on incorrect dates (one day earlier than expected). For example, an event scheduled for November 8th would appear on November 7th in the calendar. When clicking on calendar days with event indicators, no events would be displayed.
+
+**Root Cause:**
+JavaScript's `new Date()` constructor treats date strings in ISO format (e.g., "2025-11-08") as UTC midnight. When converted to local timezone, this can result in the previous day depending on the timezone offset. The calendar grid uses local dates, but event date parsing was using UTC dates, causing a mismatch.
+
+**Example:**
+- Event date in database: "2025-11-08"
+- `new Date("2025-11-08")` creates: Nov 8, 2025 00:00 UTC
+- In PST (UTC-8): Becomes Nov 7, 2025 16:00
+- Calendar shows event on Nov 7 instead of Nov 8
+- Clicking Nov 7 finds no events for that date
+
+**Solution:**
+1. Created `parseLocalDate()` helper function that parses date strings as local dates:
+   ```javascript
+   function parseLocalDate(dateStr) {
+     const [year, month, day] = dateStr.split('-').map(Number);
+     return new Date(year, month - 1, day); // Constructs date in local timezone
+   }
+   ```
+
+2. Replaced all occurrences of `new Date(event.event_date)` with `parseLocalDate(event.event_date)` throughout the file (6 locations):
+   - Event date distribution logging
+   - Event filtering by date
+   - Calendar month event counting
+   - `getEventsForDate()` function
+   - Event detail modal display
+   - ICS file generation
+
+3. Updated Playwright test:
+   - Fixed test URL from `localhost:3000` (Supabase) to `localhost:3001` (dev server)
+   - Changed selector from `.calendar-event-preview` to `.calendar-event-dot`
+   - Added console log capturing to debug click events
+   - Improved test to try multiple days and verify event section appears
+
+**Files Changed:**
+- [src/wiki/js/wiki-events.js](src/wiki/js/wiki-events.js) - Added parseLocalDate(), replaced date parsing
+- [tests/e2e/wiki-events.spec.js](tests/e2e/wiki-events.spec.js) - Fixed test URL and selectors
+
+**Testing:**
+- Calendar now correctly shows events on their scheduled dates
+- Clicking calendar days displays the correct events for that day
+- Works correctly across all timezones (no UTC conversion issues)
+- Anonymous users can view and click calendar events
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
