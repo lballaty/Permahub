@@ -611,7 +611,7 @@ function renderSearchResults() {
             ${escapeHtml(location.name)}
           </a>
         </h3>
-        <p class="text-muted">${escapeHtml(location.description || location.address || '')}</p>
+        <p class="text-muted location-description-truncate-large">${escapeHtml(location.description || location.address || '')}</p>
         ${location.website ? `<a href="${escapeHtml(location.website)}" target="_blank" rel="noopener">Visit Website</a>` : ''}
       </div>
     `;
@@ -1051,7 +1051,7 @@ function renderFeaturedLocations() {
     return `
       <div class="card">
         <h3 style="margin-bottom: 0.5rem;">${icon} ${escapeHtml(location.name)}</h3>
-        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+        <p class="text-muted location-description-truncate" style="font-size: 0.9rem; margin-bottom: 0.5rem;">
           ${escapeHtml(description)}
         </p>
         <div style="font-size: 0.85rem; color: var(--wiki-text-muted);">
