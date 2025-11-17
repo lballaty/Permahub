@@ -11,8 +11,11 @@ const wikiI18n = window.wikiI18n;
 
 // State
 let currentFilter = 'all';
+let currentTheme = '';
+let currentCategory = 'all';
 let allGuides = [];
 let allCategories = [];
+let categoryGroups = [];
 let currentSort = 'newest';
 
 // Initialize on page load
@@ -54,26 +57,158 @@ async function loadCategories() {
 }
 
 /**
- * Render category filters
+ * Group categories by theme (same 15 theme groups as wiki-home)
+ */
+function groupCategoriesByTheme() {
+  const themeDefinitions = [
+    { name: 'Animal Husbandry & Livestock', icon: '🐓', slugs: ['animal-husbandry', 'beekeeping', 'poultry-keeping'] },
+    { name: 'Food Preservation & Storage', icon: '🫙', slugs: ['food-preservation', 'fermentation', 'root-cellaring'] },
+    { name: 'Water Management Systems', icon: '💧', slugs: ['water-harvesting', 'pond-design', 'swale-systems'] },
+    { name: 'Soil Building & Fertility', icon: '🌱', slugs: ['composting', 'vermicomposting', 'soil-building'] },
+    { name: 'Agroforestry & Trees', icon: '🌳', slugs: ['food-forests', 'tree-guilds', 'nut-tree-cultivation'] },
+    { name: 'Garden Design & Planning', icon: '📐', slugs: ['garden-design', 'zone-planning', 'season-extension'] },
+    { name: 'Natural Building', icon: '🏘️', slugs: ['cob-building', 'straw-bale', 'earthbag-construction'] },
+    { name: 'Renewable Energy', icon: '⚡', slugs: ['solar-power', 'biogas', 'micro-hydro'] },
+    { name: 'Seed Saving & Propagation', icon: '🌾', slugs: ['seed-saving', 'grafting', 'plant-propagation'] },
+    { name: 'Forest Gardening', icon: '🌲', slugs: ['forest-gardening', 'edible-landscaping', 'understory-planting'] },
+    { name: 'Ecosystem Management', icon: '🦋', slugs: ['beneficial-insects', 'pollinator-gardens', 'habitat-creation'] },
+    { name: 'Soil Regeneration', icon: '🌿', slugs: ['cover-cropping', 'green-manures', 'no-till-farming'] },
+    { name: 'Community & Education', icon: '👥', slugs: ['community-gardens', 'teaching-permaculture', 'skill-sharing'] },
+    { name: 'Waste & Resource Cycling', icon: '♻️', slugs: ['greywater-systems', 'humanure', 'upcycling'] },
+    { name: 'Specialized Techniques', icon: '🔬', slugs: ['mushroom-cultivation', 'aquaponics', 'mycoremediation'] }
+  ];
+
+  return themeDefinitions.map(theme => ({
+    ...theme,
+    categories: allCategories.filter(cat => theme.slugs.includes(cat.slug))
+  }));
+}
+
+/**
+ * Render category filters as dropdown selects
  */
 function renderCategoryFilters() {
-  const categoryFilters = document.getElementById('categoryFilters');
-  if (!categoryFilters) return;
+  categoryGroups = groupCategoriesByTheme();
 
-  // Keep the "All Guides" filter and add categories
-  const categoryHTML = allCategories.map(cat => {
-    const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || escapeHtml(cat.name);
-    return `
-    <a href="javascript:void(0)" class="tag guide-filter" data-filter="${cat.id}">
-      ${translatedName}
-    </a>
-  `;
-  }).join('');
+  const themeSelect = document.getElementById('themeSelect');
+  const categorySelect = document.getElementById('categorySelect');
 
-  // Add category filters after "All Guides"
-  const allFilter = categoryFilters.querySelector('[data-filter="all"]');
-  if (allFilter) {
-    allFilter.insertAdjacentHTML('afterend', categoryHTML);
+  if (!themeSelect || !categorySelect) return;
+
+  // Populate theme dropdown
+  categoryGroups.forEach(theme => {
+    const option = document.createElement('option');
+    option.value = theme.name;
+    option.textContent = `${theme.icon} ${theme.name}`;
+    themeSelect.appendChild(option);
+  });
+
+  // Initially populate with all categories
+  populateAllCategories();
+}
+
+/**
+ * Populate category dropdown with all categories
+ */
+function populateAllCategories() {
+  const categorySelect = document.getElementById('categorySelect');
+  if (!categorySelect) return;
+
+  // Clear existing options except first
+  categorySelect.innerHTML = `<option value="" data-i18n="wiki.home.all_categories">All Categories</option>`;
+
+  // Add all categories
+  allCategories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat.slug;
+    const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || cat.name;
+    option.textContent = `${cat.icon || ''} ${translatedName}`;
+    categorySelect.appendChild(option);
+  });
+}
+
+/**
+ * Filter category dropdown by selected theme
+ */
+function filterCategoriesByTheme(themeName) {
+  const categorySelect = document.getElementById('categorySelect');
+  if (!categorySelect) return;
+
+  if (!themeName) {
+    populateAllCategories();
+    return;
+  }
+
+  const theme = categoryGroups.find(t => t.name === themeName);
+  if (!theme) return;
+
+  // Clear and repopulate with theme categories
+  categorySelect.innerHTML = `<option value="" data-i18n="wiki.home.all_categories_in_theme">All Categories in Theme</option>`;
+
+  theme.categories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat.slug;
+    const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || cat.name;
+    option.textContent = `${cat.icon || ''} ${translatedName}`;
+    categorySelect.appendChild(option);
+  });
+
+  // Translate the first option
+  wikiI18n.updatePageText();
+}
+
+/**
+ * Update active filter tags display
+ */
+function updateActiveFilters() {
+  const activeFilters = document.getElementById('activeFilters');
+  const activeFiltersRow = document.getElementById('activeFiltersRow');
+
+  if (!activeFilters || !activeFiltersRow) return;
+
+  const filters = [];
+
+  // Add theme filter if set
+  if (currentTheme) {
+    const theme = categoryGroups.find(t => t.name === currentTheme);
+    if (theme) {
+      filters.push(`
+        <div class="active-filter-tag">
+          <span>${theme.icon} ${theme.name}</span>
+          <button class="remove-filter" data-type="theme">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `);
+    }
+  }
+
+  // Add category filter if set (with count on mobile via CSS)
+  if (currentCategory && currentCategory !== 'all') {
+    const cat = allCategories.find(c => c.slug === currentCategory);
+    if (cat) {
+      const filteredCount = getFilteredGuides().length;
+      const translatedName = wikiI18n.t(`wiki.categories.${cat.slug}`) || cat.name;
+      const guidesText = wikiI18n.t(filteredCount === 1 ? 'wiki.home.guide' : 'wiki.home.guides');
+      filters.push(`
+        <div class="active-filter-tag">
+          <span class="filter-tag-text">${cat.icon || ''} ${translatedName}</span>
+          <span class="filter-tag-count"> • ${filteredCount} ${guidesText}</span>
+          <button class="remove-filter" data-type="category">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `);
+    }
+  }
+
+  // Show/hide active filters row
+  if (filters.length > 0) {
+    activeFilters.innerHTML = filters.join('');
+    activeFiltersRow.style.display = 'flex';
+  } else {
+    activeFilters.innerHTML = '';
+    activeFiltersRow.style.display = 'none';
   }
 }
 
@@ -158,6 +293,30 @@ async function loadGuides() {
 }
 
 /**
+ * Get filtered guides based on current category
+ */
+function getFilteredGuides() {
+  if (currentCategory === 'all' || !currentCategory) {
+    return allGuides;
+  }
+  return allGuides.filter(guide => {
+    return guide.categories.some(cat => cat.slug === currentCategory);
+  });
+}
+
+/**
+ * Update count display (responsive: summary bar on desktop, inline count on mobile)
+ */
+function updateCountDisplay() {
+  const filtered = getFilteredGuides();
+  const currentCount = document.getElementById('currentCount');
+  const totalCount = document.getElementById('totalCount');
+
+  if (currentCount) currentCount.textContent = filtered.length;
+  if (totalCount) totalCount.textContent = allGuides.length;
+}
+
+/**
  * Render guides to the page
  */
 function renderGuides() {
@@ -168,21 +327,16 @@ function renderGuides() {
     return;
   }
 
-  // Filter guides based on current filter
-  let filteredGuides = allGuides;
-
-  if (currentFilter !== 'all') {
-    filteredGuides = allGuides.filter(guide => {
-      return guide.categories.some(cat => cat.id === currentFilter);
-    });
-  }
+  // Filter guides based on current category
+  let filteredGuides = getFilteredGuides();
 
   // Apply sorting
   filteredGuides = sortGuides(filteredGuides, currentSort);
 
   console.log(`📊 Rendering ${filteredGuides.length} guides (filtered from ${allGuides.length} total)`);
 
-  // Update count
+  // Update counts
+  updateCountDisplay();
   const guideCount = document.getElementById('guideCount');
   if (guideCount) {
     guideCount.textContent = filteredGuides.length;
@@ -247,27 +401,69 @@ function sortGuides(guides, sortOption) {
 }
 
 /**
- * Initialize filters
+ * Initialize dropdown filters
  */
 function initializeFilters() {
-  const filterTags = document.querySelectorAll('.guide-filter');
+  const themeSelect = document.getElementById('themeSelect');
+  const categorySelect = document.getElementById('categorySelect');
 
-  filterTags.forEach(tag => {
-    tag.addEventListener('click', function(e) {
-      e.preventDefault();
+  if (!themeSelect || !categorySelect) {
+    console.warn('⚠️ Theme or category select not found');
+    return;
+  }
 
-      // Update active state
-      filterTags.forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
+  // Theme dropdown change handler
+  themeSelect.addEventListener('change', function() {
+    currentTheme = this.value;
+    currentCategory = 'all';
+    categorySelect.value = '';
 
-      // Update current filter
-      currentFilter = this.dataset.filter;
+    console.log(`🎨 Theme changed to: ${currentTheme || 'All Themes'}`);
 
-      console.log(`🔍 Filter changed to: ${currentFilter}`);
+    // Update category dropdown based on theme
+    filterCategoriesByTheme(currentTheme);
 
-      // Re-render guides
+    // Update active filters display
+    updateActiveFilters();
+
+    // Re-render guides
+    renderGuides();
+    updateCountDisplay();
+  });
+
+  // Category dropdown change handler
+  categorySelect.addEventListener('change', function() {
+    currentCategory = this.value || 'all';
+
+    console.log(`📁 Category changed to: ${currentCategory}`);
+
+    // Update active filters display
+    updateActiveFilters();
+
+    // Re-render guides
+    renderGuides();
+    updateCountDisplay();
+  });
+
+  // Remove filter button handlers (event delegation)
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-filter')) {
+      const button = e.target.closest('.remove-filter');
+      const type = button.dataset.type;
+
+      if (type === 'theme') {
+        currentTheme = '';
+        themeSelect.value = '';
+        populateAllCategories();
+      } else if (type === 'category') {
+        currentCategory = 'all';
+        categorySelect.value = '';
+      }
+
+      updateActiveFilters();
       renderGuides();
-    });
+      updateCountDisplay();
+    }
   });
 }
 
