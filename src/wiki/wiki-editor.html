@@ -72,9 +72,9 @@
 
           <!-- Status Selector -->
           <select id="statusSelect" class="form-input" style="width: auto; padding: 0.5rem;">
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="archived">Archived</option>
+            <option value="draft" data-i18n="wiki.editor.status_draft">Draft</option>
+            <option value="published" data-i18n="wiki.editor.status_published">Published</option>
+            <option value="archived" data-i18n="wiki.editor.status_archived">Archived</option>
           </select>
 
           <button class="btn btn-primary btn-small" id="saveBtn">
@@ -145,7 +145,7 @@
           <div id="categoriesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
             <!-- Categories will be loaded dynamically from database -->
             <div style="color: var(--wiki-text-muted); padding: 1rem;">
-              <i class="fas fa-spinner fa-spin"></i> Loading categories...
+              <i class="fas fa-spinner fa-spin"></i> <span data-i18n="wiki.editor.loading_categories">Loading categories...</span>
             </div>
           </div>
         </div>
@@ -163,8 +163,8 @@
           <input type="hidden" id="content" name="content">
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
-            <span>💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
-            <span id="charCount">0 characters</span>
+            <span data-i18n="wiki.editor.formatting_tip">💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
+            <span id="charCount" data-i18n="wiki.editor.char_count_zero">0 characters</span>
           </div>
         </div>
 
@@ -173,14 +173,14 @@
           <label class="form-label" data-i18n="wiki.editor.image_label">Featured Image</label>
           <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="imageUploadZone">
             <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
-            <p><strong>Click to upload</strong> or drag and drop</p>
-            <p class="text-muted" style="font-size: 0.9rem;">PNG, JPG, GIF up to 5MB</p>
+            <p><strong data-i18n="wiki.editor.click_upload">Click to upload</strong> <span data-i18n="wiki.editor.drag_drop">or drag and drop</span></p>
+            <p class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.editor.upload_limit">PNG, JPG, GIF up to 5MB</p>
             <input type="file" id="imageUpload" accept="image/*" style="display: none;">
           </div>
           <div id="imagePreview" style="margin-top: 1rem; display: none;">
             <img id="previewImg" style="max-width: 100%; border-radius: 8px;">
             <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage">
-              <i class="fas fa-times"></i> Remove Image
+              <i class="fas fa-times"></i> <span data-i18n="wiki.editor.remove_image">Remove Image</span>
             </button>
           </div>
         </div>
@@ -189,45 +189,47 @@
         <div id="wikipediaFields" style="display: none;">
           <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
             <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
-              <i class="fab fa-wikipedia-w"></i> Wikipedia Reference
+              <i class="fab fa-wikipedia-w"></i> <span data-i18n="wiki.editor.wikipedia_section">Wikipedia Reference</span>
             </h3>
 
             <div class="form-group">
-              <label class="form-label" for="wikipediaUrl">Wikipedia Link (optional)</label>
+              <label class="form-label" for="wikipediaUrl" data-i18n="wiki.editor.wikipedia_label">Wikipedia Link (optional)</label>
               <input
                 type="url"
                 id="wikipediaUrl"
                 class="form-input"
+                data-i18n-placeholder="wiki.editor.wikipedia_placeholder"
                 placeholder="https://en.wikipedia.org/wiki/Permaculture"
                 pattern="https://.*\.wikipedia\.org/wiki/.*"
               >
               <small class="text-muted">
-                <i class="fas fa-info-circle"></i> Add a Wikipedia link for fact-checking and additional information
+                <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.wikipedia_hint">Add a Wikipedia link for fact-checking and additional information</span>
               </small>
             </div>
 
             <div id="wikipediaVerification" style="display: none; margin-top: 1rem;">
               <div style="padding: 1rem; background: #fff3e0; border-left: 4px solid #f57c00; border-radius: 4px;">
                 <strong style="color: #e65100;">
-                  <i class="fas fa-exclamation-triangle"></i> Verification Required
+                  <i class="fas fa-exclamation-triangle"></i> <span data-i18n="wiki.editor.verification_required">Verification Required</span>
                 </strong>
-                <p style="margin: 0.5rem 0 1rem; color: #424242;">
+                <p style="margin: 0.5rem 0 1rem; color: #424242;" data-i18n="wiki.editor.verification_text">
                   Please verify that the Wikipedia article is relevant and accurate for this guide.
                 </p>
                 <button type="button" id="verifyWikipedia" class="btn btn-primary btn-small">
-                  <i class="fas fa-check-circle"></i> Verify Link
+                  <i class="fas fa-check-circle"></i> <span data-i18n="wiki.editor.verify_link">Verify Link</span>
                 </button>
                 <button type="button" id="fetchWikipediaSummary" class="btn btn-outline btn-small" style="margin-left: 0.5rem;">
-                  <i class="fas fa-sync"></i> Fetch Summary
+                  <i class="fas fa-sync"></i> <span data-i18n="wiki.editor.fetch_summary">Fetch Summary</span>
                 </button>
               </div>
 
               <div id="wikipediaSummaryBox" style="display: none; margin-top: 1rem;">
-                <label class="form-label">Wikipedia Summary</label>
+                <label class="form-label" data-i18n="wiki.editor.wikipedia_summary_label">Wikipedia Summary</label>
                 <textarea
                   id="wikipediaSummary"
                   class="form-input"
                   rows="3"
+                  data-i18n-placeholder="wiki.editor.wikipedia_summary_placeholder"
                   placeholder="Brief summary from Wikipedia article..."
                   style="resize: vertical;"
                 ></textarea>
@@ -235,9 +237,9 @@
 
               <div id="wikipediaVerifiedStatus" style="display: none; margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-left: 4px solid #4caf50; border-radius: 4px;">
                 <strong style="color: #2e7d32;">
-                  <i class="fas fa-check-circle"></i> Verified
+                  <i class="fas fa-check-circle"></i> <span data-i18n="wiki.editor.verified">Verified</span>
                 </strong>
-                <p style="margin: 0.5rem 0 0; color: #424242; font-size: 0.9rem;">
+                <p style="margin: 0.5rem 0 0; color: #424242; font-size: 0.9rem;" data-i18n="wiki.editor.verified_text">
                   This Wikipedia link has been verified as accurate and relevant.
                 </p>
               </div>
@@ -267,69 +269,74 @@
 
           <div class="form-group">
             <label class="form-label" for="eventLocation" data-i18n="wiki.editor.location_field">Location</label>
-            <input type="text" id="eventLocation" class="form-input" placeholder="e.g., Green Valley Farm, 123 Farm Road">
+            <input type="text" id="eventLocation" class="form-input" data-i18n-placeholder="wiki.editor.event_location_placeholder" placeholder="e.g., Green Valley Farm, 123 Farm Road">
           </div>
 
           <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">
-            <i class="fas fa-address-card"></i> Organizer & Contact Information
+            <i class="fas fa-address-card"></i> <span data-i18n="wiki.editor.event_organizer_section">Organizer & Contact Information</span>
           </h3>
           <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
-            <i class="fas fa-info-circle"></i> Help attendees reach you! All fields are optional.
+            <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.event_organizer_help">Help attendees reach you! All fields are optional.</span>
           </p>
 
           <div class="form-group">
-            <label class="form-label" for="organizerName">Organizer Name</label>
+            <label class="form-label" for="organizerName" data-i18n="wiki.editor.organizer_name">Organizer Name</label>
             <input
               type="text"
               id="organizerName"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.organizer_name_placeholder"
               placeholder="e.g., Sarah Chen"
             >
-            <small class="text-muted">Name of the person organizing this event</small>
+            <small class="text-muted" data-i18n="wiki.editor.organizer_name_hint">Name of the person organizing this event</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="organizerOrganization">Organization</label>
+            <label class="form-label" for="organizerOrganization" data-i18n="wiki.editor.organizer_org">Organization</label>
             <input
               type="text"
               id="organizerOrganization"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.organizer_org_placeholder"
               placeholder="e.g., Brooklyn Botanic Garden"
             >
-            <small class="text-muted">Organization or group hosting the event</small>
+            <small class="text-muted" data-i18n="wiki.editor.organizer_org_hint">Organization or group hosting the event</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="contactEmail">Contact Email</label>
+            <label class="form-label" for="contactEmail" data-i18n="wiki.editor.contact_email">Contact Email</label>
             <input
               type="email"
               id="contactEmail"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.contact_email_placeholder"
               placeholder="e.g., info@organization.org"
             >
-            <small class="text-muted">Email address for event inquiries</small>
+            <small class="text-muted" data-i18n="wiki.editor.contact_email_hint">Email address for event inquiries</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="contactPhone">Contact Phone</label>
+            <label class="form-label" for="contactPhone" data-i18n="wiki.editor.contact_phone">Contact Phone</label>
             <input
               type="tel"
               id="contactPhone"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.contact_phone_placeholder"
               placeholder="e.g., +1 555 123 4567"
             >
-            <small class="text-muted">Phone number for event inquiries</small>
+            <small class="text-muted" data-i18n="wiki.editor.contact_phone_hint">Phone number for event inquiries</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="contactWebsite">Contact Website</label>
+            <label class="form-label" for="contactWebsite" data-i18n="wiki.editor.contact_website">Contact Website</label>
             <input
               type="url"
               id="contactWebsite"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.contact_website_placeholder"
               placeholder="e.g., https://www.organization.org"
             >
-            <small class="text-muted">Event-specific website (if different from registration URL)</small>
+            <small class="text-muted" data-i18n="wiki.editor.contact_website_hint">Event-specific website (if different from registration URL)</small>
           </div>
         </div>
 
@@ -338,85 +345,90 @@
 
           <div class="form-group">
             <label class="form-label" for="address" data-i18n="wiki.editor.address">Address</label>
-            <input type="text" id="address" class="form-input" placeholder="123 Farm Road, City, Country">
+            <input type="text" id="address" class="form-input" data-i18n-placeholder="wiki.editor.address_placeholder" placeholder="123 Farm Road, City, Country">
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div class="form-group">
-              <label class="form-label" for="latitude">Latitude</label>
-              <input type="text" id="latitude" class="form-input" placeholder="e.g., 40.7128">
+              <label class="form-label" for="latitude" data-i18n="wiki.editor.latitude">Latitude</label>
+              <input type="text" id="latitude" class="form-input" data-i18n-placeholder="wiki.editor.latitude_placeholder" placeholder="e.g., 40.7128">
             </div>
             <div class="form-group">
-              <label class="form-label" for="longitude">Longitude</label>
-              <input type="text" id="longitude" class="form-input" placeholder="e.g., -74.0060">
+              <label class="form-label" for="longitude" data-i18n="wiki.editor.longitude">Longitude</label>
+              <input type="text" id="longitude" class="form-input" data-i18n-placeholder="wiki.editor.longitude_placeholder" placeholder="e.g., -74.0060">
             </div>
           </div>
 
           <p class="text-muted" style="font-size: 0.9rem;">
-            <i class="fas fa-info-circle"></i> You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a>
+            <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.coordinates_help">You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a></span>
           </p>
 
           <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">
-            <i class="fas fa-address-card"></i> Contact Information
+            <i class="fas fa-address-card"></i> <span data-i18n="wiki.editor.location_contact_section">Contact Information</span>
           </h3>
           <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
-            <i class="fas fa-info-circle"></i> Help visitors connect with this location! All fields are optional.
+            <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.location_contact_help">Help visitors connect with this location! All fields are optional.</span>
           </p>
 
           <div class="form-group">
-            <label class="form-label" for="locationContactName">Contact Name</label>
+            <label class="form-label" for="locationContactName" data-i18n="wiki.editor.location_contact_name">Contact Name</label>
             <input
               type="text"
               id="locationContactName"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.location_contact_name_placeholder"
               placeholder="e.g., John Smith"
             >
-            <small class="text-muted">Name of primary contact person for this location</small>
+            <small class="text-muted" data-i18n="wiki.editor.location_contact_name_hint">Name of primary contact person for this location</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="locationContactEmail">Contact Email</label>
+            <label class="form-label" for="locationContactEmail" data-i18n="wiki.editor.location_contact_email">Contact Email</label>
             <input
               type="email"
               id="locationContactEmail"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.location_contact_email_placeholder"
               placeholder="e.g., contact@location.org"
             >
-            <small class="text-muted">Email address for location inquiries</small>
+            <small class="text-muted" data-i18n="wiki.editor.location_contact_email_hint">Email address for location inquiries</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="locationContactPhone">Contact Phone</label>
+            <label class="form-label" for="locationContactPhone" data-i18n="wiki.editor.location_contact_phone">Contact Phone</label>
             <input
               type="tel"
               id="locationContactPhone"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.location_contact_phone_placeholder"
               placeholder="e.g., +1 555 123 4567"
             >
-            <small class="text-muted">Phone number for location inquiries</small>
+            <small class="text-muted" data-i18n="wiki.editor.location_contact_phone_hint">Phone number for location inquiries</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="locationWebsite">Website</label>
+            <label class="form-label" for="locationWebsite" data-i18n="wiki.editor.location_website">Website</label>
             <input
               type="url"
               id="locationWebsite"
               class="form-input"
+              data-i18n-placeholder="wiki.editor.location_website_placeholder"
               placeholder="e.g., https://www.location.org"
             >
-            <small class="text-muted">Location's official website</small>
+            <small class="text-muted" data-i18n="wiki.editor.location_website_hint">Location's official website</small>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="locationContactHours">Operating Hours</label>
+            <label class="form-label" for="locationContactHours" data-i18n="wiki.editor.location_hours">Operating Hours</label>
             <textarea
               id="locationContactHours"
               class="form-input"
               rows="3"
+              data-i18n-placeholder="wiki.editor.location_hours_placeholder"
               placeholder="e.g., Monday-Friday 9am-5pm&#10;Saturday 10am-3pm&#10;Closed Sunday"
               style="resize: vertical;"
             ></textarea>
-            <small class="text-muted">When is this location open to visitors?</small>
+            <small class="text-muted" data-i18n="wiki.editor.location_hours_hint">When is this location open to visitors?</small>
           </div>
         </div>
 
@@ -503,7 +515,7 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
     </div>
   </footer>
 
