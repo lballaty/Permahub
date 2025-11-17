@@ -297,9 +297,85 @@ Create a **complete, end-to-end content creation system** for Permahub wiki that
   - <50% similarity: Likely unique
 - **Success Criteria:** Reduces duplicate submissions by 80%+
 
-### FR-4: SQL Generation
+### FR-4: Content Display Optimization
 
-#### FR-4.1: Properly Formatted INSERT Statements
+#### FR-4.1: Description Length Management
+- **Requirement:** System shall optimize content descriptions for display contexts
+- **Problem:** Descriptions (200-600 chars) exceed display capacity in card-based layouts
+- **Implementation:**
+  - CSS truncation classes applied to all location cards
+  - -webkit-line-clamp for clean ellipsis truncation
+  - Context-appropriate line limits (2-4 lines based on card width)
+- **Display Contexts:**
+  - Home featured cards (250px): 3-line truncation (~60-80 chars visible)
+  - Search results (300px): 4-line truncation (~100-130 chars visible)
+  - Map sidebar (400px): 4-line truncation (~130-160 chars visible)
+  - Map popups (200px): 2-line truncation (~40-60 chars visible)
+- **Success Criteria:** No description overflow, consistent card heights, clean grid layouts
+
+#### FR-4.2: Content Admin Configuration System (Future)
+- **Requirement:** Content administrators shall be able to configure description length limits per content type
+- **Database Schema:**
+  ```sql
+  CREATE TABLE content_type_settings (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    content_type TEXT NOT NULL CHECK (content_type IN ('guide', 'event', 'location')),
+    setting_key TEXT NOT NULL,
+    setting_value JSONB NOT NULL,
+    updated_by UUID REFERENCES auth.users(id),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(content_type, setting_key)
+  );
+  ```
+- **Settings Structure:**
+  ```json
+  {
+    "description_length": {
+      "min": 150,
+      "soft_max": 250,
+      "hard_max": 400,
+      "unit": "characters",
+      "warning_message": "Descriptions over 250 chars may be truncated in card views"
+    }
+  }
+  ```
+- **Editor Integration:**
+  - Real-time character counter
+  - Color-coded feedback (green/yellow/red)
+  - Soft warning at soft_max, hard enforcement at hard_max
+  - Configurable per content type
+- **Admin UI:**
+  - Settings page at `/admin/content-settings.html`
+  - Edit limits per type (guides, events, locations)
+  - Preview of truncation behavior
+  - Audit trail of changes
+- **Access Control:**
+  - Only `content_admin` role can modify settings
+  - RLS policies enforce permissions
+  - Regular editors see limits but cannot change
+- **Default Values:**
+  - Guides: No limit (content in body, not description)
+  - Events: 200 soft / 400 hard (encourage linking to organizer website)
+  - Locations: 150 soft / 250 hard (optimal for card display)
+- **Success Criteria:** Admins can modify limits, editors see real-time validation, limits enforced server-side
+
+#### FR-4.3: Content Writing Best Practices
+- **Requirement:** Content creators shall follow front-loading guidelines for optimal card display
+- **Guidelines:**
+  - Most important information in first 1-2 sentences
+  - Key details in first 60-80 characters (visible in smallest cards)
+  - Avoid filler openings ("Welcome to...", "This is...")
+  - Events should link to organizer website for full details
+  - Locations should focus on unique features first
+- **Enforcement:**
+  - Documented in wiki-content-guide.md
+  - Editor hints/tooltips
+  - Verification process includes description quality check
+- **Success Criteria:** >80% of new content follows front-loading pattern
+
+### FR-5: SQL Generation
+
+#### FR-5.1: Properly Formatted INSERT Statements
 - **Requirement:** System shall generate syntactically correct SQL
 - **Format:**
   - Multi-line format for readability
@@ -326,9 +402,9 @@ Create a **complete, end-to-end content creation system** for Permahub wiki that
   ```
 - **Success Criteria:** Categories linked correctly, no orphaned records
 
-### FR-5: Workflow Automation
+### FR-6: Workflow Automation
 
-#### FR-5.1: Interactive Creation Tool
+#### FR-6.1: Interactive Creation Tool
 - **Requirement:** System shall provide interactive content creation tool
 - **Features:**
   - Guided prompts for all required fields
@@ -338,7 +414,7 @@ Create a **complete, end-to-end content creation system** for Permahub wiki that
   - Save draft/export options
 - **Success Criteria:** 90% of users complete creation without errors
 
-#### FR-5.2: Batch Content Generation
+#### FR-6.2: Batch Content Generation
 - **Requirement:** System shall support batch content creation
 - **Features:**
   - CSV/JSON input support
