@@ -18,7 +18,7 @@
       </a>
       <ul class="wiki-menu">
         <li><a href="wiki-home.html" class="active" data-i18n="wiki.nav.home">Home</a></li>
-        <li><a href="wiki-guides.html">Guides</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
         <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
         <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
         <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
@@ -143,16 +143,39 @@
       </div>
     </div>
 
-    <!-- Categories -->
-    <div class="mb-3">
+    <!-- Category Filters -->
+    <div class="card mb-3">
       <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.categories">Browse by Category</h2>
-      <div class="tags" id="categoryFilters">
-        <!-- Categories will be loaded dynamically from database -->
-        <a href="javascript:void(0)" class="tag category-filter active" data-category="all"><i class="fas fa-th"></i> <span data-i18n="wiki.home.all_categories">All</span></a>
-        <!-- Loading indicator -->
-        <span class="text-muted" style="padding: 0.5rem;">
-          <i class="fas fa-spinner fa-spin"></i> Loading categories...
-        </span>
+
+      <div class="filter-controls">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="wiki.home.filter_theme">Theme</label>
+            <div style="position: relative;">
+              <span class="filter-icon">🎨</span>
+              <select class="filter-select" id="themeSelect">
+                <option value="" data-i18n="wiki.home.all_themes">All Themes</option>
+              </select>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="wiki.home.filter_category">Category</label>
+            <div style="position: relative;">
+              <span class="filter-icon">🏷️</span>
+              <select class="filter-select" id="categorySelect">
+                <option value="" data-i18n="wiki.home.all_categories">All Categories</option>
+              </select>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Filters Row -->
+        <div class="filter-row" id="activeFiltersRow" style="display: none;">
+          <div class="active-filters" id="activeFilters"></div>
+        </div>
       </div>
     </div>
 
@@ -160,14 +183,18 @@
     <section class="mb-3">
       <div class="flex-between mb-2">
         <h2 data-i18n="wiki.home.recent_guides">Recent Guides</h2>
-        <span class="text-muted" id="guideCount">Showing all guides</span>
+      </div>
+
+      <!-- Desktop: Summary bar (hidden on mobile) -->
+      <div class="summary-bar" id="summaryBar">
+        <span data-i18n="wiki.home.showing">Showing</span> <strong id="currentCount">0</strong> <span data-i18n="wiki.home.of">of</span> <strong id="totalCount">0</strong> <span data-i18n="wiki.home.guides">guides</span>
       </div>
 
       <div class="grid grid-2" id="guidesGrid">
         <!-- Guides will be loaded dynamically from database -->
         <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
           <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
-          <p class="text-muted">Loading guides...</p>
+          <p class="text-muted" data-i18n="wiki.home.loading_guides">Loading guides...</p>
         </div>
       </div>
     </section>
@@ -184,7 +211,7 @@
         <!-- Loading state (will be replaced by JavaScript) -->
         <div class="event-card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
           <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
-          <p class="text-muted">Loading upcoming events...</p>
+          <p class="text-muted" data-i18n="wiki.home.loading_events">Loading upcoming events...</p>
         </div>
       </div>
     </section>
@@ -201,7 +228,7 @@
         <!-- Loading state -->
         <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
           <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
-          <p class="text-muted">Loading featured locations...</p>
+          <p class="text-muted" data-i18n="wiki.home.loading_locations">Loading featured locations...</p>
         </div>
       </div>
     </section>
@@ -229,12 +256,12 @@
   <!-- Footer -->
   <footer class="wiki-footer">
     <div class="wiki-container">
-      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
       <p style="margin-top: 0.5rem;">
         <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
-        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
-        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a> |
-        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> Report Issue</a>
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
       </p>
     </div>
   </footer>
