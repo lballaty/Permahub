@@ -1270,3 +1270,193 @@ async request(method, path, body = null) {
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+### 2025-11-17 - Add Authentication Check to Favorites Page
+
+**Commit:** pending
+
+**Issue:**
+The wiki-favorites.html page did not check if a user was authenticated before displaying content. It used a hardcoded MOCK_USER_ID and showed mockup data regardless of login status. This meant unauthenticated users could access the favorites page and see sample data, which is incorrect behavior for a personalized feature.
+
+**Root Cause:**
+The wiki-favorites.js file had a TODO comment indicating authentication was not yet implemented:
+```javascript
+// TODO: Replace with actual authenticated user ID when auth is implemented
+// For now, using a mock user ID for development
+const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
+```
+
+The page loaded favorites using this hardcoded UUID without checking if a user was actually logged in.
+
+**Solution:**
+Implemented proper authentication checking following the same pattern used in wiki-my-content.js and wiki-settings.js:
+
+1. **Added authentication check function** (Lines 52-74):
+   - `checkAuthentication()` checks for authenticated user via `supabase.getCurrentUser()`
+   - Falls back to localStorage tokens if Supabase session not found
+   - Sets `currentUserId` from authenticated user
+   - Returns `false` if no authentication found
+
+2. **Added authentication required UI** (Lines 76-95):
+   - `showAuthenticationRequired()` displays a centered message
+   - Shows lock icon and "Authentication Required" heading
+   - Provides "Log In" button redirecting to wiki-login.html
+   - Replaces all page content to prevent access to favorites
+
+3. **Updated initialization flow** (Lines 26-31):
+   - Checks authentication before loading any data
+   - If not authenticated, shows auth required message and returns early
+   - Prevents unauthorized access to user favorites
+
+4. **Replaced all MOCK_USER_ID references with currentUserId**:
+   - `loadUserFavorites()` - Lines 105-123
+   - `createSampleFavorites()` - Lines 171-192
+   - `loadUserCollections()` - Lines 271-290
+   - `createSampleCollections()` - Lines 305-315
+   - `exportFavorites()` - Line 668
+
+5. **Removed MOCK_USER_ID constant entirely**
+
+**Expected Behavior After Fix:**
+
+**Scenario 1: Unauthenticated user visits favorites page**
+1. User navigates to wiki-favorites.html without being logged in
+2. `checkAuthentication()` returns `false` (no user session found)
+3. `showAuthenticationRequired()` displays auth required message
+4. User sees lock icon and "Log In" button
+5. No favorites data is loaded or displayed
+6. User clicks "Log In" and is redirected to wiki-login.html
+
+**Scenario 2: Authenticated user visits favorites page**
+1. User is logged in and navigates to wiki-favorites.html
+2. `checkAuthentication()` returns `true` and sets `currentUserId`
+3. Page loads user's actual favorites from database using their user ID
+4. User sees their personalized favorites, events, and collections
+5. All actions (add/remove favorites) use the correct user ID
+
+**Scenario 3: Authenticated user with no favorites**
+1. User is logged in but has no saved favorites yet
+2. Page loads empty state with message "No favorites yet"
+3. Sample favorites are created for testing purposes
+4. User sees "Explore Content" button to browse guides
+
+**Security Considerations:**
+- ✅ Unauthenticated users cannot access favorites page
+- ✅ Users can only see their own favorites (not other users' data)
+- ✅ All database queries use authenticated user ID from session
+- ✅ No hardcoded user IDs that could leak data
+- ✅ Consistent with authentication patterns in other protected pages
+
+**User Experience Impact:**
+- ✅ Clear feedback when authentication is required
+- ✅ Easy path to login via prominent button
+- ✅ No confusion from seeing mockup data
+- ✅ Personalized favorites tied to actual user account
+- ✅ Secure handling of user-specific data
+
+**Files Changed:**
+- [src/wiki/js/wiki-favorites.js](src/wiki/js/wiki-favorites.js) - Added authentication check and replaced MOCK_USER_ID
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-11-17 - Implement "Remember Me" Functionality for Login
+
+**Commit:** pending
+
+**Issue:**
+The login page had a "Remember me for 30 days" checkbox, but it was non-functional. When users logged out and returned to the login page, they had to re-enter their email address every time, creating unnecessary friction in the login experience.
+
+**Root Cause:**
+The checkbox existed in the HTML (wiki-login.html line 117-119) but the JavaScript code in wiki-login.js did not:
+1. Read the checkbox state on form submission
+2. Save the email to localStorage when checked
+3. Prepopulate the email field on page load if a saved email existed
+
+**Solution:**
+Implemented complete "Remember Me" functionality following UX best practices:
+
+1. **Added prepopulate function** (Lines 54-83 in wiki-login.js):
+   - `prepopulateRememberedEmail()` runs on page initialization
+   - Checks localStorage for `remembered_email` key
+   - If found, prepopulates both email and magic link email fields
+   - Automatically checks the "Remember Me" checkbox
+   - Logs action for debugging
+
+2. **Updated email login handler** (Lines 100-132 in wiki-login.js):
+   - Reads checkbox state before form submission
+   - If checked: saves email to `localStorage.setItem('remembered_email', email)`
+   - If unchecked: removes saved email with `localStorage.removeItem('remembered_email')`
+   - User has full control over whether to remember email
+
+3. **Updated logout handler** (Lines 200-233 in auth-header.js):
+   - Clears all authentication tokens and session data
+   - **Intentionally preserves** `remembered_email` in localStorage
+   - Allows user to quickly log back in with prepopulated email
+   - Users can manually uncheck "Remember Me" on next login if desired
+
+4. **Called prepopulate on init** (Line 27 in wiki-login.js):
+   - Added `prepopulateRememberedEmail()` to `initLoginPage()`
+   - Runs before setting up form handlers
+   - Ensures fields are populated before user interaction
+
+**Expected Behavior After Fix:**
+
+**Scenario 1: First-time login with Remember Me checked**
+1. User enters email: `user@example.com`
+2. User enters password and checks "Remember me" checkbox
+3. User clicks "Sign In"
+4. Email is saved to localStorage as `remembered_email`
+5. User is logged in and redirected to home
+
+**Scenario 2: Returning user with saved email**
+1. User visits login page after logout
+2. Email field automatically shows: `user@example.com`
+3. "Remember me" checkbox is already checked
+4. User only needs to enter password
+5. Faster login experience
+
+**Scenario 3: User unchecks Remember Me**
+1. User sees prepopulated email
+2. User unchecks "Remember me" checkbox
+3. User logs in
+4. Saved email is removed from localStorage
+5. Next visit will require full email entry
+
+**Scenario 4: Logout preserves remembered email**
+1. User clicks logout
+2. Authentication tokens are cleared
+3. `remembered_email` remains in localStorage
+4. Next visit to login page shows saved email
+5. Quick re-login possible
+
+**Security Considerations:**
+- ✅ Only email is saved, never password
+- ✅ Uses localStorage (per-browser storage, not cookies)
+- ✅ Email is not sensitive data (it's the username)
+- ✅ User has full control via checkbox
+- ✅ Can be cleared by unchecking box on next login
+- ✅ Does not extend session duration (just saves email)
+- ✅ Safe for shared computers (user can uncheck)
+
+**User Experience Impact:**
+- ✅ Faster return visits - only password needed
+- ✅ Reduced typing and typos
+- ✅ Consistent with common login UX patterns
+- ✅ User control via clear checkbox
+- ✅ Works for both email/password and magic link flows
+- ✅ Helpful for frequent contributors
+
+**Technical Details:**
+- Storage method: `localStorage.setItem('remembered_email', email)`
+- Retrieval: `localStorage.getItem('remembered_email')`
+- Removal: `localStorage.removeItem('remembered_email')`
+- Prepopulates: Both `#email` and `#magicEmail` inputs
+- Checkbox element: `input[name="remember"]`
+
+**Files Changed:**
+- [src/wiki/js/wiki-login.js](src/wiki/js/wiki-login.js) - Added remember me save/load logic
+- [src/wiki/js/auth-header.js](src/wiki/js/auth-header.js) - Updated logout to preserve remembered email
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---

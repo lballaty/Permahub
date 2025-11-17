@@ -14,10 +14,7 @@ let userCollections = [];
 let allGuides = [];
 let allEvents = [];
 let allLocations = [];
-
-// TODO: Replace with actual authenticated user ID when auth is implemented
-// For now, using a mock user ID for development
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
+let currentUserId = null;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
@@ -25,6 +22,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // Display version in header
   displayVersionInHeader();
+
+  // Check authentication
+  const isAuthenticated = await checkAuthentication();
+  if (!isAuthenticated) {
+    showAuthenticationRequired();
+    return;
+  }
 
   // Load user's favorites and collections from database
   await loadUserFavorites();
@@ -46,18 +50,62 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 /**
+ * Check if user is authenticated
+ */
+async function checkAuthentication() {
+  try {
+    const user = await supabase.getCurrentUser();
+    const authToken = localStorage.getItem('auth_token');
+    const userId = localStorage.getItem('user_id');
+
+    if (!user && !authToken && !userId) {
+      console.log('⚠️  User not authenticated');
+      return false;
+    }
+
+    currentUserId = user?.id || userId;
+    console.log(`✅ User authenticated: ${currentUserId}`);
+    return true;
+
+  } catch (error) {
+    console.error('Error checking authentication:', error);
+    return false;
+  }
+}
+
+/**
+ * Show authentication required message
+ */
+function showAuthenticationRequired() {
+  const mainContent = document.querySelector('main.wiki-container');
+  if (mainContent) {
+    mainContent.innerHTML = `
+      <div class="card" style="text-align: center; padding: 3rem; margin-top: 2rem;">
+        <i class="fas fa-lock" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
+        <h2 style="color: var(--wiki-text-muted); margin-bottom: 1rem;">Authentication Required</h2>
+        <p class="text-muted" style="margin-bottom: 2rem;">
+          You need to be logged in to view your favorites.
+        </p>
+        <a href="wiki-login.html" class="btn btn-primary">
+          <i class="fas fa-sign-in-alt"></i> Log In
+        </a>
+      </div>
+    `;
+  }
+}
+
+/**
  * Load user's favorites from database
  */
 async function loadUserFavorites() {
   try {
     console.log('⭐ Loading user favorites from database...');
-    console.log('📝 NOTE: Using mock user ID until authentication is implemented');
 
     // Fetch user's favorites
     userFavorites = await supabase.getAll('wiki_favorites', {
       where: 'user_id',
       operator: 'eq',
-      value: MOCK_USER_ID,
+      value: currentUserId,
       order: 'created_at.desc'
     });
 
@@ -71,7 +119,7 @@ async function loadUserFavorites() {
       userFavorites = await supabase.getAll('wiki_favorites', {
         where: 'user_id',
         operator: 'eq',
-        value: MOCK_USER_ID,
+        value: currentUserId,
         order: 'created_at.desc'
       });
     }
@@ -120,7 +168,7 @@ async function createSampleFavorites() {
     // Add first 3 guides
     guides.slice(0, 3).forEach(guide => {
       sampleFavorites.push({
-        user_id: MOCK_USER_ID,
+        user_id: currentUserId,
         content_type: 'guide',
         content_id: guide.id
       });
@@ -129,7 +177,7 @@ async function createSampleFavorites() {
     // Add first 2 events
     events.slice(0, 2).forEach(event => {
       sampleFavorites.push({
-        user_id: MOCK_USER_ID,
+        user_id: currentUserId,
         content_type: 'event',
         content_id: event.id
       });
@@ -138,7 +186,7 @@ async function createSampleFavorites() {
     // Add first 2 locations
     locations.slice(0, 2).forEach(location => {
       sampleFavorites.push({
-        user_id: MOCK_USER_ID,
+        user_id: currentUserId,
         content_type: 'location',
         content_id: location.id
       });
@@ -223,7 +271,7 @@ async function loadUserCollections() {
     userCollections = await supabase.getAll('wiki_collections', {
       where: 'user_id',
       operator: 'eq',
-      value: MOCK_USER_ID,
+      value: currentUserId,
       order: 'created_at.desc'
     });
 
@@ -237,7 +285,7 @@ async function loadUserCollections() {
       userCollections = await supabase.getAll('wiki_collections', {
         where: 'user_id',
         operator: 'eq',
-        value: MOCK_USER_ID,
+        value: currentUserId,
         order: 'created_at.desc'
       });
     }
@@ -254,13 +302,13 @@ async function createSampleCollections() {
   try {
     const sampleCollections = [
       {
-        user_id: MOCK_USER_ID,
+        user_id: currentUserId,
         name: 'Water Management',
         description: 'Everything about swales, ponds, and irrigation',
         icon: '💧'
       },
       {
-        user_id: MOCK_USER_ID,
+        user_id: currentUserId,
         name: 'Garden Planning',
         description: 'Guides for planning my garden this season',
         icon: '🌱'
@@ -617,7 +665,7 @@ window.removeFavorite = async function(contentType, contentId) {
 function exportFavorites() {
   const exportData = {
     exported_at: new Date().toISOString(),
-    user_id: MOCK_USER_ID,
+    user_id: currentUserId,
     favorites: {
       guides: allGuides.map(g => ({
         title: g.title,
