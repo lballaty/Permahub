@@ -245,6 +245,9 @@ verification-reports/
 - [x] Create comprehensive requirements document
 - [x] Create SQL execution requirements
 - [x] Reorganize documentation structure
+- [x] **Implement location description truncation (CSS-based)** ⭐ NEW
+- [x] **Document display optimization best practices** ⭐ NEW
+- [x] **Design Content Admin configuration system** ⭐ NEW
 - [ ] Enhance guide verification process
 - [ ] Create event verification process
 - [ ] Create location verification process
@@ -257,6 +260,9 @@ verification-reports/
 - [ ] Create verify-location.js
 - [ ] Create comprehensive duplicate checker
 - [ ] Interactive content creation tool
+- [ ] **Implement Content Admin configuration database** ⭐ NEW
+- [ ] **Build admin UI for content settings** ⭐ NEW
+- [ ] **Add character counter to editors** ⭐ NEW
 
 ### Phase 3: Integration (Week 3)
 
@@ -274,9 +280,17 @@ verification-reports/
 
 ## 🔗 Related Documentation
 
+### Content Display & Configuration
+
+- **[Content Admin Configuration](../features/content-admin-configuration.md)** ⭐ NEW - Specification for admin-configurable content limits and rules
+  - Database schema for content_type_settings
+  - Editor character counter integration
+  - Admin UI for managing description length limits
+  - Future implementation roadmap
+
 ### Other Doc Directories
 
-- **[/docs/features/](../features/)** - Feature documentation (i18n, eco-themes, etc.)
+- **[/docs/features/](../features/)** - Feature documentation (i18n, eco-themes, content-admin, etc.)
 - **[/docs/database/](../database/)** - Database setup and migrations
 - **[/docs/operations/](../operations/)** - Operations guides (backups, safety, etc.)
 - **[/docs/processes/](../processes/)** - Other process documentation
