@@ -39,6 +39,40 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 /**
+ * Listen for language changes and re-populate dropdowns
+ */
+document.addEventListener('DOMContentLoaded', function() {
+  // Store reference to MutationObserver for language changes
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+        console.log('🌍 Language changed, re-populating dropdowns...');
+        // Re-populate dropdowns with new translations
+        if (categoryGroups.length > 0) {
+          renderCategoryFilters();
+          // Restore current selections
+          const themeSelect = document.getElementById('themeSelect');
+          const categorySelect = document.getElementById('categorySelect');
+          if (themeSelect && currentTheme) {
+            themeSelect.value = currentTheme;
+            filterCategoriesByTheme(currentTheme);
+          }
+          if (categorySelect && currentCategory && currentCategory !== 'all') {
+            categorySelect.value = currentCategory;
+          }
+          updateActiveFilters();
+        }
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['lang']
+  });
+});
+
+/**
  * Load initial data from database
  */
 async function loadInitialData() {
