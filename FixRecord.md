@@ -1673,3 +1673,34 @@ Preparing to push local database to Supabase cloud revealed multiple issues:
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-11-17 - Apply Migration 003 Fix to Local Database
+
+**Commit:** (manual database operation)
+
+**Issue:**
+After fixing migration file 003_items_pubsub.sql to remove duplicate `name` column,
+the local Supabase database still had both `title` and `name` columns in the `items` table.
+
+**Root Cause:**
+Migration file was fixed but changes not applied to already-running local database.
+
+**Solution:**
+Manually dropped the redundant column from local database:
+```sql
+ALTER TABLE public.items DROP COLUMN IF EXISTS name;
+```
+
+**Verification:**
+- Checked table structure: only `title` column remains
+- Verified table functionality: queries work correctly
+- Confirmed no data loss (table was empty)
+
+**Impact:**
+- Local database now matches updated migration 003
+- Consistent schema for cloud push
+- No breaking changes
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
