@@ -8,7 +8,7 @@ Your Supabase project is already created and configured in the app:
 - **Project URL:** https://mcbxbaggjaxqfdvmrqsc.supabase.co
 - **Anon Key:** Configured in `.env` file
 
-Now you need to create the database tables by running 3 SQL migration files.
+Now you need to create the database tables by running **20 SQL migration files** plus **3 seed files**.
 
 ---
 
@@ -19,72 +19,91 @@ Now you need to create the database tables by running 3 SQL migration files.
 2. Select your project: **mcbxbaggjaxqfdvmrqsc**
 3. Go to **SQL Editor** (left sidebar)
 
-### Step 2: Run Migration 1 - Initial Schema
+### Step 2: Run All 20 Migrations in Order
+
+**IMPORTANT:** Run migrations in numeric order (00, 001, 002... 019)
+
+For each migration file in `supabase/migrations/`:
+
 1. Click **New Query**
-2. Copy the entire contents of: `/database/migrations/001_initial_schema.sql`
+2. Copy the entire contents of the migration file
 3. Paste into the SQL editor
 4. Click **Run**
 5. Wait for success ✓
+6. Proceed to next migration
 
-**What this creates:**
-- 8 core tables (users, projects, resources, etc.)
-- 1,400+ lines of SQL
-- 20+ indexes for performance
-- Row-level security policies
-- Helper functions for geospatial queries
-- Default tags and categories
+**Migration Order:**
 
-### Step 3: Run Migration 2 - Analytics
-1. Click **New Query**
-2. Copy the entire contents of: `/database/migrations/002_analytics.sql`
-3. Paste into the SQL editor
-4. Click **Run**
-5. Wait for success ✓
+| # | File | Purpose |
+|---|------|---------|
+| 1 | `00_bootstrap_execute_sql.sql` | Bootstrap utilities |
+| 2 | `001_initial_schema.sql` | 8 core tables |
+| 3 | `002_analytics.sql` | Analytics tracking |
+| 4 | `003_items_pubsub.sql` | Notifications (5 tables) |
+| 5 | `004_expanded_categories.sql` | Category system |
+| 6 | `005_row_level_security_policies.sql` | RLS enhancement |
+| 7 | `006_wiki_schema.sql` | Wiki tables (guides, events, locations) |
+| 8 | `007_wiki_multilingual_content.sql` | i18n support |
+| 9 | `008_newsletter_subscriptions.sql` | Newsletter |
+| 10 | `009_user_personalization.sql` | User prefs |
+| 11 | `010_storage_buckets.sql` | File storage |
+| 12 | `011_add_view_counts.sql` | View tracking |
+| 13 | `012_issue_tracking.sql` | Issue system |
+| 14 | `013_event_registrations.sql` | Event RSVP |
+| 15 | `014_issue_tracking_logs.sql` | Logging |
+| 16 | `015_wikipedia_references.sql` | Wiki links |
+| 17 | `016_fix_guides_events_rls.sql` | RLS fixes |
+| 18 | `017_add_soft_deletes.sql` | Soft delete support |
+| 19 | `018_create_wiki_theme_groups.sql` | Theme groups table |
+| 20 | `019_link_categories_to_themes.sql` | Category-theme linking |
 
-**What this creates:**
-- User activity tracking
-- Dashboard personalization
-- Popular items views
-- Trending items
-- Analytics functions
+**Estimated time:** 30-45 minutes total
 
-### Step 4: Run Migration 3 - Pub/Sub System
-1. Click **New Query**
-2. Copy the entire contents of: `/database/migrations/003_items_pubsub.sql`
-3. Paste into the SQL editor
-4. Click **Run**
-5. Wait for success ✓
+### Step 3: Run All 3 Seed Files
 
-**What this creates:**
-- Unified items table
-- Notification system
-- Follower system
-- Publication subscriptions
-- Real-time notification helpers
+After all migrations complete successfully, run the seed files in `supabase/seeds/`:
+
+1. `003_expanded_wiki_categories.sql` - Wiki category data
+2. `012_wiki_theme_groups_seed.sql` - 15 theme group definitions
+3. `013_link_categories_to_themes.sql` - Link categories to themes
+
+**Estimated time:** 5 minutes total
 
 ---
 
 ## ✅ Verification
 
-After running all 3 migrations, verify success:
+After running all 20 migrations and 3 seed files, verify success:
 
 ### Check Tables Exist
 1. Go to **Database** → **Tables** (left sidebar)
-2. You should see these tables:
-   - `users`
-   - `projects`
-   - `resources`
-   - `resource_categories`
-   - `project_user_connections`
-   - `favorites`
-   - `tags`
-   - `user_activity`
-   - `user_dashboard_config`
-   - `items`
-   - `publication_subscriptions`
-   - `item_followers`
-   - `notifications`
-   - `notification_preferences`
+2. You should see **23+ tables** including:
+
+**Core Tables:**
+   - `users`, `projects`, `resources`, `resource_categories`
+   - `project_user_connections`, `favorites`, `tags`
+
+**Notification System:**
+   - `items`, `publication_subscriptions`, `item_followers`
+   - `notifications`, `notification_preferences`
+
+**Analytics:**
+   - `user_activity`, `user_dashboard_config`
+
+**Wiki System:**
+   - `wiki_guides`, `wiki_events`, `wiki_locations`
+   - `wiki_categories`, `wiki_theme_groups`
+   - `wiki_multilingual_content`
+
+**Feature Tables:**
+   - `newsletter_subscriptions`, `user_personalization`
+   - `event_registrations`, `issue_tracking`, `issue_tracking_logs`
+   - `wikipedia_references`
+
+### Check Theme Groups Populated
+1. Go to **Database** → **Table Editor**
+2. Select `wiki_theme_groups` table
+3. Verify **15 theme groups** exist with icons and sort order
 
 ### Check Extensions Enabled
 1. Go to **Database** → **Extensions** (left sidebar)
@@ -195,11 +214,13 @@ npm run dev
 
 ## 🚀 Next Steps
 
-1. ✅ Run all 3 migrations
-2. ✅ Verify tables and extensions
-3. ✅ Configure email provider
-4. ✅ Set up redirect URLs
-5. 🚀 Run `npm run dev` and test
+1. ✅ Run all 20 migrations (30-45 min)
+2. ✅ Run all 3 seed files (5 min)
+3. ✅ Verify 23+ tables created
+4. ✅ Verify 15 theme groups populated
+5. ✅ Configure email provider
+6. ✅ Set up redirect URLs
+7. 🚀 Run `./start.sh` and test connection
 
 ---
 
@@ -216,6 +237,14 @@ npm run dev
 - **favorites** - User bookmarks
 - **tags** - Predefined tags
 
+### Wiki System
+- **wiki_guides** - Community guides
+- **wiki_events** - Events and happenings
+- **wiki_locations** - Project locations
+- **wiki_categories** - Content categories
+- **wiki_theme_groups** - 15 theme groupings
+- **wiki_multilingual_content** - Translation support
+
 ### Notification System
 - **items** - Flexible unified items
 - **notifications** - User notifications
@@ -226,6 +255,13 @@ npm run dev
 ### Analytics Tables
 - **user_activity** - Activity tracking
 - **user_dashboard_config** - User dashboard settings
+
+### Feature Tables
+- **newsletter_subscriptions** - Newsletter management
+- **user_personalization** - User preferences
+- **event_registrations** - Event RSVP system
+- **issue_tracking** - Issue management
+- **wikipedia_references** - External wiki links
 
 ---
 
@@ -258,4 +294,10 @@ For detailed database schema, see: `/docs/architecture/data-model.md`
 
 ---
 
-**Setup completed! Your Permahub backend is ready to go! 🌱**
+**Setup completed! Your Permahub cloud database is ready to go! 🌱**
+
+**Last Updated:** 2025-11-17
+**Migrations:** 20 files (00, 001-019)
+**Seed Files:** 3 files
+**Total Tables:** 23+
+**Theme Groups:** 15

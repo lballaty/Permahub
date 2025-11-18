@@ -24,48 +24,68 @@ A **global permaculture community platform** connecting practitioners, projects,
 
 ---
 
-## 📊 Current Status: 95% Complete
+## 📊 Current Status: 98% Complete - Ready for Cloud Push
 
 ### What's Done ✅
-- 8 HTML pages (7,513 lines of code)
-- 3 JavaScript modules (1,118 lines)
+- 8 HTML pages (wiki system complete)
+- JavaScript modules (wiki-i18n, wiki-home, wiki-guides, etc.)
 - Configuration system (Supabase integration)
 - i18n system (11 languages)
-- 27 database tables (4,142 SQL lines)
-- Testing infrastructure (150+ tests)
+- **20 database migrations ready** (00, 001-019)
+- **23+ database tables** designed
+- **Theme system** (15 theme groups)
+- **Contact information** feature complete
+- Testing infrastructure
 - Design system and styling
 - Responsive mobile design
 - Build system (Vite)
 
 ### What's Remaining ⏳
-1. **Run 3 database migrations** (15 minutes)
-2. **Test database connection** (15 minutes)
-3. **Wire up data to pages** (1-2 hours)
-4. **Configure cloud hosting** (30 minutes)
-5. **Final testing** (1-2 hours)
+1. **Run 20 database migrations in cloud** (30-45 minutes)
+2. **Run 3 seed files** (5 minutes)
+3. **Test cloud database connection** (15 minutes)
+4. **Verify all tables and data** (20 minutes)
+5. **Integration testing** (1-2 hours)
 
-**Total Time to Launch: 5-7 hours**
+**Total Time to Cloud Launch: 2.5-3.5 hours**
 
 ---
 
 ## 🗄️ What Needs to Happen with Supabase
 
-### Phase 1: Activate Database (30 minutes)
+### Phase 1: Activate Database (30-45 minutes)
 
-**Run 3 SQL migration files in Supabase SQL Editor:**
+**Run all 20 SQL migration files in Supabase SQL Editor (in order):**
 
-| Migration | Tables | Purpose | Time |
-|-----------|--------|---------|------|
-| 001_initial_schema.sql | 8 | Core features (projects, resources, users, favorites) | 2-3 min |
-| 002_analytics.sql | 2 | Usage tracking and dashboard config | 1 min |
-| 003_items_pubsub.sql | 5 | Notifications and real-time updates | 2-3 min |
+| Migration | Tables/Purpose | Time |
+|-----------|----------------|------|
+| **00_bootstrap_execute_sql.sql** | Bootstrap utilities | 30s |
+| **001_initial_schema.sql** | 8 core tables (projects, resources, users, favorites) | 2-3 min |
+| **002_analytics.sql** | Analytics tracking (2 tables) | 1 min |
+| **003_items_pubsub.sql** | Notifications system (5 tables) | 2 min |
+| **004_expanded_categories.sql** | Category enhancements | 1 min |
+| **005_row_level_security_policies.sql** | RLS policies | 2 min |
+| **006_wiki_schema.sql** | Wiki tables (guides, events, locations, categories) | 2 min |
+| **007_wiki_multilingual_content.sql** | Translation support | 1 min |
+| **008_newsletter_subscriptions.sql** | Newsletter system | 1 min |
+| **009_user_personalization.sql** | User preferences | 1 min |
+| **010_storage_buckets.sql** | File storage config | 1 min |
+| **011_add_view_counts.sql** | View tracking | 30s |
+| **012_issue_tracking.sql** | Issue management | 1 min |
+| **013_event_registrations.sql** | Event RSVP | 1 min |
+| **014_issue_tracking_logs.sql** | Logging system | 30s |
+| **015_wikipedia_references.sql** | Wikipedia links | 30s |
+| **016_fix_guides_events_rls.sql** | RLS fixes | 30s |
+| **017_add_soft_deletes.sql** | Soft delete support | 30s |
+| **018_create_wiki_theme_groups.sql** | Theme groups table | 1 min |
+| **019_link_categories_to_themes.sql** | Link categories to themes | 30s |
 
-**Optional (highly recommended):**
-- 004_wiki_schema.sql - Community wiki pages
-- 005_wiki_multilingual.sql - Multilingual content
-- 20251107_*.sql (8 files) - Events, discussions, learning resources, reviews
+**Then run 3 seed files:**
+- 003_expanded_wiki_categories.sql - Category data
+- 012_wiki_theme_groups_seed.sql - 15 theme groups
+- 013_link_categories_to_themes.sql - Theme-category mapping
 
-**Total: 15+ core tables created**
+**Total: 23+ tables + RLS policies + 15 theme groups**
 
 ---
 
@@ -111,11 +131,13 @@ A **global permaculture community platform** connecting practitioners, projects,
 - **Languages Supported:** 11
 
 ### Database
-- **Tables (Core):** 15
-- **Tables (Optional):** 8
+- **Migrations:** 20 files (00, 001-019)
+- **Tables Total:** 23+
+- **Seed Files:** 3 (categories + themes)
 - **Indexes:** 40+
-- **RLS Policies:** 20+
+- **RLS Policies:** 25+
 - **Helper Functions:** 15+
+- **Theme Groups:** 15 organized categories
 
 ### Deployment Ready
 - **Build System:** Vite (optimized)
@@ -397,10 +419,12 @@ Hour 5-7: Cloud deployment and final testing (2-3 hours)
 
 ---
 
-**Status:** Ready for Launch
-**Last Updated:** 2025-11-11
-**Estimated Time to Live:** 5-7 hours
+**Status:** Ready for Cloud Database Push
+**Last Updated:** 2025-11-17
+**Migrations Ready:** 20 (numbered 00, 001-019)
+**Seed Files Ready:** 3 (categories + 15 themes)
+**Estimated Time to Cloud Push:** 2.5-3.5 hours
 **Complexity:** Intermediate (but fully documented)
-**Success Rate:** Very High (all code pre-tested)
+**Success Rate:** Very High (all migrations tested locally)
 
 Let's build something amazing together! 🌍🌱
