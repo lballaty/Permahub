@@ -1514,3 +1514,44 @@ JavaScript's `new Date()` constructor treats date strings in ISO format (e.g., "
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+### 2025-11-18 - JavaScript Syntax Error in Czech Translation
+
+**Commit:** (pending)
+
+**Issue:**
+Vite dev server failed to parse `wiki-i18n.js` with error:
+```
+Failed to parse source for import analysis because the content
+contains invalid JS syntax.
+/Users/liborballaty/.../wiki-i18n.js:4991:53
+```
+
+The Czech translation for 'wiki.themes.agroforestry-trees' had a string literal incorrectly split across multiple lines (4991-4993), breaking JavaScript syntax.
+
+**Root Cause:**
+String literal was malformed with line breaks inside the string value:
+```javascript
+'wiki.themes.agroforestry-trees': 'Agrolesnict
+
+ví a stromy',
+```
+
+This violates JavaScript syntax rules - string literals cannot span multiple lines without proper escaping or concatenation.
+
+**Solution:**
+Fixed the string to be on a single line:
+```javascript
+'wiki.themes.agroforestry-trees': 'Agrolesnict­ví a stromy',
+```
+
+**Files Changed:**
+- [src/wiki/js/wiki-i18n.js:4991](src/wiki/js/wiki-i18n.js#L4991)
+
+**Testing:**
+- Vite dev server now starts without parse errors
+- Czech translations load correctly
+- No syntax errors in browser console
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
