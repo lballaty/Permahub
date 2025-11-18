@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS public.items (
   
   -- Basic info
   title TEXT NOT NULL,
-  name TEXT NOT NULL,
   description TEXT NOT NULL,
   
   -- Location

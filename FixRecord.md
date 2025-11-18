@@ -1555,3 +1555,121 @@ Fixed the string to be on a single line:
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+### 2025-11-18 - Missing Polish Translations Causing Console Warnings
+
+**Commit:** (pending)
+
+**Issue:**
+Browser console showed numerous warnings for missing Polish (pl) translations:
+- `⚠️ Missing translation for "wiki.nav.logo" in language "pl"`
+- `⚠️ Missing translation for "wiki.nav.home" in language "pl"`
+- Over 70+ missing translation keys for navigation, home page, categories, and footer
+- Polish section had only ~75 keys while English section has 400+ keys
+
+The user's browser was set to Polish language, causing the entire UI to show these warnings.
+
+**Root Cause:**
+Polish (pl) translation section in `wiki-i18n.js` was incomplete:
+- Missing all navigation keys (`wiki.nav.logo`, `wiki.nav.home`, `wiki.nav.events`, etc.)
+- Missing most home page keys (`wiki.home.welcome`, `wiki.home.subtitle`, etc.)
+- Missing ALL 45 `wiki.categories.*` keys from database
+- Missing updated footer keys
+
+The Polish section was only partially populated during initial i18n implementation.
+
+**Solution:**
+Added all missing Polish translations:
+1. **Navigation keys** (11 keys): `logo`, `home`, `events`, `login`, `create`, `favorites`, etc.
+2. **Home page keys** (18 keys): `welcome`, `subtitle`, `search`, `stats.*`, `contribute_*`, `loading_*`, etc.
+3. **Category keys** (45 keys): All categories from database with proper Polish translations
+4. **Footer keys** (5 keys): `copyright`, `about`, `privacy`, `terms`, `report_issue`
+
+Total added: ~80 translation keys
+
+**Polish Translations Used:**
+- Navigation: "Strona główna", "Wydarzenia", "Zaloguj się", "Utwórz stronę"
+- Home: "Witamy w naszej bazie wiedzy społeczności", "Najnowsze przewodniki"
+- Categories: "Rolnictwo Regeneracyjne", "Adaptacja Klimatyczna", "Mykologia", etc.
+- Footer: "© 2025 Permahub Community Wiki. Stworzone z 🌱 dla globalnej społeczności permakulturowej."
+
+**Files Changed:**
+- [src/wiki/js/wiki-i18n.js:3940-4097](src/wiki/js/wiki-i18n.js#L3940-L4097)
+
+**Testing:**
+- Dev server should reload without Polish translation warnings
+- Polish language users now see properly translated UI
+- All navigation, home sections, categories, and footer display in Polish
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-17 - Cloud Database Push Preparation - Migration File Conflicts and Fixes
+
+**Commit:** (pending - multiple incremental commits)
+
+**Issue:**
+Preparing to push local database to Supabase cloud revealed multiple issues:
+1. Duplicate migration file numbers: Two files numbered 010 and 011
+2. Duplicate column in migration 003: Both `title` and `name` columns
+3. Documentation outdated with incorrect migration counts
+
+**Root Cause:**
+1. **Migration numbering conflict**: New theme system migrations created on 11/17 were initially numbered 010 and 011, conflicting with existing migrations (010_storage_buckets.sql and 011_add_view_counts.sql)
+2. **Duplicate column**: Initial schema design included redundant fields
+3. **Documentation lag**: New migrations added but documentation not updated
+
+**Solution:**
+
+**Phase 1: Migration File Renaming**
+- Renamed `010_create_wiki_theme_groups.sql` → `018_create_wiki_theme_groups.sql`
+- Renamed `011_link_categories_to_themes.sql` → `019_link_categories_to_themes.sql`
+- Note: Migration 017_add_soft_deletes.sql already existed (created 11/17)
+- Final migration sequence: 00, 001-019 (20 total migrations)
+
+**Phase 2: Fix Duplicate Column**
+- Removed redundant `name` column from `items` table in migration 003
+- Kept `title` column as single identifier
+- All triggers and functions already reference `title` column
+
+**Phase 3: Documentation Updates**
+- Updated [docs/database/migration-summary.md](docs/database/migration-summary.md):
+  - Changed "19 migrations" to "20 migrations (00, 001-019)"
+  - Added migration 017 (soft deletes) to table
+  - Updated time estimates and phase descriptions
+
+- Updated [docs/database/supabase-cloud-setup.md](docs/database/supabase-cloud-setup.md):
+  - Changed "19 SQL migration files" to "20 SQL migration files"
+  - Added migration 017 to execution order table
+  - Updated verification checklist for 20 migrations
+
+- Created [docs/CLOUD_PUSH_CHECKLIST.md](docs/CLOUD_PUSH_CHECKLIST.md):
+  - Comprehensive 20-migration execution checklist
+  - Phase-by-phase verification steps
+  - Pre-flight checks and troubleshooting guide
+  - Estimated time: 2.5-3.5 hours
+
+**Files Changed:**
+- supabase/migrations/003_items_pubsub.sql (removed duplicate column)
+- supabase/migrations/018_create_wiki_theme_groups.sql (renamed from 010)
+- supabase/migrations/019_link_categories_to_themes.sql (renamed from 011)
+- docs/database/migration-summary.md (updated counts and tables)
+- docs/database/supabase-cloud-setup.md (updated migration list)
+- docs/CLOUD_PUSH_CHECKLIST.md (new comprehensive checklist)
+
+**Verification:**
+- All 20 migration files in correct numeric sequence
+- No duplicate migration numbers
+- No duplicate column definitions
+- Documentation accurately reflects 20 migrations
+- Cloud push checklist complete and ready
+
+**Impact:**
+- Database ready for cloud deployment
+- Clear execution plan documented
+- No breaking changes
+- All migrations tested locally
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
