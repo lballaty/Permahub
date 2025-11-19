@@ -22,9 +22,47 @@ DEV_SERVER_PORT=3001
 SUPABASE_PORT=3000
 MAILPIT_PORT=54324
 
+# Database selection (default: auto-detect)
+DB_MODE="auto"  # Can be: auto, cloud, local
+
+# Parse command-line arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --cloud)
+      DB_MODE="cloud"
+      shift
+      ;;
+    --local)
+      DB_MODE="local"
+      shift
+      ;;
+    --help|-h)
+      echo "Usage: ./start.sh [--cloud|--local]"
+      echo ""
+      echo "Options:"
+      echo "  --cloud    Force cloud database (skips Supabase startup)"
+      echo "  --local    Force local database (requires Supabase running)"
+      echo "  (no flag)  Auto-detect based on hostname (default)"
+      exit 0
+      ;;
+    *)
+      echo -e "${RED}Unknown option: $1${NC}"
+      echo "Use --help for usage information"
+      exit 1
+      ;;
+  esac
+done
+
 echo -e "${BOLD}${CYAN}"
 echo "═══════════════════════════════════════════════════════════"
 echo "   🌱 Permahub Startup Script"
+if [ "$DB_MODE" = "cloud" ]; then
+  echo "   Database Mode: 🌐 Cloud (forced)"
+elif [ "$DB_MODE" = "local" ]; then
+  echo "   Database Mode: 💻 Local (forced)"
+else
+  echo "   Database Mode: 🔄 Auto-detect"
+fi
 echo "═══════════════════════════════════════════════════════════"
 echo -e "${NC}"
 
@@ -179,8 +217,22 @@ start_dev_server() {
         fi
     fi
 
-    echo -e "${BLUE}Starting npm run dev...${NC}"
-    npm run dev > /dev/null 2>&1 &
+    # Set environment variable based on database mode
+    local npm_command="npm run dev"
+    if [ "$DB_MODE" = "cloud" ]; then
+        echo -e "${CYAN}🌐 Forcing cloud database connection...${NC}"
+        export VITE_USE_CLOUD_DB=true
+        npm_command="npm run dev:cloud"
+    elif [ "$DB_MODE" = "local" ]; then
+        echo -e "${CYAN}💻 Forcing local database connection...${NC}"
+        export VITE_USE_CLOUD_DB=false
+        npm_command="npm run dev:local"
+    else
+        echo -e "${CYAN}🔄 Using auto-detect for database connection...${NC}"
+    fi
+
+    echo -e "${BLUE}Starting ${npm_command}...${NC}"
+    $npm_command > /dev/null 2>&1 &
 
     # Wait for server to start
     echo -n "Waiting for server to start"
@@ -317,6 +369,16 @@ show_service_urls() {
     else
         echo -e "  🌱 Permahub UI:      ${RED}❌ http://localhost:${DEV_SERVER_PORT}/src/wiki/wiki-home.html (not running)${NC}"
     fi
+
+    # Display active database connection
+    if [ "$DB_MODE" = "cloud" ]; then
+        echo -e "  🗄️  Database:         ${GREEN}🌐 Cloud (mcbxbaggjaxqfdvmrqsc)${NC}"
+    elif [ "$DB_MODE" = "local" ]; then
+        echo -e "  🗄️  Database:         ${GREEN}💻 Local (127.0.0.1:3000)${NC}"
+    else
+        echo -e "  🗄️  Database:         ${CYAN}🔄 Auto-detect (check browser console)${NC}"
+    fi
+
     echo ""
     echo -e "${BOLD}Backend Services:${NC}"
     if check_port 54323; then
@@ -359,15 +421,44 @@ main() {
     # Run system checks
     run_checks
 
-    # Handle Supabase
-    if command -v supabase &> /dev/null; then
-        if ! supabase status &> /dev/null; then
-            echo ""
-            read -p "$(echo -e ${YELLOW}Supabase not running. Start it now? [Y/n]: ${NC})" -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
-                echo -e "${BLUE}Starting Supabase...${NC}"
-                supabase start
+    # Handle Supabase based on database mode
+    if [ "$DB_MODE" = "cloud" ]; then
+        echo ""
+        echo -e "${CYAN}🌐 Using cloud database - skipping local Supabase check${NC}"
+    elif [ "$DB_MODE" = "local" ]; then
+        # Local mode requires Supabase to be running
+        if command -v supabase &> /dev/null; then
+            if ! supabase status &> /dev/null; then
+                echo ""
+                echo -e "${RED}❌ Error: Local database mode requires Supabase to be running${NC}"
+                read -p "$(echo -e ${YELLOW}Start Supabase now? [Y/n]: ${NC})" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+                    echo -e "${BLUE}Starting Supabase...${NC}"
+                    supabase start
+                else
+                    echo -e "${RED}Cannot continue without Supabase. Exiting.${NC}"
+                    exit 1
+                fi
+            else
+                echo ""
+                echo -e "${GREEN}✅ Supabase is running (required for local mode)${NC}"
+            fi
+        else
+            echo -e "${RED}❌ Error: Supabase CLI not installed but local mode requested${NC}"
+            exit 1
+        fi
+    else
+        # Auto-detect mode (default behavior)
+        if command -v supabase &> /dev/null; then
+            if ! supabase status &> /dev/null; then
+                echo ""
+                read -p "$(echo -e ${YELLOW}Supabase not running. Start it now? [Y/n]: ${NC})" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+                    echo -e "${BLUE}Starting Supabase...${NC}"
+                    supabase start
+                fi
             fi
         fi
     fi

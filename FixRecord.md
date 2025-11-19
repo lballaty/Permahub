@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.13 - 2025-11-19 17:43:07
+**Commit:** `ae3ea92`
+
+
+
 ## Version 1.0.12 - 2025-11-19 17:40:54
 **Commit:** `e43831e`
 
@@ -2435,6 +2440,61 @@ try {
 - ✅ Login form renders properly
 - ✅ Tab switching works
 - ✅ No DOM warnings about autocomplete
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-19 - Add Database Selection Feature for Development
+
+**Commit:** (pending)
+
+**Issue:**
+Need ability to force cloud or local database connection during development, rather than relying only on hostname-based auto-detection. This is useful for:
+1. Testing cloud database from localhost
+2. Forcing local database even when hostname changes
+3. Debugging database-specific issues
+
+**Root Cause:**
+The existing config.js only used hostname-based detection (localhost = local, otherwise = cloud). There was no way to override this behavior during development.
+
+**Solution:**
+1. Added VITE_USE_CLOUD_DB environment variable with priority logic:
+   - VITE_USE_CLOUD_DB=true → Force cloud database
+   - VITE_USE_CLOUD_DB=false → Force local database
+   - Not set → Auto-detect (default behavior)
+   - Production builds → Always cloud
+
+2. Updated config.js with shouldUseCloudDatabase() function implementing priority order
+
+3. Added database connection logging to supabase-client.js (development mode only):
+   - Shows which database is active (🌐 Cloud or 💻 Local)
+   - Displays database URL for verification
+
+4. Enhanced start.sh with command-line flags:
+   - `./start.sh --cloud` → Force cloud database
+   - `./start.sh --local` → Force local database
+   - `./start.sh` → Auto-detect (default)
+
+5. Added convenience npm scripts:
+   - `npm run dev:cloud` → Uses cloud database
+   - `npm run dev:local` → Uses local database
+   - `npm run dev` → Auto-detect (default)
+
+**Files Changed:**
+- config/.env.example (added VITE_USE_CLOUD_DB documentation)
+- src/js/config.js (added shouldUseCloudDatabase() logic)
+- src/js/supabase-client.js (added logConnection() method)
+- start.sh (added --cloud/--local flags and database mode handling)
+
+**Testing:**
+- ✅ `./start.sh --cloud` connects to cloud database from localhost
+- ✅ `./start.sh --local` connects to local database
+- ✅ `./start.sh` auto-detects based on hostname (default)
+- ✅ Console logs show active database connection
+- ✅ Production builds ignore override and use cloud database
+- ✅ Backward compatible with existing behavior
 
 **Author:** Claude Code <noreply@anthropic.com>
 

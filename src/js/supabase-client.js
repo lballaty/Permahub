@@ -14,6 +14,24 @@ class SupabaseClient {
     this.anonKey = config.anonKey;
     this.authToken = null;
     this.user = null;
+
+    // Log database connection in development mode
+    this.logConnection();
+  }
+
+  /**
+   * Log which database is being used (development mode only)
+   */
+  logConnection() {
+    // Only log in development mode
+    if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV) {
+      const isCloud = SUPABASE_CONFIG.isUsingCloud;
+      const dbName = isCloud ? 'Cloud (mcbxbaggjaxqfdvmrqsc)' : 'Local (127.0.0.1:3000)';
+      const icon = isCloud ? '🌐' : '💻';
+
+      console.log(`${icon} Database: ${dbName}`);
+      console.log(`   URL: ${this.url}`);
+    }
   }
 
   /**
