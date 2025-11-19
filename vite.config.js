@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { readFileSync } from 'fs';
+import { execSync } from 'child_process';
 
 /**
  * Custom Vite plugin to log all transformations and requests
@@ -76,6 +78,30 @@ export default defineConfig({
 
   // Add custom logging plugin
   plugins: [viteLogger()],
+
+  // Define global constants for version management
+  define: {
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(
+      (() => {
+        try {
+          const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
+          return pkg.version;
+        } catch (e) {
+          return '1.0.0';
+        }
+      })()
+    ),
+    'import.meta.env.VITE_BUILD_TIME': JSON.stringify(new Date().toISOString()),
+    'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(
+      (() => {
+        try {
+          return execSync('git rev-parse --short HEAD').toString().trim();
+        } catch (e) {
+          return 'dev';
+        }
+      })()
+    )
+  },
 
   build: {
     outDir: 'dist',

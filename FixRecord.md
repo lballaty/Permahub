@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.1 - 2025-11-19 15:21:16
+**Commit:** `c79276b`
+
+
+
 ---
 
 ## Changelog
@@ -56,6 +61,63 @@ How it was fixed
 This section serves as the project changelog, automatically organized by version.
 
 ## Fix History
+
+### 2025-01-18 - Implement automated version management system
+
+**Issue:**
+Version badge was manually managed, not synchronized across platform, required manual increment, and was obtrusive on some pages. Version was scattered across multiple files with inconsistent formats.
+
+**Root Cause:**
+- Manual version counter in version.js (line 18: `const versionNumber = 23`)
+- Version not tied to git commits or package.json
+- No enforcement of version documentation
+- Only 16 of 36 wiki pages displayed version
+- Badge used absolute positioning that could overlap UI elements
+
+**Solution:**
+Implemented comprehensive automated version management system:
+
+1. **Single Source of Truth:**
+   - package.json is now the single source for version (semantic versioning)
+   - All code reads from this via Vite environment variables
+
+2. **Git Hooks for Automation:**
+   - Pre-commit hook: Enforces FixRecord.md updates, auto-increments patch version
+   - Post-commit hook: Adds commit hash to FixRecord.md, creates git tags
+
+3. **Smart Badge Display:**
+   - Replaced version.js with version-manager.js
+   - Fixed positioning (top-right) with smart collision detection
+   - Semi-transparent on hover to avoid obscuring content
+   - Auto-displays on all 36 wiki pages
+
+4. **Build-time Injection:**
+   - Vite injects version, commit hash, and build time into environment
+   - Available to all modules via import.meta.env
+
+5. **Version Format:**
+   - Badge: v1.0.0 (semantic version)
+   - Console: "Permahub 2025-01-18 14:23 #1" (repo name + datetime + patch number)
+   - FixRecord.md: Version sections with commit hash and timestamp
+
+**Files Changed:**
+- scripts/hooks/version-bump-hook.sh (new)
+- scripts/hooks/post-commit-hook.sh (new)
+- scripts/install-version-hooks.sh (new)
+- src/js/version-manager.js (new, replaces version.js)
+- docs/VERSION_MANAGEMENT.md (new)
+- vite.config.js (added version injection)
+- FixRecord.md (added version section format)
+- src/wiki/*.html (19 files - updated to use version-manager.js)
+- src/wiki/js/*.js (10 files - updated imports)
+- tests/e2e/*.spec.js (3 files - updated version format tests)
+- tests/integration/wiki/home-page.spec.js (updated version format test)
+- .git/hooks/pre-commit (installed)
+- .git/hooks/post-commit (installed)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 ### 2025-11-16 - Fix JavaScript import errors in auth pages
 
@@ -1707,6 +1769,114 @@ ALTER TABLE public.items DROP COLUMN IF EXISTS name;
 - Local database now matches updated migration 003
 - Consistent schema for cloud push
 - No breaking changes
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-17 - Implement Local CI/CD Pipeline
+
+**Commit:** pending
+
+**Issue:**
+Permahub needed a CI/CD pipeline for automation (linting, testing, deployment), but the user required:
+- All tools must run locally on Mac (no external cloud dependencies like GitHub Actions)
+- All tools must be free and open-source
+- Minimize GitHub dependency beyond backup/prototype hosting
+
+**Root Cause:**
+Initial approach used GitHub Actions, which relies on external cloud services and GitHub infrastructure.
+
+**Solution:**
+Implemented local CI/CD pipeline using:
+
+1. **simple-git-hooks (2.13.1)** - Lightweight git hooks manager
+   - Pre-commit hook: runs `npm run lint && npm run test:smoke`
+   - Pre-push hook: runs `npm run test:ci`
+   - Installed and configured in package.json
+   - Hooks initialized with `npx simple-git-hooks`
+
+2. **Taskfile/go-task (3.45.5)** - Modern YAML-based task runner
+   - Created comprehensive Taskfile.yml with tasks for:
+     - Development (dev server)
+     - Quality control (lint, format)
+     - Testing (smoke, critical, unit, integration, e2e, ci)
+     - Building (clean, build, preview)
+     - Deployment (deploy to GitHub Pages)
+   - Installed via Homebrew: `brew install go-task`
+
+3. **gh-pages (6.3.0)** - GitHub Pages deployment from local machine
+   - Deploys `dist/` folder to `gh-pages` branch
+   - Added npm script: `deploy:gh-pages`
+   - Uses local git credentials
+
+**Files Changed:**
+- package.json (added simple-git-hooks config, deploy script, postinstall hook)
+- Taskfile.yml (created comprehensive task orchestration)
+- README.md (added Local CI/CD section with usage examples)
+- .github/workflows/deploy-gh-pages.yml (deleted - no longer using GitHub Actions)
+
+**Configuration Added:**
+
+package.json:
+```json
+{
+  "scripts": {
+    "deploy:gh-pages": "gh-pages -d dist",
+    "postinstall": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint && npm run test:smoke",
+    "pre-push": "npm run test:ci"
+  }
+}
+```
+
+**Verification:**
+- simple-git-hooks installed successfully
+- gh-pages installed successfully
+- Taskfile installed via Homebrew
+- Git hooks initialized and active
+- Taskfile.yml validates (`task --list` works)
+- README.md updated with clear usage instructions
+
+**Impact:**
+- Complete CI/CD pipeline running locally on developer's Mac
+- Automatic quality checks before every commit
+- Automatic test suite before every push
+- Single command deployment: `task deploy`
+- Zero external dependencies beyond GitHub Pages hosting
+- Zero ongoing costs
+- Full developer control over entire pipeline
+
+**Usage:**
+
+Development workflow:
+```bash
+task dev              # Start dev server
+task lint             # Run linter
+task test:smoke       # Quick tests
+git commit -m "..."   # Triggers pre-commit hook automatically
+git push              # Triggers pre-push hook automatically
+```
+
+Deployment workflow:
+```bash
+task deploy           # Runs lint → test:ci → build → deploy:gh-pages
+```
+
+Or use individual tasks:
+```bash
+task build            # Just build
+task test:ci          # Just run CI tests
+task deploy:gh-pages  # Just deploy (skips validation)
+```
+
+**Security Benefits:**
+- Supabase keys never leave local machine
+- No secrets in external CI/CD config
+- No third-party access to source code
+- Full audit trail in local git history
 
 **Author:** Claude Code <noreply@anthropic.com>
 
