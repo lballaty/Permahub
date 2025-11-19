@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.24 - 2025-11-19 18:20:54
+**Commit:** `7e69d94`
+
+
+
 ## Version 1.0.23 - 2025-11-19 18:16:19
 **Commit:** `caa5678`
 
@@ -2972,6 +2977,71 @@ import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.j
 
 **Impact:**
 This fix resolves HTTP 500 errors that were preventing 7 wiki pages from loading properly.
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Fix Newsletter Subscription RLS Policy Violation (401 Unauthorized)
+
+**Commit:** pending
+
+**Issue:**
+Anonymous users received 401 Unauthorized errors when trying to subscribe to the newsletter. The browser console showed:
+```
+Failed to load resource: the server responded with a status of 401 (Unauthorized)
+❌ Subscription error: new row violates row-level security policy for table "wiki_newsletter_subscriptions"
+```
+
+PostgreSQL logs revealed error code 42501 (insufficient_privilege) from the `authenticator` role attempting to INSERT into the newsletter table.
+
+**Root Cause:**
+The `subscribe_to_newsletter()` function was created as SECURITY INVOKER (default), meaning it runs with the permissions of the caller. When PostgREST's `authenticator` role called the function on behalf of anonymous users, it lacked the proper RLS context to INSERT rows, even though:
+- EXECUTE permissions were granted to `anon` role (migration 009)
+- RLS policy "Anyone can subscribe" existed with `WITH CHECK (true)` (migration 008, 010)
+
+The authenticator role doesn't inherit the `anon` role's RLS privileges when executing SECURITY INVOKER functions.
+
+**Solution:**
+Changed both `subscribe_to_newsletter()` and `unsubscribe_from_newsletter()` functions to SECURITY DEFINER, making them run as the postgres owner (who has full access) rather than the caller:
+
+```sql
+ALTER FUNCTION public.subscribe_to_newsletter(TEXT, TEXT, TEXT, TEXT[])
+SECURITY DEFINER;
+
+ALTER FUNCTION public.subscribe_to_newsletter(TEXT, TEXT, TEXT, TEXT[])
+SET search_path = public;
+
+ALTER FUNCTION public.unsubscribe_from_newsletter(TEXT)
+SECURITY DEFINER;
+
+ALTER FUNCTION public.unsubscribe_from_newsletter(TEXT)
+SET search_path = public;
+```
+
+The `SET search_path` prevents search path injection attacks when running as SECURITY DEFINER.
+
+**Files Changed:**
+- supabase/migrations/010_fix_newsletter_rls_policy.sql (attempted fix via RLS policy - unsuccessful)
+- supabase/migrations/011_set_function_security_definer.sql (actual fix via SECURITY DEFINER - successful)
+- FixRecord.md (this entry)
+
+**Testing:**
+Applied migrations to both local and cloud databases:
+```bash
+# Local database
+PGPASSWORD='postgres' psql -h 127.0.0.1 -p 5432 -d postgres -U postgres -f 011_set_function_security_definer.sql
+
+# Cloud database
+PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f 011_set_function_security_definer.sql
+```
+
+✅ Tested with curl - subscription successful, returned UUID: `9cfa6fd4-647f-4be5-9ff4-6ade27a4d8a0`
+✅ Verified subscription saved in database with status='pending', categories={general}
+✅ Subscribe button now works on all wiki pages for anonymous users
+
+**Impact:**
+Newsletter subscription feature is now fully functional for anonymous (non-logged-in) users on all public wiki pages (home, events, guides, map, about, individual pages).
 
 **Author:** Claude Code <noreply@anthropic.com>
 
