@@ -160,14 +160,34 @@ class SupabaseClient {
 
   /**
    * Get all records from a table
+   *
+   * Automatically excludes soft-deleted records unless includeDeleted=true
+   *
+   * @param {string} table - Table name
+   * @param {Object} options - Query options
+   * @param {string} options.select - Columns to select
+   * @param {string} options.where - Filter column
+   * @param {string} options.operator - Filter operator (eq, neq, gt, lt, etc.)
+   * @param {*} options.value - Filter value
+   * @param {number} options.limit - Max results
+   * @param {string} options.order - Sort order (column.asc or column.desc)
+   * @param {boolean} options.includeDeleted - Include soft-deleted records (default false)
+   * @returns {Promise<Array>} Query results
    */
   async getAll(table, options = {}) {
     let path = `/${table}`;
-    
+
     if (options.select) {
       path += `?select=${encodeURIComponent(options.select)}`;
     }
-    
+
+    // Automatically exclude soft-deleted records unless explicitly requested
+    const isSoftDeleteTable = ['wiki_guides', 'wiki_events', 'wiki_locations'].includes(table);
+    if (isSoftDeleteTable && !options.includeDeleted) {
+      const connector = path.includes('?') ? '&' : '?';
+      path += `${connector}deleted_at=is.null`;
+    }
+
     if (options.where) {
       const operator = options.operator || 'eq';
       const connector = path.includes('?') ? '&' : '?';
@@ -209,10 +229,96 @@ class SupabaseClient {
   }
 
   /**
-   * Delete record from table
+   * Delete record from table (HARD DELETE - USE WITH CAUTION)
+   *
+   * ⚠️ WARNING: This permanently deletes data. Consider using softDelete() instead.
+   *
+   * @param {string} table - Table name
+   * @param {string} id - Record ID
+   * @returns {Promise} Delete response
    */
   async delete(table, id) {
     return this.request('DELETE', `/${table}?id=eq.${id}`);
+  }
+
+  /**
+   * Soft delete record (recommended for content)
+   *
+   * Sets deleted_at timestamp and deleted_by user ID, allowing recovery.
+   * Also changes status to 'archived' for visibility control.
+   *
+   * @param {string} table - Table name (wiki_guides, wiki_events, wiki_locations)
+   * @param {string} id - Record ID
+   * @param {string} userId - ID of user performing the delete
+   * @returns {Promise} Update response
+   */
+  async softDelete(table, id, userId) {
+    console.log(`🗑️ Soft deleting ${table} record ${id} by user ${userId}`);
+
+    return this.update(table, id, {
+      deleted_at: new Date().toISOString(),
+      deleted_by: userId,
+      status: 'archived'
+    });
+  }
+
+  /**
+   * Restore soft-deleted record
+   *
+   * Clears deleted_at and deleted_by, restoring the record to draft status.
+   * Only the user who deleted the content (or admins) can restore it.
+   *
+   * @param {string} table - Table name (wiki_guides, wiki_events, wiki_locations)
+   * @param {string} id - Record ID
+   * @param {string} userId - ID of user performing the restore
+   * @returns {Promise} Update response
+   */
+  async restore(table, id, userId) {
+    console.log(`♻️ Restoring ${table} record ${id} by user ${userId}`);
+
+    // First check if user has permission to restore (is the one who deleted it)
+    const record = await this.getOne(table, id);
+
+    if (!record || record.length === 0) {
+      throw new Error('Record not found');
+    }
+
+    const content = record[0];
+
+    if (!content.deleted_at) {
+      throw new Error('Record is not deleted');
+    }
+
+    if (content.deleted_by !== userId) {
+      // TODO: Check if user is admin when roles are implemented
+      throw new Error('Only the user who deleted this content can restore it');
+    }
+
+    return this.update(table, id, {
+      deleted_at: null,
+      deleted_by: null,
+      status: 'draft'
+    });
+  }
+
+  /**
+   * Get deleted content for a user (for trash/recycle bin UI)
+   *
+   * @param {string} table - Table name
+   * @param {string} userId - User ID
+   * @param {number} limit - Maximum number of results (default 50)
+   * @returns {Promise<Array>} Deleted content
+   */
+  async getDeletedContent(table, userId, limit = 50) {
+    console.log(`🗑️ Fetching deleted content from ${table} for user ${userId}`);
+
+    return this.getAll(table, {
+      where: 'deleted_by',
+      operator: 'eq',
+      value: userId,
+      order: 'deleted_at.desc',
+      limit: limit
+    });
   }
 
   /**
