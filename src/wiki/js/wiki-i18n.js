@@ -77,6 +77,11 @@ const wikiI18n = {
       'wiki.home.guides': 'guides',
       'wiki.home.guide': 'guide',
 
+      'wiki.home.stay_connected': 'Stay Connected',
+      'wiki.home.newsletter_desc': 'Get updates on new guides, events, and community news delivered to your inbox',
+      'wiki.home.email_placeholder': 'Enter your email address',
+      'wiki.home.subscribe': 'Subscribe',
+
       // Guide/Article Page
       'wiki.article.edit': 'Edit This Page',
       'wiki.article.save_favorite': 'Save to Favorites',
@@ -714,7 +719,7 @@ const wikiI18n = {
       'wiki.categories.bicycle-power': 'Bicycle Power',
       'wiki.categories.bioregionalism': 'Bioregionalism',
       'wiki.categories.bioremediation': 'Bioremediation',
-      'wiki.categories.children': 'Children',
+      'wiki.categories.childrens-gardens': 'Children\'s Gardens',
       'wiki.categories.climate-adaptation': 'Climate Adaptation',
       'wiki.categories.consensus-decision-making': 'Consensus Decision Making',
       'wiki.categories.cover-cropping': 'Cover Cropping',
@@ -908,6 +913,11 @@ const wikiI18n = {
       'wiki.home.of': 'de',
       'wiki.home.guides': 'guias',
       'wiki.home.guide': 'guia',
+
+      'wiki.home.stay_connected': 'Mantenha-se Conectado',
+      'wiki.home.newsletter_desc': 'Receba atualizações sobre novos guias, eventos e notícias da comunidade na sua caixa de entrada',
+      'wiki.home.email_placeholder': 'Digite seu endereço de e-mail',
+      'wiki.home.subscribe': 'Inscrever-se',
 
       // Guide/Article Page
       'wiki.article.edit': 'Editar Esta Página',
@@ -1839,6 +1849,11 @@ const wikiI18n = {
       'wiki.home.of': 'de',
       'wiki.home.guides': 'guías',
       'wiki.home.guide': 'guía',
+
+      'wiki.home.stay_connected': 'Mantente Conectado',
+      'wiki.home.newsletter_desc': 'Recibe actualizaciones sobre nuevas guías, eventos y noticias de la comunidad en tu bandeja de entrada',
+      'wiki.home.email_placeholder': 'Ingresa tu dirección de correo electrónico',
+      'wiki.home.subscribe': 'Suscribirse',
       'wiki.home.stats.guides': 'Guías',
       'wiki.home.stats.locations': 'Ubicaciones',
       'wiki.home.stats.events': 'Eventos Próximos',
@@ -2871,6 +2886,11 @@ const wikiI18n = {
       'wiki.home.of': 'von',
       'wiki.home.guides': 'Leitfäden',
       'wiki.home.guide': 'Leitfaden',
+
+      'wiki.home.stay_connected': 'In Verbindung bleiben',
+      'wiki.home.newsletter_desc': 'Erhalten Sie Updates zu neuen Leitfäden, Veranstaltungen und Community-Nachrichten in Ihrem Posteingang',
+      'wiki.home.email_placeholder': 'Geben Sie Ihre E-Mail-Adresse ein',
+      'wiki.home.subscribe': 'Abonnieren',
       'wiki.home.search': 'Suche nach Leitfäden, Veranstaltungen, Standorten...',
       'wiki.home.stats.guides': 'Leitfäden',
       'wiki.home.stats.locations': 'Standorte',
@@ -4372,6 +4392,11 @@ const wikiI18n = {
       'wiki.home.of': 'z',
       'wiki.home.guides': 'průvodců',
       'wiki.home.guide': 'průvodce',
+
+      'wiki.home.stay_connected': 'Zůstaňte ve Spojení',
+      'wiki.home.newsletter_desc': 'Získejte aktualizace o nových průvodcích, událostech a zprávách z komunity do vaší schránky',
+      'wiki.home.email_placeholder': 'Zadejte svou e-mailovou adresu',
+      'wiki.home.subscribe': 'Přihlásit se k odběru',
       'wiki.home.stats.guides': 'Průvodci',
       'wiki.home.stats.locations': 'Lokality',
       'wiki.home.stats.events': 'Nadcházející události',

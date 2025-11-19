@@ -49,8 +49,36 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.9 - 2025-11-19 17:15:14
+**Commit:** `8314bb1`
+
+
+
 ## Version 1.0.8 - 2025-11-19 17:11:15
 **Commit:** `748c243`
+
+### 2025-01-19 - Fix missing newsletter/subscribe translation keys
+
+**Issue:**
+Four translation keys for the newsletter subscribe section were missing from wiki-i18n.js, causing console warnings and displaying raw key names instead of translated text:
+- wiki.home.stay_connected
+- wiki.home.newsletter_desc
+- wiki.home.email_placeholder
+- wiki.home.subscribe
+
+**Root Cause:**
+Newsletter subscribe section was added to wiki-home.html without corresponding translations being added to the i18n system for all languages.
+
+**Solution:**
+1. Created automated script (add-newsletter-translations.js) to add all 4 translations
+2. Added translations to all 5 active languages (EN, PT, ES, CS, DE)
+3. Translations properly contextualized for newsletter/email subscription
+
+**Files Changed:**
+- src/wiki/js/wiki-i18n.js (added 4 keys × 5 languages = 20 translations)
+- scripts/add-newsletter-translations.js (new automation script)
+
+**Author:** Claude Code <noreply@anthropic.com>
 
 
 
