@@ -810,7 +810,7 @@ class SupabaseClient {
       });
 
       const lowerQuery = query.toLowerCase();
-      return resources.filter(resource => 
+      return resources.filter(resource =>
         resource.title.toLowerCase().includes(lowerQuery) ||
         resource.description.toLowerCase().includes(lowerQuery) ||
         (resource.tags && resource.tags.some(tag => tag.toLowerCase().includes(lowerQuery)))
@@ -818,6 +818,38 @@ class SupabaseClient {
     } catch (error) {
       console.error('Error searching resources:', error);
       return [];
+    }
+  }
+
+  /**
+   * Call a Supabase RPC function
+   * @param {string} functionName - Name of the PostgreSQL function
+   * @param {object} params - Parameters to pass to the function
+   * @returns {Promise<{data: any, error: any}>} Result with data or error
+   */
+  async rpc(functionName, params = {}) {
+    try {
+      const response = await fetch(`${this.url}/rest/v1/rpc/${functionName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': this.anonKey,
+          'Authorization': `Bearer ${this.authToken || this.anonKey}`,
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(params)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return { data: null, error: data };
+      }
+
+      return { data, error: null };
+    } catch (error) {
+      console.error(`Error calling RPC function ${functionName}:`, error);
+      return { data: null, error };
     }
   }
 }

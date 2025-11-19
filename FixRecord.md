@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.6 - 2025-11-19 16:51:40
+**Commit:** `1b4bd8d`
+
+
+
 ## Version 1.0.5 - 2025-11-19 16:46:04
 **Commit:** `4e3e15a`
 
@@ -2127,6 +2132,47 @@ Uses existing `wiki_newsletter_subscriptions` table and `subscribe_to_newsletter
 
 **Note:**
 Only the Events and Guides pages have subscribe sections. The Home page and Locations/Map page do not have subscribe buttons (confirmed by grep search).
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-11-19 - Subscribe Button RPC Error - Cannot Read Property 'rpc' of Undefined
+
+**Commit:** (pending)
+
+**Issue:**
+Subscribe button on Events and Guides pages showed "Failed to subscribe" error with console message "Cannot read properties of undefined (reading 'rpc')". The subscription functionality was completely broken.
+
+**Root Cause:**
+The SupabaseClient class in supabase-client.js was missing an `rpc()` method for calling PostgreSQL functions. The subscribe code was calling `supabase.client.rpc()` which failed because:
+1. `supabase` is an instance of SupabaseClient, not a wrapper object
+2. There is no `client` property on the supabase instance
+3. The SupabaseClient class had no rpc() method implemented
+
+**Solution:**
+1. Added `async rpc(functionName, params)` method to SupabaseClient class
+   - Makes POST request to `/rest/v1/rpc/{functionName}`
+   - Handles authentication with either auth token or anon key
+   - Returns {data, error} format matching Supabase SDK conventions
+   
+2. Fixed all subscribe button code to call `supabase.rpc()` instead of `supabase.client.rpc()`
+   - Updated wiki-events.js line 470
+   - Updated wiki-guides.js line 717
+   - Updated subscribe-newsletter.js line 54
+
+3. Created shared subscribe-newsletter.js module for reusable subscription functionality across all pages
+
+**Files Changed:**
+- src/js/supabase-client.js (added rpc method)
+- src/wiki/js/wiki-events.js (fixed rpc call)
+- src/wiki/js/wiki-guides.js (fixed rpc call)
+- src/wiki/js/subscribe-newsletter.js (new shared module)
+
+**Testing:**
+- ✅ Subscribe button no longer throws RPC error
+- ✅ RPC method correctly calls Supabase PostgreSQL functions
+- ✅ subscribe_to_newsletter() function can now be called from frontend
+- ✅ Subscriptions saved to wiki_newsletter_subscriptions table
 
 **Author:** Claude Code <noreply@anthropic.com>
 

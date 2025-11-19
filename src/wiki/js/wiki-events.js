@@ -467,7 +467,7 @@ function initializeSubscribeButton() {
       console.log(`📧 Subscribing email: ${email}`);
 
       // Call the Supabase function to subscribe
-      const { data, error } = await supabase.client.rpc('subscribe_to_newsletter', {
+      const { data, error } = await supabase.rpc('subscribe_to_newsletter', {
         p_email: email,
         p_name: null, // We don't collect name in this form
         p_categories: ['events'], // Subscribe to events category
