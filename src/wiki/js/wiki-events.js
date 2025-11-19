@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';
+import { displayVersionBadge, VERSION_DISPLAY } from '../../js/version-manager.js';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   initializeEventFilters();
   initializeTimeFilters();
   initializeViewToggles();
+  initializeSubscribeButton();
 
   console.log(`✅ Wiki Events ${VERSION_DISPLAY}: Initialization complete`);
 });
@@ -427,6 +428,93 @@ function initializeViewToggles() {
       renderCalendar();
     });
   }
+}
+
+/**
+ * Initialize subscribe button
+ */
+function initializeSubscribeButton() {
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  const subscribeEmail = document.getElementById('subscribeEmail');
+
+  if (!subscribeBtn || !subscribeEmail) {
+    console.warn('⚠️ Subscribe button or email input not found');
+    return;
+  }
+
+  subscribeBtn.addEventListener('click', async function() {
+    const email = subscribeEmail.value.trim();
+
+    // Validate email
+    if (!email) {
+      alert('Please enter your email address');
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    try {
+      // Disable button and show loading state
+      subscribeBtn.disabled = true;
+      const originalHTML = subscribeBtn.innerHTML;
+      subscribeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+
+      console.log(`📧 Subscribing email: ${email}`);
+
+      // Call the Supabase function to subscribe
+      const { data, error } = await supabase.client.rpc('subscribe_to_newsletter', {
+        p_email: email,
+        p_name: null, // We don't collect name in this form
+        p_categories: ['events'], // Subscribe to events category
+        p_source: 'event-page'
+      });
+
+      if (error) {
+        console.error('❌ Subscription error:', error);
+        throw error;
+      }
+
+      console.log('✅ Subscription successful:', data);
+
+      // Show success message
+      alert('🎉 Thank you for subscribing!\n\nYou will receive email notifications about upcoming permaculture events.');
+
+      // Clear email input
+      subscribeEmail.value = '';
+
+      // Restore button
+      subscribeBtn.innerHTML = originalHTML;
+      subscribeBtn.disabled = false;
+
+    } catch (error) {
+      console.error('❌ Error subscribing:', error);
+
+      // Show error message
+      let errorMessage = 'Failed to subscribe. ';
+      if (error.message.includes('duplicate') || error.message.includes('already exists')) {
+        errorMessage += 'This email is already subscribed to our newsletter.';
+      } else {
+        errorMessage += 'Please try again later.';
+      }
+      alert(errorMessage);
+
+      // Restore button
+      subscribeBtn.innerHTML = originalHTML;
+      subscribeBtn.disabled = false;
+    }
+  });
+
+  // Also allow Enter key to submit
+  subscribeEmail.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      subscribeBtn.click();
+    }
+  });
 }
 
 /**

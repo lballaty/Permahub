@@ -49,6 +49,16 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.5 - 2025-11-19 16:46:04
+**Commit:** `4e3e15a`
+
+
+
+## Version 1.0.4 - 2025-11-19 16:45:31
+**Commit:** `56bc1be`
+
+
+
 ## Version 1.0.3 - 2025-11-19 16:32:31
 **Commit:** `042e16c`
 
@@ -2009,6 +2019,114 @@ Added four case statements to the main dispatcher in scripts/git-agents.sh:
 - Branch management system now fully operational
 - Users can create feature branches, run tests, and create PRs via CLI
 - Completes the intelligent Git agent system integration
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - JavaScript Syntax Errors in wiki-guides.js and wiki-events.js Import Statements
+
+**Commit:** (pending)
+
+**Issue:**
+Dedicated wiki pages (guides, events, locations) were not displaying any content from the database, while the home page worked correctly. Pages showed loading spinners indefinitely or empty states despite having data in the database.
+
+**Root Cause:**
+JavaScript syntax errors in import statements on line 7 of both files:
+- `wiki-guides.js:7` had: `import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';`
+- `wiki-events.js:7` had: `import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js";`
+
+Extra quote characters at the end (`"';` and `";`) created syntax errors that prevented the entire module from loading. This caused:
+1. JavaScript parse error when browser tried to load the module
+2. The entire JavaScript file failed to execute
+3. No event listeners registered
+4. No database queries executed
+5. Pages showed loading state forever
+
+**Solution:**
+Fixed import statements to use consistent single-quote syntax matching the working home page:
+```javascript
+// Before (WRONG):
+import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';
+
+// After (CORRECT):
+import { displayVersionBadge, VERSION_DISPLAY } from '../../js/version-manager.js';
+```
+
+Applied fix to both files:
+- wiki-guides.js line 7: Removed extra `'` after closing quote
+- wiki-events.js line 7: Changed to single quotes for consistency
+
+**Files Changed:**
+- [src/wiki/js/wiki-guides.js:7](src/wiki/js/wiki-guides.js#L7)
+- [src/wiki/js/wiki-events.js:7](src/wiki/js/wiki-events.js#L7)
+
+**Testing:**
+- ✅ Guides page now loads guides from database
+- ✅ Events page now loads events from database
+- ✅ No JavaScript parse errors in console
+- ✅ Content displays correctly with filtering, searching, sorting
+- ✅ Matches working behavior of home page
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-11-19 - Subscribe Button Not Functional on Events and Guides Pages
+
+**Commit:** (pending)
+
+**Issue:**
+The Subscribe button on the Events page and Guides page didn't do anything when clicked. The email input field and button were present in the UI, but there were no event listeners attached to handle the subscription action.
+
+**Root Cause:**
+1. The email input and Subscribe button in the HTML had no `id` attributes, making them impossible to select in JavaScript
+2. No JavaScript function was implemented to handle the subscription click event
+3. The Supabase `subscribe_to_newsletter()` RPC function existed in the database but wasn't being called from the frontend
+
+**Solution:**
+1. **HTML Changes** - Added unique IDs to the form elements:
+   - Added `id="subscribeEmail"` to email input fields
+   - Added `id="subscribeBtn"` to Subscribe buttons
+   - Applied to both wiki-events.html and wiki-guides.html
+
+2. **JavaScript Changes** - Implemented `initializeSubscribeButton()` function in both pages:
+   - Email validation (required, valid format)
+   - Loading state during submission (disabled button, spinner icon)
+   - Calls Supabase `subscribe_to_newsletter()` RPC function
+   - Success/error handling with user feedback
+   - Clears input on success
+   - Enter key support for form submission
+   - Different categories per page:
+     - Events page: subscribes to `['events']` category
+     - Guides page: subscribes to `['guides']` category
+
+3. **Function Integration**:
+   - Added `initializeSubscribeButton()` call in wiki-events.js DOMContentLoaded handler
+   - Added `initializeSubscribeButton()` call in wiki-guides.js DOMContentLoaded handler
+   - Added full function implementation in both files
+
+**Files Changed:**
+- src/wiki/wiki-events.html
+- src/wiki/js/wiki-events.js
+- src/wiki/wiki-guides.html
+- src/wiki/js/wiki-guides.js
+
+**Testing:**
+- ✅ Subscribe button now responds to clicks on both pages
+- ✅ Email validation works (empty, invalid format)
+- ✅ Loading spinner shows during submission
+- ✅ Success message displays after subscription
+- ✅ Email input clears after success
+- ✅ Error handling for duplicate emails
+- ✅ Enter key submits the form
+- ✅ Button restores to original state after completion/error
+- ✅ Different categories saved based on page (events vs guides)
+
+**Database Integration:**
+Uses existing `wiki_newsletter_subscriptions` table and `subscribe_to_newsletter()` function from supabase/migrations/008_newsletter_subscriptions.sql.
+
+**Note:**
+Only the Events and Guides pages have subscribe sections. The Home page and Locations/Map page do not have subscribe buttons (confirmed by grep search).
 
 **Author:** Claude Code <noreply@anthropic.com>
 
