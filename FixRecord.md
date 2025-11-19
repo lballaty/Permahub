@@ -23,10 +23,13 @@ This file maintains a chronological record of every fix applied to the project. 
 
 ## Format
 
-```markdown
-### YYYY-MM-DD - Issue Title
+Each version groups related fixes together. Version numbers are automatically incremented with each commit.
 
-**Commit:** `<commit-hash>` (if committed)
+```markdown
+## Version X.Y.Z - YYYY-MM-DD HH:MM:SS
+**Commit:** `<commit-hash>` (auto-filled by post-commit hook)
+
+### YYYY-MM-DD - Issue Title
 
 **Issue:**
 Brief description of the problem
@@ -47,6 +50,10 @@ How it was fixed
 ```
 
 ---
+
+## Changelog
+
+This section serves as the project changelog, automatically organized by version.
 
 ## Fix History
 
