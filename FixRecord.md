@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.12 - 2025-11-19 17:40:54
+**Commit:** `e43831e`
+
+
+
 ## Version 1.0.11 - 2025-11-19 17:39:10
 **Commit:** `ac9b200`
 
@@ -2391,6 +2396,45 @@ try {
 - ✅ Error handling now works correctly
 - ✅ Button restores to original state after subscription error
 - ✅ No console errors when subscription fails
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-19 - Fix JavaScript Syntax Error in Wiki Login Page
+
+**Commit:** (pending)
+
+**Issue:**
+1. Wiki login page showed 500 Internal Server Error when loading
+2. Browser console showed: `http://localhost:3001/src/wiki/wiki-login.html?html-proxy&index=0.js net::ERR_ABORTED 500 (Internal Server Error)`
+3. DOM warning about missing autocomplete attribute on password input field
+
+**Root Cause:**
+1. JavaScript syntax error on line 257 of wiki-login.html - extra single quote `'` at the end of the import statement:
+   ```javascript
+   import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
+   ```
+2. Missing `autocomplete="current-password"` attribute on password input field (line 107-113)
+
+**Solution:**
+1. Fixed import statement syntax by removing the extra single quote:
+   ```javascript
+   import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js";
+   ```
+2. Added `autocomplete="current-password"` attribute to password input field for better browser compatibility and accessibility
+
+**Files Changed:**
+- src/wiki/wiki-login.html
+
+**Testing:**
+- ✅ Page loads without 500 error
+- ✅ No JavaScript syntax errors in console
+- ✅ Version badge displays correctly
+- ✅ Login form renders properly
+- ✅ Tab switching works
+- ✅ No DOM warnings about autocomplete
 
 **Author:** Claude Code <noreply@anthropic.com>
 
