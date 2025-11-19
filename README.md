@@ -119,6 +119,31 @@ npm run format       # Format code with Prettier
 npm run format:check # Check code formatting
 ```
 
+### Local CI/CD with Taskfile
+
+Permahub uses a local CI/CD pipeline that runs entirely on your Mac, with no external dependencies:
+
+```bash
+task                 # List all available tasks
+task dev             # Start development server
+task lint            # Run ESLint
+task test:smoke      # Run quick smoke tests
+task test:ci         # Run full CI test suite
+task build           # Build production bundle
+task deploy          # Deploy to GitHub Pages (lint → test → build → deploy)
+```
+
+**Git Hooks (Automatic):**
+- **Pre-commit**: Runs `lint` and `test:smoke` before every commit
+- **Pre-push**: Runs `test:ci` before every push
+
+**Tools Used:**
+- [simple-git-hooks](https://github.com/toplenboren/simple-git-hooks) - Lightweight git hooks (2KB)
+- [go-task](https://taskfile.dev) - Modern task runner (YAML-based)
+- [gh-pages](https://github.com/tschaub/gh-pages) - GitHub Pages deployment
+
+All tools are free, open-source, and run locally on your machine.
+
 ### Technology Stack
 
 **Frontend:**
