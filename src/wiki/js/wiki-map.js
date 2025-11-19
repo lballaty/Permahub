@@ -16,9 +16,6 @@ let map = null;
 let markers = [];
 let currentUser = null;
 
-// TODO: Replace with actual authenticated user ID when auth is fully implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Map ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
@@ -154,7 +151,7 @@ function renderLocations() {
       const icon = getLocationIcon(location.location_type);
 
       // Check if current user is the owner
-      const userId = currentUser?.id || MOCK_USER_ID;
+      const userId = currentUser?.id;
       const isOwner = location.author_id === userId;
 
       // Create marker
@@ -245,7 +242,7 @@ function renderLocationList(locations) {
     const icon = getLocationIcon(location.location_type);
 
     // Check if current user is the owner
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
     const isOwner = location.author_id === userId;
 
     return `
@@ -651,7 +648,7 @@ window.deleteLocation = async function(locationId, locationName) {
     console.log(`🗑️ Soft deleting location: ${locationName} (${locationId})`);
 
     // Get current user for soft delete tracking
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
 
     // Soft delete the location
     await supabase.softDelete('wiki_locations', locationId, userId);

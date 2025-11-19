@@ -17,9 +17,6 @@ let currentView = 'list'; // 'list' or 'calendar'
 let currentCalendarDate = new Date(); // Track current month in calendar view
 let currentUser = null;
 
-// TODO: Replace with actual authenticated user ID when auth is implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Events ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
@@ -160,7 +157,7 @@ function renderEvents() {
 
   eventsGrid.innerHTML = filteredEvents.map(event => {
     // Check if current user owns this event
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
     const isOwner = event.organizer_id === userId;
 
     return `
@@ -1242,7 +1239,7 @@ window.deleteEvent = async function(eventId, eventTitle) {
     console.log(`🗑️ Soft deleting event with ID: ${eventId}`);
 
     // Get current user
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
 
     // Soft delete the event
     await supabase.softDelete('wiki_events', eventId, userId);

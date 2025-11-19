@@ -20,9 +20,6 @@ let categoryGroups = [];
 let currentSort = 'newest';
 let currentUser = null;
 
-// TODO: Replace with actual authenticated user ID when auth is implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Guides ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
@@ -437,7 +434,7 @@ function renderGuides() {
 
   guidesGrid.innerHTML = filteredGuides.map(guide => {
     // Check if current user owns this guide
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
     const isOwner = guide.author_id === userId;
 
     return `
@@ -878,7 +875,7 @@ window.deleteGuide = async function(guideId, guideTitle) {
     console.log(`🗑️ Soft deleting guide with ID: ${guideId}`);
 
     // Get current user
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
 
     // Soft delete the guide
     await supabase.softDelete('wiki_guides', guideId, userId);

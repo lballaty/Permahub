@@ -14,9 +14,6 @@ let currentFilter = 'all';
 let allDeletedContent = [];
 let currentUser = null;
 
-// TODO: Replace with actual authenticated user ID when auth is implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Deleted Content ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
@@ -66,7 +63,7 @@ async function loadDeletedContent() {
     console.log('🗑️ Loading deleted content...');
     showLoading();
 
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
 
     // Fetch deleted content from all tables in parallel
     const [guides, events, locations] = await Promise.all([
@@ -260,7 +257,7 @@ window.restoreContent = async function(id, contentType) {
                      contentType === 'event' ? 'wiki_events' :
                      'wiki_locations';
 
-    const userId = currentUser?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
 
     await supabase.restore(tableName, id, userId);
 

@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.25 - 2025-11-19 18:32:52
+**Commit:** `310a032`
+
+
+
 ## Version 1.0.24 - 2025-11-19 18:20:54
 **Commit:** `7e69d94`
 
@@ -3046,3 +3051,88 @@ Newsletter subscription feature is now fully functional for anonymous (non-logge
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+### 2025-11-19 - Replace MOCK_USER_ID with Real Authenticated User ID Across Wiki System
+
+**Commit:** `pending`
+
+**Issue:**
+Wiki editor and other wiki pages were failing to save/edit content with RLS policy violation errors:
+```
+new row violates row-level security policy for table "wiki_guides"
+```
+
+The RLS policies require `auth.uid() = author_id/organizer_id/created_by`, but the code was setting these fields to a hardcoded mock UUID (`00000000-0000-0000-0000-000000000001`) instead of the actual authenticated user's ID.
+
+**Root Cause:**
+Multiple wiki JavaScript modules used a `MOCK_USER_ID` constant for all user ID fields instead of retrieving the actual authenticated user's ID from Supabase. The RLS policies correctly rejected operations where the user ID fields didn't match the authenticated user's ID.
+
+**Solution:**
+Applied the same fix pattern to 6 wiki modules:
+- Removed `MOCK_USER_ID` constant declarations
+- Added `currentUser` module-level variable to store authenticated user
+- Modified initialization to store user: `currentUser = await supabase.getCurrentUser()`
+- Replaced all `MOCK_USER_ID` references with `currentUser?.id`
+- Removed fallback patterns like `currentUser?.id || MOCK_USER_ID`
+
+**Files Changed:**
+- src/wiki/js/wiki-editor.js (guide/event/location creation and updates)
+- src/wiki/js/wiki-deleted-content.js (loading and restoring deleted content)
+- src/wiki/js/wiki-map.js (location ownership checks and deletion)
+- src/wiki/js/wiki-guides.js (guide ownership checks and deletion)
+- src/wiki/js/wiki-events.js (event ownership checks and deletion)
+- src/wiki/js/wiki-issues.js (issue reporting)
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+
+
+### 2025-11-19 - Fix Wiki Page Loading Errors
+
+**Commit:** pending
+
+**Issue:**
+Multiple console errors when loading wiki page details:
+1. `Uncaught SyntaxError: Unexpected reserved word` at wiki-page.js:242
+2. `⚠️ Missing translation for "wiki.page.stay_updated"` in multiple languages
+3. Page fails to render properly due to syntax error
+
+**Root Cause:**
+1. **Async/Await Error**: The `renderGuide()` function used `await checkUserPermissions(currentGuide)` on line 242, but the function itself was not declared as `async`. This caused a JavaScript syntax error that prevented the page from rendering.
+
+2. **Missing Translation Key**: The translation key `wiki.page.stay_updated` was referenced in the HTML but not defined in the i18n translations file. The system had:
+   - ✅ `wiki.map.stay_updated` (defined)
+   - ✅ `wiki.guides.stay_updated` (defined)
+   - ❌ `wiki.page.stay_updated` (missing)
+
+**Solution:**
+1. Changed `renderGuide()` to an async function by adding the `async` keyword:
+   ```javascript
+   async function renderGuide() {
+   ```
+
+2. Added missing translation key `wiki.page.stay_updated` to all languages that have wiki.page translations:
+   - English (en): "Stay Updated"
+   - Portuguese (pt): "Mantenha-se Atualizado"
+   - Spanish (es): "Mantente Actualizado"
+   - German (de): "Bleiben Sie auf dem Laufenden"
+   - Czech (cs): "Zůstaňte informováni"
+
+**Files Changed:**
+- src/wiki/js/wiki-page.js (line 118) - Made renderGuide() async
+- src/wiki/js/wiki-i18n.js - Added wiki.page.stay_updated to 5 languages
+- FixRecord.md - This entry
+
+**Testing:**
+After changes:
+- ✅ No syntax errors in console
+- ✅ Page renders correctly
+- ✅ All translations load without warnings
+- ✅ Newsletter subscription section displays with proper heading
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+

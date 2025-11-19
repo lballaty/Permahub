@@ -10,9 +10,7 @@ import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.j
 let allIssues = [];
 let currentTab = 'all';
 let currentUserId = null;
-
-// TODO: Replace with actual authenticated user ID when auth is implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
+let currentUser = null;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
@@ -21,8 +19,9 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Display version in header
   displayVersionBadge();
 
-  // Set current user (mock for now)
-  currentUserId = MOCK_USER_ID;
+  // Get current user
+  currentUser = await supabase.getCurrentUser();
+  currentUserId = currentUser?.id;
 
   // Collect system information
   collectSystemInfo();
@@ -90,7 +89,7 @@ async function createSampleIssues() {
       severity: 'medium',
       status: 'open',
       page_url: '/wiki-events.html',
-      reported_by: MOCK_USER_ID,
+      reported_by: currentUserId,
       version: VERSION_DISPLAY,
       upvotes: 3
     },
@@ -101,7 +100,7 @@ async function createSampleIssues() {
       severity: 'low',
       status: 'open',
       page_url: '/wiki-home.html',
-      reported_by: MOCK_USER_ID,
+      reported_by: currentUserId,
       version: VERSION_DISPLAY,
       upvotes: 7
     },
@@ -112,7 +111,7 @@ async function createSampleIssues() {
       severity: 'high',
       status: 'in_progress',
       page_url: '/wiki-map.html',
-      reported_by: MOCK_USER_ID,
+      reported_by: currentUserId,
       version: VERSION_DISPLAY,
       upvotes: 5
     }

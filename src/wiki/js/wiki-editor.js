@@ -15,9 +15,7 @@ let editingContentId = null;
 let quillEditor = null;
 let selectedCategories = [];
 let uploadedImagePath = null;
-
-// TODO: Replace with actual authenticated user ID when auth is implemented
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
+let currentUser = null; // Store authenticated user
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
@@ -27,14 +25,15 @@ document.addEventListener('DOMContentLoaded', async function() {
   displayVersionBadge();
 
   // Check authentication status
-  const user = await supabase.getCurrentUser();
+  currentUser = await supabase.getCurrentUser();
   const authToken = localStorage.getItem('auth_token');
-  const isAuthenticated = !!(user || authToken);
+  const isAuthenticated = !!(currentUser || authToken);
 
   if (!isAuthenticated) {
     console.log('⚠️ User is not authenticated - showing read-only editor with banner');
   } else {
     console.log('✅ User is authenticated - loading full editor');
+    console.log('👤 Current user ID:', currentUser?.id);
   }
 
   // Check if we're editing existing content
@@ -535,7 +534,7 @@ async function saveGuide(data) {
 
   const guideData = {
     ...data,
-    author_id: MOCK_USER_ID,
+    author_id: currentUser?.id,
     published_at: data.status === 'published' ? new Date().toISOString() : null,
     allow_comments: document.getElementById('allowComments')?.checked,
     allow_edits: document.getElementById('allowEdits')?.checked,
@@ -545,7 +544,7 @@ async function saveGuide(data) {
     wikipedia_summary: wikipediaSummary || null,
     wikipedia_verified: wikipediaVerified,
     wikipedia_verified_at: wikipediaVerified ? new Date().toISOString() : null,
-    wikipedia_verified_by: wikipediaVerified ? MOCK_USER_ID : null
+    wikipedia_verified_by: wikipediaVerified ? currentUser?.id : null
   };
 
   if (editingContentId) {
@@ -563,7 +562,7 @@ async function saveGuide(data) {
 async function saveEvent(data) {
   const eventData = {
     ...data,
-    organizer_id: MOCK_USER_ID,
+    organizer_id: currentUser?.id,
     // Add contact fields
     organizer_name: document.getElementById('organizerName')?.value?.trim() || null,
     organizer_organization: document.getElementById('organizerOrganization')?.value?.trim() || null,
@@ -588,7 +587,7 @@ async function saveLocation(data) {
   const locationData = {
     ...data,
     location_type: 'community', // Default type
-    created_by: MOCK_USER_ID,
+    created_by: currentUser?.id,
     // Add contact fields
     contact_name: document.getElementById('locationContactName')?.value?.trim() || null,
     contact_email: document.getElementById('locationContactEmail')?.value?.trim() || null,
@@ -1081,8 +1080,7 @@ async function deleteContent() {
                      'wiki_locations';
 
     // Get current user for soft delete tracking
-    const user = await supabase.getCurrentUser();
-    const userId = user?.id || MOCK_USER_ID;
+    const userId = currentUser?.id;
 
     // Soft delete the content (allows restore)
     await supabase.softDelete(tableName, editingContentId, userId);
