@@ -309,6 +309,10 @@ const wikiI18n = {
       'wiki.map.error_loading': 'Failed to load locations. Please refresh the page.',
       'wiki.map.no_locations_found': 'No locations found',
       'wiki.map.try_different_filter': 'Try selecting a different filter or check back later',
+      'wiki.map.stay_updated': 'Stay Updated',
+      'wiki.map.newsletter_desc': 'Subscribe to get updates on new locations and community projects',
+      'wiki.map.email_placeholder': 'Enter your email address',
+      'wiki.map.subscribe': 'Subscribe',
 
       // Favorites Page
       'wiki.favorites.pageTitle': 'My Favorites - Community Wiki',
@@ -1156,6 +1160,10 @@ const wikiI18n = {
       'wiki.map.error_loading': 'Falha ao carregar locais. Por favor, atualize a página.',
       'wiki.map.no_locations_found': 'Nenhum local encontrado',
       'wiki.map.try_different_filter': 'Tente selecionar um filtro diferente ou volte mais tarde',
+      'wiki.map.stay_updated': 'Mantenha-se Atualizado',
+      'wiki.map.newsletter_desc': 'Inscreva-se para receber atualizações sobre novos locais e projetos da comunidade',
+      'wiki.map.email_placeholder': 'Digite seu endereço de e-mail',
+      'wiki.map.subscribe': 'Inscrever-se',
 
       // Favorites Page
       'wiki.favorites.pageTitle': 'Meus Favoritos - Wiki Comunitária',
@@ -2116,6 +2124,10 @@ const wikiI18n = {
       'wiki.map.error_loading': 'Error al cargar ubicaciones. Por favor, actualice la página.',
       'wiki.map.no_locations_found': 'No se encontraron ubicaciones',
       'wiki.map.try_different_filter': 'Intente seleccionar un filtro diferente o vuelva más tarde',
+      'wiki.map.stay_updated': 'Mantente Actualizado',
+      'wiki.map.newsletter_desc': 'Suscríbete para recibir actualizaciones sobre nuevas ubicaciones y proyectos comunitarios',
+      'wiki.map.email_placeholder': 'Ingresa tu dirección de correo electrónico',
+      'wiki.map.subscribe': 'Suscribirse',
 
       // Favorites Page
       'wiki.favorites.pageTitle': 'Mis Favoritos - Wiki Comunitaria',
@@ -3161,6 +3173,10 @@ const wikiI18n = {
       'wiki.map.error_loading': 'Standorte konnten nicht geladen werden. Bitte laden Sie die Seite neu.',
       'wiki.map.no_locations_found': 'Keine Standorte gefunden',
       'wiki.map.try_different_filter': 'Versuchen Sie einen anderen Filter auszuwählen oder schauen Sie später vorbei',
+      'wiki.map.stay_updated': 'Bleiben Sie auf dem Laufenden',
+      'wiki.map.newsletter_desc': 'Abonnieren Sie Updates zu neuen Standorten und Community-Projekten',
+      'wiki.map.email_placeholder': 'Geben Sie Ihre E-Mail-Adresse ein',
+      'wiki.map.subscribe': 'Abonnieren',
 
       // Favorites Page
       'wiki.favorites.pageTitle': 'Meine Favoriten - Community Wiki',
@@ -4672,6 +4688,10 @@ const wikiI18n = {
       'wiki.map.error_loading': 'Nepodařilo se načíst lokality. Obnovte prosím stránku.',
       'wiki.map.no_locations_found': 'Nebyly nalezeny žádné lokality',
       'wiki.map.try_different_filter': 'Zkuste vybrat jiný filtr nebo se vraťte později',
+      'wiki.map.stay_updated': 'Zůstaňte v Obraze',
+      'wiki.map.newsletter_desc': 'Přihlaste se k odběru, abyste dostávali aktualizace o nových lokalitách a komunitních projektech',
+      'wiki.map.email_placeholder': 'Zadejte svou e-mailovou adresu',
+      'wiki.map.subscribe': 'Přihlásit se k odběru',
 
       // Favorites Page
       'wiki.favorites.pageTitle': 'Moje oblíbené - Komunitní Wiki',

@@ -49,10 +49,44 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.20 - 2025-11-19 18:10:11
+**Commit:** `b02b388`
+
+
+
 ## Version 1.0.19 - 2025-11-19 18:07:38
 **Commit:** `12f9a87`
 
+### 2025-11-19 - Complete wiki.map Newsletter Translations
 
+**Issue:**
+Missing newsletter/subscribe section translations for wiki.map causing console warnings on map page. Users saw "Missing translation" warnings for wiki.map.stay_updated, wiki.map.newsletter_desc, wiki.map.email_placeholder, and wiki.map.subscribe keys.
+
+**Root Cause:**
+Newsletter subscribe sections were added to all public wiki pages, but wiki.map translations were incomplete. Only the HTML template was updated, but the i18n system was missing the required translation keys for all 5 languages.
+
+**Solution:**
+Added all 4 missing newsletter translation keys to wiki.map section for all 5 active languages:
+- wiki.map.stay_updated (note: different from wiki.home.stay_connected)
+- wiki.map.newsletter_desc
+- wiki.map.email_placeholder
+- wiki.map.subscribe
+
+Translations added for: English, Portuguese, Spanish, Czech, and German.
+
+**Files Changed:**
+- src/wiki/js/wiki-i18n.js (added 20 translation entries: 4 keys × 5 languages)
+
+**Impact:**
+This completes the newsletter translation coverage across all wiki sections:
+- wiki.home ✅ (4 keys × 5 languages)
+- wiki.about ✅ (4 keys × 5 languages)
+- wiki.map ✅ (4 keys × 5 languages)
+- wiki.page ✅ (3 keys × 5 languages)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
 
 ## Version 1.0.18 - 2025-11-19 17:55:28
 **Commit:** `b575173`
