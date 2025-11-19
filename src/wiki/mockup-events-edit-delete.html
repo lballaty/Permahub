@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOCKUP: Events with Edit/Delete Buttons</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Highlight new elements for mockup */
+    .mockup-highlight {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(45, 134, 89, 0);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(45, 134, 89, 0.3);
+      }
+    }
+
+    .mockup-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .mockup-note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .author-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .event-actions-owner {
+      background: #f0f9ff;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-guides.html">Guides</a></li>
+        <li><a href="wiki-events.html" class="active">Events</a></li>
+        <li><a href="wiki-map.html">Locations</a></li>
+        <li><a href="wiki-login.html">Login</a></li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="mockup-banner">
+      <h2 style="margin: 0 0 0.5rem 0;">
+        <i class="fas fa-eye"></i> MOCKUP: Events with Edit/Delete Buttons
+      </h2>
+      <p style="margin: 0; opacity: 0.95;">
+        This is a visual preview. No functionality is implemented yet.
+      </p>
+    </div>
+
+    <div class="mockup-note">
+      <strong><i class="fas fa-info-circle"></i> What's New:</strong>
+      <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+        <li><strong>Edit</strong> and <strong>Delete</strong> buttons appear on events where you're the organizer</li>
+        <li>"You're the organizer" badge shows your own events</li>
+        <li>Action buttons in light blue container for your events</li>
+        <li>Other users' events remain read-only</li>
+      </ul>
+    </div>
+
+    <!-- Page Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+      <div>
+        <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Events</h1>
+        <p class="text-muted">Workshops, meetups, and gatherings for our permaculture community</p>
+      </div>
+      <a href="wiki-editor.html?type=event" class="btn btn-primary" id="addEventBtn">
+        <i class="fas fa-calendar-plus"></i> Add Event
+      </a>
+    </div>
+
+    <!-- Time Filters -->
+    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+      <button class="btn btn-outline btn-small time-filter active" data-timefilter="upcoming">
+        <i class="fas fa-arrow-right"></i> Upcoming
+      </button>
+      <button class="btn btn-outline btn-small time-filter" data-timefilter="past">
+        <i class="fas fa-history"></i> Past
+      </button>
+      <button class="btn btn-outline btn-small time-filter" data-timefilter="all">
+        <i class="fas fa-calendar"></i> All Events
+      </button>
+    </div>
+
+    <!-- Events Grid -->
+    <div id="eventsGrid" style="display: grid; gap: 1.5rem;">
+
+      <!-- Event 1: YOUR EVENT - With Edit/Delete -->
+      <div class="event-card">
+        <div class="event-date">
+          <div class="event-day">25</div>
+          <div class="event-month">Nov</div>
+        </div>
+        <div class="event-details">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h3 class="event-title" style="margin: 0;">Permaculture Design Workshop - Weekend Intensive</h3>
+            <span class="author-badge mockup-highlight">
+              <i class="fas fa-user-check"></i> You're the organizer
+            </span>
+          </div>
+          <div class="event-info">
+            <span><i class="fas fa-clock"></i> 9:00 AM - 5:00 PM</span>
+            <span><i class="fas fa-map-marker-alt"></i> Green Valley Farm, Portland, OR</span>
+            <span><i class="fas fa-user"></i> Sarah Chen</span>
+            <span><i class="fas fa-eye"></i> 156 views</span>
+          </div>
+          <p class="text-muted mt-1">
+            Two-day intensive workshop covering the fundamentals of permaculture design. Includes hands-on activities, site analysis, and design exercises.
+          </p>
+          <div class="tags mt-1">
+            <span class="tag">Workshop</span>
+            <span class="tag">$85</span>
+            <span class="tag"><i class="fas fa-users"></i> 20 spots</span>
+          </div>
+          <div style="margin-top: 0.75rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="mailto:contact@greenfarm.org" style="color: var(--wiki-primary); text-decoration: none; font-size: 1.1em;">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="tel:+15551234567" style="color: var(--wiki-primary); text-decoration: none; font-size: 1.1em;">
+              <i class="fas fa-phone"></i>
+            </a>
+            <span style="color: #666; font-size: 0.9em;">by Green Valley Farm</span>
+          </div>
+
+          <!-- NEW: Action buttons for organizer -->
+          <div class="event-actions-owner mockup-highlight">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <a href="https://eventbrite.com/example" target="_blank" class="btn btn-primary btn-small">
+                <i class="fas fa-ticket-alt"></i> Register
+              </a>
+              <button class="btn btn-outline btn-small">
+                <i class="fas fa-calendar-plus"></i> Export
+              </button>
+              <a href="wiki-editor.html?slug=permaculture-workshop-nov&type=event" class="btn btn-primary btn-small">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation would appear here')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 2: SOMEONE ELSE'S EVENT - Read only -->
+      <div class="event-card">
+        <div class="event-date">
+          <div class="event-day">28</div>
+          <div class="event-month">Nov</div>
+        </div>
+        <div class="event-details">
+          <h3 class="event-title">Seed Saving Workshop</h3>
+          <div class="event-info">
+            <span><i class="fas fa-clock"></i> 2:00 PM - 4:00 PM</span>
+            <span><i class="fas fa-map-marker-alt"></i> Community Garden, Seattle, WA</span>
+            <span><i class="fas fa-user"></i> Marcus Rivera</span>
+            <span><i class="fas fa-eye"></i> 89 views</span>
+          </div>
+          <p class="text-muted mt-1">
+            Learn techniques for saving seeds from your garden. We'll cover seed selection, drying, storage, and maintaining seed viability.
+          </p>
+          <div class="tags mt-1">
+            <span class="tag">Workshop</span>
+            <span class="tag">Free</span>
+            <span class="tag"><i class="fas fa-users"></i> 15 spots</span>
+          </div>
+          <div style="margin-top: 0.75rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="mailto:seeds@community.org" style="color: var(--wiki-primary); text-decoration: none; font-size: 1.1em;">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+
+          <!-- Read-only: Standard action buttons -->
+          <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-small">
+              <i class="fas fa-info-circle"></i> No Registration Required
+            </button>
+            <button class="btn btn-outline btn-small">
+              <i class="fas fa-calendar-plus"></i> Export
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 3: YOUR EVENT - With Edit/Delete -->
+      <div class="event-card">
+        <div class="event-date">
+          <div class="event-day">02</div>
+          <div class="event-month">Dec</div>
+        </div>
+        <div class="event-details">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h3 class="event-title" style="margin: 0;">Composting Basics: Turn Waste Into Gold</h3>
+            <span class="author-badge mockup-highlight">
+              <i class="fas fa-user-check"></i> You're the organizer
+            </span>
+          </div>
+          <div class="event-info">
+            <span><i class="fas fa-clock"></i> 10:00 AM - 12:00 PM</span>
+            <span><i class="fas fa-map-marker-alt"></i> Urban Farm Collective, Portland, OR</span>
+            <span><i class="fas fa-user"></i> Sarah Chen</span>
+            <span><i class="fas fa-eye"></i> 67 views</span>
+          </div>
+          <p class="text-muted mt-1">
+            Beginner-friendly workshop on composting methods, from backyard bins to worm composting. Bring your questions!
+          </p>
+          <div class="tags mt-1">
+            <span class="tag">Workshop</span>
+            <span class="tag">Free</span>
+            <span class="tag"><i class="fas fa-users"></i> 12 spots</span>
+          </div>
+
+          <!-- NEW: Action buttons for organizer -->
+          <div class="event-actions-owner mockup-highlight">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn btn-outline btn-small">
+                <i class="fas fa-info-circle"></i> No Registration Required
+              </button>
+              <button class="btn btn-outline btn-small">
+                <i class="fas fa-calendar-plus"></i> Export
+              </button>
+              <a href="wiki-editor.html?slug=composting-basics-dec&type=event" class="btn btn-primary btn-small">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation would appear here')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 4: SOMEONE ELSE'S EVENT - Read only -->
+      <div class="event-card">
+        <div class="event-date">
+          <div class="event-day">05</div>
+          <div class="event-month">Dec</div>
+        </div>
+        <div class="event-details">
+          <h3 class="event-title">Monthly Permaculture Meetup</h3>
+          <div class="event-info">
+            <span><i class="fas fa-clock"></i> 6:00 PM - 8:00 PM</span>
+            <span><i class="fas fa-map-marker-alt"></i> Green Cafe, Eugene, OR</span>
+            <span><i class="fas fa-user"></i> Elena Kowalski</span>
+            <span><i class="fas fa-eye"></i> 134 views</span>
+          </div>
+          <p class="text-muted mt-1">
+            Casual meetup for permaculture enthusiasts. Share experiences, ask questions, and connect with fellow practitioners.
+          </p>
+          <div class="tags mt-1">
+            <span class="tag">Meetup</span>
+            <span class="tag">Free</span>
+          </div>
+
+          <!-- Read-only: Standard action buttons -->
+          <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-small">
+              <i class="fas fa-info-circle"></i> No Registration Required
+            </button>
+            <button class="btn btn-outline btn-small">
+              <i class="fas fa-calendar-plus"></i> Export
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Explanation Section -->
+    <div class="card" style="margin-top: 3rem; background: #f8f9fa; border: 2px solid #dee2e6;">
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+        <i class="fas fa-question-circle"></i> How It Works
+      </h3>
+
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-user-check" style="color: #2e7d32;"></i> Your Events
+          </h4>
+          <p style="margin: 0; color: #666;">
+            When you're logged in and viewing events you organized:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li><strong>Green "You're the organizer" badge</strong> appears next to the title</li>
+            <li><strong>Light blue action area</strong> with Edit and Delete buttons</li>
+            <li><strong>Edit button</strong> opens the event editor with pre-loaded data</li>
+            <li><strong>Delete button</strong> shows confirmation before removing the event</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-users" style="color: #1976d2;"></i> Other Organizers' Events
+          </h4>
+          <p style="margin: 0; color: #666;">
+            When viewing events organized by others:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li>No organizer badge or special highlighting</li>
+            <li>Standard Register/Export buttons only</li>
+            <li>No edit or delete permissions</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-calendar-check" style="color: #388e3c;"></i> Event Management Features
+          </h4>
+          <p style="margin: 0; color: #666;">
+            Managing your events:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li><strong>Edit</strong> - Update date, time, location, description, contact info</li>
+            <li><strong>Delete</strong> - Remove canceled or past events</li>
+            <li><strong>Status</strong> - Mark as draft, published, or archived in the editor</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+</body>
+</html>

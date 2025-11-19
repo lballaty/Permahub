@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOCKUP: Guides with Edit/Delete Buttons</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Highlight new elements for mockup */
+    .mockup-highlight {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(45, 134, 89, 0);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(45, 134, 89, 0.3);
+      }
+    }
+
+    .mockup-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .mockup-note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    /* Action buttons container */
+    .guide-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--wiki-border);
+    }
+
+    .guide-actions-owner {
+      background: #f0f9ff;
+      padding: 0.75rem;
+      border-radius: 6px;
+    }
+
+    .author-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-guides.html" class="active">Guides</a></li>
+        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-map.html">Locations</a></li>
+        <li><a href="wiki-login.html">Login</a></li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="mockup-banner">
+      <h2 style="margin: 0 0 0.5rem 0;">
+        <i class="fas fa-eye"></i> MOCKUP: Guides with Edit/Delete Buttons
+      </h2>
+      <p style="margin: 0; opacity: 0.95;">
+        This is a visual preview. No functionality is implemented yet.
+      </p>
+    </div>
+
+    <div class="mockup-note">
+      <strong><i class="fas fa-info-circle"></i> What's New:</strong>
+      <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+        <li><strong>Edit</strong> and <strong>Delete</strong> buttons appear on cards where you're the author</li>
+        <li>"You're the author" badge shows your own content</li>
+        <li>Action buttons have a light blue background to distinguish from read-only cards</li>
+        <li>Other users' cards remain unchanged (read-only)</li>
+      </ul>
+    </div>
+
+    <!-- Page Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+      <div>
+        <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Guides</h1>
+        <p class="text-muted">Comprehensive how-to guides for permaculture, homesteading, and sustainable living</p>
+      </div>
+      <a href="wiki-editor.html" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Create Guide
+      </a>
+    </div>
+
+    <!-- Guides Grid -->
+    <div class="card-grid">
+
+      <!-- Card 1: YOUR CONTENT - With Edit/Delete -->
+      <div class="card">
+        <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=250&fit=crop');"></div>
+        <div class="card-content">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h3 class="card-title" style="margin: 0;">Building a Swale System for Water Retention</h3>
+            <span class="author-badge mockup-highlight">
+              <i class="fas fa-user-check"></i> You're the author
+            </span>
+          </div>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+            Learn how to design and construct swales to capture rainwater, prevent erosion, and irrigate your food forest naturally.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+            <span class="tag"><i class="fas fa-tint"></i> Water Management</span>
+            <span class="tag"><i class="fas fa-tree"></i> Earthworks</span>
+            <span class="tag"><i class="fas fa-clock"></i> 15 min read</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 1rem;">
+            <span><i class="fas fa-user"></i> Sarah Chen</span>
+            <span><i class="fas fa-calendar"></i> Nov 15, 2025</span>
+            <span><i class="fas fa-eye"></i> 1,234 views</span>
+          </div>
+
+          <!-- NEW: Action buttons for owner -->
+          <div class="guide-actions guide-actions-owner mockup-highlight">
+            <a href="wiki-page.html?slug=building-swale-system" class="btn btn-outline btn-small">
+              <i class="fas fa-book-open"></i> Read
+            </a>
+            <a href="wiki-editor.html?slug=building-swale-system&type=guide" class="btn btn-primary btn-small">
+              <i class="fas fa-edit"></i> Edit
+            </a>
+            <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation would appear here')">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: SOMEONE ELSE'S CONTENT - Read only -->
+      <div class="card">
+        <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&h=250&fit=crop');"></div>
+        <div class="card-content">
+          <h3 class="card-title">Composting 101: From Kitchen Scraps to Black Gold</h3>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+            A beginner's guide to turning organic waste into nutrient-rich compost for your garden.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+            <span class="tag"><i class="fas fa-recycle"></i> Composting</span>
+            <span class="tag"><i class="fas fa-seedling"></i> Soil Health</span>
+            <span class="tag"><i class="fas fa-clock"></i> 8 min read</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 1rem;">
+            <span><i class="fas fa-user"></i> Marcus Rivera</span>
+            <span><i class="fas fa-calendar"></i> Nov 12, 2025</span>
+            <span><i class="fas fa-eye"></i> 892 views</span>
+          </div>
+
+          <!-- Read-only: Only Read button for other users' content -->
+          <div class="guide-actions">
+            <a href="wiki-page.html?slug=composting-101" class="btn btn-outline btn-small">
+              <i class="fas fa-book-open"></i> Read
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: YOUR CONTENT - With Edit/Delete -->
+      <div class="card">
+        <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop');"></div>
+        <div class="card-content">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h3 class="card-title" style="margin: 0;">Creating a Hugelkultur Raised Bed</h3>
+            <span class="author-badge mockup-highlight">
+              <i class="fas fa-user-check"></i> You're the author
+            </span>
+          </div>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+            Step-by-step instructions for building a self-watering, no-till raised bed using logs and organic matter.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+            <span class="tag"><i class="fas fa-layer-group"></i> Hugelkultur</span>
+            <span class="tag"><i class="fas fa-seedling"></i> Garden Beds</span>
+            <span class="tag"><i class="fas fa-clock"></i> 12 min read</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 1rem;">
+            <span><i class="fas fa-user"></i> Sarah Chen</span>
+            <span><i class="fas fa-calendar"></i> Nov 10, 2025</span>
+            <span><i class="fas fa-eye"></i> 567 views</span>
+          </div>
+
+          <!-- NEW: Action buttons for owner -->
+          <div class="guide-actions guide-actions-owner mockup-highlight">
+            <a href="wiki-page.html?slug=hugelkultur-raised-bed" class="btn btn-outline btn-small">
+              <i class="fas fa-book-open"></i> Read
+            </a>
+            <a href="wiki-editor.html?slug=hugelkultur-raised-bed&type=guide" class="btn btn-primary btn-small">
+              <i class="fas fa-edit"></i> Edit
+            </a>
+            <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation would appear here')">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: SOMEONE ELSE'S CONTENT - Read only -->
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">Sheet Mulching: Lazy Gardening That Works</h3>
+          <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1rem;">
+            Transform lawn into garden beds without digging using the lasagna gardening method.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+            <span class="tag"><i class="fas fa-layer-group"></i> Mulching</span>
+            <span class="tag"><i class="fas fa-leaf"></i> No-Dig</span>
+            <span class="tag"><i class="fas fa-clock"></i> 10 min read</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 1rem;">
+            <span><i class="fas fa-user"></i> Elena Kowalski</span>
+            <span><i class="fas fa-calendar"></i> Nov 8, 2025</span>
+            <span><i class="fas fa-eye"></i> 445 views</span>
+          </div>
+
+          <!-- Read-only: Only Read button -->
+          <div class="guide-actions">
+            <a href="wiki-page.html?slug=sheet-mulching" class="btn btn-outline btn-small">
+              <i class="fas fa-book-open"></i> Read
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Explanation Section -->
+    <div class="card" style="margin-top: 3rem; background: #f8f9fa; border: 2px solid #dee2e6;">
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+        <i class="fas fa-question-circle"></i> How It Works
+      </h3>
+
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-user-check" style="color: #2e7d32;"></i> Your Content
+          </h4>
+          <p style="margin: 0; color: #666;">
+            When you're logged in and viewing content you created:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li><strong>Green "You're the author" badge</strong> appears in the top-right</li>
+            <li><strong>Light blue action area</strong> with 3 buttons: Read, Edit, Delete</li>
+            <li><strong>Edit button</strong> opens the editor with your content pre-loaded</li>
+            <li><strong>Delete button</strong> shows double confirmation before deleting</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-users" style="color: #1976d2;"></i> Other Users' Content
+          </h4>
+          <p style="margin: 0; color: #666;">
+            When viewing content created by others:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li>No author badge or special highlighting</li>
+            <li>Only <strong>"Read"</strong> button available</li>
+            <li>No edit or delete permissions</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-shield-alt" style="color: #f57c00;"></i> Admin Users (Future)
+          </h4>
+          <p style="margin: 0; color: #666;">
+            Site administrators could see Edit/Delete buttons on all content for moderation purposes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+</body>
+</html>

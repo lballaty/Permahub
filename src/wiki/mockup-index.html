@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOCKUP Index: Edit/Delete Functionality Preview</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .mockup-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .mockup-card {
+      background: white;
+      border: 2px solid var(--wiki-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mockup-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2d8659, #3d9970);
+    }
+
+    .mockup-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-color: var(--wiki-primary);
+    }
+
+    .mockup-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--wiki-primary);
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+
+    .feature-list li {
+      padding: 0.5rem 0;
+      padding-left: 1.75rem;
+      position: relative;
+      color: #666;
+    }
+
+    .feature-list li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: var(--wiki-primary);
+    }
+
+    .preview-section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    .status-ready {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--wiki-border);
+    }
+
+    .comparison-table th {
+      background: var(--wiki-bg);
+      color: var(--wiki-primary);
+      font-weight: 600;
+    }
+
+    .comparison-table tr:hover {
+      background: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-guides.html">Guides</a></li>
+        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-map.html">Locations</a></li>
+        <li><a href="wiki-login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="mockup-banner">
+      <h1 style="margin: 0 0 1rem 0; font-size: 2.5rem;">
+        <i class="fas fa-eye"></i> Edit/Delete Functionality Mockups
+      </h1>
+      <p style="margin: 0; font-size: 1.2rem; opacity: 0.95;">
+        Visual preview of how content management will work for Guides, Events, and Locations
+      </p>
+      <div style="margin-top: 1.5rem;">
+        <span class="status-badge status-ready">
+          <i class="fas fa-code"></i> Backend Ready (Editor)
+        </span>
+        <span class="status-badge status-pending">
+          <i class="fas fa-desktop"></i> UI Integration Pending
+        </span>
+      </div>
+    </div>
+
+    <!-- Project Status Overview -->
+    <div class="card" style="margin-bottom: 3rem; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border: none;">
+      <h2 style="color: var(--wiki-primary); margin-bottom: 1.5rem;">
+        <i class="fas fa-info-circle"></i> Current Status
+      </h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: #2e7d32;">
+            <i class="fas fa-check-circle"></i> ✅ What's Working
+          </h3>
+          <ul class="feature-list">
+            <li>Wiki Editor has full CRUD (Create, Read, Update, Delete)</li>
+            <li>Can create guides, events, locations</li>
+            <li>Can edit existing content via ?slug=xxx&type=xxx</li>
+            <li>Delete with double confirmation</li>
+            <li>Status management (draft/published/archived)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: #d32f2f;">
+            <i class="fas fa-times-circle"></i> ❌ What's Missing
+          </h3>
+          <ul class="feature-list" style="list-style-type: '✗ ';">
+            <li>Guides page: No Edit/Delete buttons on cards</li>
+            <li>Events page: No Edit/Delete buttons on event cards</li>
+            <li>Locations page: No Edit/Delete on map/list</li>
+            <li>No "You're the author/organizer" badges</li>
+            <li>No permission checks (show only to owner)</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: #f57c00;">
+            <i class="fas fa-wrench"></i> 🔧 What We're Building
+          </h3>
+          <ul class="feature-list">
+            <li>Edit/Delete buttons on content cards</li>
+            <li>Owner badges ("You created this")</li>
+            <li>Permission-based UI (owner vs. viewer)</li>
+            <li>Visual distinction for owned content</li>
+            <li>Consistent UX across all content types</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup Links -->
+    <h2 style="margin-bottom: 1.5rem; color: var(--wiki-primary);">
+      <i class="fas fa-palette"></i> Interactive Mockups
+    </h2>
+
+    <div class="mockup-grid">
+
+      <!-- Guides Mockup -->
+      <div class="mockup-card">
+        <div class="mockup-icon">
+          <i class="fas fa-book"></i>
+        </div>
+        <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">Guides</h3>
+        <p style="color: #666; margin-bottom: 1.5rem;">
+          See how Edit/Delete buttons appear on guide cards with owner badges and permission-based actions.
+        </p>
+        <ul class="feature-list">
+          <li>Owner badge on your guides</li>
+          <li>Edit button → Editor with pre-filled data</li>
+          <li>Delete button with confirmation</li>
+          <li>Read-only view for others' guides</li>
+        </ul>
+        <a href="mockup-guides-edit-delete.html" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">
+          <i class="fas fa-external-link-alt"></i> View Guides Mockup
+        </a>
+      </div>
+
+      <!-- Events Mockup -->
+      <div class="mockup-card">
+        <div class="mockup-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">Events</h3>
+        <p style="color: #666; margin-bottom: 1.5rem;">
+          Explore how organizers can manage their events with inline Edit/Delete controls on event cards.
+        </p>
+        <ul class="feature-list">
+          <li>"You're the organizer" badge</li>
+          <li>Edit/Delete in action button area</li>
+          <li>Preserve existing Register/Export buttons</li>
+          <li>Permission-based button visibility</li>
+        </ul>
+        <a href="mockup-events-edit-delete.html" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">
+          <i class="fas fa-external-link-alt"></i> View Events Mockup
+        </a>
+      </div>
+
+      <!-- Locations Mockup -->
+      <div class="mockup-card">
+        <div class="mockup-icon">
+          <i class="fas fa-map-marked-alt"></i>
+        </div>
+        <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">Locations</h3>
+        <p style="color: #666; margin-bottom: 1.5rem;">
+          Discover how location creators can manage entries on both the map popups and location list.
+        </p>
+        <ul class="feature-list">
+          <li>Edit/Delete in map popups</li>
+          <li>Owner badges on location cards</li>
+          <li>Green border for owned locations</li>
+          <li>Dual interface: Map + List</li>
+        </ul>
+        <a href="mockup-locations-edit-delete.html" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">
+          <i class="fas fa-external-link-alt"></i> View Locations Mockup
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Feature Comparison -->
+    <div class="preview-section">
+      <h2 style="color: var(--wiki-primary); margin-bottom: 1.5rem;">
+        <i class="fas fa-columns"></i> Before vs. After Comparison
+      </h2>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th><i class="fas fa-times-circle" style="color: #d32f2f;"></i> Current (Before)</th>
+            <th><i class="fas fa-check-circle" style="color: #2e7d32;"></i> Proposed (After)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Edit Your Content</strong></td>
+            <td>❌ Must manually type URL with ?slug=xxx</td>
+            <td>✅ Click "Edit" button on card</td>
+          </tr>
+          <tr>
+            <td><strong>Delete Your Content</strong></td>
+            <td>❌ Must open editor, then delete</td>
+            <td>✅ Click "Delete" button on card</td>
+          </tr>
+          <tr>
+            <td><strong>Know What You Own</strong></td>
+            <td>❌ No visual indication</td>
+            <td>✅ "You created this" badge, colored border</td>
+          </tr>
+          <tr>
+            <td><strong>Permission Security</strong></td>
+            <td>⚠️ Anyone can access editor URL (blocked by backend)</td>
+            <td>✅ Buttons only visible to owner</td>
+          </tr>
+          <tr>
+            <td><strong>User Experience</strong></td>
+            <td>❌ Confusing workflow</td>
+            <td>✅ Intuitive, self-service management</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Technical Implementation Notes -->
+    <div class="card" style="margin-top: 3rem;">
+      <h2 style="color: var(--wiki-primary); margin-bottom: 1.5rem;">
+        <i class="fas fa-code"></i> Technical Implementation Plan
+      </h2>
+
+      <div style="display: grid; gap: 2rem;">
+        <div>
+          <h3 style="margin-bottom: 1rem;">
+            <i class="fas fa-database" style="color: #1976d2;"></i> 1. Authentication Check
+          </h3>
+          <pre style="background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto;"><code>// Get current user
+const user = await supabase.getCurrentUser();
+
+// Check if user owns this content
+const isOwner = content.author_id === user?.id ||
+                content.organizer_id === user?.id ||
+                content.created_by === user?.id;</code></pre>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 1rem;">
+            <i class="fas fa-paint-brush" style="color: #388e3c;"></i> 2. Conditional Rendering
+          </h3>
+          <pre style="background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto;"><code>// Show edit/delete buttons only for owner
+${isOwner ? `
+  &lt;a href="wiki-editor.html?slug=${slug}&type=${type}" class="btn btn-primary"&gt;
+    &lt;i class="fas fa-edit"&gt;&lt;/i&gt; Edit
+  &lt;/a&gt;
+  &lt;button onclick="deleteContent('${id}')" class="btn btn-danger"&gt;
+    &lt;i class="fas fa-trash"&gt;&lt;/i&gt; Delete
+  &lt;/button&gt;
+` : ''}</code></pre>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 1rem;">
+            <i class="fas fa-shield-alt" style="color: #f57c00;"></i> 3. Delete Confirmation
+          </h3>
+          <pre style="background: #f5f5f5; padding: 1rem; border-radius: 6px; overflow-x: auto;"><code>async function deleteContent(id, type) {
+  const confirmed = confirm('Are you sure you want to delete this?');
+  if (!confirmed) return;
+
+  const table = type === 'guide' ? 'wiki_guides' :
+                type === 'event' ? 'wiki_events' :
+                'wiki_locations';
+
+  await supabase.delete(table, id);
+  location.reload(); // Refresh the page
+}</code></pre>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 1rem;">
+            <i class="fas fa-layer-group" style="color: #7b1fa2;"></i> 4. Files to Modify
+          </h3>
+          <ul class="feature-list">
+            <li><code>src/wiki/js/wiki-guides.js</code> - Add edit/delete to guide cards</li>
+            <li><code>src/wiki/js/wiki-events.js</code> - Add edit/delete to event cards</li>
+            <li><code>src/wiki/js/wiki-map.js</code> - Add edit/delete to location popups/cards</li>
+            <li>No changes needed to <code>wiki-editor.js</code> (already has full CRUD)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="card" style="margin-top: 3rem; background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%); border: none;">
+      <h2 style="color: #1b5e20; margin-bottom: 1.5rem;">
+        <i class="fas fa-rocket"></i> Ready to Implement?
+      </h2>
+      <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: #2e7d32;">
+        After reviewing these mockups, we can implement the edit/delete functionality in the production code.
+      </p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="wiki-editor.html" class="btn btn-primary">
+          <i class="fas fa-wrench"></i> Test Current Editor
+        </a>
+        <a href="wiki-guides.html" class="btn btn-outline">
+          <i class="fas fa-book"></i> View Current Guides Page
+        </a>
+        <a href="wiki-events.html" class="btn btn-outline">
+          <i class="fas fa-calendar"></i> View Current Events Page
+        </a>
+        <a href="wiki-map.html" class="btn btn-outline">
+          <i class="fas fa-map"></i> View Current Map Page
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deleted Content - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <style>
+    .deleted-item {
+      background: #fff;
+      border: 2px solid #e0e0e0;
+      border-left: 4px solid #f57c00;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.85;
+      transition: all 0.3s ease;
+    }
+
+    .deleted-item:hover {
+      opacity: 1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .deleted-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: #fff3e0;
+      color: #e65100;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .restore-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .empty-trash {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #999;
+    }
+
+    .empty-trash-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    .purge-warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+    }
+
+    .content-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.75rem;
+      background: #e3f2fd;
+      color: #1976d2;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
+        <i class="fas fa-trash-restore"></i> Deleted Content
+      </h1>
+      <p class="text-muted">
+        Content you've deleted can be restored within 30 days. After that, it's permanently removed.
+      </p>
+    </div>
+
+    <!-- Auto-purge Warning -->
+    <div class="purge-warning">
+      <strong><i class="fas fa-exclamation-triangle"></i> Auto-Purge Notice:</strong>
+      <p style="margin: 0.5rem 0 0 0;">
+        Deleted content is automatically purged after <strong>30 days</strong>.
+        Make sure to restore anything you need before then!
+      </p>
+    </div>
+
+    <!-- Content Type Filters -->
+    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+      <button class="btn btn-outline btn-small filter-btn active" data-type="all">
+        <i class="fas fa-list"></i> All (<span id="countAll">0</span>)
+      </button>
+      <button class="btn btn-outline btn-small filter-btn" data-type="guide">
+        <i class="fas fa-book"></i> Guides (<span id="countGuides">0</span>)
+      </button>
+      <button class="btn btn-outline btn-small filter-btn" data-type="event">
+        <i class="fas fa-calendar"></i> Events (<span id="countEvents">0</span>)
+      </button>
+      <button class="btn btn-outline btn-small filter-btn" data-type="location">
+        <i class="fas fa-map-marker-alt"></i> Locations (<span id="countLocations">0</span>)
+      </button>
+    </div>
+
+    <!-- Deleted Content List -->
+    <div id="deletedContentList">
+      <!-- Will be populated by JavaScript -->
+      <div style="text-align: center; padding: 3rem;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--wiki-primary);"></i>
+        <p class="text-muted" style="margin-top: 1rem;">Loading deleted content...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-deleted-content.js"></script>
+</body>
+</html>

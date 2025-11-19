@@ -116,6 +116,25 @@
 
     <!-- Filters -->
     <div class="card">
+      <!-- Time Filter -->
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--wiki-border);">
+        <div>
+          <strong>Show:</strong>
+        </div>
+        <div class="tags">
+          <a href="javascript:void(0)" class="tag time-filter active" data-timefilter="upcoming">
+            <i class="fas fa-calendar-day"></i> Upcoming Events
+          </a>
+          <a href="javascript:void(0)" class="tag time-filter" data-timefilter="past">
+            <i class="fas fa-history"></i> Past Events
+          </a>
+          <a href="javascript:void(0)" class="tag time-filter" data-timefilter="all">
+            <i class="fas fa-calendar-alt"></i> All Events
+          </a>
+        </div>
+      </div>
+
+      <!-- Type Filter -->
       <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
         <div>
           <strong data-i18n="wiki.events.filter_type">Filter by type:</strong>
