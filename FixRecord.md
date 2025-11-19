@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.22 - 2025-11-19 18:14:55
+**Commit:** `87ea1e4`
+
+
+
 ## Version 1.0.21 - 2025-11-19 18:13:05
 **Commit:** `71d9de5`
 
@@ -2865,6 +2870,53 @@ Created two new files:
 - Reduces manual errors in translation management
 - Provides clear documentation for common tasks
 - Useful for team onboarding and future maintenance
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Add Favicon to All Wiki Pages
+
+**Commit:** pending
+
+**Issue:**
+Console error "GET http://localhost:3001/favicon.ico 404 (Not Found)" on wiki pages. Browsers automatically request `/favicon.ico` when loading pages, but many wiki HTML files were missing the favicon link tag.
+
+**Root Cause:**
+While a favicon file exists at `/public/favicon.svg`, and some wiki pages (login, signup, about, etc.) had the favicon link tag, the main public-facing pages were missing it:
+- wiki-home.html (home page)
+- wiki-page.html (content pages)
+- wiki-map.html (locations)
+- wiki-guides.html (guides listing)
+- wiki-events.html (events listing)
+
+**Solution:**
+Added `<link rel="icon" type="image/svg+xml" href="/favicon.svg">` to the `<head>` section of all missing wiki pages, right after the title tag and before stylesheets for consistent ordering.
+
+The favicon uses a simple 🌱 seedling emoji which represents permaculture growth and sustainability.
+
+**Files Changed:**
+- src/wiki/wiki-home.html
+- src/wiki/wiki-page.html
+- src/wiki/wiki-map.html
+- src/wiki/wiki-guides.html
+- src/wiki/wiki-events.html
+
+**Testing:**
+- ✅ No more 404 errors for favicon.ico
+- ✅ Browser tab shows seedling icon
+- ✅ Consistent across all public wiki pages
+
+**Note:**
+The following pages already had the favicon link and were not modified:
+- wiki-login.html
+- wiki-signup.html
+- wiki-about.html
+- wiki-privacy.html
+- wiki-terms.html
+- wiki-settings.html
+- wiki-forgot-password.html
+- wiki-reset-password.html
 
 **Author:** Claude Code <noreply@anthropic.com>
 
