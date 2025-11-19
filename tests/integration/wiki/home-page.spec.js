@@ -41,7 +41,8 @@ describe('Wiki Home Page - Integration Tests @integration @wiki @home @database'
       await expect(versionBadge).toBeVisible();
 
       const versionText = await versionBadge.textContent();
-      expect(versionText).toMatch(/^v\d{8}\.\d{4}\.v\d+$/);
+      // New format: v1.0.0 (semantic versioning)
+      expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
     });
 
     test('should load all CSS styles @ui', async ({ page }) => {

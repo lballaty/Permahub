@@ -46,7 +46,7 @@ test.describe('Wiki Events Page - Database Integration', () => {
 
     // Should contain version text
     const versionText = await versionBadge.textContent();
-    expect(versionText).toMatch(/^v\d{8}\.\d{4}\.v\d+$/); // Format: v20250114.1230.v2
+    expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/); // Format: v20250114.1230.v2
   });
 
   test('should show loading state initially', async ({ page }) => {

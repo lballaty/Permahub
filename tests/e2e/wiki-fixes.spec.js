@@ -86,7 +86,7 @@ test.describe('Wiki Fixes - Language Persistence & Version Badge', () => {
 
       // Verify version format
       const versionText = await versionBadge.textContent();
-      expect(versionText).toMatch(/^v\d{8}\.\d{4}\.v\d+$/);
+      expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
 
       console.log(`✓ Version badge found on ${pageName}: ${versionText}`);
     }
@@ -259,7 +259,7 @@ test.describe('Wiki Fixes - Console Checks', () => {
     const consoleLogs = [];
 
     page.on('console', msg => {
-      if (msg.text().includes('Permahub Wiki')) {
+      if (msg.text().includes('Permahub')) {
         consoleLogs.push(msg.text());
       }
     });
@@ -268,9 +268,10 @@ test.describe('Wiki Fixes - Console Checks', () => {
     await page.waitForTimeout(500);
 
     // Should have version log
-    const versionLog = consoleLogs.find(log => log.includes('🚀 Permahub Wiki'));
+    const versionLog = consoleLogs.find(log => log.includes('🚀 Permahub'));
     expect(versionLog).toBeTruthy();
-    expect(versionLog).toMatch(/v\d{8}\.\d{4}\.v\d+/);
+    // New format: Permahub 2025-01-18 14:23 #1
+    expect(versionLog).toMatch(/Permahub \d{4}-\d{2}-\d{2} \d{2}:\d{2} #\d+/);
   });
 
   test('should initialize language system', async ({ page }) => {

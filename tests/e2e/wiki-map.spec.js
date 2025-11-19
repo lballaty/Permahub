@@ -46,7 +46,7 @@ test.describe('Wiki Map Page - Database Integration', () => {
 
     // Should contain version text
     const versionText = await versionBadge.textContent();
-    expect(versionText).toMatch(/^v\d{8}\.\d{4}\.v\d+$/);
+    expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
   });
 
   test('should initialize Leaflet map', async ({ page }) => {
