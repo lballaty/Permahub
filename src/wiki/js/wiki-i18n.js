@@ -1,12 +1,29 @@
 /**
  * Community Wiki i18n Translations
- * Extends the main Permahub i18n system with wiki-specific keys
  *
- * Supported Languages: 11
- * - English (en), Portuguese (pt), Spanish (es)
- * - French (fr), German (de), Italian (it)
- * - Dutch (nl), Polish (pl), Japanese (ja)
- * - Chinese (zh), Korean (ko)
+ * ✅ STATUS: PRODUCTION SYSTEM
+ *
+ * This is the primary i18n system for Permahub, supporting the wiki platform
+ * with comprehensive multi-language translations.
+ *
+ * CURRENT STATE:
+ * - Languages: EN (782 keys), PT/ES/CS/DE (904 keys each)
+ * - Total translations: ~4,500 across 5 languages
+ * - Coverage: 100% for Portuguese, Spanish, Czech, German
+ * - Used by: 17+ wiki pages
+ *
+ * ARCHITECTURE NOTE:
+ * A separate i18n system exists (i18n-translations.js) for main platform pages,
+ * but it only has English translations and its future is uncertain.
+ * This wiki system was accidentally created as a duplicate, but has become
+ * the de facto standard due to actual multi-language investment.
+ *
+ * See docs/i18n-architecture.md for consolidation strategy.
+ *
+ * Supported Languages: 11 declared, 5 actively translated
+ * - English (en), Portuguese (pt), Spanish (es), Czech (cs), German (de)
+ * - French (fr), Italian (it), Dutch (nl), Polish (pl)
+ * - Japanese (ja), Chinese (zh), Korean (ko)
  */
 
 const wikiI18n = {

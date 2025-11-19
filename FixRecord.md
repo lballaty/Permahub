@@ -49,8 +49,58 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.3 - 2025-11-19 16:32:31
+**Commit:** `042e16c`
+
+
+
 ## Version 1.0.2 - 2025-11-19 15:51:12
 **Commit:** `0ccfcf3`
+
+### 2025-01-19 - Document accidental i18n system split and fix import paths
+
+**Issue:**
+1. Two separate i18n systems existed without documentation explaining why
+2. Import paths in 11 wiki JS files incorrectly referenced `../js/version-manager.js` causing Vite build errors
+3. No clarity on whether to consolidate the two systems or keep them separate
+
+**Root Cause:**
+- When wiki was added, an AI agent accidentally created a new i18n system (wiki-i18n.js) without recognizing the existing system (i18n-translations.js)
+- Main platform's future became uncertain, so no translation work was done
+- Wiki platform received extensive translation investment (4,500+ translations across 5 languages)
+- Import paths used one `..` instead of two `../..` to reach src/js/ from src/wiki/js/
+
+**Solution:**
+1. **Documentation:** Created comprehensive docs/i18n-architecture.md explaining:
+   - How the accidental split happened
+   - Current state of both systems (main: English only, wiki: 5 languages)
+   - Decision framework for future consolidation (3 scenarios)
+   - Applied YAGNI principle: keep both until main platform's fate is clear
+
+2. **Code Annotation:** Added warning headers to both i18n files:
+   - i18n-translations.js: Marked as "EXPERIMENTAL / UNCERTAIN FUTURE"
+   - wiki-i18n.js: Marked as "PRODUCTION SYSTEM"
+   - Both point to architecture doc for full context
+
+3. **Import Path Fix:** Updated 11 wiki JS files from `../js/` to `../../js/` for version-manager.js
+
+**Files Changed:**
+- src/js/i18n-translations.js (added warning header)
+- src/wiki/js/wiki-i18n.js (added production status header)
+- docs/i18n-architecture.md (new comprehensive documentation, 500+ lines)
+- src/wiki/js/wiki-home.js (import path fix)
+- src/wiki/js/wiki-admin.js (import path fix)
+- src/wiki/js/wiki-deleted-content.js (import path fix)
+- src/wiki/js/wiki-editor.js (import path fix)
+- src/wiki/js/wiki-events.js (import path fix)
+- src/wiki/js/wiki-favorites.js (import path fix)
+- src/wiki/js/wiki-guides.js (import path fix)
+- src/wiki/js/wiki-issues.js (import path fix)
+- src/wiki/js/wiki-map.js (import path fix)
+- src/wiki/js/wiki-my-content.js (import path fix)
+- src/wiki/js/wiki-page.js (import path fix)
+
+**Author:** Claude Code <noreply@anthropic.com>
 
 
 

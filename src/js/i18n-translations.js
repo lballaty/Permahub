@@ -1,17 +1,38 @@
 /**
- * Permaculture Network - i18n Translation System
- * 
+ * Permaculture Network - Main Platform i18n Translation System
+ *
+ * ⚠️ STATUS: EXPERIMENTAL / UNCERTAIN FUTURE
+ *
+ * This i18n system was created for the original Permahub platform pages.
+ * However, when the wiki was added, a separate i18n system (wiki-i18n.js)
+ * was accidentally created, which has since become the production system
+ * with 4,500+ translations across 5 languages.
+ *
+ * CURRENT STATE:
+ * - This file: Only English translations exist (no multi-language support)
+ * - Used by: 6 main platform pages (index, dashboard, map, project, resources, add-item)
+ * - Future: Uncertain - main platform may or may not be actively used
+ *
+ * DECISION PENDING:
+ * - If main platform lives: Migrate to use wiki-i18n.js OR translate this file
+ * - If main platform dies: Delete this file
+ * - Target decision date: TBD based on product direction
+ *
+ * See docs/i18n-architecture.md for full context.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
  * This file contains all user-facing text as translation strings.
  * Each string has a unique key that maps to translations in different languages.
- * 
+ *
  * Structure:
  * {
  *   "namespace.key": "Translation string"
  * }
- * 
+ *
  * Usage in code:
  * i18n.t('auth.login_welcome')  // Returns translated string
- * 
+ *
  * Adding new languages:
  * 1. Add new language object below (e.g., 'es' for Spanish)
  * 2. Translate all keys to that language
