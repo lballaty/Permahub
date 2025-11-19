@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.14 - 2025-11-19 17:54:03
+**Commit:** `ed660c3`
+
+
+
 ## Version 1.0.13 - 2025-11-19 17:43:07
 **Commit:** `ae3ea92`
 
@@ -2495,6 +2500,149 @@ The existing config.js only used hostname-based detection (localhost = local, ot
 - ✅ Console logs show active database connection
 - ✅ Production builds ignore override and use cloud database
 - ✅ Backward compatible with existing behavior
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Add Database Selection Toggle for Development
+
+**Commit:** (pending)
+
+**Issue:**
+Need ability to manually switch between local and cloud databases during development for testing and troubleshooting, while ensuring production always uses cloud database.
+
+**Root Cause:**
+The existing configuration only supported automatic detection based on hostname (localhost = local DB, other = cloud DB). This didn't allow developers to:
+- Test against cloud data while running locally
+- Force specific database connections for troubleshooting
+- Easily toggle between environments without changing hostname
+
+**Solution:**
+Implemented a three-way database selection system with environment variable, npm scripts, and command-line flags:
+
+1. **Configuration Logic (src/js/config.js)**
+   - Added shouldUseCloudDatabase() function with priority order:
+     1. Production builds → Always cloud
+     2. VITE_USE_CLOUD_DB=true → Force cloud
+     3. VITE_USE_CLOUD_DB=false → Force local
+     4. Not set → Auto-detect based on hostname
+   - Added isUsingCloud property to SUPABASE_CONFIG for introspection
+
+2. **Connection Logging (src/js/supabase-client.js)**
+   - Added logConnection() method to SupabaseClient constructor
+   - Logs database connection on page load (dev mode only)
+   - Shows: "🌐 Database: Cloud (mcbxbaggjaxqfdvmrqsc)" or "💻 Database: Local (127.0.0.1:3000)"
+
+3. **NPM Scripts (package.json)**
+   - Added `npm run dev:cloud` - Force cloud database
+   - Added `npm run dev:local` - Force local database
+   - Kept `npm run dev` - Auto-detect (unchanged)
+
+4. **Start Script Enhancement (start.sh)**
+   - Added command-line argument parsing: --cloud, --local, --help
+   - Added database mode display in startup banner
+   - Modified Supabase handling logic:
+     - --cloud: Skip local Supabase check entirely
+     - --local: Require Supabase running, error if not
+     - (no flag): Default behavior (prompt to start if needed)
+   - Updated service URLs display to show active database
+   - Passes environment variable to npm command
+
+5. **Documentation (config/.env.example)**
+   - Added comprehensive VITE_USE_CLOUD_DB documentation
+   - Documented all three usage methods
+   - Clarified production behavior
+
+**Files Changed:**
+- src/js/config.js
+- src/js/supabase-client.js
+- package.json (scripts only, version already at 1.0.9)
+- start.sh
+- config/.env.example
+
+**Usage Examples:**
+```bash
+# Using start.sh (recommended)
+./start.sh --cloud    # Force cloud database
+./start.sh --local    # Force local database
+./start.sh            # Auto-detect (default)
+
+# Using npm scripts directly
+npm run dev:cloud     # Force cloud
+npm run dev:local     # Force local
+npm run dev           # Auto-detect
+
+# Using environment variable
+VITE_USE_CLOUD_DB=true npm run dev
+```
+
+**Testing:**
+- ✅ Help flag works: ./start.sh --help
+- ✅ NPM scripts registered correctly
+- ✅ Configuration logic properly prioritizes overrides
+- ✅ Production builds always ignore flag and use cloud
+
+**Benefits:**
+- Developers can test with cloud data locally
+- Easy troubleshooting of database-specific issues
+- No risk of accidental production database usage
+- Consistent interface across three different methods
+- Clear visual feedback of active database connection
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Fix RLS Policy Error for Newsletter Subscriptions
+
+**Commit:** pending
+
+**Issue:**
+Newsletter subscription failed with error: "new row violates row-level security policy for table 'wiki_newsletter_subscriptions'" (code: 42501). Anonymous users could not subscribe to the newsletter even though the RLS policy "Anyone can subscribe" had `WITH CHECK (true)`.
+
+**Root Cause:**
+The `subscribe_to_newsletter` RPC function performs database operations but was not created with `SECURITY DEFINER`. By default, PostgreSQL functions run with the privileges of the caller (anonymous users), and RLS policies are enforced even within functions unless they use `SECURITY DEFINER` to run with the function owner's privileges.
+
+**Solution:**
+Added `SECURITY DEFINER` to both newsletter functions in the migration file:
+
+1. `subscribe_to_newsletter()` - Now bypasses RLS to allow anonymous subscriptions
+2. `unsubscribe_from_newsletter()` - Now bypasses RLS to allow unsubscribe via email links
+
+Changes:
+```sql
+-- Before:
+$$ LANGUAGE plpgsql;
+
+-- After:
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+```
+
+This allows the functions to execute with elevated privileges (function owner's role) while still maintaining security through:
+- Input validation
+- Email uniqueness constraint
+- Proper status management (active/unsubscribed)
+- RLS policies for SELECT operations
+
+**Files Changed:**
+- supabase/migrations/008_newsletter_subscriptions.sql
+
+**Database Changes:**
+- ✅ Applied to live Supabase database
+- ✅ Both functions updated with SECURITY DEFINER
+
+**Testing:**
+- ✅ Anonymous users can now subscribe to newsletter
+- ✅ Duplicate subscriptions handled correctly (ON CONFLICT)
+- ✅ Unsubscribed users can re-subscribe (status changes back to 'active')
+- ✅ No RLS policy violations
+
+**Security Notes:**
+- Functions are safe because they only accept email input (no SQL injection risk)
+- No sensitive data exposed through these functions
+- Email validation performed before insertion
+- Audit trail maintained via timestamps
 
 **Author:** Claude Code <noreply@anthropic.com>
 

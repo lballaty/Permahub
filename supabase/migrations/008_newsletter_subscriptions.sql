@@ -86,6 +86,7 @@ CREATE TRIGGER newsletter_subscription_updated_at
   EXECUTE FUNCTION update_newsletter_subscription_updated_at();
 
 -- Function to subscribe email
+-- Uses SECURITY DEFINER to bypass RLS policies (allows anonymous subscriptions)
 CREATE OR REPLACE FUNCTION subscribe_to_newsletter(
   p_email TEXT,
   p_name TEXT DEFAULT NULL,
@@ -123,9 +124,10 @@ BEGIN
 
   RETURN v_subscription_id;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Function to unsubscribe
+-- Uses SECURITY DEFINER to bypass RLS policies (allows unsubscribe via email link)
 CREATE OR REPLACE FUNCTION unsubscribe_from_newsletter(p_email TEXT)
 RETURNS BOOLEAN AS $$
 BEGIN
@@ -138,7 +140,7 @@ BEGIN
 
   RETURN FOUND;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- ================================================
 -- Row Level Security Policies
