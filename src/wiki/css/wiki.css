@@ -1296,3 +1296,75 @@ body {
     display: none;
   }
 }
+
+/* ============================================================================
+   Edit/Delete Functionality Styles
+   ============================================================================ */
+
+/* Owner badge */
+.owner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+/* Card actions container */
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--wiki-border);
+  flex-wrap: wrap;
+}
+
+/* Owner-specific actions styling */
+.card-actions-owner {
+  background: #f0f9ff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin: 0;
+  margin-top: 1rem;
+}
+
+/* Owned card highlighting */
+.card-owned {
+  border: 2px solid #2d8659;
+  background: #f9fffe;
+}
+
+/* Event card actions */
+.event-card .card-actions-owner {
+  background: #f0f9ff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.75rem;
+}
+
+/* Location card owner styles */
+.location-card-owner {
+  border: 2px solid #2d8659;
+  background: #f9fffe;
+}
+
+.location-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--wiki-border);
+  flex-wrap: wrap;
+}
+
+.location-actions-owner {
+  background: #f0f9ff;
+  padding: 0.75rem;
+  border-radius: 6px;
+}
