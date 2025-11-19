@@ -86,3 +86,15 @@ supabase/.branches/
 
 # Database backups (local only, never commit)
 backups/
+
+# Claude Code agent session files (runtime state, not tracked)
+.claude/agents/state/
+.claude/agents/state/*.heartbeat
+.claude/agents/state/active-sessions.json
+
+# Temporary query/test files
+test-query.js
+test-*.js
+
+# Supabase seed staging area
+supabase/to-be-seeded/
