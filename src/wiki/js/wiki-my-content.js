@@ -5,7 +5,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';
+import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js";
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;

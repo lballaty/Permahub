@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.23 - 2025-11-19 18:16:19
+**Commit:** `caa5678`
+
+
+
 ## Version 1.0.22 - 2025-11-19 18:14:55
 **Commit:** `87ea1e4`
 
@@ -2917,6 +2922,56 @@ The following pages already had the favicon link and were not modified:
 - wiki-settings.html
 - wiki-forgot-password.html
 - wiki-reset-password.html
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Fix Syntax Error: Extra Quote in Import Statements
+
+**Commit:** pending
+
+**Issue:**
+Multiple wiki JavaScript files had a syntax error causing 500 Internal Server Error when loading. The import statement for version-manager.js had an extra single quote at the end:
+```javascript
+import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';
+//                                                                            ^^
+//                                                                    Extra quote here
+```
+
+This caused Vite to fail parsing the JavaScript module and return HTTP 500 errors.
+
+**Root Cause:**
+Likely a copy-paste error or incorrect find-and-replace operation that added an extra quote character after the semicolon in the import statement across multiple files.
+
+**Solution:**
+Removed the extra single quote from the import statement in all affected files:
+```javascript
+// Before (❌ syntax error)
+import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';
+
+// After (✅ correct)
+import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js";
+```
+
+**Files Changed:**
+- src/wiki/js/wiki-editor.js (line 7)
+- src/wiki/js/wiki-issues.js (line 7)
+- src/wiki/js/wiki-map.js (line 7)
+- src/wiki/js/wiki-admin.js (line 7)
+- src/wiki/js/wiki-my-content.js (line 8)
+- src/wiki/js/wiki-deleted-content.js (line 7)
+- src/wiki/js/wiki-favorites.js (line 7)
+- FixRecord.md (this entry)
+
+**Testing:**
+- ✅ Files now load without 500 errors
+- ✅ Vite can parse all JavaScript modules successfully
+- ✅ No console errors related to module loading
+- ✅ All wiki pages should now load correctly
+
+**Impact:**
+This fix resolves HTTP 500 errors that were preventing 7 wiki pages from loading properly.
 
 **Author:** Claude Code <noreply@anthropic.com>
 

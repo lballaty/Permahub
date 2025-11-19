@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js"';
+import { displayVersionBadge, VERSION_DISPLAY } from "../../js/version-manager.js";
 
 // State
 let currentTab = 'all';
