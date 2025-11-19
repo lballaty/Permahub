@@ -1881,3 +1881,44 @@ task deploy:gh-pages  # Just deploy (skips validation)
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+### 2025-11-19 - Syntax Error in wiki-home.js Import Statement
+
+**Commit:** (pending)
+
+**Issue:**
+Vite dev server failed to parse `wiki-home.js` with error:
+```
+Failed to parse source for import analysis because the content
+contains invalid JS syntax.
+/Users/liborballaty/.../wiki-home.js:7:82
+```
+
+Extra quote character at the end of import statement on line 7.
+
+**Root Cause:**
+Import statement had double quotes at the end:
+```javascript
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
+                                                                                  ^
+                                                                          Extra quote here
+```
+
+This creates invalid JavaScript syntax - the string is properly closed with the first quote, and the second quote starts a new unterminated string.
+
+**Solution:**
+Removed the extra quote and standardized to single quotes:
+```javascript
+import { displayVersionBadge, VERSION_DISPLAY } from '../js/version-manager.js';
+```
+
+**Files Changed:**
+- [src/wiki/js/wiki-home.js:7](src/wiki/js/wiki-home.js#L7)
+
+**Testing:**
+- Vite dev server now starts without parse errors
+- Wiki home page loads correctly
+- Version badge displays properly
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
