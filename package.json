@@ -1,6 +1,6 @@
 {
   "name": "permahub",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "type": "module",
   "description": "A global platform connecting permaculture practitioners, projects, and sustainable living communities",
   "scripts": {

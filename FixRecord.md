@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.11 - 2025-11-19 17:39:10
+**Commit:** `ac9b200`
+
+
+
 ## Version 1.0.10 - 2025-11-19 17:38:30
 **Commit:** `1eb26ad`
 
@@ -2341,6 +2346,51 @@ to:
 **Testing:**
 - ✅ Translation warning should no longer appear in console
 - ✅ Category filter should display "Children's Gardens" correctly
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Fix originalHTML Scope Error in Newsletter Subscribe
+
+**Commit:** pending
+
+**Issue:**
+JavaScript ReferenceError in console: "Uncaught (in promise) ReferenceError: originalHTML is not defined at subscribe-newsletter.js:91:32". When subscription failed, the catch block tried to restore the button's original HTML but the variable was out of scope.
+
+**Root Cause:**
+The `originalHTML` variable was declared inside the try block (line 48) but was referenced in the catch block (line 91), which is outside the try block's scope. In JavaScript, variables declared with `const` inside a try block are not accessible in the corresponding catch block.
+
+**Solution:**
+Moved the `originalHTML` variable declaration from inside the try block to before the try block (line 46), making it accessible in both try and catch blocks.
+
+Before:
+```javascript
+try {
+  const originalHTML = subscribeBtn.innerHTML;
+  // ...
+} catch (error) {
+  subscribeBtn.innerHTML = originalHTML; // ❌ Error: not in scope
+}
+```
+
+After:
+```javascript
+const originalHTML = subscribeBtn.innerHTML;
+try {
+  // ...
+} catch (error) {
+  subscribeBtn.innerHTML = originalHTML; // ✅ Works: in scope
+}
+```
+
+**Files Changed:**
+- src/wiki/js/subscribe-newsletter.js
+
+**Testing:**
+- ✅ Error handling now works correctly
+- ✅ Button restores to original state after subscription error
+- ✅ No console errors when subscription fails
 
 **Author:** Claude Code <noreply@anthropic.com>
 
