@@ -10,6 +10,85 @@
 
 ## 🚀 High Priority
 
+### Contact Information Feature - Testing & Validation
+**Status:** Implementation Complete - Awaiting Testing
+**Estimated Time:** 1-2 hours testing + 2-3 hours URL validation
+**Priority:** Critical - Must test before deployment
+
+**Completed Implementation:**
+- ✅ Database migration 008: Contact fields added to wiki_events and wiki_locations
+- ✅ UI implementation for event contact display (cards + modals)
+- ✅ UI implementation for location contact display (popups + list)
+- ✅ Contact form fields in event/location editor
+- ✅ Save/load functionality for contact data
+- ✅ Commits: e8e1714, 21cba0a, 26c14de, c4c2c8d
+
+**Testing Tasks:**
+- [ ] **Test Events Page** (http://localhost:5173/src/wiki/wiki-events.html)
+  - [ ] Verify contact icons (📧 📞) appear on event cards
+  - [ ] Verify "by [Organization]" text displays
+  - [ ] Test mailto: and tel: links are clickable
+  - [ ] Click "Details" button and verify full contact section
+
+- [ ] **Test Event Details Modal**
+  - [ ] Verify "Contact Information" section appears
+  - [ ] Check organizer name/organization display
+  - [ ] Test email, phone, website links work
+  - [ ] Verify links open correctly (mailto:, tel:, new tab for websites)
+
+- [ ] **Test Event Editor** (http://localhost:5173/src/wiki/wiki-editor.html)
+  - [ ] Select "Event" content type
+  - [ ] Verify 5 contact fields present (organizer name, organization, email, phone, website)
+  - [ ] Create new event with contact information
+  - [ ] Edit existing event - verify contact fields pre-populate
+  - [ ] Save and verify data persists in database
+
+- [ ] **Test Location Map** (http://localhost:5173/src/wiki/wiki-map.html)
+  - [ ] Click location markers - verify contact section in popups
+  - [ ] Check location list shows contact icons
+  - [ ] Test mailto:, tel:, website links work
+
+- [ ] **Test Location Editor**
+  - [ ] Select "Location" content type
+  - [ ] Verify 5 contact fields present (contact name, email, phone, website, hours)
+  - [ ] Create new location with contact data
+  - [ ] Edit existing location - verify fields pre-populate
+
+- [ ] **Mobile Responsiveness**
+  - [ ] Test on mobile viewport (< 768px)
+  - [ ] Verify contact icons/sections stack properly
+  - [ ] Check touch targets are adequate
+
+**URL Validation Follow-up:**
+- [ ] **Create URL Validation Script** (scripts/validate-urls.js)
+  - [ ] Read JSON files from docs/verification/
+  - [ ] Test each URL (HTTP status, redirects)
+  - [ ] Check for keyword relevance (organization name in content)
+  - [ ] Generate markdown validation report
+
+- [ ] **Run Automated Validation**
+  - [ ] Identify all 404s, redirects, invalid URLs
+  - [ ] Flag suspicious URLs (domain changes, parked domains)
+  - [ ] Document findings in report
+
+- [ ] **Manual Review & Fixes**
+  - [ ] Review flagged URLs (starting with Growing Power)
+  - [ ] Research replacement URLs for defunct organizations
+  - [ ] Create database migration to fix invalid URLs
+  - [ ] Update seed files with corrected URLs
+
+**Files for URL Validation:**
+- [Event URLs CSV](docs/verification/event-urls-for-validation.csv) (45 events)
+- [Event URLs JSON](docs/verification/event-urls-for-validation.json)
+- [Location URLs CSV](docs/verification/location-urls-for-validation.csv) (31 locations)
+- [Location URLs JSON](docs/verification/location-urls-for-validation.json)
+- [Validation Summary](docs/verification/url-validation-summary.md)
+
+**Known Issues:**
+- ❌ Growing Power: https://www.growingpower.org/education → Redirects to UK loan company
+
+---
+
 ### WhatsApp Group Notification Integration
 **Status:** Planning Complete - Awaiting Implementation
 **Estimated Time:** 2-3 hours
@@ -117,6 +196,18 @@
 ## ✅ Completed
 
 ### 2025-11-16
+- ✅ **Contact Information Feature Implementation**
+  - ✅ Database migration 008: Added contact fields to wiki_events and wiki_locations
+  - ✅ Event contact display (cards with compact icons + detailed modal section)
+  - ✅ Location contact display (map popups + list items)
+  - ✅ Event/location editor forms with 5 contact input fields each
+  - ✅ Save/load functionality for contact data persistence
+  - ✅ Incremental git commits (e8e1714, 21cba0a, 26c14de, c4c2c8d)
+- ✅ **URL Validation Data Export**
+  - ✅ Exported 76 URLs from database (45 events + 31 locations)
+  - ✅ Created CSV and JSON exports for programmatic validation
+  - ✅ Documented validation process and known issues
+  - ✅ Identified invalid Growing Power URL
 - ✅ WhatsApp integration planning and documentation
 - ✅ Remote deployment infrastructure
 - ✅ Verpex VPS deployment guide
