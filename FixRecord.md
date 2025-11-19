@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.18 - 2025-11-19 17:55:28
+**Commit:** `b575173`
+
+
+
 ## Version 1.0.17 - 2025-11-19 17:54:53
 **Commit:** `0bfca2d`
 
@@ -2695,6 +2700,48 @@ Keys added for:
 - ✅ Newsletter section displays correctly in all supported languages
 - ✅ No missing translation warnings in console
 - ✅ All text properly translated on about, map, and wiki pages
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-19 - Add SECURITY DEFINER to Newsletter RPC Functions
+
+**Commit:** (pending)
+
+**Issue:**
+Need to allow anonymous users to subscribe/unsubscribe from newsletter without authentication, while still maintaining proper security through RLS policies.
+
+**Root Cause:**
+The subscribe_to_newsletter() and unsubscribe_from_newsletter() PostgreSQL functions were created without SECURITY DEFINER, meaning they run with the caller's permissions. For anonymous users, this could cause permission issues even with RLS policies in place.
+
+**Solution:**
+Added SECURITY DEFINER modifier to both functions:
+1. subscribe_to_newsletter() - Now runs with function owner's permissions
+2. unsubscribe_from_newsletter() - Now runs with function owner's permissions
+
+SECURITY DEFINER allows these functions to bypass RLS policies safely, enabling:
+- Anonymous newsletter subscriptions (no login required)
+- Email-based unsubscribe (via link in newsletter)
+
+Added clear comments explaining the purpose of SECURITY DEFINER in the migration file.
+
+**Files Changed:**
+- supabase/migrations/008_newsletter_subscriptions.sql
+
+**Testing:**
+- ✅ Anonymous users can subscribe without authentication
+- ✅ Unsubscribe links work without login
+- ✅ Database operations complete successfully
+- ✅ No 401 Unauthorized errors
+
+**Security Notes:**
+SECURITY DEFINER is safe here because:
+- Functions only perform specific, controlled operations (subscribe/unsubscribe)
+- Input validation is performed (email format, etc.)
+- No arbitrary SQL execution
+- Limited scope: only newsletter_subscriptions table
 
 **Author:** Claude Code <noreply@anthropic.com>
 
