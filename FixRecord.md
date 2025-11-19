@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.10 - 2025-11-19 17:38:30
+**Commit:** `1eb26ad`
+
+
+
 ## Version 1.0.9 - 2025-11-19 17:15:14
 **Commit:** `8314bb1`
 
@@ -2305,6 +2310,37 @@ Subscribe sections were manually added to individual pages (Events, Guides) with
 
 **Note:**
 This was not a login/refresh issue - it was a missing database permission. Anonymous users are now able to subscribe without logging in, which is the intended behavior for a public newsletter signup.
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Fix Missing Translation for Children's Gardens Category
+
+**Commit:** pending
+
+**Issue:**
+Console warning on wiki home page: "⚠️ Missing translation for 'wiki.categories.childrens-gardens' in language 'en'". The category exists in the database and Polish translation, but English translation file had an incorrect key.
+
+**Root Cause:**
+In wiki-i18n.js line 717, the English translation used the key `'wiki.categories.children'` instead of `'wiki.categories.childrens-gardens'`. This caused the i18n system to fall back to the key string when rendering the category filter options.
+
+**Solution:**
+Changed line 717 in wiki-i18n.js from:
+```javascript
+'wiki.categories.children': 'Children',
+```
+to:
+```javascript
+'wiki.categories.childrens-gardens': 'Children\'s Gardens',
+```
+
+**Files Changed:**
+- src/wiki/js/wiki-i18n.js
+
+**Testing:**
+- ✅ Translation warning should no longer appear in console
+- ✅ Category filter should display "Children's Gardens" correctly
 
 **Author:** Claude Code <noreply@anthropic.com>
 

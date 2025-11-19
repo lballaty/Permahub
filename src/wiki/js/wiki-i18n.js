@@ -112,6 +112,10 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Save to Favorites',
       'wiki.page.share': 'Share',
       'wiki.page.print': 'Print',
+
+      'wiki.page.newsletter_desc': 'Subscribe for more guides and community updates',
+      'wiki.page.email_placeholder': 'Enter your email address',
+      'wiki.page.subscribe': 'Subscribe',
       'wiki.page.lastEdited': 'Last edited:',
       'wiki.page.contributors': 'Contributors:',
       'wiki.page.viewCount': 'This page has been viewed',
@@ -949,6 +953,14 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Guardar nos Favoritos',
       'wiki.page.share': 'Partilhar',
       'wiki.page.print': 'Imprimir',
+
+      'wiki.page.newsletter_desc': 'Suscríbete para más guías y actualizaciones de la comunidad',
+      'wiki.page.email_placeholder': 'Ingresa tu dirección de correo electrónico',
+      'wiki.page.subscribe': 'Suscribirse',
+
+      'wiki.page.newsletter_desc': 'Inscreva-se para mais guias e atualizações da comunidade',
+      'wiki.page.email_placeholder': 'Digite seu endereço de e-mail',
+      'wiki.page.subscribe': 'Inscrever-se',
       'wiki.page.lastEdited': 'Última edição:',
       'wiki.page.contributors': 'Contribuidores:',
       'wiki.page.viewCount': 'Esta página foi visualizada',
@@ -2943,6 +2955,10 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Zu Favoriten hinzufügen',
       'wiki.page.share': 'Teilen',
       'wiki.page.print': 'Drucken',
+
+      'wiki.page.newsletter_desc': 'Abonnieren Sie weitere Leitfäden und Community-Updates',
+      'wiki.page.email_placeholder': 'Geben Sie Ihre E-Mail-Adresse ein',
+      'wiki.page.subscribe': 'Abonnieren',
       'wiki.page.lastEdited': 'Zuletzt bearbeitet:',
       'wiki.page.contributors': 'Mitwirkende:',
       'wiki.page.viewCount': 'Diese Seite wurde angesehen',
@@ -4448,6 +4464,10 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Uložit do oblíbených',
       'wiki.page.share': 'Sdílet',
       'wiki.page.print': 'Tisk',
+
+      'wiki.page.newsletter_desc': 'Přihlaste se k odběru dalších průvodců a aktualizací komunity',
+      'wiki.page.email_placeholder': 'Zadejte svou e-mailovou adresu',
+      'wiki.page.subscribe': 'Přihlásit se k odběru',
       'wiki.page.lastEdited': 'Naposledy upraveno:',
       'wiki.page.contributors': 'Přispěvatelé:',
       'wiki.page.viewCount': 'Tato stránka byla zobrazena',
