@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.26 - 2025-11-19 18:34:43
+**Commit:** `46c2a54`
+
+
+
 ## Version 1.0.25 - 2025-11-19 18:32:52
 **Commit:** `310a032`
 
@@ -1558,7 +1563,7 @@ async request(method, path, body = null) {
 ---
 ### 2025-11-17 - Add Authentication Check to Favorites Page
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 The wiki-favorites.html page did not check if a user was authenticated before displaying content. It used a hardcoded MOCK_USER_ID and showed mockup data regardless of login status. This meant unauthenticated users could access the favorites page and see sample data, which is incorrect behavior for a personalized feature.
@@ -1647,7 +1652,7 @@ Implemented proper authentication checking following the same pattern used in wi
 ---
 ### 2025-11-17 - Implement "Remember Me" Functionality for Login
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 The login page had a "Remember me for 30 days" checkbox, but it was non-functional. When users logged out and returned to the login page, they had to re-enter their email address every time, creating unnecessary friction in the login experience.
@@ -1993,7 +1998,7 @@ ALTER TABLE public.items DROP COLUMN IF EXISTS name;
 
 ### 2025-11-17 - Implement Local CI/CD Pipeline
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Permahub needed a CI/CD pipeline for automation (linting, testing, deployment), but the user required:
@@ -2421,7 +2426,7 @@ This was not a login/refresh issue - it was a missing database permission. Anony
 
 ### 2025-11-19 - Fix Missing Translation for Children's Gardens Category
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Console warning on wiki home page: "⚠️ Missing translation for 'wiki.categories.childrens-gardens' in language 'en'". The category exists in the database and Polish translation, but English translation file had an incorrect key.
@@ -2452,7 +2457,7 @@ to:
 
 ### 2025-11-19 - Fix originalHTML Scope Error in Newsletter Subscribe
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 JavaScript ReferenceError in console: "Uncaught (in promise) ReferenceError: originalHTML is not defined at subscribe-newsletter.js:91:32". When subscription failed, the catch block tried to restore the button's original HTML but the variable was out of scope.
@@ -2680,7 +2685,7 @@ VITE_USE_CLOUD_DB=true npm run dev
 
 ### 2025-11-19 - Fix RLS Policy Error for Newsletter Subscriptions
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Newsletter subscription failed with error: "new row violates row-level security policy for table 'wiki_newsletter_subscriptions'" (code: 42501). Anonymous users could not subscribe to the newsletter even though the RLS policy "Anyone can subscribe" had `WITH CHECK (true)`.
@@ -2892,7 +2897,7 @@ Created two new files:
 
 ### 2025-11-19 - Add Favicon to All Wiki Pages
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Console error "GET http://localhost:3001/favicon.ico 404 (Not Found)" on wiki pages. Browsers automatically request `/favicon.ico` when loading pages, but many wiki HTML files were missing the favicon link tag.
@@ -2939,7 +2944,7 @@ The following pages already had the favicon link and were not modified:
 
 ### 2025-11-19 - Fix Syntax Error: Extra Quote in Import Statements
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Multiple wiki JavaScript files had a syntax error causing 500 Internal Server Error when loading. The import statement for version-manager.js had an extra single quote at the end:
@@ -2989,7 +2994,7 @@ This fix resolves HTTP 500 errors that were preventing 7 wiki pages from loading
 
 ### 2025-11-19 - Fix Newsletter Subscription RLS Policy Violation (401 Unauthorized)
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Anonymous users received 401 Unauthorized errors when trying to subscribe to the newsletter. The browser console showed:
@@ -3091,7 +3096,7 @@ Applied the same fix pattern to 6 wiki modules:
 
 ### 2025-11-19 - Fix Wiki Page Loading Errors
 
-**Commit:** pending
+**Commit:** (pending)
 
 **Issue:**
 Multiple console errors when loading wiki page details:

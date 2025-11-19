@@ -115,7 +115,7 @@ async function loadGuide(slug) {
 /**
  * Render guide content to the page
  */
-function renderGuide() {
+async function renderGuide() {
   if (!currentGuide) {
     console.error('❌ renderGuide called but currentGuide is null');
     return;
