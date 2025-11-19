@@ -1,0 +1,879 @@
+{
+  "generatedAt": "2025-11-17T15:09:37.102Z",
+  "summary": {
+    "totalPtKeys": 898,
+    "totalEnKeys": 777,
+    "ptExtras": 122,
+    "usedInUI": 122,
+    "notUsedInUI": 0
+  },
+  "bySection": {
+    "wiki.editor": [
+      {
+        "key": "wiki.editor.location_website_hint",
+        "slug": "location_website_hint",
+        "translation": "Website oficial do local",
+        "usedInUI": true
+      }
+    ],
+    "wiki.common": [
+      {
+        "key": "wiki.common.submit",
+        "slug": "submit",
+        "translation": "Submeter",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.view",
+        "slug": "view",
+        "translation": "Ver",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.clear",
+        "slug": "clear",
+        "translation": "Limpar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.apply",
+        "slug": "apply",
+        "translation": "Aplicar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.reset",
+        "slug": "reset",
+        "translation": "Repor",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.confirm",
+        "slug": "confirm",
+        "translation": "Confirmar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.are_you_sure",
+        "slug": "are_you_sure",
+        "translation": "Tem a certeza?",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.yes",
+        "slug": "yes",
+        "translation": "Sim",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.no",
+        "slug": "no",
+        "translation": "Não",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.ok",
+        "slug": "ok",
+        "translation": "OK",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.copy",
+        "slug": "copy",
+        "translation": "Copiar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.copied",
+        "slug": "copied",
+        "translation": "Copiado!",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.download",
+        "slug": "download",
+        "translation": "Descarregar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.upload",
+        "slug": "upload",
+        "translation": "Carregar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.select_all",
+        "slug": "select_all",
+        "translation": "Selecionar Tudo",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.deselect_all",
+        "slug": "deselect_all",
+        "translation": "Desselecionar Tudo",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.required",
+        "slug": "required",
+        "translation": "Obrigatório",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.optional",
+        "slug": "optional",
+        "translation": "Opcional",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.email",
+        "slug": "email",
+        "translation": "Email",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.name",
+        "slug": "name",
+        "translation": "Nome",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.description",
+        "slug": "description",
+        "translation": "Descrição",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.date",
+        "slug": "date",
+        "translation": "Data",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.time",
+        "slug": "time",
+        "translation": "Hora",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.location",
+        "slug": "location",
+        "translation": "Local",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.category",
+        "slug": "category",
+        "translation": "Categoria",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.tags",
+        "slug": "tags",
+        "translation": "Etiquetas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.author",
+        "slug": "author",
+        "translation": "Autor",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.created",
+        "slug": "created",
+        "translation": "Criado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.updated",
+        "slug": "updated",
+        "translation": "Atualizado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.published",
+        "slug": "published",
+        "translation": "Publicado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.draft",
+        "slug": "draft",
+        "translation": "Rascunho",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.status",
+        "slug": "status",
+        "translation": "Estado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.actions",
+        "slug": "actions",
+        "translation": "Ações",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.more",
+        "slug": "more",
+        "translation": "Mais",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.less",
+        "slug": "less",
+        "translation": "Menos",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.show_more",
+        "slug": "show_more",
+        "translation": "Mostrar Mais",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.load_more",
+        "slug": "load_more",
+        "translation": "Carregar Mais",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.no_results",
+        "slug": "no_results",
+        "translation": "Nenhum resultado encontrado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.no_data",
+        "slug": "no_data",
+        "translation": "Sem dados disponíveis",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.error_occurred",
+        "slug": "error_occurred",
+        "translation": "Ocorreu um erro",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.try_again",
+        "slug": "try_again",
+        "translation": "Tente novamente",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.refresh",
+        "slug": "refresh",
+        "translation": "Atualizar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.offline",
+        "slug": "offline",
+        "translation": "Offline",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.online",
+        "slug": "online",
+        "translation": "Online",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.connecting",
+        "slug": "connecting",
+        "translation": "A conectar...",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.connected",
+        "slug": "connected",
+        "translation": "Conectado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.disconnected",
+        "slug": "disconnected",
+        "translation": "Desconectado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.saved",
+        "slug": "saved",
+        "translation": "Guardado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.saving",
+        "slug": "saving",
+        "translation": "A guardar...",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.deleting",
+        "slug": "deleting",
+        "translation": "A eliminar...",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.deleted",
+        "slug": "deleted",
+        "translation": "Eliminado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.updating",
+        "slug": "updating",
+        "translation": "A atualizar...",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.common.publishing",
+        "slug": "publishing",
+        "translation": "A publicar...",
+        "usedInUI": true
+      }
+    ],
+    "wiki.categories": [
+      {
+        "key": "wiki.categories.agroforestry-systems",
+        "slug": "agroforestry-systems",
+        "translation": "Sistemas Agroflorestais",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.animal-care",
+        "slug": "animal-care",
+        "translation": "Cuidado Animal",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.bamboo-crafts",
+        "slug": "bamboo-crafts",
+        "translation": "Artesanato em Bambu",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.biodiversity",
+        "slug": "biodiversity",
+        "translation": "Biodiversidade",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.biodynamics",
+        "slug": "biodynamics",
+        "translation": "Biodinâmica",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.biogas",
+        "slug": "biogas",
+        "translation": "Biogás",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.carbon-sequestration",
+        "slug": "carbon-sequestration",
+        "translation": "Sequestro de Carbono",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.chicken-keeping",
+        "slug": "chicken-keeping",
+        "translation": "Criação de Galinhas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.circular-economy",
+        "slug": "circular-economy",
+        "translation": "Economia Circular",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.community-building",
+        "slug": "community-building",
+        "translation": "Construção Comunitária",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.companion-planting",
+        "slug": "companion-planting",
+        "translation": "Plantio Companheiro",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.composting-systems",
+        "slug": "composting-systems",
+        "translation": "Sistemas de Compostagem",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.cover-crops",
+        "slug": "cover-crops",
+        "translation": "Culturas de Cobertura",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.crop-rotation",
+        "slug": "crop-rotation",
+        "translation": "Rotação de Culturas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.drip-irrigation",
+        "slug": "drip-irrigation",
+        "translation": "Irrigação Gota a Gota",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.dryland-farming",
+        "slug": "dryland-farming",
+        "translation": "Agricultura de Sequeiro",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.earthbag-construction",
+        "slug": "earthbag-construction",
+        "translation": "Construção com Sacos de Terra",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.ecosystem-restoration",
+        "slug": "ecosystem-restoration",
+        "translation": "Restauração de Ecossistemas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.edible-landscaping",
+        "slug": "edible-landscaping",
+        "translation": "Paisagismo Comestível",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.energy-efficiency",
+        "slug": "energy-efficiency",
+        "translation": "Eficiência Energética",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.food-forests",
+        "slug": "food-forests",
+        "translation": "Florestas Alimentares",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.food-security",
+        "slug": "food-security",
+        "translation": "Segurança Alimentar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.genetic-diversity",
+        "slug": "genetic-diversity",
+        "translation": "Diversidade Genética",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.goat-keeping",
+        "slug": "goat-keeping",
+        "translation": "Criação de Cabras",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.green-building",
+        "slug": "green-building",
+        "translation": "Construção Verde",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.green-manure",
+        "slug": "green-manure",
+        "translation": "Adubo Verde",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.greenhouse-growing",
+        "slug": "greenhouse-growing",
+        "translation": "Cultivo em Estufa",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.greywater-systems",
+        "slug": "greywater-systems",
+        "translation": "Sistemas de Águas Cinzentas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.habitat-creation",
+        "slug": "habitat-creation",
+        "translation": "Criação de Habitat",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.hedgerow-planting",
+        "slug": "hedgerow-planting",
+        "translation": "Plantio de Sebes",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.hügelkultur",
+        "slug": "hügelkultur",
+        "translation": "Hügelkultur",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.hydroponics",
+        "slug": "hydroponics",
+        "translation": "Hidroponia",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.insect-farming",
+        "slug": "insect-farming",
+        "translation": "Criação de Insetos",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.keyhole-gardens",
+        "slug": "keyhole-gardens",
+        "translation": "Jardins Buraco de Fechadura",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.land-regeneration",
+        "slug": "land-regeneration",
+        "translation": "Regeneração da Terra",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.livestock-integration",
+        "slug": "livestock-integration",
+        "translation": "Integração de Gado",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.mulching",
+        "slug": "mulching",
+        "translation": "Cobertura Morta",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.natural-pest-control",
+        "slug": "natural-pest-control",
+        "translation": "Controlo Natural de Pragas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.no-dig-gardening",
+        "slug": "no-dig-gardening",
+        "translation": "Jardinagem Sem Escavação",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.no-till-farming",
+        "slug": "no-till-farming",
+        "translation": "Agricultura Sem Lavoura",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.nutrient-cycling",
+        "slug": "nutrient-cycling",
+        "translation": "Ciclagem de Nutrientes",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.organic-farming",
+        "slug": "organic-farming",
+        "translation": "Agricultura Orgânica",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.passive-solar",
+        "slug": "passive-solar",
+        "translation": "Solar Passivo",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.permaculture-design",
+        "slug": "permaculture-design",
+        "translation": "Design de Permacultura",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.plant-guilds",
+        "slug": "plant-guilds",
+        "translation": "Guildas de Plantas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.rainwater-harvesting",
+        "slug": "rainwater-harvesting",
+        "translation": "Captação de Água da Chuva",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.renewable-energy-systems",
+        "slug": "renewable-energy-systems",
+        "translation": "Sistemas de Energia Renovável",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.rocket-stoves",
+        "slug": "rocket-stoves",
+        "translation": "Fogões Rocket",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.seed-saving",
+        "slug": "seed-saving",
+        "translation": "Guardar Sementes",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.sheet-mulching",
+        "slug": "sheet-mulching",
+        "translation": "Cobertura em Camadas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.soil-building",
+        "slug": "soil-building",
+        "translation": "Construção de Solo",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.soil-conservation",
+        "slug": "soil-conservation",
+        "translation": "Conservação de Solo",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.solar-cooking",
+        "slug": "solar-cooking",
+        "translation": "Cozinha Solar",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.straw-bale-construction",
+        "slug": "straw-bale-construction",
+        "translation": "Construção com Fardos de Palha",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.swales",
+        "slug": "swales",
+        "translation": "Swales",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.terrace-building",
+        "slug": "terrace-building",
+        "translation": "Construção de Terraços",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.tool-making",
+        "slug": "tool-making",
+        "translation": "Fabricação de Ferramentas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.traditional-crafts",
+        "slug": "traditional-crafts",
+        "translation": "Artesanato Tradicional",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.tree-planting",
+        "slug": "tree-planting",
+        "translation": "Plantio de Árvores",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.urban-farming",
+        "slug": "urban-farming",
+        "translation": "Agricultura Urbana",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.vermicomposting",
+        "slug": "vermicomposting",
+        "translation": "Vermicompostagem",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.water-conservation",
+        "slug": "water-conservation",
+        "translation": "Conservação de Água",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.wildlife-corridors",
+        "slug": "wildlife-corridors",
+        "translation": "Corredores de Vida Selvagem",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.windbreak-planting",
+        "slug": "windbreak-planting",
+        "translation": "Plantio de Quebra-ventos",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.worm-farming",
+        "slug": "worm-farming",
+        "translation": "Criação de Minhocas",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.zero-waste",
+        "slug": "zero-waste",
+        "translation": "Desperdício Zero",
+        "usedInUI": true
+      },
+      {
+        "key": "wiki.categories.zone-planning",
+        "slug": "zone-planning",
+        "translation": "Planeamento por Zonas",
+        "usedInUI": true
+      }
+    ],
+    "wiki.settings": [
+      {
+        "key": "wiki.settings.location_hidden_desc",
+        "slug": "location_hidden_desc",
+        "translation": "Não mostrar nenhuma informação de localização",
+        "usedInUI": true
+      }
+    ]
+  },
+  "usageReport": {
+    "used": [
+      "wiki.editor.location_website_hint",
+      "wiki.common.submit",
+      "wiki.common.view",
+      "wiki.common.clear",
+      "wiki.common.apply",
+      "wiki.common.reset",
+      "wiki.common.confirm",
+      "wiki.common.are_you_sure",
+      "wiki.common.yes",
+      "wiki.common.no",
+      "wiki.common.ok",
+      "wiki.common.copy",
+      "wiki.common.copied",
+      "wiki.common.download",
+      "wiki.common.upload",
+      "wiki.common.select_all",
+      "wiki.common.deselect_all",
+      "wiki.common.required",
+      "wiki.common.optional",
+      "wiki.common.email",
+      "wiki.common.name",
+      "wiki.common.description",
+      "wiki.common.date",
+      "wiki.common.time",
+      "wiki.common.location",
+      "wiki.common.category",
+      "wiki.common.tags",
+      "wiki.common.author",
+      "wiki.common.created",
+      "wiki.common.updated",
+      "wiki.common.published",
+      "wiki.common.draft",
+      "wiki.common.status",
+      "wiki.common.actions",
+      "wiki.common.more",
+      "wiki.common.less",
+      "wiki.common.show_more",
+      "wiki.common.load_more",
+      "wiki.common.no_results",
+      "wiki.common.no_data",
+      "wiki.common.error_occurred",
+      "wiki.common.try_again",
+      "wiki.common.refresh",
+      "wiki.common.offline",
+      "wiki.common.online",
+      "wiki.common.connecting",
+      "wiki.common.connected",
+      "wiki.common.disconnected",
+      "wiki.common.saved",
+      "wiki.common.saving",
+      "wiki.common.deleting",
+      "wiki.common.deleted",
+      "wiki.common.updating",
+      "wiki.common.publishing",
+      "wiki.categories.agroforestry-systems",
+      "wiki.categories.animal-care",
+      "wiki.categories.bamboo-crafts",
+      "wiki.categories.biodiversity",
+      "wiki.categories.biodynamics",
+      "wiki.categories.biogas",
+      "wiki.categories.carbon-sequestration",
+      "wiki.categories.chicken-keeping",
+      "wiki.categories.circular-economy",
+      "wiki.categories.community-building",
+      "wiki.categories.companion-planting",
+      "wiki.categories.composting-systems",
+      "wiki.categories.cover-crops",
+      "wiki.categories.crop-rotation",
+      "wiki.categories.drip-irrigation",
+      "wiki.categories.dryland-farming",
+      "wiki.categories.earthbag-construction",
+      "wiki.categories.ecosystem-restoration",
+      "wiki.categories.edible-landscaping",
+      "wiki.categories.energy-efficiency",
+      "wiki.categories.food-forests",
+      "wiki.categories.food-security",
+      "wiki.categories.genetic-diversity",
+      "wiki.categories.goat-keeping",
+      "wiki.categories.green-building",
+      "wiki.categories.green-manure",
+      "wiki.categories.greenhouse-growing",
+      "wiki.categories.greywater-systems",
+      "wiki.categories.habitat-creation",
+      "wiki.categories.hedgerow-planting",
+      "wiki.categories.hügelkultur",
+      "wiki.categories.hydroponics",
+      "wiki.categories.insect-farming",
+      "wiki.categories.keyhole-gardens",
+      "wiki.categories.land-regeneration",
+      "wiki.categories.livestock-integration",
+      "wiki.categories.mulching",
+      "wiki.categories.natural-pest-control",
+      "wiki.categories.no-dig-gardening",
+      "wiki.categories.no-till-farming",
+      "wiki.categories.nutrient-cycling",
+      "wiki.categories.organic-farming",
+      "wiki.categories.passive-solar",
+      "wiki.categories.permaculture-design",
+      "wiki.categories.plant-guilds",
+      "wiki.categories.rainwater-harvesting",
+      "wiki.categories.renewable-energy-systems",
+      "wiki.categories.rocket-stoves",
+      "wiki.categories.seed-saving",
+      "wiki.categories.sheet-mulching",
+      "wiki.categories.soil-building",
+      "wiki.categories.soil-conservation",
+      "wiki.categories.solar-cooking",
+      "wiki.categories.straw-bale-construction",
+      "wiki.categories.swales",
+      "wiki.categories.terrace-building",
+      "wiki.categories.tool-making",
+      "wiki.categories.traditional-crafts",
+      "wiki.categories.tree-planting",
+      "wiki.categories.urban-farming",
+      "wiki.categories.vermicomposting",
+      "wiki.categories.water-conservation",
+      "wiki.categories.wildlife-corridors",
+      "wiki.categories.windbreak-planting",
+      "wiki.categories.worm-farming",
+      "wiki.categories.zero-waste",
+      "wiki.categories.zone-planning",
+      "wiki.settings.location_hidden_desc"
+    ],
+    "notUsed": []
+  }
+}
