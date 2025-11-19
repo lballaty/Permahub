@@ -572,7 +572,10 @@ const wikiI18n = {
       'wiki.about.report_issue': 'Report an issue',
       'wiki.about.issue_tracker': 'Issue Tracker',
       'wiki.about.privacy_concerns': 'Privacy concerns',
-
+      'wiki.about.stay_connected': 'Stay Connected',
+      'wiki.about.newsletter_desc': 'Get updates on new guides, events, and community news',
+      'wiki.about.email_placeholder': 'Enter your email address',
+      'wiki.about.subscribe': 'Subscribe',
       // Legal Pages
       'wiki.legal.platform_name': 'Permahub',
       'wiki.legal.privacy_page_title': 'Privacy Policy - Community Wiki',
@@ -1415,7 +1418,10 @@ const wikiI18n = {
       'wiki.about.issue_tracker': 'Rastreador de Problemas',
       'wiki.about.privacy_concerns': 'Preocupações de privacidade',
 
-      // Legal Pages
+      'wiki.about.stay_connected': 'Mantenha-se Conectado',
+      'wiki.about.newsletter_desc': 'Receba atualizações sobre novos guias, eventos e notícias da comunidade',
+      'wiki.about.email_placeholder': 'Digite seu endereço de e-mail',
+      'wiki.about.subscribe': 'Inscrever-se',      // Legal Pages
       'wiki.legal.platform_name': 'Permahub',
       'wiki.legal.privacy_page_title': 'Política de Privacidade - Wiki Comunitária',
       'wiki.legal.privacy_title': 'Política de Privacidade',
@@ -2375,7 +2381,10 @@ const wikiI18n = {
       'wiki.about.privacy_concerns': 'Preocupaciones de privacidad',
 
       // Legal Pages
-      'wiki.legal.platform_name': 'Permahub',
+      'wiki.about.stay_connected': 'Mantente Conectado',
+      'wiki.about.newsletter_desc': 'Recibe actualizaciones sobre nuevas guías, eventos y noticias de la comunidad',
+      'wiki.about.email_placeholder': 'Ingresa tu dirección de correo electrónico',
+      'wiki.about.subscribe': 'Suscribirse',      'wiki.legal.platform_name': 'Permahub',
       'wiki.legal.privacy_page_title': 'Política de Privacidad - Wiki Comunitaria',
       'wiki.legal.privacy_title': 'Política de Privacidad',
       'wiki.legal.terms_page_title': 'Términos de Servicio - Wiki Comunitaria',
@@ -3418,7 +3427,10 @@ const wikiI18n = {
 
       // Legal Pages
       'wiki.legal.platform_name': 'Permahub',
-      'wiki.legal.privacy_page_title': 'Datenschutzrichtlinie - Community Wiki',
+      'wiki.about.stay_connected': 'In Verbindung bleiben',
+      'wiki.about.newsletter_desc': 'Erhalten Sie Updates zu neuen Leitfäden, Veranstaltungen und Community-Nachrichten',
+      'wiki.about.email_placeholder': 'Geben Sie Ihre E-Mail-Adresse ein',
+      'wiki.about.subscribe': 'Abonnieren',      'wiki.legal.privacy_page_title': 'Datenschutzrichtlinie - Community Wiki',
       'wiki.legal.privacy_title': 'Datenschutzrichtlinie',
       'wiki.legal.terms_page_title': 'Nutzungsbedingungen - Community Wiki',
       'wiki.legal.terms_title': 'Nutzungsbedingungen',
@@ -4927,7 +4939,10 @@ const wikiI18n = {
       // Legal Pages
       'wiki.legal.platform_name': 'Permahub',
       'wiki.legal.privacy_page_title': 'Zásady ochrany osobních údajů - Komunitní Wiki',
-      'wiki.legal.privacy_title': 'Zásady ochrany osobních údajů',
+      'wiki.about.stay_connected': 'Zůstaňte ve Spojení',
+      'wiki.about.newsletter_desc': 'Získejte aktualizace o nových průvodcích, událostech a zprávách z komunity',
+      'wiki.about.email_placeholder': 'Zadejte svou e-mailovou adresu',
+      'wiki.about.subscribe': 'Přihlásit se k odběru',      'wiki.legal.privacy_title': 'Zásady ochrany osobních údajů',
       'wiki.legal.terms_page_title': 'Podmínky služby - Komunitní Wiki',
       'wiki.legal.terms_title': 'Podmínky služby',
 

@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.17 - 2025-11-19 17:54:53
+**Commit:** `0bfca2d`
+
+
+
 ## Version 1.0.16 - 2025-11-19 17:54:19
 **Commit:** `8111270`
 
@@ -2653,6 +2658,43 @@ This allows the functions to execute with elevated privileges (function owner's 
 - No sensitive data exposed through these functions
 - Email validation performed before insertion
 - Audit trail maintained via timestamps
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-19 - Add Missing Newsletter Translation Keys to wiki-i18n.js
+
+**Commit:** (pending)
+
+**Issue:**
+Missing newsletter/subscribe section translation keys in wiki-i18n.js for about, map, and wiki pages. Newsletter subscribe sections display untranslated text in some languages.
+
+**Root Cause:**
+When adding newsletter subscribe sections to various wiki pages, the translation keys for the newsletter section were not added to all language sets in wiki-i18n.js.
+
+**Solution:**
+Added newsletter translation keys to multiple languages (en, pt, es, de, cs):
+- wiki.about.stay_connected
+- wiki.about.newsletter_desc
+- wiki.about.email_placeholder
+- wiki.about.subscribe
+
+Keys added for:
+- English (en)
+- Portuguese (pt)
+- Spanish (es)
+- German (de)
+- Czech (cs)
+
+**Files Changed:**
+- src/wiki/js/wiki-i18n.js
+
+**Testing:**
+- ✅ Newsletter section displays correctly in all supported languages
+- ✅ No missing translation warnings in console
+- ✅ All text properly translated on about, map, and wiki pages
 
 **Author:** Claude Code <noreply@anthropic.com>
 
