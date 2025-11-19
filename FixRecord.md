@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.19 - 2025-11-19 18:07:38
+**Commit:** `12f9a87`
+
+
+
 ## Version 1.0.18 - 2025-11-19 17:55:28
 **Commit:** `b575173`
 
@@ -2742,6 +2747,41 @@ SECURITY DEFINER is safe here because:
 - Input validation is performed (email format, etc.)
 - No arbitrary SQL execution
 - Limited scope: only newsletter_subscriptions table
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-19 - Fix HTTP Response Handling in validate-urls.js
+
+**Commit:** (pending)
+
+**Issue:**
+URL validation script was not properly draining HTTP responses before following redirects, which could cause memory leaks and socket hang issues.
+
+**Root Cause:**
+In validate-urls.js, when following HTTP redirects:
+1. The request was being destroyed with req.destroy() before the response was fully consumed
+2. This left the response stream in an unfinished state
+3. Could cause socket reuse issues and memory leaks
+4. The response body was not being drained before starting the next request
+
+**Solution:**
+Fixed HTTP response handling in the fetchURL() function:
+1. Replaced req.destroy() with res.resume() to properly drain the response
+2. Wait for response 'end' event before following redirect
+3. Only then follow the redirect after response is fully consumed
+4. Prevents socket/memory leaks and ensures clean connection handling
+
+**Files Changed:**
+- scripts/validate-urls.js
+
+**Testing:**
+- ✅ URL validation completes without socket errors
+- ✅ Redirects are followed correctly
+- ✅ No memory leaks or hanging connections
+- ✅ Script completes successfully
 
 **Author:** Claude Code <noreply@anthropic.com>
 

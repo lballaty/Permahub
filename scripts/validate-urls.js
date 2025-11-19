@@ -76,7 +76,7 @@ async function fetchURL(url, maxRedirects = 5) {
           redirectCount++;
 
           if (redirectCount > maxRedirects) {
-            req.destroy();
+            res.resume(); // Drain the response
             resolve({
               status: res.statusCode,
               finalURL: currentURL,
@@ -94,12 +94,15 @@ async function fetchURL(url, maxRedirects = 5) {
             : new URL(res.headers.location, currentURL).href;
 
           finalURL = redirectURL;
-          req.destroy();
 
-          // Small delay before following redirect
-          setTimeout(() => {
-            doRequest(redirectURL);
-          }, 100);
+          // Drain the response before following redirect
+          res.resume();
+          res.on('end', () => {
+            // Small delay before following redirect
+            setTimeout(() => {
+              doRequest(redirectURL);
+            }, 100);
+          });
           return;
         }
 
