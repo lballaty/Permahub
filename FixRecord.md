@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.7 - 2025-11-19 17:03:14
+**Commit:** `104226d`
+
+
+
 ## Version 1.0.6 - 2025-11-19 16:51:40
 **Commit:** `1b4bd8d`
 
@@ -2173,6 +2178,59 @@ The SupabaseClient class in supabase-client.js was missing an `rpc()` method for
 - ✅ RPC method correctly calls Supabase PostgreSQL functions
 - ✅ subscribe_to_newsletter() function can now be called from frontend
 - ✅ Subscriptions saved to wiki_newsletter_subscriptions table
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-11-19 - Add Subscribe Section to All Public Wiki Pages
+
+**Commit:** (pending)
+
+**Issue:**
+User requested that subscribe functionality be present at the bottom of every public wiki page. Currently, only Events and Guides pages had subscribe sections.
+
+**Root Cause:**
+Subscribe sections were manually added to individual pages (Events, Guides) without systematic implementation across all public pages.
+
+**Solution:**
+1. Added subscribe section HTML to all public wiki pages:
+   - wiki-home.html (home page)
+   - wiki-map.html (locations/map page)
+   - wiki-about.html (about page)
+   - wiki-page.html (individual content pages)
+
+2. Integrated shared subscribe-newsletter.js module on all pages:
+   - wiki-home.js: subscribes to 'general' category from 'home-page'
+   - wiki-map.html: subscribes to 'locations' category from 'map-page'
+   - wiki-about.html: subscribes to 'general' category from 'about-page'
+   - wiki-page.js: subscribes to 'content' category from 'wiki-page'
+
+3. Consistent placement:
+   - All subscribe sections placed above the footer
+   - Same styling and layout across all pages
+   - Responsive design with max-width: 500px for form
+
+4. Category-specific subscriptions:
+   - events: Events page
+   - guides: Guides page
+   - locations: Map/Locations page
+   - general: Home, About pages
+   - content: Individual content pages
+
+**Files Changed:**
+- src/wiki/wiki-home.html
+- src/wiki/js/wiki-home.js
+- src/wiki/wiki-map.html
+- src/wiki/wiki-about.html
+- src/wiki/wiki-page.html
+- src/wiki/js/wiki-page.js
+
+**Testing:**
+- ✅ Subscribe sections visible on all public pages
+- ✅ Each page subscribes to appropriate category
+- ✅ Form validation works on all pages
+- ✅ Success/error messages display correctly
+- ✅ Consistent styling and positioning across all pages
 
 **Author:** Claude Code <noreply@anthropic.com>
 

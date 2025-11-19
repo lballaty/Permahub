@@ -259,6 +259,27 @@
         </a>
       </div>
     </div>
+
+    <!-- Subscribe Newsletter -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.about.stay_connected">Stay Connected</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.about.newsletter_desc">
+        Join our community and get updates about Permahub
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          id="subscribeEmail"
+          data-i18n-placeholder="wiki.about.email_placeholder"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary" id="subscribeBtn">
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.about.subscribe">Subscribe</span>
+        </button>
+      </div>
+    </div>
   </main>
 
   <!-- Footer -->
@@ -277,11 +298,17 @@
   <!-- Load shared wiki functionality and version management -->
   <script src="js/wiki.js"></script>
   <script type="module">
-    import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
+    import { displayVersionBadge, VERSION_DISPLAY } from '../js/version-manager.js';
+    import { initializeSubscribeButton } from './js/subscribe-newsletter.js';
 
     // Display version in header
     displayVersionBadge();
     console.log(`🚀 Wiki About ${VERSION_DISPLAY}: Page initialized`);
+
+    // Initialize subscribe button
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSubscribeButton('general', 'about-page');
+    });
   </script>
   <script type="module" src="js/auth-header.js"></script>
 </body>

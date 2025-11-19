@@ -5,6 +5,7 @@
 
 import { supabase } from '../../js/supabase-client.js';
 import { displayVersionBadge, VERSION_DISPLAY } from '../../js/version-manager.js';
+import { initializeSubscribeButton } from './subscribe-newsletter.js';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   renderUpcomingEvents(); // Render upcoming events section
   renderFeaturedLocations(); // Render featured locations section
   updateCountDisplay(); // Initialize count display
+  initializeSubscribeButton('general', 'home-page'); // Initialize newsletter subscription
 
   console.log(`✅ Wiki Home ${VERSION_DISPLAY}: Initialization complete`);
 });
