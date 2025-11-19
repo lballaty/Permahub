@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.21 - 2025-11-19 18:13:05
+**Commit:** `71d9de5`
+
+
+
 ## Version 1.0.20 - 2025-11-19 18:10:11
 **Commit:** `b02b388`
 
@@ -2816,6 +2821,50 @@ Fixed HTTP response handling in the fetchURL() function:
 - ✅ Redirects are followed correctly
 - ✅ No memory leaks or hanging connections
 - ✅ Script completes successfully
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-19 - Add Documentation Files for Cloud Migration and Translation Tools
+
+**Commit:** (pending)
+
+**Issue:**
+Need documentation and tools to help with:
+1. Applying SQL migrations to cloud database
+2. Adding newsletter translations across all languages
+
+**Root Cause:**
+As the project grows, recurring tasks like applying migrations to cloud and adding translations need clear documentation and automation tools.
+
+**Solution:**
+Created two new files:
+
+1. APPLY_TO_CLOUD.md
+   - Step-by-step guide for applying SQL migrations to cloud database
+   - Includes Supabase Console URL, project ID
+   - Shows expected success output
+   - Troubleshooting section
+   - Verification steps
+
+2. scripts/add-all-newsletter-translations.js
+   - Automated script to add newsletter translation keys
+   - Adds translations for all supported languages
+   - Organized by section (about, map, page)
+   - Prevents manual error-prone editing
+   - Can be used as template for future translation additions
+
+**Files Changed:**
+- APPLY_TO_CLOUD.md (new)
+- scripts/add-all-newsletter-translations.js (new)
+
+**Purpose:**
+- Streamlines cloud database operations
+- Reduces manual errors in translation management
+- Provides clear documentation for common tasks
+- Useful for team onboarding and future maintenance
 
 **Author:** Claude Code <noreply@anthropic.com>
 
