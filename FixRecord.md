@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.8 - 2025-11-19 17:11:15
+**Commit:** `748c243`
+
+
+
 ## Version 1.0.7 - 2025-11-19 17:03:14
 **Commit:** `104226d`
 
@@ -2231,6 +2236,47 @@ Subscribe sections were manually added to individual pages (Events, Guides) with
 - ✅ Form validation works on all pages
 - ✅ Success/error messages display correctly
 - ✅ Consistent styling and positioning across all pages
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-11-19 - Fix Subscribe 401 Unauthorized Error and Variable Scope Issue
+
+**Commit:** (pending)
+
+**Issue:**
+1. Subscribe button returned 401 Unauthorized error when trying to call subscribe_to_newsletter() RPC function
+2. JavaScript error "ReferenceError: originalHTML is not defined" in catch block of subscribe-newsletter.js
+
+**Root Cause:**
+1. The subscribe_to_newsletter() PostgreSQL function did not have EXECUTE permissions granted to anonymous (anon) and authenticated users, causing 401 Unauthorized when non-logged-in users tried to subscribe
+2. The originalHTML variable was declared inside the try block (line 48) but referenced in the catch block (line 91), causing it to be out of scope
+
+**Solution:**
+1. Created migration 009_grant_newsletter_permissions.sql to grant EXECUTE permissions:
+   - GRANT EXECUTE ON subscribe_to_newsletter TO anon
+   - GRANT EXECUTE ON subscribe_to_newsletter TO authenticated
+   - GRANT EXECUTE ON unsubscribe_from_newsletter TO anon
+   - GRANT EXECUTE ON unsubscribe_from_newsletter TO authenticated
+   - Ran migration against cloud database
+
+2. Fixed variable scoping in subscribe-newsletter.js:
+   - Moved originalHTML declaration before try block (line 46)
+   - Now accessible in both try and catch blocks
+   - Prevents ReferenceError when subscription fails
+
+**Files Changed:**
+- supabase/migrations/009_grant_newsletter_permissions.sql (new)
+- src/wiki/js/subscribe-newsletter.js
+
+**Testing:**
+- ✅ Anonymous users can now subscribe without 401 error
+- ✅ No more ReferenceError in catch block
+- ✅ Button restores correctly on both success and error
+- ✅ Subscriptions save successfully to database
+
+**Note:**
+This was not a login/refresh issue - it was a missing database permission. Anonymous users are now able to subscribe without logging in, which is the intended behavior for a public newsletter signup.
 
 **Author:** Claude Code <noreply@anthropic.com>
 

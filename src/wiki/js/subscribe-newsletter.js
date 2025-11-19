@@ -42,10 +42,12 @@ export function initializeSubscribeButton(category = 'general', source = 'wiki',
       return;
     }
 
+    // Store original HTML before try block so it's accessible in catch
+    const originalHTML = subscribeBtn.innerHTML;
+
     try {
       // Disable button and show loading state
       subscribeBtn.disabled = true;
-      const originalHTML = subscribeBtn.innerHTML;
       subscribeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
 
       console.log(`📧 Subscribing email: ${email} to category: ${category}`);
