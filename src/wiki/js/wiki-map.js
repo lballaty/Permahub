@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -14,13 +14,21 @@ let currentFilter = 'all';
 let allLocations = [];
 let map = null;
 let markers = [];
+let currentUser = null;
+
+// TODO: Replace with actual authenticated user ID when auth is fully implemented
+const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Map ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header
-  displayVersionInHeader();
+  displayVersionBadge();
+
+  // Get current user for owner detection
+  currentUser = await supabase.getCurrentUser();
+  console.log('👤 Current user:', currentUser ? currentUser.id : 'Not logged in');
 
   // Initialize map first
   initializeMap();
@@ -145,6 +153,10 @@ function renderLocations() {
       // Choose icon based on type
       const icon = getLocationIcon(location.location_type);
 
+      // Check if current user is the owner
+      const userId = currentUser?.id || MOCK_USER_ID;
+      const isOwner = location.author_id === userId;
+
       // Create marker
       const marker = L.marker([location.latitude, location.longitude], {
         icon: L.divIcon({
@@ -161,6 +173,7 @@ function renderLocations() {
       // Add popup
       marker.bindPopup(`
         <div style="min-width: 200px;">
+          ${isOwner ? `<span class="owner-badge" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background: #e8f5e9; color: #2e7d32; border-radius: 12px; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;"><i class="fas fa-user-check"></i> You're the creator</span>` : ''}
           <h3 style="margin: 0 0 8px 0;">${escapeHtml(location.name)}</h3>
           ${location.description ? `<p class="location-description-truncate-popup" style="margin: 8px 0; color: #666;">${escapeHtml(location.description)}</p>` : ''}
           ${location.address ? `<p style="margin: 4px 0; font-size: 0.9em;"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(location.address)}</p>` : ''}
@@ -175,6 +188,16 @@ function renderLocations() {
             </div>
           ` : ''}
           ${location.website ? `<p style="margin: 8px 0 4px 0;"><a href="${escapeHtml(location.website)}" target="_blank" rel="noopener" style="color: var(--wiki-primary);">Visit Website <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a></p>` : ''}
+          ${isOwner ? `
+            <div style="display: flex; gap: 0.5rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid #eee;">
+              <a href="wiki-editor.html?id=${location.id}&type=location" class="btn btn-primary btn-small" style="flex: 1; text-align: center; padding: 0.4rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <button onclick="deleteLocation('${location.id}', '${escapeHtml(location.name).replace(/'/g, "\\'")}')" class="btn btn-danger btn-small" style="flex: 1; padding: 0.4rem 0.75rem; font-size: 0.85rem;">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          ` : ''}
         </div>
       `);
 
@@ -221,8 +244,13 @@ function renderLocationList(locations) {
     const distance = calculateDistance(location.latitude, location.longitude);
     const icon = getLocationIcon(location.location_type);
 
+    // Check if current user is the owner
+    const userId = currentUser?.id || MOCK_USER_ID;
+    const isOwner = location.author_id === userId;
+
     return `
-      <div class="location-item" data-location-id="${location.id}" data-lat="${location.latitude}" data-lng="${location.longitude}">
+      <div class="location-item ${isOwner ? 'card-owned' : ''}" data-location-id="${location.id}" data-lat="${location.latitude}" data-lng="${location.longitude}">
+        ${isOwner ? `<span class="owner-badge"><i class="fas fa-user-check"></i> You're the creator</span>` : ''}
         <div class="location-icon">${icon}</div>
         <div class="location-details">
           <h3>${escapeHtml(location.name)}</h3>
@@ -235,6 +263,16 @@ function renderLocationList(locations) {
             ${location.contact_phone ? `<a href="tel:${location.contact_phone}" title="${escapeHtml(location.contact_phone)}" style="color: var(--wiki-primary);"><i class="fas fa-phone"></i></a>` : ''}
             ${location.website ? `<a href="${escapeHtml(location.website)}" target="_blank" rel="noopener"><i class="fas fa-globe"></i> Website</a>` : ''}
           </div>
+          ${isOwner ? `
+            <div class="card-actions card-actions-owner" style="margin-top: 1rem;">
+              <a href="wiki-editor.html?id=${location.id}&type=location" class="btn btn-primary btn-small">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <button class="btn btn-danger btn-small" onclick="deleteLocation('${location.id}', '${escapeHtml(location.name).replace(/'/g, "\\'")}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          ` : ''}
         </div>
       </div>
     `;
@@ -582,3 +620,54 @@ function handleLocationHash() {
     }
   }
 }
+
+/**
+ * Delete location with double confirmation and soft delete
+ */
+window.deleteLocation = async function(locationId, locationName) {
+  try {
+    // First confirmation
+    const confirmed = confirm(
+      `Are you sure you want to delete "${locationName}"?\n\n` +
+      `This will move it to your deleted content where you can restore it within 30 days.`
+    );
+
+    if (!confirmed) {
+      console.log('❌ Location deletion cancelled by user');
+      return;
+    }
+
+    // Second confirmation - type DELETE
+    const deleteConfirmation = prompt(
+      `To confirm deletion of "${locationName}", please type DELETE in capital letters:`
+    );
+
+    if (deleteConfirmation !== 'DELETE') {
+      alert('Deletion cancelled. You must type DELETE exactly to confirm.');
+      console.log('❌ Location deletion cancelled - incorrect confirmation text');
+      return;
+    }
+
+    console.log(`🗑️ Soft deleting location: ${locationName} (${locationId})`);
+
+    // Get current user for soft delete tracking
+    const userId = currentUser?.id || MOCK_USER_ID;
+
+    // Soft delete the location
+    await supabase.softDelete('wiki_locations', locationId, userId);
+
+    alert(
+      `✅ Location "${locationName}" deleted successfully!\n\n` +
+      `You can restore this from your "Deleted Content" page within 30 days.`
+    );
+
+    console.log('✅ Location soft deleted successfully');
+
+    // Reload the page to refresh the list
+    location.reload();
+
+  } catch (error) {
+    console.error('❌ Error deleting location:', error);
+    alert(`Failed to delete location: ${error.message}`);
+  }
+};
