@@ -1,65 +1,34 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm test:*)",
-      "Bash(npm run test:e2e:*)",
-      "Bash(npx playwright test:*)",
-      "Bash(git commit -m:*)",
-      "Bash(git commit --message:*)",
-      "Bash(tree:*)",
-      "Bash(sqlite3:*)",
-      "Bash(tee:*)",
-      "Bash(curl:*)",
-      "Bash(npx supabase:*)",
-      "Bash(git add:*)",
-      "Bash(psql:*)",
-      "Bash(npm run verify:seed:madeira:*)",
-      "Bash(npm run verify:seed:verified:*)",
-      "Bash(npm run verify:seed:events:*)",
-      "Bash(find:*)",
-      "Bash(docker ps:*)",
-      "Bash(docker logs:*)",
-      "Bash(cat:*)",
-      "Bash(kill:*)",
-      "Bash(npm run dev:*)",
-      "Bash(lsof:*)",
-      "Bash(mkdir:*)",
-      "Bash(bash:*)",
-      "Bash(PGPASSWORD=postgres psql:*)",
+      "Bash(for theme in \"soil-building-fertility\" \"agroforestry-trees\" \"garden-design-planning\" \"natural-building\" \"seed-saving-propagation\" \"waste-resource-cycling\")",
+      "Bash(do:*)",
       "Bash(chmod:*)",
-      "Bash(for file in wiki-signup.html wiki-forgot-password.html wiki-reset-password.html)",
-      "Bash(do grep -n \"Create Page\" \"/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/src/wiki/$file\")",
-      "Bash(echo:*)",
-      "Bash(done)",
-      "Bash(for file in wiki-events.html wiki-map.html wiki-guides.html wiki-page.html wiki-favorites.html wiki-editor.html)",
-      "Bash(do grep -n \"wiki.nav.home\" \"/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/src/wiki/$file\")",
-      "Bash(SUPABASE_DB_PORT=5432 PGPASSWORD=postgres psql:*)",
-      "Bash(git commit:*)",
-      "Bash(supabase status:*)",
-      "Bash(xargs cat:*)",
-      "Bash(node:*)",
-      "Bash(/tmp/event_urls_export.csv)",
-      "Bash(git reset:*)",
+      "Bash(git:*)",
+      "Bash(./scripts/git-agents.sh:*)",
       "Bash(npm install:*)",
-      "Bash(unzip:*)",
-      "Bash(npm run verify:all-guides:*)",
-      "Bash(node scripts/verify-i18n-keys.js:*)",
-      "Bash(node scripts/verify-i18n-simple.js:*)",
-      "Bash(git checkout:*)",
-      "Bash(/tmp/location_urls_export.csv)",
-      "Bash(/tmp/guide_sources_export.csv)",
-      "Bash(ls:*)",
-      "Bash(git restore:*)",
-      "Bash(node -c:*)",
-      "Bash(./start.sh)",
-      "Bash(./stopall.sh:*)",
-      "Bash(node scripts/verify-translations-complete.js:*)",
-      "Bash(git log:*)"
+      "Bash(find:*)",
+      "Bash(/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/scripts/install-version-hooks.sh:*)",
+      "Bash(brew install:*)",
+      "Bash(PGPASSWORD='vHzbr#B4k$XE.YV!aA' psql:*)",
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql:*)",
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f supabase/migrations/003_items_pubsub.sql)",
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f supabase/seeded/004_real_verified_wiki_content.sql)"
     ],
     "deny": [],
-    "ask": [
-      "Bash(git commit --no-verify:*)",
-      "Bash(git commit -n:*)"
+    "ask": []
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/.claude/agents/init-claude-session.sh"
+          }
+        ]
+      }
     ]
   }
 }

@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "description": "Multi-session intelligent Git agent configuration",
+  "agents": {
+    "smartWatch": {
+      "enabled": true,
+      "quietPeriodSeconds": 180,
+      "maxFilesPerCommit": 2,
+      "excludePaths": [
+        "node_modules",
+        "dist",
+        "build",
+        ".env",
+        ".git",
+        "*.log",
+        "package-lock.json"
+      ],
+      "autoCommit": false,
+      "notifyBeforeCommit": true,
+      "detectLogicalBoundaries": true
+    },
+    "commitQuality": {
+      "enabled": true,
+      "enforceConventionalCommits": true,
+      "maxFilesPerCommit": 2,
+      "requireAtomicity": true,
+      "allowedPrefixes": [
+        "feat",
+        "fix",
+        "docs",
+        "refactor",
+        "test",
+        "chore",
+        "style",
+        "perf"
+      ],
+      "blockBatchedCommits": true,
+      "validateBeforeCommit": true
+    },
+    "fixRecord": {
+      "enabled": true,
+      "autoGenerate": true,
+      "requireReview": true,
+      "detectFixKeywords": [
+        "fix",
+        "bug",
+        "error",
+        "issue",
+        "patch",
+        "correct",
+        "resolve"
+      ],
+      "templatePath": ".claude/agents/templates/fixrecord-entry.md"
+    },
+    "syncIntelligence": {
+      "enabled": true,
+      "adaptiveInterval": true,
+      "minIntervalSeconds": 1800,
+      "maxIntervalSeconds": 14400,
+      "syncOnIdle": true,
+      "idleThresholdSeconds": 900,
+      "workHoursStart": "09:00",
+      "workHoursEnd": "18:00",
+      "avoidSyncDuringEditing": true,
+      "conflictDetection": true
+    },
+    "learning": {
+      "enabled": false,
+      "trackPatterns": true,
+      "weeklyReports": false,
+      "suggestImprovements": false
+    },
+    "branchManagement": {
+      "enabled": true,
+      "autoCreateBranch": true,
+      "protectedBranches": ["main", "master", "develop", "production", "staging"],
+      "branchNaming": {
+        "includeRepoName": true,
+        "includeDate": true,
+        "maxLength": 60
+      },
+      "testing": {
+        "requireBeforeMerge": true,
+        "unitCommand": "npm test",
+        "regressionCommand": "npm run test:regression",
+        "testTimeout": 120000,
+        "createTestsForEveryChange": true
+      },
+      "mergeStrategy": {
+        "default": "pr",
+        "strategy": "no-ff",
+        "deleteBranchAfterMerge": true,
+        "requireTestsPass": true
+      },
+      "pullRequest": {
+        "enabled": true,
+        "defaultBase": "main",
+        "autoAssignReviewers": [],
+        "addTestingSummary": true,
+        "addCommitList": true
+      }
+    }
+  },
+  "sessionCoordination": {
+    "heartbeatIntervalSeconds": 60,
+    "staleSessionTimeoutSeconds": 300,
+    "commitLockTimeoutSeconds": 30,
+    "syncLockTimeoutSeconds": 120,
+    "maxConcurrentSessions": 10
+  },
+  "notifications": {
+    "desktop": true,
+    "sound": false,
+    "verbose": false,
+    "showSessionId": false
+  },
+  "logging": {
+    "level": "info",
+    "file": "/tmp/permahub-git-agents.log",
+    "maxSizeBytes": 10485760,
+    "retentionDays": 30,
+    "perSessionLogs": true
+  },
+  "paths": {
+    "stateDir": ".claude/agents/state",
+    "libDir": ".claude/agents/lib",
+    "templatesDir": ".claude/agents/templates",
+    "activeSessionsFile": ".claude/agents/state/active-sessions.json",
+    "activityLog": ".claude/agents/state/activity.log",
+    "commitQueue": ".claude/agents/state/commit-queue.json",
+    "syncLock": ".claude/agents/state/sync.lock",
+    "commitLock": ".git/commit.lock"
+  }
+}
