@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.2 - 2025-11-19 15:51:12
+**Commit:** `0ccfcf3`
+
+
+
 ## Version 1.0.1 - 2025-11-19 15:21:16
 **Commit:** `c79276b`
 
@@ -1918,6 +1923,42 @@ import { displayVersionBadge, VERSION_DISPLAY } from '../js/version-manager.js';
 - Vite dev server now starts without parse errors
 - Wiki home page loads correctly
 - Version badge displays properly
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-19 - Complete Branch Management CLI Integration
+
+**Commit:** (pending)
+
+**Issue:**
+Branch management commands (create-branch, complete-feature, set-merge-pref, branch-status)
+were implemented but not wired into the main CLI dispatcher, making them non-functional.
+
+**Root Cause:**
+During initial implementation, command handler functions were created but the case statements
+in the main() function's switch block were not added to route commands to handlers.
+
+**Solution:**
+Added four case statements to the main dispatcher in scripts/git-agents.sh:
+- create-branch → cmd_create_branch
+- complete-feature → cmd_complete_feature
+- set-merge-pref → cmd_set_merge_pref
+- branch-status → cmd_branch_status
+
+**Files Changed:**
+- scripts/git-agents.sh (lines 477-488: added branch command cases to dispatcher)
+
+**Verification:**
+- Tested `./scripts/git-agents.sh help` - shows all branch commands
+- Tested `./scripts/git-agents.sh branch-status` - executes successfully
+- All branch commands now accessible via CLI
+
+**Impact:**
+- Branch management system now fully operational
+- Users can create feature branches, run tests, and create PRs via CLI
+- Completes the intelligent Git agent system integration
 
 **Author:** Claude Code <noreply@anthropic.com>
 
