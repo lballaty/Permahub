@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // State
 let allIssues = [];
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Issues ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header
-  displayVersionInHeader();
+  displayVersionBadge();
 
   // Set current user (mock for now)
   currentUserId = MOCK_USER_ID;

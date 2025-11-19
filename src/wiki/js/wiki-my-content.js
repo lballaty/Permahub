@@ -5,7 +5,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki My Content ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header for testing
-  displayVersionInHeader();
+  displayVersionBadge();
 
   // Check authentication
   const isAuthenticated = await checkAuthentication();

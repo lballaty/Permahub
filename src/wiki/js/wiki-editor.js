@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Editor ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header
-  displayVersionInHeader();
+  displayVersionBadge();
 
   // Check authentication status
   const user = await supabase.getCurrentUser();
@@ -1080,10 +1080,14 @@ async function deleteContent() {
                      currentContentType === 'event' ? 'wiki_events' :
                      'wiki_locations';
 
-    // Delete the content
-    await supabase.delete(tableName, editingContentId);
+    // Get current user for soft delete tracking
+    const user = await supabase.getCurrentUser();
+    const userId = user?.id || MOCK_USER_ID;
 
-    alert(`✅ ${capitalizeFirst(currentContentType)} deleted successfully!`);
+    // Soft delete the content (allows restore)
+    await supabase.softDelete(tableName, editingContentId, userId);
+
+    alert(`✅ ${capitalizeFirst(currentContentType)} deleted successfully!\n\nYou can restore this from your "Deleted Content" page within 30 days.`);
 
     // Redirect to appropriate listing page
     if (currentContentType === 'guide') {

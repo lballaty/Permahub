@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -15,15 +15,23 @@ let currentTheme = '';
 let currentCategory = 'all';
 let allGuides = [];
 let allCategories = [];
+let allThemes = [];
 let categoryGroups = [];
 let currentSort = 'newest';
+let currentUser = null;
+
+// TODO: Replace with actual authenticated user ID when auth is implemented
+const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Guides ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header for testing
-  displayVersionInHeader();
+  displayVersionBadge();
+
+  // Get current user for ownership checks
+  currentUser = await supabase.getCurrentUser();
 
   await loadCategories();
   await loadGuides();
@@ -76,11 +84,38 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
+ * Load themes from database
+ */
+async function loadThemes() {
+  try {
+    console.log('🎨 Loading themes from wiki_theme_groups table...');
+
+    // Fetch active themes ordered by sort_order
+    allThemes = await supabase.getAll('wiki_theme_groups', {
+      where: 'is_active',
+      operator: 'eq',
+      value: true,
+      order: 'sort_order.asc'
+    });
+
+    console.log(`✅ Loaded ${allThemes.length} themes from database`);
+    console.log('📋 Theme slugs:', allThemes.map(t => t.slug));
+  } catch (error) {
+    console.error('❌ Error loading themes:', error);
+    // Fallback: continue without themes (will show all categories ungrouped)
+    allThemes = [];
+  }
+}
+
+/**
  * Load categories from database
  */
 async function loadCategories() {
   try {
     console.log('📂 Loading categories from database...');
+
+    // Load themes first (needed for grouping categories)
+    await loadThemes();
 
     // Fetch all categories
     const categories = await supabase.getAll('wiki_categories', {
@@ -98,35 +133,28 @@ async function loadCategories() {
 }
 
 /**
- * Group categories by theme (same 15 theme groups as wiki-home)
+ * Group categories by theme using database relationships
+ * Replaces hardcoded theme definitions with database-driven approach
  */
 function groupCategoriesByTheme() {
-  const themeDefinitions = [
-    { name: 'Animal Husbandry & Livestock', icon: '🐓', slugs: ['animal-husbandry', 'beekeeping', 'poultry-keeping'] },
-    { name: 'Food Preservation & Storage', icon: '🫙', slugs: ['food-preservation', 'fermentation', 'root-cellaring'] },
-    { name: 'Water Management Systems', icon: '💧', slugs: ['water-harvesting', 'pond-design', 'swale-systems'] },
-    { name: 'Soil Building & Fertility', icon: '🌱', slugs: ['composting', 'vermicomposting', 'soil-building'] },
-    { name: 'Agroforestry & Trees', icon: '🌳', slugs: ['food-forests', 'tree-guilds', 'nut-tree-cultivation'] },
-    { name: 'Garden Design & Planning', icon: '📐', slugs: ['garden-design', 'zone-planning', 'season-extension'] },
-    { name: 'Natural Building', icon: '🏘️', slugs: ['cob-building', 'straw-bale', 'earthbag-construction'] },
-    { name: 'Renewable Energy', icon: '⚡', slugs: ['solar-power', 'biogas', 'micro-hydro'] },
-    { name: 'Seed Saving & Propagation', icon: '🌾', slugs: ['seed-saving', 'grafting', 'plant-propagation'] },
-    { name: 'Forest Gardening', icon: '🌲', slugs: ['forest-gardening', 'edible-landscaping', 'understory-planting'] },
-    { name: 'Ecosystem Management', icon: '🦋', slugs: ['beneficial-insects', 'pollinator-gardens', 'habitat-creation'] },
-    { name: 'Soil Regeneration', icon: '🌿', slugs: ['cover-cropping', 'green-manures', 'no-till-farming'] },
-    { name: 'Community & Education', icon: '👥', slugs: ['community-gardens', 'teaching-permaculture', 'skill-sharing'] },
-    { name: 'Waste & Resource Cycling', icon: '♻️', slugs: ['greywater-systems', 'humanure', 'upcycling'] },
-    { name: 'Specialized Techniques', icon: '🔬', slugs: ['mushroom-cultivation', 'aquaponics', 'mycoremediation'] }
-  ];
+  // Map themes from database to category groups
+  const groups = allThemes.map(theme => ({
+    id: theme.id,
+    name: theme.name,
+    slug: theme.slug,
+    icon: theme.icon,
+    description: theme.description,
+    // Filter categories that belong to this theme via theme_id foreign key
+    categories: allCategories.filter(cat => cat.theme_id === theme.id)
+  })).filter(group => group.categories.length > 0); // Only keep groups with categories
 
-  return themeDefinitions.map(theme => ({
-    ...theme,
-    categories: allCategories.filter(cat => theme.slugs.includes(cat.slug))
-  }));
+  console.log(`✅ Grouped ${allCategories.length} categories into ${groups.length} themes (database-driven)`);
+
+  return groups;
 }
 
 /**
- * Render category filters as dropdown selects
+ * Render category filters as dropdown selects with i18n translations
  */
 function renderCategoryFilters() {
   categoryGroups = groupCategoriesByTheme();
@@ -136,11 +164,20 @@ function renderCategoryFilters() {
 
   if (!themeSelect || !categorySelect) return;
 
-  // Populate theme dropdown
+  // Clear existing theme options except first (All Themes)
+  const firstOption = themeSelect.firstElementChild;
+  themeSelect.innerHTML = '';
+  if (firstOption) {
+    themeSelect.appendChild(firstOption);
+  }
+
+  // Populate theme dropdown with translated theme names
   categoryGroups.forEach(theme => {
     const option = document.createElement('option');
-    option.value = theme.name;
-    option.textContent = `${theme.icon} ${theme.name}`;
+    option.value = theme.id; // Use theme ID instead of name
+    // Translate theme name using slug-based i18n key
+    const translatedName = wikiI18n.t(`wiki.themes.${theme.slug}`) || theme.name;
+    option.textContent = `${theme.icon} ${translatedName}`;
     themeSelect.appendChild(option);
   });
 
@@ -169,18 +206,18 @@ function populateAllCategories() {
 }
 
 /**
- * Filter category dropdown by selected theme
+ * Filter category dropdown by selected theme (using theme ID)
  */
-function filterCategoriesByTheme(themeName) {
+function filterCategoriesByTheme(themeId) {
   const categorySelect = document.getElementById('categorySelect');
   if (!categorySelect) return;
 
-  if (!themeName) {
+  if (!themeId) {
     populateAllCategories();
     return;
   }
 
-  const theme = categoryGroups.find(t => t.name === themeName);
+  const theme = categoryGroups.find(t => t.id === themeId);
   if (!theme) return;
 
   // Clear and repopulate with theme categories
@@ -211,11 +248,13 @@ function updateActiveFilters() {
 
   // Add theme filter if set
   if (currentTheme) {
-    const theme = categoryGroups.find(t => t.name === currentTheme);
+    const theme = categoryGroups.find(t => t.id === currentTheme);
     if (theme) {
+      // Translate theme name using slug-based i18n key
+      const translatedName = wikiI18n.t(`wiki.themes.${theme.slug}`) || theme.name;
       filters.push(`
         <div class="active-filter-tag">
-          <span>${theme.icon} ${theme.name}</span>
+          <span>${theme.icon} ${translatedName}</span>
           <button class="remove-filter" data-type="theme">
             <i class="fas fa-times"></i>
           </button>
@@ -395,12 +434,18 @@ function renderGuides() {
     return;
   }
 
-  guidesGrid.innerHTML = filteredGuides.map(guide => `
-    <div class="card">
+  guidesGrid.innerHTML = filteredGuides.map(guide => {
+    // Check if current user owns this guide
+    const userId = currentUser?.id || MOCK_USER_ID;
+    const isOwner = guide.author_id === userId;
+
+    return `
+    <div class="card ${isOwner ? 'card-owned' : ''}">
       <div class="card-meta">
         <span><i class="fas fa-calendar"></i> ${formatDate(guide.published_at)}</span>
         ${guide.author_name ? `<span><i class="fas fa-user"></i> ${escapeHtml(guide.author_name)}</span>` : ''}
         <span><i class="fas fa-eye"></i> ${guide.view_count || 0} views</span>
+        ${isOwner ? `<span class="owner-badge"><i class="fas fa-user-check"></i> You're the author</span>` : ''}
       </div>
       <h3 class="card-title">
         <a href="wiki-page.html?slug=${escapeHtml(guide.slug || '')}" style="text-decoration: none; color: inherit;">
@@ -416,8 +461,22 @@ function renderGuides() {
           return `<span class="tag">${translatedName}</span>`;
         }).join('')}
       </div>
+      <div class="card-actions ${isOwner ? 'card-actions-owner' : ''}">
+        <a href="wiki-page.html?slug=${escapeHtml(guide.slug || '')}" class="btn btn-outline btn-small">
+          <i class="fas fa-book-open"></i> Read
+        </a>
+        ${isOwner ? `
+          <a href="wiki-editor.html?slug=${escapeHtml(guide.slug || '')}&type=guide" class="btn btn-primary btn-small">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+          <button class="btn btn-danger btn-small" onclick="deleteGuide('${guide.id}', '${escapeHtml(guide.title)}')">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        ` : ''}
+      </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 /**
@@ -700,3 +759,49 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+/**
+ * Delete guide with confirmation (soft delete)
+ */
+window.deleteGuide = async function(guideId, guideTitle) {
+  try {
+    // First confirmation
+    const confirmed = confirm(
+      `Are you sure you want to delete "${guideTitle}"?\n\n` +
+      `This guide will be moved to your "Deleted Content" page where you can restore it within 30 days.`
+    );
+
+    if (!confirmed) {
+      console.log('❌ Delete cancelled by user (first confirmation)');
+      return;
+    }
+
+    // Second confirmation - type "DELETE" to confirm
+    const deleteConfirmation = prompt(
+      `To confirm deletion, please type DELETE in capital letters:`
+    );
+
+    if (deleteConfirmation !== 'DELETE') {
+      alert('Deletion cancelled. You must type DELETE exactly to confirm.');
+      console.log('❌ Delete cancelled - confirmation text did not match');
+      return;
+    }
+
+    console.log(`🗑️ Soft deleting guide with ID: ${guideId}`);
+
+    // Get current user
+    const userId = currentUser?.id || MOCK_USER_ID;
+
+    // Soft delete the guide
+    await supabase.softDelete('wiki_guides', guideId, userId);
+
+    alert(`✅ Guide deleted successfully!\n\nYou can restore this from your "Deleted Content" page within 30 days.`);
+
+    // Reload guides to remove deleted one from view
+    await loadGuides();
+
+  } catch (error) {
+    console.error('❌ Error deleting guide:', error);
+    alert(`Failed to delete guide: ${error.message}`);
+  }
+};

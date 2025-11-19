@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // State
 let currentTab = 'all';
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Favorites ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header
-  displayVersionInHeader();
+  displayVersionBadge();
 
   // Check authentication
   const isAuthenticated = await checkAuthentication();

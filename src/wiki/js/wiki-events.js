@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -15,13 +15,20 @@ let currentTimeFilter = 'upcoming'; // 'upcoming', 'past', 'all'
 let allEvents = [];
 let currentView = 'list'; // 'list' or 'calendar'
 let currentCalendarDate = new Date(); // Track current month in calendar view
+let currentUser = null;
+
+// TODO: Replace with actual authenticated user ID when auth is implemented
+const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Events ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header for testing
-  displayVersionInHeader();
+  displayVersionBadge();
+
+  // Get current user for ownership checks
+  currentUser = await supabase.getCurrentUser();
 
   await loadEvents();
   initializeEventFilters();
@@ -150,14 +157,22 @@ function renderEvents() {
     return;
   }
 
-  eventsGrid.innerHTML = filteredEvents.map(event => `
-    <div class="event-card" data-event-type="${event.event_type || 'meetup'}">
+  eventsGrid.innerHTML = filteredEvents.map(event => {
+    // Check if current user owns this event
+    const userId = currentUser?.id || MOCK_USER_ID;
+    const isOwner = event.organizer_id === userId;
+
+    return `
+    <div class="event-card ${isOwner ? 'card-owned' : ''}" data-event-type="${event.event_type || 'meetup'}">
       <div class="event-date">
         <div class="event-day">${formatDay(event.event_date)}</div>
         <div class="event-month">${formatMonth(event.event_date)}</div>
       </div>
       <div class="event-details">
-        <h3 class="event-title">${escapeHtml(event.title)}</h3>
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+          <h3 class="event-title" style="margin: 0;">${escapeHtml(event.title)}</h3>
+          ${isOwner ? `<span class="owner-badge"><i class="fas fa-user-check"></i> You're the organizer</span>` : ''}
+        </div>
         <div class="event-info">
           ${event.start_time ? `<span><i class="fas fa-clock"></i> ${formatTime(event.start_time)}${event.end_time ? ' - ' + formatTime(event.end_time) : ''}</span>` : ''}
           ${event.location_name ? `<span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location_name)}</span>` : ''}
@@ -195,7 +210,7 @@ function renderEvents() {
           ` : ''}
         </div>
         ` : ''}
-        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <div class="card-actions ${isOwner ? 'card-actions-owner' : ''}" style="margin-top: 1rem;">
           ${event.registration_url ?
             `<a href="${escapeHtml(event.registration_url)}" target="_blank" rel="noopener" class="btn btn-primary btn-small"><i class="fas fa-ticket-alt"></i> Register</a>` :
             `<button onclick="showNoRegistrationModal('${escapeHtml(event.title)}')" class="btn btn-outline btn-small"><i class="fas fa-info-circle"></i> No Registration Required</button>`
@@ -203,11 +218,19 @@ function renderEvents() {
           <button onclick="downloadEventICS('${event.id}')" class="btn btn-outline btn-small" title="Add to Google Calendar, Apple Calendar, etc.">
             <i class="fas fa-calendar-plus"></i> Export
           </button>
-          <button onclick="showEventDetails('${event.id}')" class="btn btn-outline btn-small">Details</button>
+          ${isOwner ? `
+            <a href="wiki-editor.html?slug=${escapeHtml(event.slug || '')}&type=event" class="btn btn-primary btn-small">
+              <i class="fas fa-edit"></i> Edit
+            </a>
+            <button class="btn btn-danger btn-small" onclick="deleteEvent('${event.id}', '${escapeHtml(event.title)}')">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          ` : ''}
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 /**
@@ -1100,3 +1123,49 @@ function downloadEventICS(eventId) {
 
 // Export function to window for use in HTML onclick
 window.downloadEventICS = downloadEventICS;
+
+/**
+ * Delete event with confirmation (soft delete)
+ */
+window.deleteEvent = async function(eventId, eventTitle) {
+  try {
+    // First confirmation
+    const confirmed = confirm(
+      `Are you sure you want to delete "${eventTitle}"?\n\n` +
+      `This event will be moved to your "Deleted Content" page where you can restore it within 30 days.`
+    );
+
+    if (!confirmed) {
+      console.log('❌ Delete cancelled by user (first confirmation)');
+      return;
+    }
+
+    // Second confirmation - type "DELETE" to confirm
+    const deleteConfirmation = prompt(
+      `To confirm deletion, please type DELETE in capital letters:`
+    );
+
+    if (deleteConfirmation !== 'DELETE') {
+      alert('Deletion cancelled. You must type DELETE exactly to confirm.');
+      console.log('❌ Delete cancelled - confirmation text did not match');
+      return;
+    }
+
+    console.log(`🗑️ Soft deleting event with ID: ${eventId}`);
+
+    // Get current user
+    const userId = currentUser?.id || MOCK_USER_ID;
+
+    // Soft delete the event
+    await supabase.softDelete('wiki_events', eventId, userId);
+
+    alert(`✅ Event deleted successfully!\n\nYou can restore this from your "Deleted Content" page within 30 days.`);
+
+    // Reload events to remove deleted one from view
+    await loadEvents();
+
+  } catch (error) {
+    console.error('❌ Error deleting event:', error);
+    alert(`Failed to delete event: ${error.message}`);
+  }
+};

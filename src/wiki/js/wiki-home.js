@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from '../js/version-manager.js';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -17,6 +17,7 @@ let allGuides = [];
 let allCategories = [];
 let allLocations = [];
 let allEvents = [];
+let allThemes = [];
 let categoryGroups = [];
 
 // Initialize on page load
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log('📍 Supabase URL:', import.meta.env.VITE_SUPABASE_URL || 'http://127.0.0.1:54321');
 
   // Display version in header for testing
-  displayVersionInHeader();
+  displayVersionBadge();
 
   await loadInitialData();
   renderCategoryFilters(); // Render categories dynamically
@@ -80,6 +81,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
+ * Load themes from database
+ */
+async function loadThemes() {
+  try {
+    console.log('🎨 Loading themes from wiki_theme_groups table...');
+
+    // Fetch active themes ordered by sort_order
+    allThemes = await supabase.getAll('wiki_theme_groups', {
+      where: 'is_active',
+      operator: 'eq',
+      value: true,
+      order: 'sort_order.asc'
+    });
+
+    console.log(`✅ Loaded ${allThemes.length} themes from database`);
+    console.log('📋 Theme slugs:', allThemes.map(t => t.slug));
+  } catch (error) {
+    console.error('❌ Error loading themes:', error);
+    // Fallback: continue without themes (will show all categories ungrouped)
+    allThemes = [];
+  }
+}
+
+/**
  * Load initial data from database
  */
 async function loadInitialData() {
@@ -88,6 +113,9 @@ async function loadInitialData() {
 
     // Show loading state
     showLoading();
+
+    // Load themes first (needed for grouping categories)
+    await loadThemes();
 
     // Fetch categories
     console.log('📂 Fetching categories from wiki_categories table...');
@@ -507,41 +535,26 @@ function escapeHtml(text) {
 }
 
 /**
- * Group categories by theme based on seed file structure
+ * Group categories by theme using database relationships
+ * Replaces hardcoded theme definitions with database-driven approach
  */
 function groupCategoriesByTheme() {
-  // Define the 15 theme groups as per seed file structure
-  const themeDefinitions = [
-    { name: 'Animal Husbandry & Livestock', icon: '🐓', slugs: ['animal-husbandry', 'beekeeping', 'poultry-keeping'] },
-    { name: 'Food Preservation & Storage', icon: '🫙', slugs: ['food-preservation', 'fermentation', 'root-cellaring'] },
-    { name: 'Mycology & Mushrooms', icon: '🍄', slugs: ['mycology', 'mushroom-cultivation', 'mycoremediation'] },
-    { name: 'Indigenous & Traditional Knowledge', icon: '🪶', slugs: ['indigenous-knowledge', 'ethnobotany', 'bioregionalism'] },
-    { name: 'Fiber Arts & Textiles', icon: '🧶', slugs: ['fiber-arts', 'natural-dyeing', 'textile-production'] },
-    { name: 'Appropriate Technology', icon: '⚙️', slugs: ['appropriate-technology', 'solar-technology', 'bicycle-power'] },
-    { name: 'Herbal Medicine', icon: '🌿', slugs: ['herbal-medicine', 'plant-medicine-making', 'medicinal-gardens'] },
-    { name: 'Soil Science & Regeneration', icon: '🔬', slugs: ['soil-science', 'regenerative-agriculture', 'cover-cropping'] },
-    { name: 'Foraging & Wildcrafting', icon: '🫐', slugs: ['foraging', 'wild-edibles', 'ethical-wildcrafting'] },
-    { name: 'Aquaculture & Water Systems', icon: '🐟', slugs: ['aquaculture', 'aquaponics', 'pond-management'] },
-    { name: 'Ecosystem Restoration', icon: '🌍', slugs: ['bioremediation', 'erosion-control', 'pollinator-support'] },
-    { name: 'Community & Social Systems', icon: '🤝', slugs: ['social-permaculture', 'ecovillage-design', 'consensus-decision-making'] },
-    { name: 'Alternative Economics', icon: '💱', slugs: ['alternative-economics', 'time-banking', 'gift-economy'] },
-    { name: 'Climate Resilience', icon: '🌡️', slugs: ['climate-adaptation', 'drought-strategies', 'fire-smart-landscaping'] },
-    { name: 'Family & Education', icon: '👶', slugs: ['childrens-gardens', 'nature-education', 'family-homesteading'] }
-  ];
-
-  categoryGroups = themeDefinitions.map(theme => ({
+  // Map themes from database to category groups
+  categoryGroups = allThemes.map(theme => ({
+    id: theme.id,
     name: theme.name,
+    slug: theme.slug,
     icon: theme.icon,
-    categories: theme.slugs
-      .map(slug => allCategories.find(cat => cat.slug === slug))
-      .filter(Boolean) // Remove undefined entries if category not found
+    description: theme.description,
+    // Filter categories that belong to this theme via theme_id foreign key
+    categories: allCategories.filter(cat => cat.theme_id === theme.id)
   })).filter(group => group.categories.length > 0); // Only keep groups with categories
 
-  console.log(`✅ Grouped ${allCategories.length} categories into ${categoryGroups.length} themes`);
+  console.log(`✅ Grouped ${allCategories.length} categories into ${categoryGroups.length} themes (database-driven)`);
 }
 
 /**
- * Render category filter dropdowns
+ * Render category filter dropdowns with i18n translations
  */
 function renderCategoryFilters() {
   groupCategoriesByTheme();
@@ -551,11 +564,13 @@ function renderCategoryFilters() {
 
   if (!themeSelect || !categorySelect) return;
 
-  // Populate theme dropdown
+  // Populate theme dropdown with translated theme names
   themeSelect.innerHTML = '<option value="">' + wikiI18n.t('wiki.home.all_themes') + '</option>' +
-    categoryGroups.map(group =>
-      `<option value="${escapeHtml(group.name)}">${group.icon} ${escapeHtml(group.name)}</option>`
-    ).join('');
+    categoryGroups.map(group => {
+      // Translate theme name using slug-based i18n key
+      const translatedName = wikiI18n.t(`wiki.themes.${group.slug}`) || escapeHtml(group.name);
+      return `<option value="${group.id}">${group.icon} ${translatedName}</option>`;
+    }).join('');
 
   // Populate category dropdown with all categories initially
   populateAllCategories();
@@ -579,18 +594,18 @@ function populateAllCategories() {
 }
 
 /**
- * Filter categories by selected theme
+ * Filter categories by selected theme (using theme ID)
  */
-function filterCategoriesByTheme(themeName) {
+function filterCategoriesByTheme(themeId) {
   const categorySelect = document.getElementById('categorySelect');
   if (!categorySelect) return;
 
-  if (!themeName) {
+  if (!themeId) {
     populateAllCategories();
     return;
   }
 
-  const group = categoryGroups.find(g => g.name === themeName);
+  const group = categoryGroups.find(g => g.id === themeId);
   if (group) {
     categorySelect.innerHTML = '<option value="">' + wikiI18n.t('wiki.home.all_categories_in_theme') + '</option>' +
       group.categories.map(cat => {
@@ -602,7 +617,7 @@ function filterCategoriesByTheme(themeName) {
 }
 
 /**
- * Update active filter tags display
+ * Update active filter tags display with i18n translations
  */
 function updateActiveFilters() {
   const container = document.getElementById('activeFilters');
@@ -612,11 +627,14 @@ function updateActiveFilters() {
   const filters = [];
 
   if (currentTheme) {
-    const group = categoryGroups.find(g => g.name === currentTheme);
+    // Find theme by ID (currentTheme now stores theme ID)
+    const group = categoryGroups.find(g => g.id === currentTheme);
     if (group) {
+      // Translate theme name using slug-based i18n key
+      const translatedName = wikiI18n.t(`wiki.themes.${group.slug}`) || escapeHtml(group.name);
       filters.push(`
         <div class="active-filter-tag">
-          <span>${group.icon} ${escapeHtml(currentTheme)}</span>
+          <span>${group.icon} ${translatedName}</span>
           <button class="remove-filter" data-type="theme">
             <i class="fas fa-times"></i>
           </button>

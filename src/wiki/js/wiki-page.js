@@ -4,7 +4,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
-import { displayVersionInHeader, VERSION_DISPLAY } from '../../js/version.js';
+import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
 
 // wikiI18n is loaded globally via script tag in HTML
 const wikiI18n = window.wikiI18n;
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   console.log(`🚀 Wiki Page ${VERSION_DISPLAY}: DOMContentLoaded - Starting initialization`);
 
   // Display version in header
-  displayVersionInHeader();
+  displayVersionBadge();
 
   // Get slug from URL
   const urlParams = new URLSearchParams(window.location.search);
