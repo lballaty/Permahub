@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.28 - 2025-11-20 09:29:14
+**Commit:** `c1b9b0b`
+
+
+
 ## Version 1.0.27 - 2025-11-20 09:10:38
 **Commit:** `5011728`
 
@@ -3179,3 +3184,67 @@ Changes to supabase-client.js request() method:
 
 ---
 
+
+### 2025-11-20 - Add Newsletter Unsubscribe Page with Feedback Collection
+
+**Commit:** pending
+
+**Issue:**
+Users had no way to unsubscribe from the newsletter or manage their subscription preferences. There was no UI for unsubscribing, and no mechanism to collect feedback about why users unsubscribe.
+
+**Root Cause:**
+While the `unsubscribe_from_newsletter()` database function existed, there was:
+- No user-facing unsubscribe page
+- No link to access unsubscribe functionality
+- No feedback collection system
+- No way for non-registered users to manage subscriptions
+
+**Solution:**
+1. Created database table `wiki_newsletter_unsubscribe_feedback` to store unsubscribe reasons and feedback
+2. Created enhanced function `unsubscribe_from_newsletter_with_feedback()` that:
+   - Unsubscribes the user
+   - Records feedback reasons (too frequent, not relevant, spam, etc.)
+   - Stores additional comments and suggestions
+3. Created unsubscribe page `wiki-unsubscribe.html` with:
+   - Email input
+   - Multiple feedback checkboxes
+   - Optional text fields for detailed feedback
+   - Success/error handling
+4. Added JavaScript `wiki-unsubscribe.js` to handle form submission
+5. Added unsubscribe link to footer of home page (low-key placement)
+6. Applied SECURITY DEFINER to unsubscribe function for anonymous access
+
+**Files Changed:**
+- supabase/migrations/012_newsletter_unsubscribe_feedback.sql (new table and function)
+- src/wiki/wiki-unsubscribe.html (new unsubscribe page)
+- src/wiki/js/wiki-unsubscribe.js (new JavaScript module)
+- src/wiki/wiki-home.html (added footer link)
+- FixRecord.md (this entry)
+
+**Testing:**
+Applied migration to both databases:
+```bash
+# Local database
+PGPASSWORD='postgres' psql -h 127.0.0.1 -p 5432 -d postgres -U postgres -f 012_newsletter_unsubscribe_feedback.sql
+
+# Cloud database
+PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f 012_newsletter_unsubscribe_feedback.sql
+```
+
+✅ Table created with feedback columns
+✅ RLS policies applied (INSERT for anon, no SELECT for privacy)
+✅ Function created with SECURITY DEFINER
+✅ EXECUTE permissions granted to anon and authenticated
+✅ Unsubscribe page accessible at wiki-unsubscribe.html
+✅ Footer link added to home page
+
+**Impact:**
+- Users can now unsubscribe from newsletter
+- Feedback collection helps improve newsletter service
+- Privacy-protected feedback (only database admins can view)
+- Supports anonymous unsubscribe (no login required)
+- Optional feedback - users can skip and just unsubscribe
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
