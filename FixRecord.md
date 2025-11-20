@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.35 - 2025-11-20 12:19:30
+**Commit:** `f7d39c2`
+
+
+
 ## Version 1.0.34 - 2025-11-20 12:03:13
 **Commit:** `68f6ecd`
 
@@ -376,6 +381,31 @@ Implemented comprehensive automated version management system:
 - tests/integration/wiki/home-page.spec.js (updated version format test)
 - .git/hooks/pre-commit (installed)
 - .git/hooks/post-commit (installed)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Move Create Page Button into Wiki Editor Toolbar
+
+**Commit:** `pending`
+
+**Issue:**
+The wiki editor page still displayed a "Create Page" button in the global header navigation, even though the other wiki pages had this button removed and users primarily access content creation via in-page controls and the authenticated user menu. This made the editor header inconsistent with the rest of the wiki and kept the primary create action visually detached from the editor controls.
+
+**Root Cause:**
+When the "Create Page" button was removed from the shared wiki header across most pages, the wiki editor page (`wiki-editor.html`) was overlooked. The button remained in the top nav instead of being colocated with the editor-specific actions like Preview and Save.
+
+**Solution:**
+Cleaned up the wiki editor layout by:
+- Removing the "Create Page" `<li>` button from the global header navigation on `wiki-editor.html`.
+- Adding a new "Create Page" button next to the "Preview" button in the editor card header toolbar.
+
+This keeps the wiki header consistent across pages and places the create action alongside other editor controls where users expect it.
+
+**Files Changed:**
+- src/wiki/wiki-editor.html
+- FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
