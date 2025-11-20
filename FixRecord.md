@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.27 - 2025-11-20 09:10:38
+**Commit:** `5011728`
+
+
+
 ## Version 1.0.26 - 2025-11-19 18:34:43
 **Commit:** `46c2a54`
 
@@ -3138,6 +3143,39 @@ After changes:
 - ✅ Newsletter subscription section displays with proper heading
 
 **Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+### 2025-11-20 - Fix Supabase Client to Return Created Data
+
+**Commit:** `pending`
+
+**Issue:**
+After fixing the MOCK_USER_ID issue, guide creation succeeded (201 Created) but failed with JSON parsing error:
+```
+SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
+```
+
+The response had `Content-Type: null` indicating no body was returned.
+
+**Root Cause:**
+PostgREST by default returns no body on INSERT/UPDATE operations unless you explicitly request it with the `Prefer: return=representation` header. The Supabase client was not setting this header, causing POST/PATCH requests to return 201/200 with empty bodies, which then failed JSON parsing.
+
+**Solution:**
+- Added `Prefer: return=representation` header to POST and PATCH requests
+- Added content-type check before attempting JSON parsing
+- Return null for responses without JSON content instead of failing
+
+Changes to supabase-client.js request() method:
+1. Add Prefer header for POST/PATCH methods
+2. Check Content-Type header before parsing JSON
+3. Gracefully handle empty responses
+
+**Files Changed:**
+- src/js/supabase-client.js
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
 

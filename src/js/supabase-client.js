@@ -137,6 +137,11 @@ class SupabaseClient {
       }
     };
 
+    // Add Prefer header for POST/PATCH to return created/updated data
+    if (method === 'POST' || method === 'PATCH') {
+      options.headers['Prefer'] = 'return=representation';
+    }
+
     if (body) {
       options.body = JSON.stringify(body);
     }
@@ -161,6 +166,13 @@ class SupabaseClient {
       // 204 No Content responses don't have a body
       if (response.status === 204) {
         console.log(`  ✅ No content returned (successful update/delete)`);
+        return null;
+      }
+
+      // Check if response has content
+      const contentType = response.headers.get('Content-Type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.log(`  ✅ No JSON content returned (successful operation)`);
         return null;
       }
 

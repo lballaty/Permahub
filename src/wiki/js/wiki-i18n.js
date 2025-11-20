@@ -112,7 +112,7 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Save to Favorites',
       'wiki.page.share': 'Share',
       'wiki.page.print': 'Print',
-
+      'wiki.page.stay_updated': 'Stay Updated',
       'wiki.page.newsletter_desc': 'Subscribe for more guides and community updates',
       'wiki.page.email_placeholder': 'Enter your email address',
       'wiki.page.subscribe': 'Subscribe',
@@ -960,7 +960,7 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Guardar nos Favoritos',
       'wiki.page.share': 'Partilhar',
       'wiki.page.print': 'Imprimir',
-
+      'wiki.page.stay_updated': 'Mantenha-se Atualizado',
       'wiki.page.newsletter_desc': 'Suscríbete para más guías y actualizaciones de la comunidad',
       'wiki.page.email_placeholder': 'Ingresa tu dirección de correo electrónico',
       'wiki.page.subscribe': 'Suscribirse',
@@ -1931,6 +1931,10 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Guardar en Favoritos',
       'wiki.page.share': 'Compartir',
       'wiki.page.print': 'Imprimir',
+      'wiki.page.stay_updated': 'Mantente Actualizado',
+      'wiki.page.newsletter_desc': 'Suscríbete para más guías y actualizaciones de la comunidad',
+      'wiki.page.email_placeholder': 'Ingresa tu dirección de correo electrónico',
+      'wiki.page.subscribe': 'Suscribirse',
       'wiki.page.lastEdited': 'Última edición:',
       'wiki.page.contributors': 'Colaboradores:',
       'wiki.page.viewCount': 'Esta página ha sido vista',
@@ -2976,7 +2980,7 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Zu Favoriten hinzufügen',
       'wiki.page.share': 'Teilen',
       'wiki.page.print': 'Drucken',
-
+      'wiki.page.stay_updated': 'Bleiben Sie auf dem Laufenden',
       'wiki.page.newsletter_desc': 'Abonnieren Sie weitere Leitfäden und Community-Updates',
       'wiki.page.email_placeholder': 'Geben Sie Ihre E-Mail-Adresse ein',
       'wiki.page.subscribe': 'Abonnieren',
@@ -4492,7 +4496,7 @@ const wikiI18n = {
       'wiki.page.saveToFavorites': 'Uložit do oblíbených',
       'wiki.page.share': 'Sdílet',
       'wiki.page.print': 'Tisk',
-
+      'wiki.page.stay_updated': 'Zůstaňte informováni',
       'wiki.page.newsletter_desc': 'Přihlaste se k odběru dalších průvodců a aktualizací komunity',
       'wiki.page.email_placeholder': 'Zadejte svou e-mailovou adresu',
       'wiki.page.subscribe': 'Přihlásit se k odběru',
