@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.30 - 2025-11-20 11:11:51
+**Commit:** `d2dce54`
+
+
+
 ## Version 1.0.29 - 2025-11-20 09:48:56
 **Commit:** `09cbbec`
 
@@ -3384,6 +3389,37 @@ Changes to wiki-editor.js:
 
 **Files Changed:**
 - src/wiki/js/wiki-editor.js
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Add Missing i18n Translations for My Content Page
+
+**Commit:** `pending`
+
+**Issue:**
+My Content page displayed ~30 translation warnings in console:
+```
+⚠️ Missing translation for "wiki.my_content.page_title" in language "en"
+⚠️ Missing translation for "wiki.my_content.title" in language "en"
+...and 30+ more
+```
+
+**Root Cause:**
+The My Content page HTML had data-i18n attributes but the corresponding translation keys were missing from wiki-i18n.js. The page used English fallback text but logged warnings for every missing key.
+
+**Solution:**
+Added complete my_content translation section to wiki-i18n.js with 30+ keys:
+- Page metadata (title, subtitle)
+- Filter labels (status, type, date, category)
+- Filter options (draft, published, archived, guides, events, locations)
+- Sort options (newest, oldest, A-Z, most viewed, last edited)
+- UI elements (active filters, clear all)
+
+**Files Changed:**
+- src/wiki/js/wiki-i18n.js
 - FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
