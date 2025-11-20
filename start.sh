@@ -25,6 +25,9 @@ MAILPIT_PORT=54324
 # Database selection (default: auto-detect)
 DB_MODE="auto"  # Can be: auto, cloud, local
 
+# Browser selection (default: interactive/system default)
+BROWSER=""  # Can be: chrome, firefox, safari, brave, edge, arc, or empty for interactive
+
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -36,13 +39,30 @@ while [[ $# -gt 0 ]]; do
       DB_MODE="local"
       shift
       ;;
+    --browser)
+      if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+        BROWSER="$2"
+        shift 2
+      else
+        echo -e "${RED}Error: --browser requires a browser name${NC}"
+        echo "Use --help for usage information"
+        exit 1
+      fi
+      ;;
     --help|-h)
-      echo "Usage: ./start.sh [--cloud|--local]"
+      echo "Usage: ./start.sh [OPTIONS]"
       echo ""
       echo "Options:"
-      echo "  --cloud    Force cloud database (skips Supabase startup)"
-      echo "  --local    Force local database (requires Supabase running)"
-      echo "  (no flag)  Auto-detect based on hostname (default)"
+      echo "  --cloud              Force cloud database (skips Supabase startup)"
+      echo "  --local              Force local database (requires Supabase running)"
+      echo "  --browser BROWSER    Choose browser: chrome, firefox, safari, brave, edge, arc"
+      echo "  -h, --help           Show this help message"
+      echo ""
+      echo "Examples:"
+      echo "  ./start.sh --cloud --browser chrome"
+      echo "  ./start.sh --local --browser firefox"
+      echo "  ./start.sh --browser safari"
+      echo "  ./start.sh"
       exit 0
       ;;
     *)
@@ -56,20 +76,190 @@ done
 echo -e "${BOLD}${CYAN}"
 echo "═══════════════════════════════════════════════════════════"
 echo "   🌱 Permahub Startup Script"
-if [ "$DB_MODE" = "cloud" ]; then
-  echo "   Database Mode: 🌐 Cloud (forced)"
-elif [ "$DB_MODE" = "local" ]; then
-  echo "   Database Mode: 💻 Local (forced)"
-else
-  echo "   Database Mode: 🔄 Auto-detect"
-fi
 echo "═══════════════════════════════════════════════════════════"
 echo -e "${NC}"
+
+# Prominent database mode display
+if [ "$DB_MODE" = "cloud" ]; then
+  echo -e "${BOLD}${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${BOLD}${YELLOW}║  ⚠️  DATABASE MODE: 🌐 CLOUD (PRODUCTION) ⚠️              ║${NC}"
+  echo -e "${BOLD}${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
+elif [ "$DB_MODE" = "local" ]; then
+  echo -e "${BOLD}${GREEN}╔═══════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${BOLD}${GREEN}║  💻 DATABASE MODE: LOCAL (DEVELOPMENT)                    ║${NC}"
+  echo -e "${BOLD}${GREEN}╚═══════════════════════════════════════════════════════════╝${NC}"
+else
+  echo -e "${BOLD}${CYAN}╔═══════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${BOLD}${CYAN}║  🔄 DATABASE MODE: AUTO-DETECT                            ║${NC}"
+  echo -e "${BOLD}${CYAN}╚═══════════════════════════════════════════════════════════╝${NC}"
+fi
+
+# Show browser if specified
+if [ -n "$BROWSER" ]; then
+  echo -e "${CYAN}Browser: 🌐 ${BROWSER^}${NC}"
+fi
+echo ""
 
 # Function to check if a port is in use
 check_port() {
     local port=$1
     lsof -Pi :$port -sTCP:LISTEN -t >/dev/null 2>&1
+}
+
+# Function to check if a browser is installed on macOS
+is_browser_installed() {
+    local browser=$1
+    case "$browser" in
+        chrome)
+            [ -d "/Applications/Google Chrome.app" ]
+            ;;
+        firefox)
+            [ -d "/Applications/Firefox.app" ]
+            ;;
+        safari)
+            [ -d "/Applications/Safari.app" ]
+            ;;
+        brave)
+            [ -d "/Applications/Brave Browser.app" ]
+            ;;
+        edge)
+            [ -d "/Applications/Microsoft Edge.app" ]
+            ;;
+        arc)
+            [ -d "/Applications/Arc.app" ]
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+# Function to get browser application path
+get_browser_path() {
+    local browser=$1
+    case "$browser" in
+        chrome)
+            echo "/Applications/Google Chrome.app"
+            ;;
+        firefox)
+            echo "/Applications/Firefox.app"
+            ;;
+        safari)
+            echo "/Applications/Safari.app"
+            ;;
+        brave)
+            echo "/Applications/Brave Browser.app"
+            ;;
+        edge)
+            echo "/Applications/Microsoft Edge.app"
+            ;;
+        arc)
+            echo "/Applications/Arc.app"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+# Function to get browser display name
+get_browser_display_name() {
+    local browser=$1
+    case "$browser" in
+        chrome)
+            echo "Google Chrome"
+            ;;
+        firefox)
+            echo "Firefox"
+            ;;
+        safari)
+            echo "Safari"
+            ;;
+        brave)
+            echo "Brave"
+            ;;
+        edge)
+            echo "Microsoft Edge"
+            ;;
+        arc)
+            echo "Arc"
+            ;;
+        *)
+            echo "$browser"
+            ;;
+    esac
+}
+
+# Function to detect all installed browsers
+detect_browsers() {
+    local browsers=()
+    for browser in safari chrome firefox brave edge arc; do
+        if is_browser_installed "$browser"; then
+            browsers+=("$browser")
+        fi
+    done
+    echo "${browsers[@]}"
+}
+
+# Function to show interactive browser selection menu
+select_browser_interactive() {
+    echo -e "\n${BOLD}${CYAN}Select browser:${NC}"
+
+    local available_browsers=($(detect_browsers))
+
+    if [ ${#available_browsers[@]} -eq 0 ]; then
+        echo -e "${YELLOW}⚠️  No common browsers detected, using system default${NC}"
+        echo ""
+        return
+    fi
+
+    local count=1
+    for browser in "${available_browsers[@]}"; do
+        local display_name=$(get_browser_display_name "$browser")
+        if [ "$browser" = "safari" ]; then
+            echo -e "  ${count}) ${display_name} ${CYAN}(system default)${NC}"
+        else
+            echo -e "  ${count}) ${display_name}"
+        fi
+        ((count++))
+    done
+    echo -e "  ${count}) Skip (don't open browser)"
+    echo ""
+
+    read -p "$(echo -e ${YELLOW}Choose browser [1-${count}]: ${NC})" -n 1 -r choice
+    echo ""
+
+    if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -lt "$count" ]; then
+        local selected_index=$((choice - 1))
+        BROWSER="${available_browsers[$selected_index]}"
+    elif [ "$choice" = "$count" ]; then
+        BROWSER="skip"
+    else
+        echo -e "${YELLOW}Invalid choice, using system default${NC}"
+        BROWSER=""
+    fi
+}
+
+# Function to open URL in specified browser
+open_in_browser() {
+    local url=$1
+    local browser=$2
+
+    if [ -z "$browser" ] || [ "$browser" = "skip" ]; then
+        return 1
+    fi
+
+    if ! is_browser_installed "$browser"; then
+        echo -e "${YELLOW}⚠️  ${browser^} not installed, using system default browser${NC}"
+        open "$url"
+        return $?
+    fi
+
+    local browser_path=$(get_browser_path "$browser")
+    local display_name=$(get_browser_display_name "$browser")
+
+    echo -e "${BLUE}🌐 Opening Permahub in ${display_name}...${NC}"
+    open -a "$browser_path" "$url"
 }
 
 # Function to check if Supabase is running
@@ -496,13 +686,36 @@ main() {
         read -p "$(echo -e ${YELLOW}Open Permahub in browser? [Y/n]: ${NC})" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
-            echo -e "${BLUE}🌐 Opening Permahub in browser...${NC}"
-            open "http://localhost:${DEV_SERVER_PORT}/src/wiki/wiki-home.html"
+            # If no browser specified via command line, show interactive menu
+            if [ -z "$BROWSER" ]; then
+                select_browser_interactive
+            fi
+
+            # Open in selected browser or system default
+            local url="http://localhost:${DEV_SERVER_PORT}/src/wiki/wiki-home.html"
+            if [ -n "$BROWSER" ] && [ "$BROWSER" != "skip" ]; then
+                open_in_browser "$url" "$BROWSER"
+            elif [ "$BROWSER" != "skip" ]; then
+                echo -e "${BLUE}🌐 Opening Permahub in system default browser...${NC}"
+                open "$url"
+            else
+                echo -e "${CYAN}Skipping browser launch${NC}"
+            fi
         fi
     fi
 
     echo ""
     echo -e "${BOLD}${GREEN}✅ Startup complete!${NC}"
+
+    # Remind user of database mode
+    if [ "$DB_MODE" = "cloud" ]; then
+        echo -e "${BOLD}${YELLOW}⚠️  Remember: Using CLOUD database (PRODUCTION)${NC}"
+    elif [ "$DB_MODE" = "local" ]; then
+        echo -e "${BOLD}${GREEN}💻 Using LOCAL database (DEVELOPMENT)${NC}"
+    else
+        echo -e "${BOLD}${CYAN}🔄 Database: AUTO-DETECT (check browser console for connection details)${NC}"
+    fi
+
     echo -e "${CYAN}Press Ctrl+C to stop the dev server when you're done.${NC}"
     echo ""
 }

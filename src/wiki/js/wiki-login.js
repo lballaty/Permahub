@@ -6,6 +6,7 @@
  */
 
 import { supabase } from '../../js/supabase-client.js';
+import { SUPABASE_CONFIG } from '../../js/config.js';
 
 /**
  * Initialize login page authentication
@@ -30,6 +31,9 @@ async function initLoginPage() {
   setupEmailLoginForm();
   setupMagicLinkForm();
   setupTabSwitching();
+
+  // Show Mailpit link in local development only
+  showMailpitLinkIfLocal();
 
   console.log('✅ Login page initialized');
 }
@@ -370,6 +374,26 @@ window.closeMagicLinkModal = function() {
     modal.remove();
   }
 };
+
+/**
+ * Show Mailpit link if running in local development
+ *
+ * Business Purpose: Help developers quickly access test emails during local development
+ */
+function showMailpitLinkIfLocal() {
+  // Check if we're using local database (not cloud)
+  const isLocal = !SUPABASE_CONFIG.isUsingCloud;
+
+  if (isLocal) {
+    const mailpitContainer = document.getElementById('mailpitLinkContainer');
+    if (mailpitContainer) {
+      mailpitContainer.style.display = 'block';
+      console.log('📧 Local development detected - showing Mailpit link');
+    }
+  } else {
+    console.log('🌐 Cloud mode detected - hiding Mailpit link');
+  }
+}
 
 /**
  * Escape HTML to prevent XSS

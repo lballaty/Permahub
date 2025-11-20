@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.32 - 2025-11-20 11:48:28
+**Commit:** `160d0d1`
+
+
+
 ## Version 1.0.31 - 2025-11-20 11:40:24
 **Commit:** `a096dac`
 
@@ -3445,6 +3450,51 @@ This keeps the database schema unchanged while fixing the Supabase 400 errors an
 **Files Changed:**
 - src/wiki/js/wiki-i18n.js
 - src/wiki/js/wiki-my-content.js
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Improve Wiki Login DX and Add PWA Scaffolding
+
+**Commit:** `pending`
+
+**Issue:**
+1. Local wiki login flow using magic links required developers to manually open the Mailpit UI, slowing down iteration when testing authentication emails.
+2. The Permahub Wiki lacked PWA scaffolding (web app manifest, icons documentation), making it non-installable and missing a clear plan for icon generation.
+3. The `start.sh` script always opened the dev server in the system default browser with minimal visibility into the selected database mode, which could lead to accidental development against the cloud database.
+
+**Root Cause:**
+- Developer-experience enhancements for local auth and PWA support had not yet been implemented.
+- The startup script focused on database selection but did not provide browser selection or strong visual cues about which database (cloud vs local) was in use.
+
+**Solution:**
+1. **Wiki Login DX:**
+   - Added a dev-only Mailpit link panel to `wiki-login.html` that is only shown when running against a local Supabase instance.
+   - Updated `wiki-login.js` to import `SUPABASE_CONFIG` and added `showMailpitLinkIfLocal()` which:
+     - Checks `SUPABASE_CONFIG.isUsingCloud`
+     - Shows `#mailpitLinkContainer` and logs a console hint in local mode
+     - Keeps the panel hidden in cloud/production mode.
+2. **PWA Scaffolding:**
+   - Created `src/manifest.json` with full PWA metadata for Permahub Wiki, including icons array, shortcuts for Guides/Events/Map, and branding colors.
+   - Added `docs/processes/PWA_IMPLEMENTATION_PLAN.md` describing the PWA implementation phases and manifest details.
+   - Added `src/assets/icons/README.md` and `generate-icons.html` to document and support generation of the required icon sizes; left placeholder status clearly marked.
+3. **Start Script UX:**
+   - Extended `start.sh` with a `--browser` option (`chrome`, `firefox`, `safari`, `brave`, `edge`, `arc`) and an interactive browser selection menu when no browser is specified.
+   - Added helper functions to detect installed browsers and open the dev URL in the selected browser on macOS.
+   - Improved startup banner with prominent, color-coded database mode indicators (cloud/local/auto-detect) and a reminder at the end of the script about which database mode is active to reduce risk of accidentally using production data.
+
+**Files Changed:**
+- .claude/settings.local.json
+- docs/processes/PWA_IMPLEMENTATION_PLAN.md
+- docs/verification/url-validation-report.txt
+- src/assets/icons/README.md
+- src/assets/icons/generate-icons.html
+- src/manifest.json
+- src/wiki/js/wiki-login.js
+- src/wiki/wiki-login.html
+- start.sh
 - FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>

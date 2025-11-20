@@ -13,7 +13,11 @@
       "Bash(PGPASSWORD='vHzbr#B4k$XE.YV!aA' psql:*)",
       "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql:*)",
       "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f supabase/migrations/003_items_pubsub.sql)",
-      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f supabase/seeded/004_real_verified_wiki_content.sql)"
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -f supabase/seeded/004_real_verified_wiki_content.sql)",
+      "Bash(PGPASSWORD='postgres' psql:*)",
+      "Bash(mkdir:*)",
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -c \"DROP TABLE IF EXISTS wiki_newsletter_unsubscribe_feedback CASCADE; DROP FUNCTION IF EXISTS unsubscribe_from_newsletter_with_feedback CASCADE;\")",
+      "Bash(PGPASSWORD=postgres psql:*)"
     ],
     "deny": [],
     "ask": []
