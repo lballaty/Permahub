@@ -486,6 +486,9 @@ async function saveContent() {
       await saveCategoryAssociations(savedContentId);
     }
 
+    // Hide loading spinner
+    showLoadingState(false);
+
     // Show success message
     const message = status === 'publish'
       ? `✅ ${capitalizeFirst(currentContentType)} published successfully!`
@@ -502,6 +505,9 @@ async function saveContent() {
       } else if (currentContentType === 'location') {
         window.location.href = `wiki-map.html#location-${savedContentId}`;
       }
+    } else {
+      // If saved as draft, redirect to My Content page
+      window.location.href = 'wiki-my-content.html';
     }
 
   } catch (error) {
@@ -552,7 +558,15 @@ async function saveGuide(data) {
     return editingContentId;
   } else {
     const result = await supabase.insert('wiki_guides', guideData);
-    return result && result.length > 0 ? result[0].id : null;
+
+    // If response contains data, use it
+    if (result && result.length > 0) {
+      return result[0].id;
+    }
+
+    // Otherwise, query by slug to get the created guide
+    const guides = await supabase.query('wiki_guides', { slug: data.slug });
+    return guides && guides.length > 0 ? guides[0].id : null;
   }
 }
 
@@ -576,7 +590,15 @@ async function saveEvent(data) {
     return editingContentId;
   } else {
     const result = await supabase.insert('wiki_events', eventData);
-    return result && result.length > 0 ? result[0].id : null;
+
+    // If response contains data, use it
+    if (result && result.length > 0) {
+      return result[0].id;
+    }
+
+    // Otherwise, query by slug to get the created event
+    const events = await supabase.query('wiki_events', { slug: data.slug });
+    return events && events.length > 0 ? events[0].id : null;
   }
 }
 
@@ -601,7 +623,15 @@ async function saveLocation(data) {
     return editingContentId;
   } else {
     const result = await supabase.insert('wiki_locations', locationData);
-    return result && result.length > 0 ? result[0].id : null;
+
+    // If response contains data, use it
+    if (result && result.length > 0) {
+      return result[0].id;
+    }
+
+    // Otherwise, query by slug to get the created location
+    const locations = await supabase.query('wiki_locations', { slug: data.slug });
+    return locations && locations.length > 0 ? locations[0].id : null;
   }
 }
 

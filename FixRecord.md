@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.29 - 2025-11-20 09:48:56
+**Commit:** `09cbbec`
+
+
+
 ## Version 1.0.28 - 2025-11-20 09:29:14
 **Commit:** `c1b9b0b`
 
@@ -3248,3 +3253,140 @@ PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 543
 **Author:** Claude Code <noreply@anthropic.com>
 
 ---
+
+### 2025-11-20 - Enhanced start.sh with Browser Selection and Prominent Database Mode Indicators
+
+**Commit:** `pending`
+
+**Enhancement:**
+Added browser selection feature and made database mode (cloud/local) much more prominent in the startup script output to prevent accidental use of production database during development.
+
+**Problem:**
+- Users needed better control over which browser opens Permahub
+- Database mode (cloud vs local) was not prominent enough, risking accidental production database modifications
+- No way to specify browser via command line
+- No interactive browser selection menu
+
+**Solution:**
+1. **Added `--browser` command-line flag**
+   - Supports: chrome, firefox, safari, brave, edge, arc
+   - Example: `./start.sh --cloud --browser chrome`
+   - Can be combined with existing `--cloud` and `--local` flags
+
+2. **Created browser detection and launch functions**
+   - `is_browser_installed()` - Checks if browser is installed on macOS
+   - `get_browser_path()` - Returns application path for browser
+   - `get_browser_display_name()` - Returns user-friendly browser name
+   - `detect_browsers()` - Detects all installed browsers
+   - `select_browser_interactive()` - Shows numbered menu of available browsers
+   - `open_in_browser()` - Opens URL in specified browser
+
+3. **Enhanced database mode display with prominent visual indicators**
+   - **Cloud mode**: Large yellow warning box with ⚠️ warnings
+   - **Local mode**: Large green box for development
+   - **Auto-detect mode**: Large cyan box
+   - Database mode reminder at script completion
+   - Color-coded throughout (Yellow=Cloud/Production, Green=Local/Development)
+
+4. **Updated help text**
+   - Added `--browser` option documentation
+   - Added usage examples
+   - Improved formatting
+
+5. **Interactive browser selection**
+   - If no `--browser` flag provided, shows menu of installed browsers
+   - Detects available browsers dynamically
+   - Option to skip browser launch
+   - Falls back to system default if specified browser not installed
+
+**Files Changed:**
+- start.sh (enhanced with browser selection and prominent database indicators)
+- FixRecord.md (this entry)
+
+**Visual Output Examples:**
+
+**Cloud Mode (Production Warning):**
+```
+╔═══════════════════════════════════════════════════════════╗
+║  ⚠️  DATABASE MODE: 🌐 CLOUD (PRODUCTION) ⚠️              ║
+╚═══════════════════════════════════════════════════════════╝
+Browser: 🌐 Chrome
+```
+
+**Local Mode (Development):**
+```
+╔═══════════════════════════════════════════════════════════╗
+║  💻 DATABASE MODE: LOCAL (DEVELOPMENT)                    ║
+╚═══════════════════════════════════════════════════════════╝
+```
+
+**Interactive Browser Menu:**
+```
+Select browser:
+  1) Safari (system default)
+  2) Google Chrome
+  3) Firefox
+  4) Brave
+  5) Skip (don't open browser)
+
+Choose browser [1-5]:
+```
+
+**Usage Examples:**
+```bash
+# Cloud database + Chrome browser
+./start.sh --cloud --browser chrome
+
+# Local database + Firefox browser
+./start.sh --local --browser firefox
+
+# Cloud database with interactive browser selection
+./start.sh --cloud
+
+# Interactive for both database and browser
+./start.sh
+```
+
+**Impact:**
+- **Safety**: Much harder to accidentally modify production database (prominent yellow warnings)
+- **Convenience**: Users can choose their preferred browser via command line or menu
+- **Flexibility**: Combines database mode selection with browser selection
+- **User Experience**: Clear visual indicators throughout the startup process
+- **Developer Workflow**: Better control over development environment setup
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-11-20 - Fix Wiki Editor Spinner and Post-Save Navigation
+
+**Commit:** `pending`
+
+**Issue:**
+After saving a guide successfully:
+1. Loading spinner remained visible and never disappeared
+2. Page did not redirect after draft save, staying on editor
+3. SavedContentId was null because insert response was empty, breaking category associations
+
+**Root Cause:**
+1. Missing `showLoadingState(false)` call after successful save - only called in error handler
+2. No redirect logic for draft saves - only for published content
+3. Save functions expected insert to return data, but with empty response fallback they returned null without querying for the created record
+
+**Solution:**
+1. Added `showLoadingState(false)` before success message
+2. Added redirect to My Content page after draft saves
+3. Updated saveGuide/saveEvent/saveLocation to query by slug when insert returns empty response
+
+Changes to wiki-editor.js:
+- Line 490: Added showLoadingState(false) after save completes
+- Lines 508-511: Added else block to redirect to My Content page for drafts
+- saveGuide/saveEvent/saveLocation: Added fallback query by slug when insert returns null
+
+**Files Changed:**
+- src/wiki/js/wiki-editor.js
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
