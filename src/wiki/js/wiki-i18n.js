@@ -415,6 +415,10 @@ const wikiI18n = {
       'wiki.my_content.last_edited': 'Last Edited',
       'wiki.my_content.active_filters': 'Active Filters',
       'wiki.my_content.clear_all': 'Clear All',
+      'wiki.my_content.showing': 'Showing',
+      'wiki.my_content.items': 'items',
+      'wiki.my_content.create_new': 'Create New',
+      'wiki.my_content.search_placeholder': 'Search your content...',
 
       // Login Page
       'wiki.login.title': 'Welcome Back',

@@ -167,14 +167,14 @@ async function loadMyContent() {
       }),
       // Events
       supabase.getAll('wiki_events', {
-        where: 'organizer_id',
+        where: 'author_id',
         operator: 'eq',
         value: currentUserId,
         order: 'created_at.desc'
       }),
       // Locations
       supabase.getAll('wiki_locations', {
-        where: 'created_by',
+        where: 'author_id',
         operator: 'eq',
         value: currentUserId,
         order: 'created_at.desc'

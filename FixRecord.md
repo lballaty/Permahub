@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.31 - 2025-11-20 11:40:24
+**Commit:** `a096dac`
+
+
+
 ## Version 1.0.30 - 2025-11-20 11:11:51
 **Commit:** `d2dce54`
 
@@ -3400,15 +3405,23 @@ Changes to wiki-editor.js:
 **Commit:** `pending`
 
 **Issue:**
-My Content page displayed ~30 translation warnings in console:
+My Content page displayed translation warnings in console:
 ```
 ⚠️ Missing translation for "wiki.my_content.page_title" in language "en"
 ⚠️ Missing translation for "wiki.my_content.title" in language "en"
-...and 30+ more
+...
+⚠️ Missing translation for "wiki.my_content.showing" in language "en"
+⚠️ Missing translation for "wiki.my_content.items" in language "en"
+⚠️ Missing translation for "wiki.my_content.create_new" in language "en"
+⚠️ Missing translation for "wiki.my_content.search_placeholder" in language "en"
+
+Additionally, the page showed 400 errors when loading the user's events and locations due to filtering on non-existent columns (`organizer_id` and `created_by`) instead of the actual schema field (`author_id`).
 ```
 
 **Root Cause:**
 The My Content page HTML had data-i18n attributes but the corresponding translation keys were missing from wiki-i18n.js. The page used English fallback text but logged warnings for every missing key.
+
+For database queries, the My Content JS used legacy column names (`organizer_id` and `created_by`) that no longer exist in the current Supabase schema, which uses a unified `author_id` field for ownership on wiki_events and wiki_locations.
 
 **Solution:**
 Added complete my_content translation section to wiki-i18n.js with 30+ keys:
@@ -3418,11 +3431,22 @@ Added complete my_content translation section to wiki-i18n.js with 30+ keys:
 - Sort options (newest, oldest, A-Z, most viewed, last edited)
 - UI elements (active filters, clear all)
 
+Then added the remaining four missing keys that were still producing console warnings:
+- wiki.my_content.showing
+- wiki.my_content.items
+- wiki.my_content.create_new
+- wiki.my_content.search_placeholder
+
+Finally, updated the My Content data-loading code to match the current database schema by:
+- Querying wiki_events with where: 'author_id' instead of 'organizer_id'
+- Querying wiki_locations with where: 'author_id' instead of 'created_by'
+This keeps the database schema unchanged while fixing the Supabase 400 errors and making the "My Content" view correctly show the authenticated user's events and locations.
+
 **Files Changed:**
 - src/wiki/js/wiki-i18n.js
+- src/wiki/js/wiki-my-content.js
 - FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
-
