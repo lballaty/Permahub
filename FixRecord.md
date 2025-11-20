@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.37 - 2025-11-20 23:36:50
+**Commit:** `c9f5c28`
+
+
+
 ## Version 1.0.36 - 2025-11-20 18:03:27
 **Commit:** `326a335`
 
@@ -3651,3 +3656,65 @@ The authenticated user dropdown still provides a clear "Create Content" entry po
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
+### 2025-11-20 - Create Comprehensive Wiki Editor Test Plan
+
+**Commit:** `pending`
+
+**Issue:**
+No systematic test plan existed for wiki editor content management workflows (create, edit, delete, publish, restore). This made it difficult to verify functionality and catch regressions.
+
+**Root Cause:**
+Test plan documentation was missing. Manual testing was ad-hoc without defined test cases or expected results.
+
+**Solution:**
+Created comprehensive test plan document covering:
+
+**Test Coverage:**
+1. CREATE Operations (6 test cases)
+   - Draft/published guides, events, locations
+   - With categories, featured images
+
+2. EDIT Operations (5 test cases)
+   - Edit drafts, published content
+   - Category management
+   - Permission checks
+
+3. DELETE Operations (5 test cases)
+   - Soft delete guides/events/locations
+   - Restore from deleted content
+   - Verify is_deleted flags
+
+4. PUBLISH/UNPUBLISH Workflows (3 test cases)
+   - Draft → Published
+   - Published → Archived
+   - Status transitions
+
+5. VALIDATION & ERROR HANDLING (4 test cases)
+   - Required fields, uniqueness, network errors
+
+6. PERMISSIONS & SECURITY (3 test cases)
+   - RLS enforcement, unauthenticated users
+
+7. EDGE CASES (4 test cases)
+   - Long titles, special characters, concurrent edits
+
+8. INTEGRATION TESTS (2 test cases)
+   - Full create → edit → publish → delete → restore flow
+
+9. PERFORMANCE TESTS (2 test cases)
+
+**Features:**
+- Detailed preconditions and test steps
+- Expected results with database verification queries
+- Bug tracking table
+- Test execution checklist
+- SQL queries for manual verification
+
+**Files Changed:**
+- docs/testing/WIKI_EDITOR_TEST_PLAN.md (new file)
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
