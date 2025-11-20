@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.36 - 2025-11-20 18:03:27
+**Commit:** `326a335`
+
+
+
 ## Version 1.0.35 - 2025-11-20 12:19:30
 **Commit:** `f7d39c2`
 
@@ -381,6 +386,40 @@ Implemented comprehensive automated version management system:
 - tests/integration/wiki/home-page.spec.js (updated version format test)
 - .git/hooks/pre-commit (installed)
 - .git/hooks/post-commit (installed)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Add Per-User Home Location Settings for Events and Maps
+
+**Commit:** `pending`
+
+**Issue:**
+The wiki had no way to remember a user’s preferred reference location, making it impossible to implement “events near me” or map views centered around where the user actually is. Any future distance-based features would have to prompt for location each time or rely on ad-hoc local storage, with no consistent per-user persistence across devices.
+
+**Root Cause:**
+The schema only modeled locations for content (wiki_locations) and events (wiki_events), but not user-specific settings. There was no dedicated table to store a user’s “home” or primary location, and the settings page did not expose any UI for configuring a private reference location that belongs to the logged-in user.
+
+**Solution:**
+Introduced a per-user `user_settings` table in both the local and Supabase schemas to store a private home location (My Location), and wired it into the wiki settings page:
+- Added `user_settings`/`public.user_settings` tables with `user_id` (PK), `home_label`, `home_lat`, `home_lng`, and timestamps, plus an `updated_at` trigger.
+- Extended `wiki-settings.html` with a “My Location (for maps and events)” section where logged-in users can set a label and optional latitude/longitude.
+- Updated `wiki-settings.js` to:
+  - Load and populate home location from `user_settings` when the settings page initializes.
+  - Save or clear the home location via `POST`/`PATCH` to `user_settings` when the user saves their settings.
+  - Mirror the location into `localStorage.myLocation` for quick client-side access.
+- Added a shared `wiki-location-utils.js` helper with basic “My Location” cache access and a Haversine distance helper for future event/map features.
+
+This provides a consistent, per-user home location that is stored in the database, owned by the authenticated user, and ready to power “events near me” and personalized map views without introducing any destructive schema changes.
+
+**Files Changed:**
+- supabase/migrations/021_add_user_home_location.sql
+- database/migrations/20251120_013_user_home_location.sql
+- src/wiki/wiki-settings.html
+- src/wiki/js/wiki-settings.js
+- src/wiki/js/wiki-location-utils.js
+- FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
