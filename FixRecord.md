@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.33 - 2025-11-20 11:55:47
+**Commit:** `f191a5c`
+
+
+
 ## Version 1.0.32 - 2025-11-20 11:48:28
 **Commit:** `160d0d1`
 
@@ -3495,6 +3500,40 @@ This keeps the database schema unchanged while fixing the Supabase 400 errors an
 - src/wiki/js/wiki-login.js
 - src/wiki/wiki-login.html
 - start.sh
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Add Environment Badge Next to Version Badge
+
+**Commit:** `pending`
+
+**Issue:**
+Testers and developers could not easily see whether the running wiki instance was connected to the local Supabase database or the cloud (production) Supabase instance. The existing version badge showed build/version information but not which database backend was in use, increasing the risk of accidentally testing against the wrong database.
+
+**Root Cause:**
+The version manager logged the Supabase URL and environment to the console but did not surface this information in the UI. There was no visual indicator tied to `SUPABASE_CONFIG.isUsingCloud`, so the distinction between local and cloud modes was not obvious outside of dev tools.
+
+**Solution:**
+Enhanced the version badge system to include a compact environment badge based on `SUPABASE_CONFIG.isUsingCloud`:
+- Imported `SUPABASE_CONFIG` into `version-manager.js`.
+- Wrapped the existing version badge in a container that can host multiple pills.
+- Added a new environment pill labeled:
+  - `Local DB` when `isUsingCloud === false`
+  - `Cloud DB` when `isUsingCloud === true`
+- Styled the environment badge with distinct colors and uppercase text for clarity:
+  - Local DB: warm yellow background
+  - Cloud DB: blue background
+- Updated the tooltip text to explicitly state:
+  - Whether the app is using LOCAL or CLOUD Supabase
+  - The exact Supabase URL (e.g. `http://127.0.0.1:3000` or `https://mcbxbaggjaxqfdvmrqsc.supabase.co`)
+
+Now, every wiki page shows both the app version and the active database mode at a glance (e.g. `Local DB v1.0.32` or `Cloud DB v1.0.32`), significantly reducing confusion during testing.
+
+**Files Changed:**
+- src/js/version-manager.js
 - FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>

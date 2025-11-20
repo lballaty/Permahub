@@ -13,6 +13,8 @@
  * Example: "Permahub 2025-01-18 14:23 #1"
  */
 
+import { SUPABASE_CONFIG } from './config.js';
+
 // Get version from package.json (injected by Vite)
 const PACKAGE_VERSION = import.meta.env.VITE_APP_VERSION || '1.0.0';
 const BUILD_TIME = import.meta.env.VITE_BUILD_TIME || new Date().toISOString();
@@ -106,21 +108,41 @@ export function displayVersionBadge() {
     return;
   }
 
+  // Create version badge container
+  const badgeContainer = document.createElement('div');
+  badgeContainer.className = 'version-badge-container';
+
   // Create version badge
   const versionBadge = document.createElement('div');
   versionBadge.className = 'version-badge';
   versionBadge.textContent = VERSION_SHORT;
   versionBadge.title = `${VERSION_DISPLAY}\nCommit: ${COMMIT_HASH}\nClick for details`;
 
+  // Create environment badge
+  const envBadge = document.createElement('div');
+  envBadge.className = 'env-badge';
+  const isCloud = SUPABASE_CONFIG?.isUsingCloud;
+  envBadge.textContent = isCloud ? 'Cloud DB' : 'Local DB';
+  envBadge.title = isCloud
+    ? `Using CLOUD Supabase database\nURL: ${SUPABASE_CONFIG.url}`
+    : `Using LOCAL Supabase database\nURL: ${SUPABASE_CONFIG.url}`;
+
   // Get smart positioning
   const position = getSmartBadgePosition();
 
   // Apply styles with smart positioning
-  versionBadge.style.cssText = `
+  badgeContainer.style.cssText = `
     position: ${position.position};
     top: ${position.top};
     right: ${position.right};
     z-index: ${position.zIndex};
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 11px;
+  `;
+
+  versionBadge.style.cssText = `
     background: rgba(45, 134, 89, 0.9);
     color: white;
     padding: 4px 10px;
@@ -129,6 +151,19 @@ export function displayVersionBadge() {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  `;
+
+  envBadge.style.cssText = `
+    background: ${isCloud ? 'rgba(59, 130, 246, 0.9)' : 'rgba(234, 179, 8, 0.9)'};
+    color: white;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     backdrop-filter: blur(5px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   `;
@@ -149,8 +184,12 @@ export function displayVersionBadge() {
     alert(`${VERSION_DISPLAY}\n\nVersion: ${VERSION}\nCommit: ${COMMIT_HASH}\nBuild Time: ${BUILD_TIME}\nEnvironment: ${import.meta.env.MODE || 'development'}`);
   });
 
+  // Assemble container
+  badgeContainer.appendChild(envBadge);
+  badgeContainer.appendChild(versionBadge);
+
   // Append to body (fixed positioning, so doesn't matter where in DOM)
-  document.body.appendChild(versionBadge);
+  document.body.appendChild(badgeContainer);
 
   console.log(`✅ Version badge displayed: ${VERSION_SHORT}`);
 }
