@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.34 - 2025-11-20 12:03:13
+**Commit:** `68f6ecd`
+
+
+
 ## Version 1.0.33 - 2025-11-20 11:55:47
 **Commit:** `f191a5c`
 
@@ -3534,6 +3539,44 @@ Now, every wiki page shows both the app version and the active database mode at 
 
 **Files Changed:**
 - src/js/version-manager.js
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Simplify Wiki Header by Removing Duplicate Create Page Button
+
+**Commit:** `pending`
+
+**Issue:**
+The wiki header on multiple pages included a prominent "Create Page" button, while the authenticated user dropdown also exposed a "Create Content" action. This duplication made the header visually busy and could confuse users about the correct entry point for creating content, especially since the dropdown already centralizes user-specific actions.
+
+**Root Cause:**
+When the wiki header was originally designed, the "Create Page" call-to-action was added directly into the top navigation. Later, the auth header was enhanced with a rich user menu that includes "Create Content", but the original header button was never removed, leaving two separate paths to the same editor.
+
+**Solution:**
+Simplified the wiki navigation by removing the redundant "Create Page" button from the top header on all primary wiki pages that already use the shared auth header and user dropdown:
+- Removed the `<li><a href=\"wiki-editor.html\" ...>Create Page</a></li>` nav item from:
+  - wiki-home.html
+  - wiki-guides.html
+  - wiki-events.html
+  - wiki-my-content.html
+  - wiki-settings.html
+  - wiki-map.html
+  - wiki-favorites.html
+  - wiki-page.html
+The authenticated user dropdown still provides a clear "Create Content" entry point for logged-in users, keeping the header cleaner while preserving functionality.
+
+**Files Changed:**
+- src/wiki/wiki-home.html
+- src/wiki/wiki-guides.html
+- src/wiki/wiki-events.html
+- src/wiki/wiki-my-content.html
+- src/wiki/wiki-settings.html
+- src/wiki/wiki-map.html
+- src/wiki/wiki-favorites.html
+- src/wiki/wiki-page.html
 - FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
