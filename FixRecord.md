@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.47 - 2025-11-21 22:40:40
+**Commit:** `daaff57`
+
+
+
 ## Version 1.0.46 - 2025-11-21 22:40:30
 **Commit:** `1a75c6d`
 
@@ -4081,7 +4086,7 @@ These assets enable:
 
 ### 2025-11-21 - Update Wiki HTML Pages with PWA and UI Enhancements
 
-**Commit:** (pending)
+**Commit:** 1a75c6d
 
 **Issue:**
 All 21 wiki HTML pages required updates for PWA registration and offline support integration.
