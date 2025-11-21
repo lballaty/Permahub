@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.48 - 2025-11-21 22:52:56
+**Commit:** `554631c`
+
+
+
 ## Version 1.0.47 - 2025-11-21 22:40:40
 **Commit:** `daaff57`
 
@@ -4164,6 +4169,77 @@ Created db-sync-quick-reference.md with:
 
 **Files Changed:**
 - scripts/db-sync-quick-reference.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add app icons 152x152 to 512x512 PNG format
+
+**Commit:** daaff57
+
+**Issue:**
+Second batch of app icons needed for PWA installation across various display resolutions.
+
+**Root Cause:**
+Complete set of icons requires multiple size variants for different platforms and display densities.
+
+**Solution:**
+Added PNG format app icons for 152x152, 192x192, 384x384, and 512x512 pixel sizes.
+
+**Files Changed:**
+- src/assets/icons/icon-152x152.png
+- src/assets/icons/icon-192x192.png
+- src/assets/icons/icon-384x384.png
+- src/assets/icons/icon-512x512.png
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add SVG app icons for all sizes
+
+**Commit:** (pending)
+
+**Issue:**
+SVG format icons needed for scalable icon support and smaller file sizes.
+
+**Root Cause:**
+SVG icons provide resolution independence and can be much smaller in file size than PNG.
+
+**Solution:**
+Added SVG format app icons for all sizes: 72x72, 96x96, 128x128, 144x144, 152x152, 192x192, 384x384, 512x512 pixels.
+
+**Files Changed:**
+- src/assets/icons/icon-72x72.svg
+- src/assets/icons/icon-96x96.svg
+- src/assets/icons/icon-128x128.svg
+- src/assets/icons/icon-144x144.svg
+- src/assets/icons/icon-152x152.svg
+- src/assets/icons/icon-192x192.svg
+- src/assets/icons/icon-384x384.svg
+- src/assets/icons/icon-512x512.svg
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki HTML pages with PWA registration
+
+**Commit:** (pending)
+
+**Issue:**
+All 21 wiki HTML pages needed PWA registration and offline support integration.
+
+**Root Cause:**
+PWA infrastructure implemented but not integrated into page templates.
+
+**Solution:**
+Updated all wiki HTML pages with PWA registration script and offline fallback support.
+Pages updated in 2-file batches per commit requirement.
+
+**Files Changed:**
+- src/wiki/wiki-*.html (21 files total)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
