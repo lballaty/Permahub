@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.52 - 2025-11-21 23:10:00
+**Commit:** `3b82ae8`
+
+
+
 ## Version 1.0.51 - 2025-11-21 22:53:25
 **Commit:** `6330a07`
 
@@ -4255,6 +4260,196 @@ Pages updated in 2-file batches per commit requirement.
 
 **Files Changed:**
 - src/wiki/wiki-*.html (21 files total)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-deleted-content and wiki-editor with PWA
+
+**Commit:** 6330a07
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-deleted-content.html and wiki-editor.html.
+
+**Files Changed:**
+- src/wiki/wiki-deleted-content.html
+- src/wiki/wiki-editor.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-events and wiki-favorites with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-events.html and wiki-favorites.html.
+
+**Files Changed:**
+- src/wiki/wiki-events.html
+- src/wiki/wiki-favorites.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-forgot-password and wiki-guides with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-forgot-password.html and wiki-guides.html.
+
+**Files Changed:**
+- src/wiki/wiki-forgot-password.html
+- src/wiki/wiki-guides.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-home and wiki-issues with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-home.html and wiki-issues.html.
+
+**Files Changed:**
+- src/wiki/wiki-home.html
+- src/wiki/wiki-issues.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-map and wiki-my-content with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-map.html and wiki-my-content.html.
+
+**Files Changed:**
+- src/wiki/wiki-map.html
+- src/wiki/wiki-my-content.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-page and wiki-privacy with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-page.html and wiki-privacy.html.
+
+**Files Changed:**
+- src/wiki/wiki-page.html
+- src/wiki/wiki-privacy.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-reset-password and wiki-settings with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-reset-password.html and wiki-settings.html.
+
+**Files Changed:**
+- src/wiki/wiki-reset-password.html
+- src/wiki/wiki-settings.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-signup and wiki-terms with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki pages needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-signup.html and wiki-terms.html.
+
+**Files Changed:**
+- src/wiki/wiki-signup.html
+- src/wiki/wiki-terms.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update wiki-unsubscribe with PWA
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki page needed PWA registration updates.
+
+**Root Cause:**
+PWA infrastructure not yet integrated into all pages.
+
+**Solution:**
+Added PWA registration and offline support to wiki-unsubscribe.html.
+
+**Files Changed:**
+- src/wiki/wiki-unsubscribe.html
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
