@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.61 - 2025-11-21 23:30:57
+**Commit:** `435cc95`
+
+
+
 ## Version 1.0.60 - 2025-11-21 23:30:41
 **Commit:** `653b56f`
 
@@ -4490,6 +4495,26 @@ Added PWA registration and offline support to wiki-unsubscribe.html.
 
 **Files Changed:**
 - src/wiki/wiki-unsubscribe.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add sed command to allowed Claude Code bash commands
+
+**Commit:** (pending)
+
+**Issue:**
+Claude Code bash command permissions needed to include sed for file editing operations during automated commit workflows.
+
+**Root Cause:**
+Pre-commit hooks and build scripts use sed to update FixRecord.md entries with commit hashes, but sed was not in the allowed commands list.
+
+**Solution:**
+Added sed to the allowed bash commands in .claude/settings.local.json to enable pattern matching and file editing operations.
+
+**Files Changed:**
+- .claude/settings.local.json
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 

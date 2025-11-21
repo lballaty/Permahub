@@ -21,7 +21,8 @@
       "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -c \"ALTER TABLE public.users DROP CONSTRAINT IF EXISTS users_id_fkey;\")",
       "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' pg_restore:*)",
       "Bash(cat:*)",
-      "Bash(/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/to-be-seeded/013_madeira_events_corrected.sql)"
+      "Bash(/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/to-be-seeded/013_madeira_events_corrected.sql)",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []
