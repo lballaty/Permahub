@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.41 - 2025-11-21 22:39:47
+**Commit:** `cc1de53`
+
+
+
 ## Version 1.0.40 - 2025-11-21 22:38:08
 **Commit:** `ba54ec4`
 
@@ -3940,7 +3945,7 @@ Updated .claude/settings.local.json to add four new allowed bash commands:
 
 ### 2025-11-21 - Update URL Validation Report for Event Links
 
-**Commit:** (pending)
+**Commit:** ba54ec4
 
 **Issue:**
 URL validation report needed updating with latest test results for all event and resource links in the database.

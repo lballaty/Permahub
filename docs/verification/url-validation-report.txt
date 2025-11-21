@@ -1,4 +1,109 @@
-Traceback (most recent call last):
-  File "/tmp/validate-urls.py", line 3, in <module>
-    import requests
-ModuleNotFoundError: No module named 'requests'
+URL Validation Report
+Generated: Thu Nov 20 23:35:17 CET 2025
+===========================================
+
+  ⚠️  Status:  or timeout
+  🔀 Redirected (HTTP 200)
+  ⚠️  Status:  or timeout
+  ✅ Valid (HTTP 200)
+  ❌ Invalid: 404 Not Found
+     Event: Natural Building Workshop: Cob Oven - https://sunseed.org.uk/workshops
+  ❌ Invalid: 404 Not Found
+     Event: Permaculture Farm Tour - https://www.fermedubec.com/en/
+  ⚠️  Status:  or timeout
+  ⚠️  Status:  or timeout
+  🔀 Redirected (HTTP 200)
+  ⚠️  Status: 301 or timeout
+  ⚠️  Status: 301 or timeout
+  ❌ Invalid: 404 Not Found
+     Event: Beekeeping for Beginners - https://www.naturalbeekeepingtrust.org/events
+  ❌ Invalid: 404 Not Found
+     Event: Permaculture Convergence 2025 - https://www.findhorn.org/events
+  ❌ Invalid: 404 Not Found
+     Event: Food Forest Design & Planting - https://permacultureartisans.com/events
+  ❌ Invalid: 404 Not Found
+     Event: Renewable Energy for Homesteads - https://www.solarliving.org/workshops
+  ❌ Invalid: 404 Not Found
+     Event: Summer Solstice Herb Walk - https://www.herb-pharm.com/events
+  🔀 Redirected (HTTP 200)
+  ⚠️  Status: 301 or timeout
+  ❌ Invalid: 404 Not Found
+     Event: Permaculture Kids Camp - https://www.urbantilth.org/programs
+  ❌ Invalid: 404 Not Found
+     Event: Greywater Systems Installation - https://greywateraction.org/workshops
+  ❌ Invalid: 404 Not Found
+     Event: Preserving the Harvest - https://www.stonebarnscenter.org/engage
+  ❌ Invalid: 404 Not Found
+     Event: Bamboo Construction Workshop - https://punpunthailand.org/workshops
+  🔀 Redirected (HTTP 200)
+  ⚠️  Status: 301 or timeout
+  ⚠️  Status: 301 or timeout
+  ⚠️  Status: 301 or timeout
+  ❌ Invalid: 404 Not Found
+     Event: Wildcrafting & Forest Medicine - https://www.wildernessawareness.org/programs
+  ✅ Valid (HTTP 200)
+  ❌ Invalid: 404 Not Found
+     Event: Appropriate Technology Fair - https://www.aprovecho.org/events
+  ❌ Invalid: 404 Not Found
+     Event: Winter Preparation Workshop - https://www.fourseasonfarm.com/workshops
+  ❌ Invalid: 404 Not Found
+     Event: Biochar Production & Application - https://www.carbongold.com/workshops
+  ⚠️  Status: 301 or timeout
+  ⚠️  Status: 302 or timeout
+  ⚠️  Status: 405 or timeout
+  🔀 Redirected (HTTP 200)
+  ❌ Invalid: 404 Not Found
+     Event: New Year Garden Planning - https://www.bbg.org/education
+  ✅ Valid (HTTP 200)
+  🔀 Redirected (HTTP 200)
+  🔀 Redirected (HTTP 200)
+  🔀 Redirected (HTTP 200)
+  ❌ Invalid: 404 Not Found
+     Event: Aquaponics System Design - https://growingwarriors.org/training
+  ❌ Invalid: 404 Not Found
+     Event: Biodynamic Preparations Workshop - https://www.jpibiodynamics.org/events
+  ⚠️  Status: 406 or timeout
+  ✅ Valid (HTTP 200)
+  🔀 Redirected (HTTP 200)
+  ⚠️  Status: 403 or timeout
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ⚠️  Status:  or timeout
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ⚠️  Status:  or timeout
+  ⚠️  Status:  or timeout
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ❌ Invalid: 404 Not Found
+     Location: Funchal Organic Market (Largo do Restauração) - https://www.purefoodtravel.com/organic-market-funchal/
+  ⚠️  Status:  or timeout
+  ⚠️  Status:  or timeout
+  ⚠️  Status:  or timeout
+  ⚠️  Status:  or timeout
+  🔀 Redirected (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ❌ Invalid: 404 Not Found
+     Location: Mercado Agrícola do Santo da Serra - https://oladaniela.com/santo-da-serra-market/
+  ⚠️  Status: 403 or timeout
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ✅ Valid (HTTP 200)
+  ⚠️  Status: 503 or timeout
+  ✅ Valid (HTTP 200)
+
+===========================================
+SUMMARY
+===========================================
+✅ Valid: 22
+❌ Invalid: 44
+🔀 Redirected: 10
+Total: 76
+
