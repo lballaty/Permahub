@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.51 - 2025-11-21 22:53:25
+**Commit:** `6330a07`
+
+
+
 ## Version 1.0.50 - 2025-11-21 22:53:20
 **Commit:** `2b34a42`
 
@@ -4236,7 +4241,7 @@ Added SVG format app icons for all sizes: 72x72, 96x96, 128x128, 144x144, 152x15
 
 ### 2025-11-21 - Update wiki HTML pages with PWA registration
 
-**Commit:** (pending)
+**Commit:** 2b34a42
 
 **Issue:**
 All 21 wiki HTML pages needed PWA registration and offline support integration.
