@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Permahub Wiki</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .offline-container {
+      text-align: center;
+      max-width: 500px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .offline-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    .retry-button {
+      background: white;
+      color: #2d8659;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .retry-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .retry-button:active {
+      transform: translateY(0);
+    }
+
+    .tips {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      text-align: left;
+    }
+
+    .tips h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .tips ul {
+      list-style: none;
+    }
+
+    .tips li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .tips li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .connection-status {
+      display: inline-block;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .connection-status.online {
+      background: rgba(76, 175, 80, 0.3);
+      animation: statusChange 0.5s ease-out;
+    }
+
+    @keyframes statusChange {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 26px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .offline-icon {
+        font-size: 60px;
+      }
+
+      .retry-button {
+        padding: 12px 30px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="offline-icon">🌱</div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Permahub Wiki needs an active connection to load fresh content from the community.</p>
+
+    <div id="connection-status" class="connection-status">
+      📡 Checking connection...
+    </div>
+
+    <button class="retry-button" onclick="location.reload()">
+      🔄 Try Again
+    </button>
+
+    <div class="tips">
+      <h2>While You Wait:</h2>
+      <ul>
+        <li>Check your internet connection</li>
+        <li>Try switching networks (WiFi ↔ mobile data)</li>
+        <li>Previously viewed pages may still be available in your browser</li>
+        <li>Your changes will sync when you're back online</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const statusEl = document.getElementById('connection-status');
+
+    // Update connection status display
+    function updateConnectionStatus() {
+      if (navigator.onLine) {
+        statusEl.textContent = '✅ Connection restored!';
+        statusEl.className = 'connection-status online';
+
+        // Auto-reload after a short delay
+        setTimeout(() => {
+          console.log('Connection restored, reloading...');
+          location.reload();
+        }, 1500);
+      } else {
+        statusEl.textContent = '📡 Offline';
+        statusEl.className = 'connection-status';
+      }
+    }
+
+    // Listen for connection changes
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+
+    // Initial check
+    updateConnectionStatus();
+
+    // Periodic connection check (every 5 seconds)
+    setInterval(() => {
+      if (navigator.onLine) {
+        // Try to fetch a small resource to verify real connectivity
+        fetch('/src/manifest.json', {
+          method: 'HEAD',
+          cache: 'no-cache'
+        })
+          .then(() => {
+            // Connection is real, trigger reload
+            updateConnectionStatus();
+          })
+          .catch(() => {
+            // Still offline despite navigator.onLine being true
+            statusEl.textContent = '⚠️ Limited connectivity';
+          });
+      }
+    }, 5000);
+  </script>
+</body>
+</html>
