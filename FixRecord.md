@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.55 - 2025-11-21 23:30:37
+**Commit:** `7115f5e`
+
+
+
 ## Version 1.0.54 - 2025-11-21 23:30:24
 **Commit:** `5059e91`
 
@@ -4342,7 +4347,7 @@ Added PWA registration and offline support to wiki-forgot-password.html and wiki
 
 ### 2025-11-21 - Update wiki-home and wiki-issues with PWA
 
-**Commit:** (pending)
+**Commit:** 5059e91
 
 **Issue:**
 Wiki pages needed PWA registration updates.
