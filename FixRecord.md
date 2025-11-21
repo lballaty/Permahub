@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.56 - 2025-11-21 23:30:37
+**Commit:** `b320e3c`
+
+
+
 ## Version 1.0.55 - 2025-11-21 23:30:37
 **Commit:** `7115f5e`
 
@@ -4368,7 +4373,7 @@ Added PWA registration and offline support to wiki-home.html and wiki-issues.htm
 
 ### 2025-11-21 - Update wiki-map and wiki-my-content with PWA
 
-**Commit:** (pending)
+**Commit:** bda941ffd66922eea277a05b97d1b6202ffc8bfc
 
 **Issue:**
 Wiki pages needed PWA registration updates.
