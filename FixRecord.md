@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.60 - 2025-11-21 23:30:41
+**Commit:** `653b56f`
+
+
+
 ## Version 1.0.59 - 2025-11-21 23:30:40
 **Commit:** `bb65f3d`
 
@@ -4472,7 +4477,7 @@ Added PWA registration and offline support to wiki-signup.html and wiki-terms.ht
 
 ### 2025-11-21 - Update wiki-unsubscribe with PWA
 
-**Commit:** (pending)
+**Commit:** 6aa78b11009162f519244ce7eef302bfcac5f7bf
 
 **Issue:**
 Wiki page needed PWA registration updates.
