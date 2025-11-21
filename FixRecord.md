@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.54 - 2025-11-21 23:30:24
+**Commit:** `5059e91`
+
+
+
 ## Version 1.0.53 - 2025-11-21 23:30:18
 **Commit:** `8fd92fa`
 
@@ -4316,7 +4321,7 @@ Added PWA registration and offline support to wiki-events.html and wiki-favorite
 
 ### 2025-11-21 - Update wiki-forgot-password and wiki-guides with PWA
 
-**Commit:** (pending)
+**Commit:** 8fd92fa
 
 **Issue:**
 Wiki pages needed PWA registration updates.
