@@ -10,9 +10,9 @@
  * Run these first before running full test suite
  */
 
-import { test, expect, describe } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-describe('Application Health Check - Smoke Tests @e2e @smoke @health-check @critical', () => {
+test.describe('Application Health Check - Smoke Tests @e2e @smoke @health-check @critical', () => {
 
   test.describe('Critical Pages Load', () => {
 

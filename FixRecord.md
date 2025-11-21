@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.62 - 2025-11-21 23:33:40
+**Commit:** `b85ef8f`
+
+
+
 ## Version 1.0.61 - 2025-11-21 23:30:57
 **Commit:** `435cc95`
 
@@ -4515,6 +4520,28 @@ Added sed to the allowed bash commands in .claude/settings.local.json to enable 
 
 **Files Changed:**
 - .claude/settings.local.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Fix Playwright test import syntax error
+
+**Commit:** (pending)
+
+**Issue:**
+Pre-push hook was failing with error: `SyntaxError: The requested module '@playwright/test' does not provide an export named 'describe'`. This prevented git push from working and blocked CI/CD pipeline.
+
+**Root Cause:**
+The smoke test file was importing `describe` from `@playwright/test`, but Playwright doesn't export a standalone `describe` function. Playwright uses `test.describe()` instead (similar to Jest's `test.describe()`). The code was mixing Jest/Mocha syntax with Playwright syntax.
+
+**Solution:**
+1. Removed `describe` from the import statement (line 13)
+2. Changed standalone `describe()` call to `test.describe()` (line 15)
+3. Kept nested `test.describe()` calls unchanged as they were already correct
+
+**Files Changed:**
+- tests/e2e/smoke/health-check.spec.js
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
