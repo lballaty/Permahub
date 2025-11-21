@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.39 - 2025-11-21 21:56:20
+**Commit:** `c46e57c`
+
+
+
 ## Version 1.0.38 - 2025-11-21 21:50:41
 **Commit:** `63dfd0f`
 
@@ -3849,6 +3854,55 @@ Created 8 detailed architecture documentation files with 62 Mermaid diagrams cov
 - docs/architecture/WIKI_NONFUNCTIONAL_ARCHITECTURE.md (new)
 - docs/architecture/WIKI_DEPLOYMENT_ARCHITECTURE.md (new)
 - docs/architecture/README.md (new)
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-20 - Phase 3: Add 14 Madeira Seasonal & Religious Events
+
+**Commit:** (pending)
+
+**Issue:**
+Wiki events database lacked comprehensive coverage of Madeira's seasonal celebrations, religious festivals, and cultural events. User specifically requested Christmas/New Year events in Santa Cruz, Machico, and Funchal, plus religious celebrations for upcoming weeks and months.
+
+**Root Cause:**
+Initial wiki content focused on permaculture events and locations. Seasonal and religious events that are important to the local community and expats were not yet documented.
+
+**Solution:**
+Created 14 comprehensive event descriptions covering:
+- 6 Christmas/New Year events (Dec 1, 13, 20, 23, 31, Jan 5)
+- 5 Religious festivals (Popular Saints, Nossa Senhora festivals)
+- 3 Cultural festivals (Flower, Wine, Atlantic)
+
+Events include detailed descriptions (avg 2,286 chars each):
+- WHY ATTEND sections explaining value for sustainable living advocates
+- WHAT IT OFFERS with practical details
+- Logistics (transport, costs, timing)
+- Permaculture/sustainability connections
+- Cultural context and community integration tips
+
+**Technical Implementation:**
+- Researched accurate event details and dates
+- Initially created SQL with incorrect schema (wrong column names)
+- Examined working examples and actual table structure
+- Corrected schema mapping:
+  - Used `slug` (unique constraint) instead of (title, event_date)
+  - Split `organizer` → `organizer_name` + `organizer_organization`
+  - Renamed `website_url` → `contact_website`
+  - Split `price_info` → `price` (numeric) + `price_display` (string)
+  - Removed non-existent columns: `end_date`, `language`, `is_online`, `tags`
+- Successfully seeded to both local and cloud databases
+
+**Verification Results:**
+- 14 events added successfully
+- Total content: 32,007 characters
+- Average: 2,286 characters per event
+- Geographic coverage: Funchal (7), Santa Cruz (1), Machico (1), Monte (1), Caniçal (1), Island-wide (3)
+
+**Files Changed:**
+- supabase/seeded/013_madeira_events_corrected.sql (new)
 - FixRecord.md (this documentation)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
