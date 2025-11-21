@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.40 - 2025-11-21 22:38:08
+**Commit:** `ba54ec4`
+
+
+
 ## Version 1.0.39 - 2025-11-21 21:56:20
 **Commit:** `c46e57c`
 
@@ -3904,6 +3909,226 @@ Events include detailed descriptions (avg 2,286 chars each):
 **Files Changed:**
 - supabase/seeded/013_madeira_events_corrected.sql (new)
 - FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update Claude Code Settings for Database Operations
+
+**Commit:** (pending)
+
+**Issue:**
+Claude Code permissions needed to be expanded to support database management operations including constraint alterations, backup restoration, and script execution.
+
+**Root Cause:**
+Previous settings.local.json had limited permissions for database-level operations. New database tasks require additional bash command approvals.
+
+**Solution:**
+Updated .claude/settings.local.json to add four new allowed bash commands:
+- `ALTER TABLE public.users DROP CONSTRAINT` for constraint management
+- `pg_restore` for database backup restoration operations
+- `cat` for file reading in bash operations
+- Direct execution of seeded SQL files for data imports
+
+**Files Changed:**
+- .claude/settings.local.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update URL Validation Report for Event Links
+
+**Commit:** (pending)
+
+**Issue:**
+URL validation report needed updating with latest test results for all event and resource links in the database.
+
+**Root Cause:**
+Previous validation results were outdated. New events and resources added required re-validation of all URLs.
+
+**Solution:**
+Ran comprehensive URL validation across all event and resource links in the database, documenting:
+- Valid URLs (HTTP 200)
+- Redirected URLs (301/302 to HTTP 200)
+- Timeout or connection issues
+- Invalid URLs (404 and other errors)
+
+Results help identify broken links and unreachable resources for user communication.
+
+**Files Changed:**
+- docs/verification/url-validation-report.txt
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add Database Sync Procedure Documentation
+
+**Commit:** (pending)
+
+**Issue:**
+Development team needed comprehensive documentation for syncing database content between local development and cloud Supabase environments.
+
+**Root Cause:**
+No formal procedure existed for comparing and synchronizing data between local and production databases.
+
+**Solution:**
+Created DATABASE_SYNC_PROCEDURE.md with step-by-step instructions covering:
+- Comparison of content between local and cloud databases
+- Identification of differences in tables, records, and auth users
+- Data synchronization procedures
+- Validation of successful sync completion
+
+Document includes environment setup, comparison tools, and troubleshooting steps.
+
+**Files Changed:**
+- docs/database/DATABASE_SYNC_PROCEDURE.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add PWA Installation Guide
+
+**Commit:** (pending)
+
+**Issue:**
+Users needed comprehensive documentation for installing Permahub as a Progressive Web App on various devices and operating systems.
+
+**Root Cause:**
+PWA features were implemented but installation instructions were not documented for end users.
+
+**Solution:**
+Created PWA_INSTALLATION_GUIDE.md with platform-specific instructions for:
+- Desktop browsers (Chrome, Firefox, Safari, Edge)
+- Mobile devices (iOS, Android)
+- Tablet installation
+- Offline functionality and updates
+
+Guide includes screenshots, step-by-step instructions, and troubleshooting.
+
+**Files Changed:**
+- docs/processes/PWA_INSTALLATION_GUIDE.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add PWA Assets and Service Worker
+
+**Commit:** (pending)
+
+**Issue:**
+Progressive Web App functionality required icon assets and service worker implementation for offline capability and app installation support.
+
+**Root Cause:**
+PWA infrastructure was planned but assets and service worker were not yet created.
+
+**Solution:**
+Added complete PWA infrastructure:
+1. **Service Worker (sw.js):** Handles offline functionality, caching strategies, and background sync
+2. **PWA Registration Script (pwa-register.js):** Enables app installation and update notifications
+3. **App Icons:** Complete set of icon sizes (72x72 to 512x512) in both PNG and SVG formats
+
+These assets enable:
+- Installation on home screen across platforms
+- Offline functionality
+- Native-like app experience
+- Proper branding in app stores and shortcuts
+
+**Files Changed:**
+- src/sw.js (new)
+- src/wiki/js/pwa-register.js (new)
+- src/assets/icons/icon-*.png (16 files, new)
+- src/assets/icons/icon-*.svg (16 files, new)
+- src/wiki/offline.html (new)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Update Wiki HTML Pages with PWA and UI Enhancements
+
+**Commit:** (pending)
+
+**Issue:**
+All 21 wiki HTML pages required updates for PWA registration and offline support integration.
+
+**Root Cause:**
+PWA infrastructure was implemented but not yet integrated into all pages.
+
+**Solution:**
+Updated all wiki HTML pages (21 files) with:
+- PWA registration script (`pwa-register.js`)
+- Web app manifest reference for installation support
+- Offline fallback capability
+- Enhanced responsive design for mobile devices
+
+Pages updated:
+- wiki-about.html, wiki-admin.html, wiki-deleted-content.html
+- wiki-editor.html, wiki-events.html, wiki-favorites.html
+- wiki-forgot-password.html, wiki-guides.html, wiki-home.html
+- wiki-issues.html, wiki-map.html, wiki-my-content.html
+- wiki-page.html, wiki-privacy.html, wiki-reset-password.html
+- wiki-settings.html, wiki-signup.html, wiki-terms.html
+- wiki-unsubscribe.html
+
+Each update includes 17-18 lines of new code for PWA support.
+
+**Files Changed:**
+- src/wiki/wiki-*.html (21 files)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add Database Sync Compare Script
+
+**Commit:** (pending)
+
+**Issue:**
+Developers needed an automated script to quickly compare database content between local and cloud environments.
+
+**Root Cause:**
+Manual comparison was tedious and error-prone. A dedicated script would streamline the process.
+
+**Solution:**
+Created db-sync-compare.sh shell script that:
+- Connects to both local and cloud PostgreSQL instances
+- Queries and compares table row counts
+- Identifies missing records in either environment
+- Generates diff reports
+- Provides visual summary of differences
+
+**Files Changed:**
+- scripts/db-sync-compare.sh
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-21 - Add Database Sync Quick Reference
+
+**Commit:** (pending)
+
+**Issue:**
+Quick reference documentation was needed for developers performing database sync operations.
+
+**Root Cause:**
+The full DATABASE_SYNC_PROCEDURE.md is comprehensive but sometimes developers need just the essential commands and steps.
+
+**Solution:**
+Created db-sync-quick-reference.md with:
+- Essential commands for common sync operations
+- Quick syntax reference
+- Common error messages and solutions
+- Backup and restore quick steps
+- Troubleshooting checklist
+
+**Files Changed:**
+- scripts/db-sync-quick-reference.md
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 

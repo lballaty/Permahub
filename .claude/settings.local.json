@@ -17,7 +17,11 @@
       "Bash(PGPASSWORD='postgres' psql:*)",
       "Bash(mkdir:*)",
       "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -p 5432 -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -c \"DROP TABLE IF EXISTS wiki_newsletter_unsubscribe_feedback CASCADE; DROP FUNCTION IF EXISTS unsubscribe_from_newsletter_with_feedback CASCADE;\")",
-      "Bash(PGPASSWORD=postgres psql:*)"
+      "Bash(PGPASSWORD=postgres psql:*)",
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' psql -h aws-1-eu-west-3.pooler.supabase.com -d postgres -U postgres.mcbxbaggjaxqfdvmrqsc -c \"ALTER TABLE public.users DROP CONSTRAINT IF EXISTS users_id_fkey;\")",
+      "Bash(PGPASSWORD='2ZtJmkyTXPOFGeho' pg_restore:*)",
+      "Bash(cat:*)",
+      "Bash(/Users/liborballaty/LocalProjects/GitHubProjectsDocuments/Permahub/supabase/to-be-seeded/013_madeira_events_corrected.sql)"
     ],
     "deny": [],
     "ask": []
