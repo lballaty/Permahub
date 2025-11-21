@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.38 - 2025-11-21 21:50:41
+**Commit:** `63dfd0f`
+
+
+
 ## Version 1.0.37 - 2025-11-20 23:36:50
 **Commit:** `c9f5c28`
 
@@ -3718,3 +3723,134 @@ Created comprehensive test plan document covering:
 
 ---
 
+
+### 2025-11-21 - Create Comprehensive Wiki Architecture Documentation
+
+**Commit:** `pending`
+
+**Issue:**
+No comprehensive architecture documentation existed for the Permahub Wiki application. This made it difficult for new developers, architects, and stakeholders to understand the system design, from high-level layering to component-level details.
+
+**Root Cause:**
+Architecture documentation was not created during initial development. Individual feature documentation existed but no unified, comprehensive architecture guide.
+
+**Solution:**
+Created 8 detailed architecture documentation files with 62 Mermaid diagrams covering all aspects of the wiki system:
+
+**1. WIKI_ARCHITECTURE.md** (Executive Overview)
+- Project overview and statistics
+- Quick navigation guide
+- Links to all specialized documents
+- Role-based reading paths
+
+**2. WIKI_SYSTEM_ARCHITECTURE.md** (9 diagrams)
+- Layered system architecture (4 layers)
+- Frontend-Backend integration patterns
+- Authentication and authorization flows
+- Data flow through content discovery
+- Module dependency chains
+- Content creation workflow
+- Translation system architecture
+- Session and token management
+- Error handling and recovery
+
+**3. WIKI_DATA_MODEL.md** (8 diagrams)
+- Entity-Relationship models for core content
+- Content type hierarchy (Guides, Events, Locations)
+- Multi-language translation structure
+- Data flow from creation to display
+- Favorites and collections architecture
+- Geographic data with PostGIS
+- Database constraints and integrity rules
+- Content status lifecycle states
+
+**4. WIKI_FRONTEND_DESIGN.md** (10 diagrams)
+- Frontend pages architecture (21 pages)
+- Component hierarchy and relationships
+- Navigation and routing patterns
+- Module initialization sequence
+- Form input and validation patterns
+- CSS design system and theming
+- Responsive design breakpoints
+- State management patterns
+- Event-driven architecture
+- Multi-language UI rendering
+
+**5. WIKI_COMPONENT_ARCHITECTURE.md** (9 diagrams)
+- Complete module dependency graph (25 modules)
+- Page initialization sequence diagrams
+- Core services architecture
+- Module organization by responsibility
+- Data flow through module stack
+- Authentication module hierarchy
+- Content module organization
+- Creation and management modules
+- Utility modules and dependencies
+- Module directory structure
+
+**6. WIKI_USER_FLOWS.md** (10 diagrams)
+- User journey overview
+- First-time user onboarding flow
+- Content discovery flows
+- Content creation workflow
+- Authentication flow (sequence diagram)
+- Favorites and collections management
+- Event participation flow
+- Geographic discovery on map
+- Content management dashboard
+- Multi-language experience flow
+
+**7. WIKI_NONFUNCTIONAL_ARCHITECTURE.md** (8 diagrams)
+- Performance architecture and optimization
+- Security model and threat mitigation
+- Scalability and high availability patterns
+- Internationalization (i18n) system design
+- Offline capabilities and PWA architecture
+- Reliability and error recovery
+- Testing strategy (unit, integration, E2E, manual)
+- Quality gates and requirements specification
+
+**8. WIKI_DEPLOYMENT_ARCHITECTURE.md** (8 diagrams)
+- Deployment environments (Dev/Staging/Prod)
+- CI/CD pipeline with GitHub Actions
+- Environment configuration management
+- Database migration strategy
+- Monitoring and alerting architecture
+- Rollback and recovery procedures
+- Disaster recovery and backup strategy
+- Production release checklist
+
+**9. README.md** (Index and Navigation)
+- Document index with quick navigation
+- Statistics and highlights
+- How to use documentation by role/task
+- Cross-references to related content
+
+**Coverage:**
+- Functional: 21 pages, 25 modules, 12 tables, 3 content types, 11 languages
+- Non-Functional: Performance, security, scalability, reliability, testing, deployment
+- System Design: Architecture, layers, integration, data flow, patterns
+- User Experience: Journeys, flows, interactions, personalization
+
+**Technical Details:**
+- 62 Mermaid diagrams using GitHub-native rendering
+- ~130 pages of comprehensive documentation
+- 212 KB total documentation
+- All diagrams validated for GitHub compatibility
+- Multiple diagram types (graph, flowchart, ER, sequence, state)
+
+**Files Changed:**
+- docs/architecture/WIKI_ARCHITECTURE.md (new)
+- docs/architecture/WIKI_SYSTEM_ARCHITECTURE.md (new)
+- docs/architecture/WIKI_DATA_MODEL.md (new)
+- docs/architecture/WIKI_FRONTEND_DESIGN.md (new)
+- docs/architecture/WIKI_COMPONENT_ARCHITECTURE.md (new)
+- docs/architecture/WIKI_USER_FLOWS.md (new)
+- docs/architecture/WIKI_NONFUNCTIONAL_ARCHITECTURE.md (new)
+- docs/architecture/WIKI_DEPLOYMENT_ARCHITECTURE.md (new)
+- docs/architecture/README.md (new)
+- FixRecord.md (this documentation)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
