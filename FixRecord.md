@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.53 - 2025-11-21 23:30:18
+**Commit:** `8fd92fa`
+
+
+
 ## Version 1.0.52 - 2025-11-21 23:10:00
 **Commit:** `3b82ae8`
 
@@ -4290,7 +4295,7 @@ Added PWA registration and offline support to wiki-deleted-content.html and wiki
 
 ### 2025-11-21 - Update wiki-events and wiki-favorites with PWA
 
-**Commit:** (pending)
+**Commit:** 3b82ae8
 
 **Issue:**
 Wiki pages needed PWA registration updates.
