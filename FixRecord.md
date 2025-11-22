@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.65 - 2025-11-22 15:22:52
+**Commit:** `PENDING`
+
+
+
 ## Version 1.0.64 - 2025-11-22 10:44:12
 **Commit:** `b93f14b`
 
@@ -4649,6 +4654,94 @@ Created 4 comprehensive, technology-agnostic documentation guides:
 - docs/testing/TESTING_IMPLEMENTATION.md (new)
 - docs/testing/AGENT_TESTING_RULES.md (new)
 - docs/testing/README.md (updated with links)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+### 2025-11-22 - Create three-layer agent enforcement system for testing strategy
+
+**Commit:** (pending)
+
+**Issue:**
+Testing strategy documents were created (REQUIREMENTS, ARCHITECTURE, IMPLEMENTATION, RULES) but there was no system to ensure AI agents actually follow them. Agents needed:
+1. Clear instructions to read before starting
+2. Automated validation to prevent violations
+3. Integration with the development workflow
+
+Without enforcement, agents might create tests without user approval, commit failing tests, hardcode credentials, or skip other critical testing rules.
+
+**Root Cause:**
+Testing strategy documents existed but had no enforcement mechanism. There was no:
+- Standard prompt for instructing agents
+- Pre-commit validation of test compliance
+- Clear workflow for integrating agent work with human review
+
+**Solution:**
+Implemented a comprehensive three-layer enforcement system:
+
+**Layer 1: Agent System Prompt** (/.claude/agents/agent-system-prompt.md)
+- Copy-paste instructions agents must read before code work
+- References all testing strategy documents
+- Defines 9 mandatory rules with clear examples
+- Explains workflow for test-driven development
+- Specifies error reporting format
+- Lists consequences of breaking rules
+
+**Layer 2: Pre-Commit Hook** (/.githooks/validate-test-compliance.sh)
+- Automatic validation runs before every commit
+- 7 automated compliance checks:
+  1. Tests are functional (actually run and pass)
+  2. No hardcoded credentials
+  3. Test isolation verified
+  4. Test cleanup hooks present
+  5. FixRecord.md updated
+  6. Documentation complete
+  7. Test tags present
+- Blocks critical violations (tests, credentials)
+- Warns about issues that need attention
+- Allows override with user confirmation
+- Color-coded output for clarity
+
+**Layer 3: Manual Review** (Provided guidance in docs)
+- User reviews code changes before merge
+- Verification checklist:
+  - Tests match feature description
+  - Implementation is correct
+  - FixRecord.md is accurate
+  - No regressions introduced
+  - Commit message is clear
+
+**Documentation:** (docs/testing/AGENT_ENFORCEMENT_STRATEGY.md)
+- Complete system overview and how it works
+- Detailed explanation of each layer
+- Setup instructions and verification
+- Usage guide with examples
+- Troubleshooting common issues
+- Integration with existing workflow
+
+**How It Works:**
+1. User copies agent system prompt
+2. Pastes into conversation with agent
+3. Agent reads and acknowledges rules
+4. Agent does code work with oversight
+5. Agent runs tests before committing
+6. Pre-commit hook validates compliance
+7. Hook blocks violations or allows override
+8. User reviews before final merge
+
+**Benefits:**
+- Ensures consistent testing practices
+- Prevents common violations (credentials, flaky tests)
+- Maintains high test quality standards
+- Provides clear guidance to agents
+- Integrates seamlessly into workflow
+- No additional tools or setup required beyond existing git/npm
+
+**Files Changed:**
+- .claude/agents/agent-system-prompt.md (new)
+- .githooks/validate-test-compliance.sh (new - executable)
+- docs/testing/AGENT_ENFORCEMENT_STRATEGY.md (new)
+- docs/testing/README.md (updated with enforcement links)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 

@@ -658,6 +658,24 @@ These documents define a **reusable strategy** applicable to:
 
 ---
 
+## 🤖 Agent Enforcement System
+
+To ensure AI agents consistently follow the testing strategy, see:
+
+- **[AGENT_ENFORCEMENT_STRATEGY.md](AGENT_ENFORCEMENT_STRATEGY.md)** - Complete system for agent oversight
+  - Layer 1: Agent system prompt (copy-paste instructions)
+  - Layer 2: Pre-commit hook (automated validation)
+  - Layer 3: Manual review (human verification)
+
+**How to use with agents:**
+1. Copy agent system prompt from `/.claude/agents/agent-system-prompt.md`
+2. Paste into conversation with agent
+3. Agent acknowledges rules before proceeding
+4. Pre-commit hook validates compliance automatically
+5. You review changes before merge
+
+---
+
 **Last Updated:** 2025-11-22
 
 **Maintained By:** Libor Ballaty <libor@arionetworks.com>
