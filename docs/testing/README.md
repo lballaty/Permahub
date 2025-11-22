@@ -639,6 +639,25 @@ npm run test:e2e:ui  # Interactive UI
 
 ---
 
-**Last Updated:** 2025-11-16
+---
+
+## 📖 Reusable Testing Strategy Documents
+
+For a **generic, multi-stack testing strategy** that can be applied to other projects, see:
+
+- **[TESTING_REQUIREMENTS.md](TESTING_REQUIREMENTS.md)** - Technology-agnostic requirements and principles
+- **[TESTING_ARCHITECTURE.md](TESTING_ARCHITECTURE.md)** - Design patterns and architecture across stacks
+- **[TESTING_IMPLEMENTATION.md](TESTING_IMPLEMENTATION.md)** - Step-by-step setup for Playwright, Bruno, Flutter
+- **[AGENT_TESTING_RULES.md](AGENT_TESTING_RULES.md)** - Rules for AI agents working with tests
+
+These documents define a **reusable strategy** applicable to:
+- Playwright (Web UI testing)
+- Bruno/REST Client (API testing)
+- Flutter (Mobile testing)
+- And easily adaptable to other frameworks
+
+---
+
+**Last Updated:** 2025-11-22
 
 **Maintained By:** Libor Ballaty <libor@arionetworks.com>

@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.64 - 2025-11-22 10:44:12
+**Commit:** `b93f14b`
+
+
+
 ## Version 1.0.63 - 2025-11-22 09:52:05
 **Commit:** `25ef718`
 
@@ -4575,6 +4580,75 @@ After fix, tests pass successfully:
 
 **Files Changed:**
 - playwright.config.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-22 - Create reusable testing strategy documentation across tech stacks
+
+**Commit:** (pending)
+
+**Issue:**
+No comprehensive, reusable testing strategy documentation existed that could be applied across multiple technology stacks and projects. Organizations needed clear guidance on:
+- Testing principles and requirements
+- Architecture patterns for test infrastructure
+- Implementation steps for different frameworks
+- Rules and guardrails for AI agents creating tests
+
+**Root Cause:**
+Testing documentation was ad-hoc and project-specific. There was no foundational strategy document that could be:
+- Applied to new projects
+- Adapted for different tech stacks (Playwright, Bruno, Flutter, etc)
+- Used to establish consistency across teams
+- Referenced when setting up agent-driven development
+
+**Solution:**
+Created 4 comprehensive, technology-agnostic documentation guides:
+
+1. **TESTING_REQUIREMENTS.md** (35KB)
+   - Defines what to test and why
+   - Establishes test tiers (smoke, critical, features, regression, performance)
+   - Specifies functional and non-functional requirements
+   - Provides success criteria and metrics
+   - Applicable to any tech stack
+
+2. **TESTING_ARCHITECTURE.md** (24KB)
+   - Explains how tests should be structured
+   - Defines core components (abstraction layer, configuration, data pipeline)
+   - Shows test execution models and isolation strategies
+   - Provides stack-specific implementation patterns
+   - Includes CI/CD integration approaches
+
+3. **TESTING_IMPLEMENTATION.md** (20KB)
+   - Step-by-step setup for Playwright (Web UI testing)
+   - Step-by-step setup for Bruno (API testing)
+   - Step-by-step setup for Flutter (Mobile testing)
+   - Configuration management best practices
+   - Test data pipeline and cleanup
+   - Troubleshooting guide with common issues
+
+4. **AGENT_TESTING_RULES.md** (24KB)
+   - Mandatory 9-step test creation workflow
+   - 7 mandatory checks before creating tests
+   - Forbidden practices and guardrails
+   - Test execution protocol for AI agents
+   - Error handling and escalation procedures
+   - Documentation and commit requirements
+
+**Benefits:**
+- Reusable across Permahub and other projects
+- Foundational for agent-driven development with clear safeguards
+- Establishes testing consistency across teams
+- Easily adaptable to new tech stacks
+- Clear escalation paths for agents when stuck
+
+**Files Changed:**
+- docs/testing/TESTING_REQUIREMENTS.md (new)
+- docs/testing/TESTING_ARCHITECTURE.md (new)
+- docs/testing/TESTING_IMPLEMENTATION.md (new)
+- docs/testing/AGENT_TESTING_RULES.md (new)
+- docs/testing/README.md (updated with links)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
