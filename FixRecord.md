@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.63 - 2025-11-22 09:52:05
+**Commit:** `25ef718`
+
+
+
 ## Version 1.0.62 - 2025-11-21 23:33:40
 **Commit:** `b85ef8f`
 
@@ -4542,6 +4547,34 @@ The smoke test file was importing `describe` from `@playwright/test`, but Playwr
 
 **Files Changed:**
 - tests/e2e/smoke/health-check.spec.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-22 - Fix Playwright test baseURL port mismatch
+
+**Commit:** (pending)
+
+**Issue:**
+All Playwright smoke tests were failing because they were attempting to connect to `http://localhost:3000` but the dev server was running on port 3001. Tests returned only 211 bytes of content (error responses) instead of actual HTML pages.
+
+**Root Cause:**
+Playwright configuration (playwright.config.js) had `baseURL: 'http://localhost:3000'` but Vite dev server (vite.config.js) is configured with `port: 3001`. This mismatch caused all tests to hit the wrong port and fail.
+
+**Solution:**
+Updated playwright.config.js line 42 to use the correct port:
+- Changed from: `baseURL: 'http://localhost:3000'`
+- Changed to: `baseURL: 'http://localhost:3001'`
+
+**Test Results:**
+After fix, tests pass successfully:
+- wiki home page loads successfully: ✓ PASS
+- All wiki events related tests: 5/5 PASS
+- wiki map tests: ✓ PASS
+
+**Files Changed:**
+- playwright.config.js
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 

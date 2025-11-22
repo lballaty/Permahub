@@ -39,7 +39,7 @@ export default defineConfig({
 
   // Global test configuration
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3001',
 
     // Tracing and debugging
     trace: 'on-first-retry',
