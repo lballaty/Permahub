@@ -49,8 +49,52 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.69 - 2025-11-26 23:17:17
+**Commit:** `86278c6`
+
+
+
 ## Version 1.0.68 - 2025-11-26 23:13:16
 **Commit:** `370ef7f`
+
+### 2025-11-27 - Add mobile-web-app-capable meta to all wiki pages
+
+**Commit:** pending
+
+**Issue:**
+Browsers warned that `<meta name="apple-mobile-web-app-capable" content="yes">` is deprecated without the corresponding `<meta name="mobile-web-app-capable" content="yes">` tag.
+
+**Root Cause:**
+- Wiki HTML pages included only the Apple-specific meta tag and omitted the standard mobile web app capability tag.
+
+**Solution:**
+- Insert `<meta name="mobile-web-app-capable" content="yes">` ahead of the Apple tag in all wiki HTML files.
+
+**Files Changed:**
+- src/wiki/wiki-about.html
+- src/wiki/wiki-admin.html
+- src/wiki/wiki-deleted-content.html
+- src/wiki/wiki-editor.html
+- src/wiki/wiki-events.html
+- src/wiki/wiki-favorites.html
+- src/wiki/wiki-forgot-password.html
+- src/wiki/wiki-guides.html
+- src/wiki/wiki-home.html
+- src/wiki/wiki-issues.html
+- src/wiki/wiki-login.html
+- src/wiki/wiki-map.html
+- src/wiki/wiki-my-content.html
+- src/wiki/wiki-page.html
+- src/wiki/wiki-privacy.html
+- src/wiki/wiki-reset-password.html
+- src/wiki/wiki-settings.html
+- src/wiki/wiki-signup.html
+- src/wiki/wiki-terms.html
+- src/wiki/wiki-unsubscribe.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 
 
