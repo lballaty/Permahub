@@ -217,7 +217,13 @@ export function displayVersionBadge() {
 
   // Click to show details
   versionBadge.addEventListener('click', () => {
-    alert(`${VERSION_DISPLAY}\n\nVersion: ${VERSION}\nCommit: ${COMMIT_HASH}\nBuild Time: ${BUILD_TIME}\nEnvironment: ${import.meta.env.MODE || 'development'}`);
+    let env = 'development';
+    try {
+      env = (typeof import !== 'undefined' && import.meta?.env?.MODE) || 'development';
+    } catch (e) {
+      // Fallback to development if import.meta not available
+    }
+    alert(`${VERSION_DISPLAY}\n\nVersion: ${VERSION}\nCommit: ${COMMIT_HASH}\nBuild Time: ${BUILD_TIME}\nEnvironment: ${env}`);
   });
 
   // Assemble container
