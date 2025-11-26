@@ -49,8 +49,34 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.68 - 2025-11-26 23:13:16
+**Commit:** `370ef7f`
+
+
+
 ## Version 1.0.67 - 2025-11-26 23:08:14
 **Commit:** `023f017`
+
+### 2025-11-27 - Clarify PWA SW fallback logging
+
+**Commit:** pending
+
+**Issue:**
+Service Worker registration produced alarming errors in console when the first fallback path 404'd, even though a later path succeeded.
+
+**Root Cause:**
+- Registration tried multiple paths but only logged per-path failures; no summary indicated success after fallbacks.
+
+**Solution:**
+- Reorder dev paths to try `/src/sw.js` first, then `../../sw.js`, then `/sw.js`.
+- Track failed paths and log an informational message when registration succeeds after fallbacks to signal the errors are non-blocking.
+
+**Files Changed:**
+- src/wiki/js/pwa-register.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 
 

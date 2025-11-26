@@ -16,19 +16,21 @@ if ('serviceWorker' in navigator) {
     const possiblePaths = isGitHubPages
       ? ['/Permahub/sw.js']
       : [
-          // Common dev/server paths
-          '../../sw.js',
+          // Common dev/server paths (ordered by most likely)
           '/src/sw.js',
+          '../../sw.js',
           '/sw.js'
         ];
 
     let registration = null;
+    const failures = [];
     for (const swPath of possiblePaths) {
       try {
         registration = await navigator.serviceWorker.register(swPath);
         console.log('[PWA] Service Worker registered:', registration.scope, 'path:', swPath);
         break;
       } catch (err) {
+        failures.push(swPath);
         console.warn(`[PWA] Service Worker registration failed for ${swPath}:`, err);
       }
     }
@@ -36,6 +38,10 @@ if ('serviceWorker' in navigator) {
     if (!registration) {
       console.error('[PWA] Service Worker registration failed for all known paths');
       return;
+    }
+
+    if (failures.length) {
+      console.info(`[PWA] Service Worker registered after falling back. Failed paths: ${failures.join(', ')}`);
     }
 
     // Check for updates every 60 seconds
