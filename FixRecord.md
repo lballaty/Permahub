@@ -49,8 +49,35 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.72 - 2025-11-26 23:50:09
+**Commit:** `ec8229a`
+
+
+
 ## Version 1.0.71 - 2025-11-26 23:40:28
 **Commit:** `6f96846`
+
+### 2025-11-27 - Update publish script to use docs-gh
+
+**Commit:** pending
+
+**Issue:**
+Publishing to GitHub Pages overwrote the main docs/ folder.
+
+**Root Cause:**
+- publish-pages.sh synced dist/ into docs/, clobbering existing documentation.
+
+**Solution:**
+- Change publish target to docs-gh/ to isolate Pages output.
+- Update deployment guide to point Pages source to main/docs-gh.
+
+**Files Changed:**
+- scripts/publish-pages.sh
+- docs/GITHUB_PAGES_DEPLOYMENT.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 
 

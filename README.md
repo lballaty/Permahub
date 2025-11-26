@@ -19,6 +19,17 @@ Permahub is a production-ready web platform designed to connect permaculture ent
 - **📱 Responsive Design** - Mobile-first design that works on all devices
 - **🔒 Privacy-First** - GDPR-compliant with comprehensive privacy policies
 
+## 📲 Install as a PWA (GitHub Pages)
+
+You can install Permahub as an app from the published site: `https://lballaty.github.io/Permahub/src/wiki/wiki-home.html`
+
+- **iPhone/iPad (Safari)**: Open the URL → Share → “Add to Home Screen” → Add → launch from home screen (full-screen).
+- **Android (Chrome)**: Open the URL → wait for “Install app” prompt or menu ⋮ → “Install app/Add to Home screen” → confirm.
+- **Desktop Chrome/Edge**: Open the URL → click the install icon in the address bar (or menu → “Install app”) → confirm (standalone window).
+- **macOS Safari**: Open the URL → File → Share → “Add to Dock” → launch from Dock.
+
+If “Install/Add to Home Screen” is missing, refresh and wait a few seconds. On iOS, only Safari supports Add to Home Screen. For updates, hard refresh or clear the service worker (DevTools → Application → Service Workers → Unregister) and reload.
+
 ## 🚀 Quick Start
 
 ### Prerequisites

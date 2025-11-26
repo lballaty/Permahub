@@ -34,11 +34,11 @@ Your Permahub Wiki is now properly configured to work on GitHub Pages with full 
 
 What it does:
 - Builds the site (`npm run build`)
-- Replaces `docs/` with the build output from `dist/`
+- Syncs the build output from `dist/` into `docs-gh/` (keeps your existing docs/ intact)
 
 One-time GitHub Pages setting:
 - Source: `main` branch
-- Folder: `/docs`
+- Folder: `/docs-gh`
 
 ---
 
