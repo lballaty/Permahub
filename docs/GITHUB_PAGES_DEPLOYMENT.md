@@ -29,44 +29,16 @@ Your Permahub Wiki is now properly configured to work on GitHub Pages with full 
 ### Step 1: Build the Project
 
 ```bash
-npm run build
+./scripts/publish-pages.sh
 ```
 
-This creates a `dist/` folder with the built files.
+What it does:
+- Builds the site (`npm run build`)
+- Replaces `docs/` with the build output from `dist/`
 
-### Step 2: Deploy to GitHub Pages
-
-You have 2 options:
-
-#### **Option A: Push to GitHub (Automatic with GitHub Actions)**
-
-```bash
-# Add all changes
-git add .
-
-# Commit
-git commit -m "fix: Update PWA paths for GitHub Pages deployment"
-
-# Push to GitHub
-git push origin main
-```
-
-GitHub will automatically:
-1. Detect the commit
-2. Run the build
-3. Deploy to `https://lballaty.github.io/Permahub/`
-
-#### **Option B: Deploy Manually to gh-pages Branch**
-
-```bash
-# Install gh-pages if needed
-npm install -D gh-pages
-
-# Deploy
-npm run deploy
-```
-
-(You may need to add a `"deploy"` script to package.json first)
+One-time GitHub Pages setting:
+- Source: `main` branch
+- Folder: `/docs`
 
 ---
 

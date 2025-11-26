@@ -49,9 +49,35 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.71 - 2025-11-26 23:40:28
+**Commit:** `6f96846`
+
+
+
 ## Version 1.0.70 - 2025-11-26 23:27:40
 **Commit:** `24d975b`
 
+### 2025-11-27 - Add local publish script for GitHub Pages
+
+**Commit:** pending
+
+**Issue:**
+Updating GitHub Pages required manual build/copy steps each time.
+
+**Root Cause:**
+- No local automation to push the Vite build into `docs/` for Pages.
+
+**Solution:**
+- Added `scripts/publish-pages.sh` to build and sync `dist/` → `docs/`.
+- Updated GitHub Pages deployment guide with the one-command workflow.
+
+**Files Changed:**
+- scripts/publish-pages.sh (new, executable)
+- docs/GITHUB_PAGES_DEPLOYMENT.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 
 ## Version 1.0.69 - 2025-11-26 23:17:17
