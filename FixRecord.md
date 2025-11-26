@@ -49,8 +49,13 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.74 - 2025-11-27 00:06:42
+**Commit:** `622fb0c`
+
+
+
 ## Version 1.0.73 - 2025-11-27 00:00:36
-**Commit:** `pending`
+**Commit:** `c2b269b`
 
 ### 2025-11-27 - Publish GitHub Pages build to docs-gh
 
@@ -71,220 +76,137 @@ Latest Vite build needed to be published to the GitHub Pages source directory.
 
 ---
 
-## Version 1.0.72 - 2025-11-26 23:50:09
-**Commit:** `ec8229a`
+
+
+## Version 1.0.72 - 2025-11-26 21:05:08
+**Commit:** `b5e3eeb`
 
 
 
-## Version 1.0.71 - 2025-11-26 23:40:28
-**Commit:** `6f96846`
-
-### 2025-11-27 - Update publish script to use docs-gh
-
+## Version 1.0.71 - 2025-11-26 20:54:33
 **Commit:** pending
 
+### 2025-11-26 - Add comprehensive PWA testing and readiness documentation
+
 **Issue:**
-Publishing to GitHub Pages overwrote the main docs/ folder.
+Users need clear documentation on:
+- What PWA fixes were implemented
+- How to test the fixes
+- How to install PWA on iOS/macOS
+- Quick reference for GitHub Pages deployment
 
 **Root Cause:**
-- publish-pages.sh synced dist/ into docs/, clobbering existing documentation.
+Documentation scattered across multiple files, no consolidated quick reference
 
 **Solution:**
-- Change publish target to docs-gh/ to isolate Pages output.
-- Update deployment guide to point Pages source to main/docs-gh.
+Created comprehensive documentation packages:
+- GITHUB_PAGES_READY.md: What was fixed + quick test checklist
+- GITHUB_PAGES_PWA_TESTING.md: 6-phase testing guide with 25+ test cases
+- GITHUB_PAGES_INSTALLATION_QUICK_START.md: Fast installation reference
+- INSTALLATION_REFERENCE_CARD.md: Visual quick-start card for iOS/macOS
 
 **Files Changed:**
-- scripts/publish-pages.sh
-- docs/GITHUB_PAGES_DEPLOYMENT.md
+- GITHUB_PAGES_READY.md (NEW)
+- docs/testing/GITHUB_PAGES_PWA_TESTING.md (NEW)
+- docs/processes/GITHUB_PAGES_INSTALLATION_QUICK_START.md (NEW)
+- docs/processes/INSTALLATION_REFERENCE_CARD.md (NEW)
+- FixRecord.md (this entry)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
 
+## Version 1.0.70 - 2025-11-26 20:52:03
+**Commit:** `c7f254c`
 
 
-## Version 1.0.70 - 2025-11-26 23:27:40
-**Commit:** `24d975b`
 
-### 2025-11-27 - Add local publish script for GitHub Pages
-
+## Version 1.0.69 - 2025-11-26 20:55:00
 **Commit:** pending
 
+### 2025-11-26 - Fix GitHub Pages PWA and Database Issues
+
 **Issue:**
-Updating GitHub Pages required manual build/copy steps each time.
+GitHub Pages deployment showed multiple errors:
+1. Service Worker 404 - sw.js not found at correct path
+2. `style` identifier already declared - pwa-register.js loaded multiple times
+3. Version manager error - import.meta.env undefined
+4. Icons 404 - icon paths incorrect
+5. Database content not loading on GitHub Pages
 
 **Root Cause:**
-- No local automation to push the Vite build into `docs/` for Pages.
+1. Service Worker registered at relative path `../../sw.js` which doesn't work with GitHub Pages subdirectory structure
+2. pwa-register.js CSS animation style not checking if already added before creating new style element
+3. version-manager.js using ES6 import/export but trying to access import.meta.env without proper fallback for non-module context
+4. Icon paths in manifest using relative paths that don't account for GitHub Pages base URL
+5. Database detection working but Service Worker registration failure prevented data loading in offline mode
 
 **Solution:**
-- Added `scripts/publish-pages.sh` to build and sync `dist/` → `docs/`.
-- Updated GitHub Pages deployment guide with the one-command workflow.
+1. Modified pwa-register.js to detect GitHub Pages environment and use absolute path `/Permahub/sw.js` instead of relative path
+2. Added ID check to CSS animations style element to prevent duplicates
+3. Updated version-manager.js to safely handle import.meta.env with try-catch fallbacks
+4. Verified icon paths are correct (publicDir copies them to dist/icons/)
+5. Added console logging for Service Worker path for debugging
 
 **Files Changed:**
-- scripts/publish-pages.sh (new, executable)
-- docs/GITHUB_PAGES_DEPLOYMENT.md
+- src/wiki/js/pwa-register.js (Service Worker path detection + CSS animation guard)
+- src/js/version-manager.js (Safe import.meta.env access with fallbacks)
+- package.json (Version bump 1.0.68 → 1.0.69)
+- dist/ (Rebuilt with fixes, PWA files copied)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
 
+## Version 1.0.68 - 2025-11-26 19:48:30
+**Commit:** `9e9acc1`
 
-## Version 1.0.69 - 2025-11-26 23:17:17
-**Commit:** `86278c6`
-
-### 2025-11-27 - Update PWA documentation for current deployment paths
-
-**Commit:** pending
+### 2025-11-26 - Initial PWA Implementation Complete
 
 **Issue:**
-Documentation and quick-start guides referenced single-path service worker setup and were missing the mobile-web-app-capable meta guidance, which no longer matched the code.
+Need to implement Progressive Web App (PWA) functionality for Permahub Wiki to enable:
+- iOS/macOS app installation
+- Offline functionality
+- Service Worker caching
+- Update notifications
 
 **Root Cause:**
-- Docs were written before multi-path SW fallback and meta tag updates.
+PWA features not implemented
 
 **Solution:**
-- Updated GitHub Pages readiness, deployment, installation quick start, and testing docs to:
-  - Note SW fallback order and logging
-  - Mention added `mobile-web-app-capable` tag on all wiki pages
-  - Adjust expected version info
-- Added note in local test results about benign initial 404s before fallback success.
+Complete PWA implementation including:
+- manifest.json with app metadata and 8 icon sizes
+- Service Worker with intelligent caching strategies
+- Offline fallback page
+- PWA registration script with update notifications
+- PWA meta tags in all 20 wiki HTML pages
+- All paths fixed for GitHub Pages compatibility (relative paths)
 
 **Files Changed:**
-- GITHUB_PAGES_READY.md
-- docs/GITHUB_PAGES_DEPLOYMENT.md
-- docs/processes/GITHUB_PAGES_INSTALLATION_QUICK_START.md
-- docs/testing/GITHUB_PAGES_PWA_TESTING.md
-- docs/testing/PWA_LOCAL_TEST_RESULTS.md
+- src/manifest.json (NEW)
+- src/sw.js (NEW)
+- src/wiki/offline.html (NEW)
+- src/wiki/js/pwa-register.js (NEW)
+- src/assets/icons/icon-*.png (8 files, NEW)
+- All 20 wiki HTML files (PWA meta tags + script tags)
+- docs/ (PWA documentation files)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
 
-
-
-## Version 1.0.68 - 2025-11-26 23:13:16
-**Commit:** `370ef7f`
-
-### 2025-11-27 - Add mobile-web-app-capable meta to all wiki pages
-
-**Commit:** pending
-
-**Issue:**
-Browsers warned that `<meta name="apple-mobile-web-app-capable" content="yes">` is deprecated without the corresponding `<meta name="mobile-web-app-capable" content="yes">` tag.
-
-**Root Cause:**
-- Wiki HTML pages included only the Apple-specific meta tag and omitted the standard mobile web app capability tag.
-
-**Solution:**
-- Insert `<meta name="mobile-web-app-capable" content="yes">` ahead of the Apple tag in all wiki HTML files.
-
-**Files Changed:**
-- src/wiki/wiki-about.html
-- src/wiki/wiki-admin.html
-- src/wiki/wiki-deleted-content.html
-- src/wiki/wiki-editor.html
-- src/wiki/wiki-events.html
-- src/wiki/wiki-favorites.html
-- src/wiki/wiki-forgot-password.html
-- src/wiki/wiki-guides.html
-- src/wiki/wiki-home.html
-- src/wiki/wiki-issues.html
-- src/wiki/wiki-login.html
-- src/wiki/wiki-map.html
-- src/wiki/wiki-my-content.html
-- src/wiki/wiki-page.html
-- src/wiki/wiki-privacy.html
-- src/wiki/wiki-reset-password.html
-- src/wiki/wiki-settings.html
-- src/wiki/wiki-signup.html
-- src/wiki/wiki-terms.html
-- src/wiki/wiki-unsubscribe.html
-
-**Author:** Libor Ballaty <libor@arionetworks.com>
-
----
+## Version 1.0.67 - 2025-11-26 19:47:41
+**Commit:** `da73c0f`
 
 
 
-## Version 1.0.67 - 2025-11-26 23:08:14
-**Commit:** `023f017`
-
-### 2025-11-27 - Clarify PWA SW fallback logging
-
-**Commit:** pending
-
-**Issue:**
-Service Worker registration produced alarming errors in console when the first fallback path 404'd, even though a later path succeeded.
-
-**Root Cause:**
-- Registration tried multiple paths but only logged per-path failures; no summary indicated success after fallbacks.
-
-**Solution:**
-- Reorder dev paths to try `/src/sw.js` first, then `../../sw.js`, then `/sw.js`.
-- Track failed paths and log an informational message when registration succeeds after fallbacks to signal the errors are non-blocking.
-
-**Files Changed:**
-- src/wiki/js/pwa-register.js
-
-**Author:** Libor Ballaty <libor@arionetworks.com>
-
----
+## Version 1.0.66 - 2025-11-26 19:46:01
+**Commit:** `3cafab6`
 
 
-
-## Version 1.0.66 - 2025-11-26 23:02:58
-**Commit:** `b2dcf5a`
-
-### 2025-11-26 - Add fallback service worker paths for dev/GitHub Pages
-
-**Commit:** pending
-
-**Issue:**
-Service Worker registration failed locally with 404 because the script was looked up at `/sw.js`, while the actual file lives under `src/sw.js`. GH Pages also needs the `/Permahub/sw.js` path. Without fallbacks, the PWA failed to register.
-
-**Root Cause:**
-- Hard-coded single service worker path that did not match all environments
-- No retry/fallback logic when the initial registration path returned 404
-
-**Solution:**
-- Add environment-aware path selection:
-  - GitHub Pages: try `/Permahub/sw.js`
-  - Local/dev: try `../../sw.js`, `/src/sw.js`, then `/sw.js`
-- Attempt paths in order until registration succeeds; log per-path failures
-
-**Files Changed:**
-- src/wiki/js/pwa-register.js
-
-**Author:** Libor Ballaty <libor@arionetworks.com>
-
----
 
 ## Version 1.0.65 - 2025-11-22 15:22:52
-**Commit:** `b2dcf5a`
-
-### 2025-11-26 - Make PWA registration work for GitHub Pages and dev
-
-**Commit:** `ee846cc`
-
-**Issue:**
-PWA registration script failed in browsers because it used ES module exports and a hard-coded service worker path that only worked locally. This caused "Unexpected token export" errors and service worker registration failures on GitHub Pages.
-
-**Root Cause:**
-- `export` keywords in `pwa-register.js` while the script is loaded as a regular `<script>` (non-module)
-- Service worker path hard-coded to `/src/sw.js`, which does not exist on GitHub Pages
-- CSS animations style injected multiple times when the script was reloaded
-
-**Solution:**
-- Remove `export` keywords and attach helper functions to `window.PWA` for non-module usage
-- Dynamically choose service worker path: `/Permahub/sw.js` on GitHub Pages, `../../sw.js` locally
-- Add a style element guard to avoid injecting duplicate animation CSS
-
-**Files Changed:**
-- src/wiki/js/pwa-register.js
-
-**Author:** Libor Ballaty <libor@arionetworks.com>
-
----
+**Commit:** `0b50e24`
 
 
 
@@ -4978,5 +4900,233 @@ Implemented a comprehensive three-layer enforcement system:
 - docs/testing/README.md (updated with enforcement links)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+### 2025-11-26 - Implement Progressive Web App (PWA) with offline support
+
+**Commit:** (pending)
+
+**Issue:**
+Permahub Wiki needed to be installable on iOS, Android, macOS, and Windows as a standalone app with offline functionality. Users wanted to "Add to Home Screen" on iOS and have the app work without internet connection.
+
+**Root Cause:**
+PWA implementation was not started. Missing components:
+- No manifest.json defining app metadata
+- No app icons for different platforms
+- No Service Worker for caching and offline support
+- No offline fallback page
+
+**Solution:**
+Implemented complete PWA infrastructure:
+
+**1. Web App Manifest** (src/manifest.json)
+- Defines app name, colors, icons, start URL
+- Configures standalone display mode
+- Adds app shortcuts (Guides, Events, Map)
+- Specifies theme colors (#2d8659 Permahub green)
+
+**2. App Icons** (src/assets/icons/)
+- Generated 8 icon sizes: 72px, 96px, 128px, 144px, 152px, 192px, 384px, 512px
+- Designed with Permahub branding (green gradient, leaf icon)
+- Works on iOS, Android, macOS, Windows
+
+**3. Service Worker** (src/sw.js)
+- Intelligent caching with multiple strategies
+- Cache-First: App shell, images, static assets
+- Network-First: Supabase API data
+- Offline fallback: User-friendly offline page
+
+**4. Offline Page** (src/wiki/offline.html)
+- Auto-detects connection restoration
+- Helpful tips for users
+
+**5. PWA Registration** (src/wiki/js/pwa-register.js)
+- Registers Service Worker on page load
+- Update notifications
+- Online/offline status alerts
+
+**6. PWA Meta Tags** (All wiki HTML files)
+- Added to all 20 wiki HTML files
+- Manifest links, iOS tags, Android tags, theme colors
+
+**7. GitHub Pages Path Fixes**
+- Fixed Service Worker registration path: /src/sw.js → ../../sw.js
+- Fixed manifest path: ../manifest.json → ../../manifest.json
+- Fixed icon paths: ../assets/icons/ → ../../assets/icons/
+- All paths now relative for localhost and GitHub Pages compatibility
+
+**Files Changed:**
+- src/manifest.json
+- src/sw.js
+- src/wiki/offline.html
+- src/wiki/js/pwa-register.js
+- src/assets/icons/*.png (8 icon files)
+- All 20 wiki HTML files (PWA meta tags and paths)
+- docs/processes/PWA_IMPLEMENTATION_PLAN.md
+- docs/processes/PWA_INSTALLATION_GUIDE.md
+- docs/testing/PWA_LOCAL_TEST_RESULTS.md
+- docs/GITHUB_PAGES_DEPLOYMENT.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+
+### 2025-11-26 - Add PWA meta tags and fix paths in all wiki pages
+
+**Commit:** (pending)
+
+**Issue:**
+All 20 wiki HTML pages needed PWA integration for installability and manifest linking. Pages also needed relative paths for GitHub Pages compatibility.
+
+**Solution:**
+Added to all wiki HTML pages:
+- PWA Manifest links with relative paths (../../manifest.json)
+- iOS app capability meta tags (apple-mobile-web-app-capable)
+- Android web app capability tags (mobile-web-app-capable)
+- Theme color configuration for browser UI (#2d8659)
+- Windows tile icon path configuration
+- Service Worker registration script inclusion
+- Fixed all relative paths for GitHub Pages deployment
+
+**Files Changed:**
+- src/wiki/wiki-home.html
+- src/wiki/wiki-guides.html
+- src/wiki/wiki-page.html
+- src/wiki/wiki-editor.html
+- src/wiki/wiki-events.html
+- src/wiki/wiki-map.html
+- src/wiki/wiki-favorites.html
+- src/wiki/wiki-login.html
+- src/wiki/wiki-signup.html
+- src/wiki/wiki-forgot-password.html
+- src/wiki/wiki-reset-password.html
+- src/wiki/wiki-admin.html
+- src/wiki/wiki-issues.html
+- src/wiki/wiki-about.html
+- src/wiki/wiki-deleted-content.html
+- src/wiki/wiki-my-content.html
+- src/wiki/wiki-privacy.html
+- src/wiki/wiki-settings.html
+- src/wiki/wiki-terms.html
+- src/wiki/wiki-unsubscribe.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+
+### 2025-11-26 - Add comprehensive PWA implementation and deployment documentation
+
+**Commit:** (pending)
+
+**Issue:**
+PWA features were implemented but lacked comprehensive documentation. Users needed:
+- Step-by-step implementation guides
+- Local testing procedures
+- GitHub Pages deployment instructions
+- iOS/macOS installation instructions
+
+**Solution:**
+Created 4 comprehensive documentation files:
+
+1. PWA_IMPLEMENTATION_PLAN.md
+   - 5-phase implementation roadmap
+   - Detailed task breakdown with time estimates
+   - Setup and configuration instructions
+   - Testing procedures
+   - Deployment checklist
+
+2. PWA_INSTALLATION_GUIDE.md
+   - iOS installation steps
+   - macOS Safari and Chrome installation
+   - Verification procedures
+   - Troubleshooting guide
+
+3. PWA_LOCAL_TEST_RESULTS.md
+   - Console debugging commands
+   - Service Worker verification
+   - Cache Storage testing
+   - Offline functionality testing
+   - Lighthouse audit instructions
+   - Complete testing checklist
+
+4. GITHUB_PAGES_DEPLOYMENT.md
+   - Deployment instructions
+   - Path fix explanations
+   - Environment variable setup
+   - GitHub Pages testing procedures
+   - App installation on deployed version
+   - Troubleshooting for common issues
+
+**Files Changed:**
+- docs/processes/PWA_IMPLEMENTATION_PLAN.md (new)
+- docs/processes/PWA_INSTALLATION_GUIDE.md (new)
+- docs/testing/PWA_LOCAL_TEST_RESULTS.md (new)
+- docs/GITHUB_PAGES_DEPLOYMENT.md (new)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+### 2025-11-26 - Add CODEOWNERS file for GitHub repository protection
+
+**Commit:** (pending)
+
+**Issue:**
+Repository needed protection mechanisms to prevent unauthorized changes. Without a CODEOWNERS file, contributors could submit changes without requiring owner approval, and the repository owner had no enforcement of review requirements.
+
+**Root Cause:**
+The .github/CODEOWNERS file did not exist. GitHub requires this file to enforce code ownership rules and require specific reviewers for PRs.
+
+**Solution:**
+Created `.github/CODEOWNERS` file requiring owner approval (@lballaty) for all changes in the repository. This works in conjunction with GitHub branch protection rules to ensure:
+1. All pull requests require the repository owner's approval
+2. The CODEOWNERS file is automatically requested as a reviewer on any PR
+3. Code ownership is clearly established and documented
+4. Prevents accidental or malicious changes to the main branch
+
+Combined with GitHub branch protection settings (require 1 approval, enforce for admins, block force pushes), this creates a multi-layered protection system for the public repository.
+
+**Files Changed:**
+- .github/CODEOWNERS (new)
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+
+
+### 2025-11-26 - Fix version-manager.js import.meta.env access in click handler
+
+**Commit:** (pending)
+
+**Issue:**
+JavaScript console showed "Uncaught SyntaxError: Unexpected token '!==' (at version-manager.js:30:27)" when version-manager.js loaded. The version badge click handler tried to access `import.meta.env.MODE` directly without safe fallback, causing the code to fail in certain contexts.
+
+**Root Cause:**
+Line 220 in version-manager.js directly accessed `import.meta.env.MODE` without checking if `import.meta` was available first. While other parts of the file had proper try-catch guards, the click handler event listener did not. This caused the entire module to fail to parse when run in contexts where import.meta wasn't available.
+
+**Solution:**
+Wrapped the `import.meta.env.MODE` access in a try-catch block within the click handler:
+```javascript
+// Before (line 220):
+alert(`...Environment: ${import.meta.env.MODE || 'development'}...`);
+
+// After:
+let env = 'development';
+try {
+  env = (typeof import !== 'undefined' && import.meta?.env?.MODE) || 'development';
+} catch (e) {
+  // Fallback to development if import.meta not available
+}
+alert(`...Environment: ${env}...`);
+```
+
+This matches the pattern used throughout the rest of the file for safe import.meta.env access and ensures the module loads without errors in all contexts.
+
+**Files Changed:**
+- src/js/version-manager.js (line 219-227)
+
+**Author:** Claude Code <noreply@anthropic.com>
 
 ---
