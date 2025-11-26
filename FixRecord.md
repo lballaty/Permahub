@@ -49,6 +49,28 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.75 - 2025-11-27 00:31:13
+**Commit:** `pending`
+
+### 2025-11-27 - Add help/push options to pages publish script
+
+**Issue:**
+Publishing to GitHub Pages required manual commands and no built-in help in the local script.
+
+**Root Cause:**
+- Script lacked usage guidance and an option to automate the gh-pages push step.
+
+**Solution:**
+- Added CLI parsing with --help and --push options.
+- Enabled one-command publish that builds, syncs docs-gh/, and pushes to gh-pages with hooks skipped.
+
+**Files Changed:**
+- scripts/publish-pages.sh
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.74 - 2025-11-27 00:06:42
 **Commit:** `622fb0c`
 

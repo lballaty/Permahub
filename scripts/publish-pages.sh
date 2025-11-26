@@ -1,9 +1,40 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Publish Vite build output to docs/ for GitHub Pages (main/docs source)
+# Publish Vite build output to docs-gh/ for GitHub Pages (gh-pages branch)
 ROOT="$(cd -- "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
+
+DO_PUSH=false
+
+show_help() {
+  cat <<'EOF'
+Usage: ./scripts/publish-pages.sh [--push] [--help]
+
+Builds the site with Vite, refreshes docs-gh/ with dist/, and optionally pushes docs-gh/ to the gh-pages branch (hooks skipped).
+
+Options:
+  --push   Build, sync docs-gh/, then push docs-gh/ to origin/gh-pages for Pages deployment.
+  -h, --help  Show this help message.
+EOF
+}
+
+case "${1:-}" in
+  --push)
+    DO_PUSH=true
+    ;;
+  -h|--help)
+    show_help
+    exit 0
+    ;;
+  "" )
+    ;;
+  *)
+    echo "Unknown option: ${1:-}" >&2
+    show_help
+    exit 1
+    ;;
+esac
 
 echo "🔧 Publishing build to docs-gh/ for GitHub Pages..."
 
@@ -21,9 +52,16 @@ mkdir -p "$ROOT/docs-gh"
 rsync -a --delete "$ROOT/dist/" "$ROOT/docs-gh/"
 
 echo "✅ docs-gh/ updated with latest build."
-echo
-echo "Next steps:"
-echo "  git add docs-gh"
-echo "  git commit -m \"chore: publish pages build\""
-echo "  git push origin main"
-echo "Then ensure GitHub Pages is set to source: main /docs-gh"
+
+if $DO_PUSH; then
+  echo "🌐 Pushing docs-gh/ to gh-pages (skipping hooks)..."
+  SKIP_SIMPLE_GIT_HOOKS=1 git subtree push --prefix docs-gh origin gh-pages
+  echo "✅ gh-pages updated. Ensure GitHub Pages source is: gh-pages /"
+else
+  echo
+  echo "Next steps:"
+  echo "  git add docs-gh"
+  echo "  git commit -m \"chore: publish pages build\""
+  echo "  git push origin main"
+  echo "If you want to publish directly: ./scripts/publish-pages.sh --push"
+fi
