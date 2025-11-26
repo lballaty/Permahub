@@ -12,8 +12,11 @@
  */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
+    // Use relative path for Service Worker (works on localhost and GitHub Pages)
+    const swPath = '../../sw.js';
+
     navigator.serviceWorker
-      .register('/src/sw.js')
+      .register(swPath)
       .then((registration) => {
         console.log('[PWA] Service Worker registered:', registration.scope);
 
@@ -181,7 +184,7 @@ document.head.appendChild(style);
 /**
  * Check if app is running as installed PWA
  */
-export function isInstalledPWA() {
+function isInstalledPWA() {
   // Check if running in standalone mode
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
   const isIOSStandalone = window.navigator.standalone === true;
@@ -192,7 +195,7 @@ export function isInstalledPWA() {
 /**
  * Get installation status
  */
-export function getInstallationStatus() {
+function getInstallationStatus() {
   if (isInstalledPWA()) {
     return 'installed';
   }
@@ -204,5 +207,11 @@ export function getInstallationStatus() {
 
   return 'not-supported';
 }
+
+// Attach to window for global access
+window.PWA = {
+  isInstalledPWA,
+  getInstallationStatus
+};
 
 console.log('[PWA] Registration script loaded');

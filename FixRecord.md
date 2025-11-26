@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.66 - 2025-11-26 19:46:01
+**Commit:** `3cafab6`
+
+
+
 ## Version 1.0.65 - 2025-11-22 15:22:52
 **Commit:** `0b50e24`
 
@@ -4746,3 +4751,72 @@ Implemented a comprehensive three-layer enforcement system:
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
 ---
+### 2025-11-26 - Implement Progressive Web App (PWA) with offline support
+
+**Commit:** (pending)
+
+**Issue:**
+Permahub Wiki needed to be installable on iOS, Android, macOS, and Windows as a standalone app with offline functionality. Users wanted to "Add to Home Screen" on iOS and have the app work without internet connection.
+
+**Root Cause:**
+PWA implementation was not started. Missing components:
+- No manifest.json defining app metadata
+- No app icons for different platforms
+- No Service Worker for caching and offline support
+- No offline fallback page
+
+**Solution:**
+Implemented complete PWA infrastructure:
+
+**1. Web App Manifest** (src/manifest.json)
+- Defines app name, colors, icons, start URL
+- Configures standalone display mode
+- Adds app shortcuts (Guides, Events, Map)
+- Specifies theme colors (#2d8659 Permahub green)
+
+**2. App Icons** (src/assets/icons/)
+- Generated 8 icon sizes: 72px, 96px, 128px, 144px, 152px, 192px, 384px, 512px
+- Designed with Permahub branding (green gradient, leaf icon)
+- Works on iOS, Android, macOS, Windows
+
+**3. Service Worker** (src/sw.js)
+- Intelligent caching with multiple strategies
+- Cache-First: App shell, images, static assets
+- Network-First: Supabase API data
+- Offline fallback: User-friendly offline page
+
+**4. Offline Page** (src/wiki/offline.html)
+- Auto-detects connection restoration
+- Helpful tips for users
+
+**5. PWA Registration** (src/wiki/js/pwa-register.js)
+- Registers Service Worker on page load
+- Update notifications
+- Online/offline status alerts
+
+**6. PWA Meta Tags** (All wiki HTML files)
+- Added to all 20 wiki HTML files
+- Manifest links, iOS tags, Android tags, theme colors
+
+**7. GitHub Pages Path Fixes**
+- Fixed Service Worker registration path: /src/sw.js → ../../sw.js
+- Fixed manifest path: ../manifest.json → ../../manifest.json
+- Fixed icon paths: ../assets/icons/ → ../../assets/icons/
+- All paths now relative for localhost and GitHub Pages compatibility
+
+**Files Changed:**
+- src/manifest.json
+- src/sw.js
+- src/wiki/offline.html
+- src/wiki/js/pwa-register.js
+- src/assets/icons/*.png (8 icon files)
+- All 20 wiki HTML files (PWA meta tags and paths)
+- docs/processes/PWA_IMPLEMENTATION_PLAN.md
+- docs/processes/PWA_INSTALLATION_GUIDE.md
+- docs/testing/PWA_LOCAL_TEST_RESULTS.md
+- docs/GITHUB_PAGES_DEPLOYMENT.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
