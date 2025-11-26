@@ -49,10 +49,84 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.70 - 2025-11-26 20:52:03
+**Commit:** `c7f254c`
+
+
+
+## Version 1.0.69 - 2025-11-26 20:55:00
+**Commit:** pending
+
+### 2025-11-26 - Fix GitHub Pages PWA and Database Issues
+
+**Issue:**
+GitHub Pages deployment showed multiple errors:
+1. Service Worker 404 - sw.js not found at correct path
+2. `style` identifier already declared - pwa-register.js loaded multiple times
+3. Version manager error - import.meta.env undefined
+4. Icons 404 - icon paths incorrect
+5. Database content not loading on GitHub Pages
+
+**Root Cause:**
+1. Service Worker registered at relative path `../../sw.js` which doesn't work with GitHub Pages subdirectory structure
+2. pwa-register.js CSS animation style not checking if already added before creating new style element
+3. version-manager.js using ES6 import/export but trying to access import.meta.env without proper fallback for non-module context
+4. Icon paths in manifest using relative paths that don't account for GitHub Pages base URL
+5. Database detection working but Service Worker registration failure prevented data loading in offline mode
+
+**Solution:**
+1. Modified pwa-register.js to detect GitHub Pages environment and use absolute path `/Permahub/sw.js` instead of relative path
+2. Added ID check to CSS animations style element to prevent duplicates
+3. Updated version-manager.js to safely handle import.meta.env with try-catch fallbacks
+4. Verified icon paths are correct (publicDir copies them to dist/icons/)
+5. Added console logging for Service Worker path for debugging
+
+**Files Changed:**
+- src/wiki/js/pwa-register.js (Service Worker path detection + CSS animation guard)
+- src/js/version-manager.js (Safe import.meta.env access with fallbacks)
+- package.json (Version bump 1.0.68 → 1.0.69)
+- dist/ (Rebuilt with fixes, PWA files copied)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.68 - 2025-11-26 19:48:30
 **Commit:** `9e9acc1`
 
+### 2025-11-26 - Initial PWA Implementation Complete
 
+**Issue:**
+Need to implement Progressive Web App (PWA) functionality for Permahub Wiki to enable:
+- iOS/macOS app installation
+- Offline functionality
+- Service Worker caching
+- Update notifications
+
+**Root Cause:**
+PWA features not implemented
+
+**Solution:**
+Complete PWA implementation including:
+- manifest.json with app metadata and 8 icon sizes
+- Service Worker with intelligent caching strategies
+- Offline fallback page
+- PWA registration script with update notifications
+- PWA meta tags in all 20 wiki HTML pages
+- All paths fixed for GitHub Pages compatibility (relative paths)
+
+**Files Changed:**
+- src/manifest.json (NEW)
+- src/sw.js (NEW)
+- src/wiki/offline.html (NEW)
+- src/wiki/js/pwa-register.js (NEW)
+- src/assets/icons/icon-*.png (8 files, NEW)
+- All 20 wiki HTML files (PWA meta tags + script tags)
+- docs/ (PWA documentation files)
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 ## Version 1.0.67 - 2025-11-26 19:47:41
 **Commit:** `da73c0f`

@@ -13,12 +13,41 @@
  * Example: "Permahub 2025-01-18 14:23 #1"
  */
 
-import { SUPABASE_CONFIG } from './config.js';
+// Safely get config and handle missing import.meta.env
+let SUPABASE_CONFIG = null;
+try {
+  const configModule = require('./config.js');
+  SUPABASE_CONFIG = configModule.SUPABASE_CONFIG || { isUsingCloud: true };
+} catch (e) {
+  // If import fails, use defaults
+  SUPABASE_CONFIG = { isUsingCloud: true, url: 'https://mcbxbaggjaxqfdvmrqsc.supabase.co' };
+}
 
 // Get version from package.json (injected by Vite)
-const PACKAGE_VERSION = import.meta.env.VITE_APP_VERSION || '1.0.0';
-const BUILD_TIME = import.meta.env.VITE_BUILD_TIME || new Date().toISOString();
-const COMMIT_HASH = import.meta.env.VITE_COMMIT_HASH || 'dev';
+// Handle both module and non-module contexts
+const PACKAGE_VERSION = (() => {
+  try {
+    return (typeof import !== 'undefined' && import.meta?.env?.VITE_APP_VERSION) || '1.0.68';
+  } catch (e) {
+    return '1.0.68';
+  }
+})();
+
+const BUILD_TIME = (() => {
+  try {
+    return (typeof import !== 'undefined' && import.meta?.env?.VITE_BUILD_TIME) || new Date().toISOString();
+  } catch (e) {
+    return new Date().toISOString();
+  }
+})();
+
+const COMMIT_HASH = (() => {
+  try {
+    return (typeof import !== 'undefined' && import.meta?.env?.VITE_COMMIT_HASH) || 'dev';
+  } catch (e) {
+    return 'dev';
+  }
+})();
 
 // Parse semantic version to get patch number
 const [major, minor, patch] = PACKAGE_VERSION.split('.').map(Number);
@@ -45,8 +74,15 @@ console.log(`%c🚀 ${VERSION_DISPLAY}`, 'color: #2ecc71; font-weight: bold; fon
 console.log(`📦 Version: ${VERSION}`);
 console.log(`📝 Commit: ${COMMIT_HASH}`);
 console.log(`📅 Build: ${BUILD_TIME}`);
-console.log(`🔗 Environment: ${import.meta.env.MODE || 'development'}`);
-console.log(`🌐 Supabase: ${import.meta.env.VITE_SUPABASE_URL || 'http://127.0.0.1:3000'}`);
+try {
+  const mode = typeof import !== 'undefined' && import.meta?.env?.MODE ? import.meta.env.MODE : 'production';
+  const supabaseUrl = typeof import !== 'undefined' && import.meta?.env?.VITE_SUPABASE_URL ? import.meta.env.VITE_SUPABASE_URL : 'https://mcbxbaggjaxqfdvmrqsc.supabase.co';
+  console.log(`🔗 Environment: ${mode}`);
+  console.log(`🌐 Supabase: ${supabaseUrl}`);
+} catch (e) {
+  console.log(`🔗 Environment: production`);
+  console.log(`🌐 Supabase: https://mcbxbaggjaxqfdvmrqsc.supabase.co`);
+}
 console.log('─'.repeat(60));
 
 /**

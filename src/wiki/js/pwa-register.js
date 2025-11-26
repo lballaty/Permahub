@@ -12,13 +12,17 @@
  */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // Use relative path for Service Worker (works on localhost and GitHub Pages)
-    const swPath = '../../sw.js';
+    // Use correct path for Service Worker based on environment
+    // On GitHub Pages: /Permahub/sw.js
+    // On localhost: /src/sw.js or ../../sw.js
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const swPath = isGitHubPages ? '/Permahub/sw.js' : '../../sw.js';
 
     navigator.serviceWorker
       .register(swPath)
       .then((registration) => {
         console.log('[PWA] Service Worker registered:', registration.scope);
+        console.log('[PWA] Service Worker path:', swPath);
 
         // Check for updates every 60 seconds
         setInterval(() => {
@@ -143,43 +147,46 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slideInRight {
-    from {
-      transform: translateX(400px);
-      opacity: 0;
+// Add CSS animations (only if not already added)
+if (!document.getElementById('pwa-animations-style')) {
+  const style = document.createElement('style');
+  style.id = 'pwa-animations-style';
+  style.textContent = `
+    @keyframes slideInRight {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
 
-  @keyframes slideOutRight {
-    from {
-      transform: translateX(0);
-      opacity: 1;
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
     }
-    to {
-      transform: translateX(400px);
-      opacity: 0;
-    }
-  }
 
-  @keyframes slideDown {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-`;
-document.head.appendChild(style);
+  `;
+  document.head.appendChild(style);
+}
 
 /**
  * Check if app is running as installed PWA
