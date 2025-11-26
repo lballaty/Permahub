@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="common.resources">Resources - Permaculture Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f0;
+            color: #2c3e50;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: white;
+            border-bottom: 2px solid #e0e7e9;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d8659;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-header {
+            padding: 0.65rem 1.5rem;
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        /* ============ MAIN CONTAINER ============ */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* ============ FILTERS PANEL ============ */
+        .filters-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e0e7e9;
+        }
+
+        /* ============ CATEGORY BUTTONS ============ */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .category-btn {
+            padding: 1rem;
+            background: #f0f7f5;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            color: #2d8659;
+        }
+
+        .category-btn:hover {
+            border-color: #2d8659;
+            background: white;
+        }
+
+        .category-btn.active {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        .category-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .category-name {
+            font-size: 0.85rem;
+        }
+
+        /* ============ FILTER CONTROLS ============ */
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.65rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        /* ============ SUBCATEGORIES ============ */
+        .subcategories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .subcategory-tag {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #e0e7e9;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .subcategory-tag:hover {
+            border-color: #2d8659;
+            color: #2d8659;
+        }
+
+        .subcategory-tag.active {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        /* ============ RESOURCE GRID ============ */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .resource-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #d4a574 0%, #c99455 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .resource-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-type {
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            background: #f0f7f5;
+            color: #2d8659;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            width: fit-content;
+        }
+
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 0.4rem;
+        }
+
+        .resource-category {
+            font-size: 0.85rem;
+            color: #95a5a6;
+            margin-bottom: 0.75rem;
+        }
+
+        .resource-description {
+            font-size: 0.95rem;
+            color: #556b6f;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .resource-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .resource-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d8659;
+            margin-bottom: 1rem;
+        }
+
+        .resource-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #e8f4f0;
+            color: #2d8659;
+            border-radius: 3px;
+            font-size: 0.75rem;
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: 2px solid #e0e7e9;
+            background: white;
+            color: #2d8659;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .action-btn:hover {
+            border-color: #2d8659;
+            background: #f0f7f5;
+        }
+
+        .action-btn.primary {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        .action-btn.primary:hover {
+            background: #1a5f3f;
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: #e0e7e9;
+            margin-bottom: 1rem;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-text {
+            color: #95a5a6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e0e7e9;
+            border-top-color: #2d8659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-content">
+            <a href="/dashboard" class="logo">
+                <span>🌱</span>
+                <span data-i18n="common.resources">Resources</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    data-i18n-placeholder="common.search"
+                    placeholder="Search resources..."
+                >
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-header" id="addResourceBtn">
+                    <i class="fas fa-plus"></i> Add Resource
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="main-container">
+        <!-- ============ FILTERS ============ -->
+        <div class="filters-panel">
+            <!-- Main Categories -->
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    <i class="fas fa-filter"></i> Resource Type
+                </h3>
+                <div class="category-grid" id="categoriesContainer">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Subcategories -->
+            <div class="filter-section" id="subcategoriesSection" style="display: none;">
+                <h3 class="filter-title">
+                    <i class="fas fa-list"></i> Specific Category
+                </h3>
+                <div class="subcategories" id="subcategoriesContainer">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Additional Filters -->
+            <div class="filter-section">
+                <h3 class="filter-title">
+                    <i class="fas fa-sliders-h"></i> More Filters
+                </h3>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label>Availability</label>
+                        <select id="availabilityFilter">
+                            <option value="">All</option>
+                            <option value="available">Available</option>
+                            <option value="seasonal">Seasonal</option>
+                            <option value="on-demand">On Demand</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Price Range</label>
+                        <select id="priceFilter">
+                            <option value="">All Prices</option>
+                            <option value="free">Free</option>
+                            <option value="0-25">Up to €25</option>
+                            <option value="25-50">€25 - €50</option>
+                            <option value="50-100">€50 - €100</option>
+                            <option value="100+">€100+</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Delivery</label>
+                        <select id="deliveryFilter">
+                            <option value="">All Options</option>
+                            <option value="yes">Delivery Available</option>
+                            <option value="pickup">Pickup Only</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Distance</label>
+                        <select id="distanceFilter">
+                            <option value="5">5 km</option>
+                            <option value="10">10 km</option>
+                            <option value="25">25 km</option>
+                            <option value="50" selected>50 km</option>
+                            <option value="100">100 km</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ RESOURCES GRID ============ -->
+        <div class="resources-grid" id="resourcesGrid">
+            <div class="empty-state">
+                <div class="loading"></div>
+                <p data-i18n="common.loading">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script src="../js/i18n-translations.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script>
+        // ============ STATE ============
+        let allResources = [];
+        let filteredResources = [];
+        let allCategories = [];
+        let selectedMainCategory = null;
+        let selectedSubcategories = [];
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadCategories();
+            await loadResources();
+            setupEventListeners();
+            updateTranslationsInDOM();
+        });
+
+        // ============ LOAD CATEGORIES ============
+        async function loadCategories() {
+            try {
+                allCategories = await supabase.getAll('resource_categories', {
+                    select: '*'
+                });
+                renderCategories();
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // ============ RENDER CATEGORIES ============
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            const mainCategories = allCategories.filter(cat => !cat.parent_category_id);
+
+            container.innerHTML = mainCategories.map(cat => `
+                <button class="category-btn" data-id="${cat.id}" onclick="selectMainCategory('${cat.id}', '${escapeHtml(cat.name)}')">
+                    <span class="category-icon">${cat.icon_emoji || '📦'}</span>
+                    <span class="category-name">${escapeHtml(cat.name)}</span>
+                </button>
+            `).join('');
+        }
+
+        // ============ LOAD RESOURCES ============
+        async function loadResources() {
+            try {
+                allResources = await supabase.getAll('resources', {
+                    select: '*',
+                    where: 'availability',
+                    operator: 'neq',
+                    value: 'archived'
+                });
+                applyFilters();
+            } catch (error) {
+                console.error('Error loading resources:', error);
+                showEmptyState('Error loading resources. Please try again.');
+            }
+        }
+
+        // ============ SELECT MAIN CATEGORY ============
+        function selectMainCategory(categoryId, categoryName) {
+            selectedMainCategory = categoryId;
+            selectedSubcategories = [];
+
+            // Update button state
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.category-btn').classList.add('active');
+
+            // Show/hide subcategories
+            const subcategories = allCategories.filter(cat => cat.parent_category_id === categoryId);
+            const section = document.getElementById('subcategoriesSection');
+            const container = document.getElementById('subcategoriesContainer');
+
+            if (subcategories.length > 0) {
+                section.style.display = 'block';
+                container.innerHTML = subcategories.map(sub => `
+                    <button class="subcategory-tag" data-id="${sub.id}" onclick="toggleSubcategory('${sub.id}')">
+                        ${escapeHtml(sub.name)}
+                    </button>
+                `).join('');
+            } else {
+                section.style.display = 'none';
+            }
+
+            applyFilters();
+        }
+
+        // ============ TOGGLE SUBCATEGORY ============
+        function toggleSubcategory(categoryId) {
+            const index = selectedSubcategories.indexOf(categoryId);
+            if (index > -1) {
+                selectedSubcategories.splice(index, 1);
+            } else {
+                selectedSubcategories.push(categoryId);
+            }
+
+            // Update button state
+            document.querySelectorAll('.subcategory-tag').forEach(tag => {
+                tag.classList.toggle('active', selectedSubcategories.includes(tag.dataset.id));
+            });
+
+            applyFilters();
+        }
+
+        // ============ APPLY FILTERS ============
+        function applyFilters() {
+            let filtered = [...allResources];
+
+            // Category filter
+            if (selectedMainCategory) {
+                filtered = filtered.filter(resource => {
+                    const category = allCategories.find(c => c.id === resource.category_id);
+                    return category && category.parent_category_id === null && category.id === selectedMainCategory;
+                });
+
+                // Subcategory filter
+                if (selectedSubcategories.length > 0) {
+                    filtered = filtered.filter(resource => 
+                        selectedSubcategories.includes(resource.subcategory_id)
+                    );
+                }
+            }
+
+            // Search filter
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(r => 
+                    r.title.toLowerCase().includes(searchTerm) ||
+                    (r.description && r.description.toLowerCase().includes(searchTerm)) ||
+                    (r.tags && r.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+                );
+            }
+
+            // Availability filter
+            const availability = document.getElementById('availabilityFilter').value;
+            if (availability) {
+                filtered = filtered.filter(r => r.availability === availability);
+            }
+
+            // Price filter
+            const priceRange = document.getElementById('priceFilter').value;
+            if (priceRange) {
+                filtered = filtered.filter(r => {
+                    if (priceRange === 'free') return !r.price || r.price === 0;
+                    if (priceRange === '0-25') return r.price && r.price <= 25;
+                    if (priceRange === '25-50') return r.price && r.price > 25 && r.price <= 50;
+                    if (priceRange === '50-100') return r.price && r.price > 50 && r.price <= 100;
+                    if (priceRange === '100+') return r.price && r.price > 100;
+                    return true;
+                });
+            }
+
+            // Delivery filter
+            const delivery = document.getElementById('deliveryFilter').value;
+            if (delivery === 'yes') {
+                filtered = filtered.filter(r => r.delivery_available);
+            } else if (delivery === 'pickup') {
+                filtered = filtered.filter(r => !r.delivery_available);
+            }
+
+            filteredResources = filtered;
+            renderResources();
+        }
+
+        // ============ RENDER RESOURCES ============
+        function renderResources() {
+            const container = document.getElementById('resourcesGrid');
+
+            if (filteredResources.length === 0) {
+                showEmptyState('No resources found. Try adjusting your filters.');
+                return;
+            }
+
+            container.innerHTML = filteredResources.map(resource => `
+                <div class="resource-card">
+                    <div class="resource-image">
+                        ${getResourceIcon(resource.resource_type)}
+                    </div>
+                    <div class="resource-content">
+                        <span class="resource-type">${escapeHtml(resource.resource_type)}</span>
+                        <h3 class="resource-title">${escapeHtml(resource.title)}</h3>
+                        
+                        <div class="resource-category">
+                            ${getResourceCategory(resource.category_id)}
+                        </div>
+
+                        <p class="resource-description">
+                            ${escapeHtml((resource.description || '').substring(0, 100))}
+                        </p>
+
+                        <div class="resource-meta">
+                            ${resource.location ? `
+                                <span class="meta-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${escapeHtml(resource.location)}
+                                </span>
+                            ` : ''}
+                            ${resource.delivery_available ? `
+                                <span class="meta-item">
+                                    <i class="fas fa-truck"></i>
+                                    Delivery
+                                </span>
+                            ` : ''}
+                        </div>
+
+                        ${resource.price ? `
+                            <div class="resource-price">€${resource.price.toFixed(2)}</div>
+                        ` : `
+                            <div class="resource-price">Free</div>
+                        `}
+
+                        ${resource.tags && resource.tags.length > 0 ? `
+                            <div class="resource-tags">
+                                ${resource.tags.slice(0, 3).map(tag => `
+                                    <span class="tag">${escapeHtml(tag)}</span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+
+                        <div class="resource-actions">
+                            <button class="action-btn" onclick="viewResource('${resource.id}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="action-btn primary" onclick="contactProvider('${resource.id}')">
+                                <i class="fas fa-envelope"></i> Contact
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============ SETUP EVENT LISTENERS ============
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('availabilityFilter').addEventListener('change', applyFilters);
+            document.getElementById('priceFilter').addEventListener('change', applyFilters);
+            document.getElementById('deliveryFilter').addEventListener('change', applyFilters);
+            document.getElementById('distanceFilter').addEventListener('change', applyFilters);
+            document.getElementById('addResourceBtn').addEventListener('click', () => {
+                window.location.href = '/resources/new';
+            });
+        }
+
+        // ============ SHOW EMPTY STATE ============
+        function showEmptyState(message) {
+            document.getElementById('resourcesGrid').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <h3 class="empty-title">No Resources Found</h3>
+                    <p class="empty-text">${message}</p>
+                </div>
+            `;
+        }
+
+        // ============ GET RESOURCE ICON ============
+        function getResourceIcon(type) {
+            const icons = {
+                'seeds': '🌱',
+                'tools': '🛠️',
+                'materials': '🪨',
+                'service': '👷',
+                'information': '📚',
+                'event': '📢'
+            };
+            return icons[type] || '📦';
+        }
+
+        // ============ GET RESOURCE CATEGORY ============
+        function getResourceCategory(categoryId) {
+            const category = allCategories.find(c => c.id === categoryId);
+            return category ? escapeHtml(category.name) : 'General';
+        }
+
+        // ============ VIEW RESOURCE ============
+        function viewResource(resourceId) {
+            window.location.href = `/resource?id=${resourceId}`;
+        }
+
+        // ============ CONTACT PROVIDER ============
+        function contactProvider(resourceId) {
+            const resource = filteredResources.find(r => r.id === resourceId);
+            if (resource && resource.contact_email) {
+                window.location.href = `mailto:${resource.contact_email}?subject=Inquiry about ${encodeURIComponent(resource.title)}`;
+            } else {
+                alert('Contact information not available for this resource');
+            }
+        }
+
+        // ============ UPDATE TRANSLATIONS ============
+        function updateTranslationsInDOM() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                element.textContent = i18n.t(key);
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                element.placeholder = i18n.t(key);
+            });
+        }
+
+        // ============ UTILITY ============
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        window.addEventListener('languageChanged', updateTranslationsInDOM);
+    </script>
+</body>
+</html>

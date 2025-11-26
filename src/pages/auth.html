@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permaculture Network - Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a5f3f 0%, #2d8659 50%, #3d9970 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* ============ SPLASH SCREEN ============ */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f5f0 0%, #e8f4f0 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 0.5s ease-in 2.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .splash-content {
+            text-align: center;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .splash-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: grow 1.5s ease-out;
+        }
+
+        @keyframes grow {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .splash-title {
+            font-size: 2rem;
+            color: #1a5f3f;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .splash-subtitle {
+            font-size: 1rem;
+            color: #556b6f;
+            margin-bottom: 2rem;
+        }
+
+        .splash-loader {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #d4e9e0;
+            border-top: 4px solid #2d8659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .splash-message {
+            color: #556b6f;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* ============ AUTH CONTAINER ============ */
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-in 2.5s backwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 3rem 2rem;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-logo {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-title {
+            font-size: 1.8rem;
+            color: #1a5f3f;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .auth-subtitle {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+        }
+
+        .auth-divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2d8659, transparent);
+            margin: 0 auto 1.5rem;
+        }
+
+        /* ============ FORM ELEMENTS ============ */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.85rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: #fafbfc;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2d8659;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn {
+            width: 100%;
+            padding: 0.95rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 134, 89, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #2d8659;
+            border: 2px solid #2d8659;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f7f5;
+        }
+
+        .btn-text {
+            background: none;
+            color: #2d8659;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .btn-text:hover {
+            text-decoration: underline;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ============ TOGGLE TABS ============ */
+        .auth-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e7e9;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            color: #95a5a6;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .tab-button.active {
+            color: #2d8659;
+            border-bottom-color: #2d8659;
+        }
+
+        /* ============ AUTH METHOD TOGGLE ============ */
+        .auth-method-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            background: #f0f7f5;
+            border-radius: 8px;
+        }
+
+        .method-button {
+            flex: 1;
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+            color: #95a5a6;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .method-button.active {
+            background: white;
+            color: #2d8659;
+            box-shadow: 0 2px 8px rgba(45, 134, 89, 0.15);
+        }
+
+        /* ============ SECTIONS ============ */
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ============ ALERTS & MESSAGES ============ */
+        .alert {
+            padding: 0.95rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: #d4f4e3;
+            color: #1a5f3f;
+            border-left: 4px solid #2d8659;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #f5222d;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        /* ============ LINKS ============ */
+        .auth-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #7f8c8d;
+        }
+
+        .auth-link a {
+            color: #2d8659;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============ CHECKBOX ============ */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #2d8659;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+            flex: 1;
+        }
+
+        .checkbox-group a {
+            color: #2d8659;
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============ LOADING & STATES ============ */
+        .btn-loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 600px) {
+            .auth-container {
+                padding: 1rem;
+            }
+
+            .auth-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .auth-title {
+                font-size: 1.5rem;
+            }
+
+            .splash-title {
+                font-size: 1.5rem;
+            }
+
+            .splash-logo {
+                font-size: 3rem;
+            }
+        }
+
+        /* ============ PROFILE FORM ============ */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .profile-grid.two-col {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 600px) {
+            .profile-grid.two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-section-title {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e0e7e9;
+        }
+
+        .multi-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.6rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            background: #fafbfc;
+            min-height: 44px;
+            align-content: flex-start;
+        }
+
+        .tag {
+            background: #2d8659;
+            color: white;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .tag-input input {
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            flex: 1;
+            min-width: 100px;
+            font-size: 0.95rem;
+        }
+
+        .tag-input input:focus {
+            outline: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e7e9;
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2d8659, #3d9970);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ SPLASH SCREEN ============ -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">🌱</div>
+            <h1 class="splash-title">Permaculture Network</h1>
+            <p class="splash-subtitle">Growing connections for sustainable living</p>
+            <div class="splash-loader"></div>
+            <p class="splash-message">Connecting the global permaculture community...</p>
+        </div>
+    </div>
+
+    <!-- ============ AUTH CONTAINER ============ -->
+    <div id="authContainer" class="auth-container">
+        <!-- ============ LOGIN FORM ============ -->
+        <div id="loginSection" class="form-section active">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">🌿</div>
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Sign in to your account</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div id="loginAlert"></div>
+
+                <!-- Auth Method Toggle -->
+                <div class="auth-method-toggle">
+                    <button class="method-button active" data-method="email">Magic Link</button>
+                    <button class="method-button" data-method="password">Password</button>
+                </div>
+
+                <!-- Magic Link Login -->
+                <div id="magicLinkForm" class="form-section active">
+                    <form id="magicLinkLoginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="loginEmail" 
+                                name="email"
+                                placeholder="you@example.com" 
+                                required
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Magic Link</button>
+                    </form>
+                </div>
+
+                <!-- Password Login -->
+                <div id="passwordLoginForm" class="form-section hidden">
+                    <form id="passwordLoginFormElement">
+                        <div class="form-group">
+                            <label for="loginEmailPassword">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="loginEmailPassword" 
+                                name="email"
+                                placeholder="you@example.com" 
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input 
+                                type="password" 
+                                id="loginPassword" 
+                                name="password"
+                                placeholder="••••••••" 
+                                required
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </form>
+                    <div class="auth-link">
+                        <button class="btn btn-text" id="forgotPasswordBtn">Forgot your password?</button>
+                    </div>
+                </div>
+
+                <div class="auth-link">
+                    Don't have an account? 
+                    <a href="#" id="toRegisterBtn">Create one</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ REGISTRATION FORM ============ -->
+        <div id="registerSection" class="form-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">🌍</div>
+                    <h1 class="auth-title">Join Us</h1>
+                    <p class="auth-subtitle">Create your account</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div id="registerAlert"></div>
+
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="registerEmail" 
+                            name="email"
+                            placeholder="you@example.com" 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input 
+                            type="password" 
+                            id="registerPassword" 
+                            name="password"
+                            placeholder="Min. 6 characters" 
+                            required
+                        >
+                        <small style="color: #95a5a6; margin-top: 0.3rem; display: block;">
+                            Use a strong password with mix of letters and numbers
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPasswordConfirm">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="registerPasswordConfirm" 
+                            name="passwordConfirm"
+                            placeholder="Confirm password" 
+                            required
+                        >
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsCheckbox" name="terms" required>
+                        <label for="termsCheckbox">
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+
+                <div class="auth-link">
+                    Already have an account? 
+                    <a href="#" id="toLoginBtn">Sign in</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ PASSWORD RESET FORM ============ -->
+        <div id="resetPasswordSection" class="form-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">🔑</div>
+                    <h1 class="auth-title">Reset Password</h1>
+                    <p class="auth-subtitle">We'll send you a link to reset it</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div id="resetAlert"></div>
+
+                <form id="resetPasswordForm">
+                    <div class="form-group">
+                        <label for="resetEmail">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="resetEmail" 
+                            name="email"
+                            placeholder="you@example.com" 
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                </form>
+
+                <div class="auth-link">
+                    <a href="#" id="backToLoginBtn">Back to login</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SET NEW PASSWORD (After Reset Link) ============ -->
+        <div id="setNewPasswordSection" class="form-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">✅</div>
+                    <h1 class="auth-title">Create New Password</h1>
+                    <p class="auth-subtitle">Enter your new password</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div id="setPasswordAlert"></div>
+
+                <form id="setNewPasswordForm">
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input 
+                            type="password" 
+                            id="newPassword" 
+                            name="password"
+                            placeholder="Min. 6 characters" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPasswordConfirm">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="newPasswordConfirm" 
+                            name="passwordConfirm"
+                            placeholder="Confirm password" 
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============ PROFILE COMPLETION FORM ============ -->
+        <div id="profileSection" class="form-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">👤</div>
+                    <h1 class="auth-title">Complete Your Profile</h1>
+                    <p class="auth-subtitle">Help us get to know you</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+
+                <div id="profileAlert"></div>
+
+                <form id="profileCompletionForm">
+                    <!-- Basic Info -->
+                    <div class="profile-section-title">Basic Information</div>
+                    <div class="profile-grid two-col">
+                        <div class="form-group">
+                            <label for="profileFullName">Full Name</label>
+                            <input 
+                                type="text" 
+                                id="profileFullName" 
+                                name="fullName"
+                                placeholder="Your name" 
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="profileLocation">Location</label>
+                            <input 
+                                type="text" 
+                                id="profileLocation" 
+                                name="location"
+                                placeholder="City, Region" 
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileBio">Bio</label>
+                        <textarea 
+                            id="profileBio" 
+                            name="bio"
+                            placeholder="Tell us about yourself and your interests..."
+                            rows="4"
+                        ></textarea>
+                    </div>
+
+                    <!-- Skills & Interests -->
+                    <div class="profile-section-title">Skills & Interests</div>
+                    
+                    <div class="form-group">
+                        <label for="profileSkills">Skills</label>
+                        <div class="tag-input" id="skillsInput">
+                            <input type="text" placeholder="Add skills (press Enter)">
+                        </div>
+                        <small style="color: #95a5a6; margin-top: 0.3rem; display: block;">
+                            E.g., Permaculture Design, Seed Saving, Composting
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileInterests">Interests</label>
+                        <div class="tag-input" id="interestsInput">
+                            <input type="text" placeholder="Add interests (press Enter)">
+                        </div>
+                        <small style="color: #95a5a6; margin-top: 0.3rem; display: block;">
+                            E.g., Agroforestry, Water Systems, Community Building
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileLookingFor">What are you looking for?</label>
+                        <div class="tag-input" id="lookingForInput">
+                            <input type="text" placeholder="Add what you're seeking (press Enter)">
+                        </div>
+                        <small style="color: #95a5a6; margin-top: 0.3rem; display: block;">
+                            E.g., Collaboration, Mentorship, Learning, Employment
+                        </small>
+                    </div>
+
+                    <!-- Visibility -->
+                    <div class="profile-section-title">Visibility</div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="publicProfile" name="publicProfile" checked>
+                        <label for="publicProfile">
+                            Make my profile public so others can find me
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top: 2rem;">
+                        Complete Profile
+                    </button>
+                </form>
+
+                <div class="auth-link" style="margin-top: 1rem;">
+                    <button class="btn btn-text" id="skipProfileBtn">Skip for now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ MAGIC LINK CONFIRMATION ============ -->
+        <div id="magicLinkCheckSection" class="form-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">📧</div>
+                    <h1 class="auth-title">Check Your Email</h1>
+                    <p class="auth-subtitle">We've sent a magic link to sign in</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div id="magicLinkCheckAlert"></div>
+
+                <div style="text-align: center; padding: 2rem 0;">
+                    <p style="color: #7f8c8d; margin-bottom: 1.5rem;">
+                        Click the link in your email to sign in. The link expires in 24 hours.
+                    </p>
+                    <div class="splash-loader" style="margin: 1rem auto;"></div>
+                </div>
+
+                <div class="auth-link">
+                    <p style="color: #7f8c8d; margin-bottom: 1rem;">Didn't receive the email?</p>
+                    <button class="btn btn-secondary" id="resendMagicLinkBtn">Resend Link</button>
+                </div>
+
+                <div class="auth-link" style="margin-top: 1rem;">
+                    <a href="#" id="backFromMagicLinkBtn">Back to login</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ SUCCESS ============ -->
+        <div id="successSection" class="form-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo" style="font-size: 3rem; animation: bounce 1s ease infinite;">✨</div>
+                    <h1 class="auth-title">Welcome!</h1>
+                    <p class="auth-subtitle">Your account is ready</p>
+                    <div class="auth-divider"></div>
+                </div>
+
+                <div style="text-align: center; padding: 2rem 0;">
+                    <p style="color: #7f8c8d; font-size: 1.1rem;">
+                        You're all set. Redirecting to your dashboard...
+                    </p>
+                    <div class="splash-loader" style="margin: 2rem auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ STATE MANAGEMENT ============
+        const state = {
+            currentForm: 'login',
+            authMethod: 'email', // 'email' or 'password'
+            registrationData: {},
+            resetEmail: '',
+            tags: {
+                skills: [],
+                interests: [],
+                lookingFor: []
+            }
+        };
+
+        // ============ ELEMENT REFERENCES ============
+        const splashScreen = document.getElementById('splashScreen');
+        const authContainer = document.getElementById('authContainer');
+
+        // Form sections
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const resetPasswordSection = document.getElementById('resetPasswordSection');
+        const setNewPasswordSection = document.getElementById('setNewPasswordSection');
+        const profileSection = document.getElementById('profileSection');
+        const magicLinkCheckSection = document.getElementById('magicLinkCheckSection');
+        const successSection = document.getElementById('successSection');
+
+        // Forms
+        const magicLinkLoginForm = document.getElementById('magicLinkLoginForm');
+        const passwordLoginForm = document.getElementById('passwordLoginFormElement');
+        const registrationForm = document.getElementById('registrationForm');
+        const resetPasswordForm = document.getElementById('resetPasswordForm');
+        const setNewPasswordForm = document.getElementById('setNewPasswordForm');
+        const profileCompletionForm = document.getElementById('profileCompletionForm');
+
+        // Buttons
+        const toRegisterBtn = document.getElementById('toRegisterBtn');
+        const toLoginBtn = document.getElementById('toLoginBtn');
+        const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+        const backToLoginBtn = document.getElementById('backToLoginBtn');
+        const backFromMagicLinkBtn = document.getElementById('backFromMagicLinkBtn');
+        const resendMagicLinkBtn = document.getElementById('resendMagicLinkBtn');
+        const skipProfileBtn = document.getElementById('skipProfileBtn');
+
+        // Auth method toggle
+        const methodButtons = document.querySelectorAll('.method-button');
+
+        // ============ UTILITY FUNCTIONS ============
+        function showForm(formName) {
+            // Hide all sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            switch(formName) {
+                case 'login':
+                    loginSection.classList.add('active');
+                    break;
+                case 'register':
+                    registerSection.classList.add('active');
+                    break;
+                case 'resetPassword':
+                    resetPasswordSection.classList.add('active');
+                    break;
+                case 'setNewPassword':
+                    setNewPasswordSection.classList.add('active');
+                    break;
+                case 'profile':
+                    profileSection.classList.add('active');
+                    break;
+                case 'magicLinkCheck':
+                    magicLinkCheckSection.classList.add('active');
+                    break;
+                case 'success':
+                    successSection.classList.add('active');
+                    break;
+            }
+            state.currentForm = formName;
+        }
+
+        function showAlert(elementId, message, type = 'error') {
+            const alertElement = document.getElementById(elementId);
+            alertElement.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            
+            // Auto-remove success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    alertElement.innerHTML = '';
+                }, 3000);
+            }
+        }
+
+        function clearAlert(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        function addTag(container, tag) {
+            const tagElement = document.createElement('div');
+            tagElement.className = 'tag';
+            tagElement.innerHTML = `
+                ${tag}
+                <button type="button" onclick="removeTag(this)">×</button>
+            `;
+            container.insertBefore(tagElement, container.querySelector('input'));
+        }
+
+        function removeTag(button) {
+            const container = button.closest('.tag-input');
+            button.parentElement.remove();
+        }
+
+        // ============ AUTH METHOD TOGGLE ============
+        methodButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                methodButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                state.authMethod = this.dataset.method;
+
+                const magicLinkForm = document.getElementById('magicLinkForm');
+                const passwordLoginForm = document.getElementById('passwordLoginForm');
+
+                if (state.authMethod === 'email') {
+                    magicLinkForm.classList.add('active');
+                    magicLinkForm.classList.remove('hidden');
+                    passwordLoginForm.classList.add('hidden');
+                    passwordLoginForm.classList.remove('active');
+                } else {
+                    passwordLoginForm.classList.add('active');
+                    passwordLoginForm.classList.remove('hidden');
+                    magicLinkForm.classList.add('hidden');
+                    magicLinkForm.classList.remove('active');
+                }
+            });
+        });
+
+        // ============ NAVIGATION ============
+        toRegisterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearAlert('loginAlert');
+            showForm('register');
+        });
+
+        toLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearAlert('registerAlert');
+            showForm('login');
+        });
+
+        forgotPasswordBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearAlert('loginAlert');
+            showForm('resetPassword');
+        });
+
+        backToLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            clearAlert('resetAlert');
+            showForm('login');
+        });
+
+        backFromMagicLinkBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showForm('login');
+        });
+
+        skipProfileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // In real app, would save profile with only email and redirect to dashboard
+            showForm('success');
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 2000);
+        });
+
+        // ============ FORM HANDLING ============
+
+        // Magic Link Login
+        magicLinkLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            
+            const btn = magicLinkLoginForm.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation, call Supabase:
+                // const { error } = await supabase.auth.signInWithOtp({ email });
+                
+                console.log('Magic link sent to:', email);
+                state.resetEmail = email;
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showAlert('loginAlert', 'Magic link sent! Check your email.', 'success');
+                showForm('magicLinkCheck');
+            } catch (error) {
+                showAlert('loginAlert', error.message || 'Failed to send magic link', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Password Login
+        passwordLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmailPassword').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const btn = passwordLoginForm.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation, call Supabase:
+                // const { error } = await supabase.auth.signInWithPassword({ email, password });
+                
+                console.log('Login attempt:', email);
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showAlert('loginAlert', 'Logging in...', 'success');
+                
+                setTimeout(() => {
+                    showForm('success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                }, 1000);
+            } catch (error) {
+                showAlert('loginAlert', error.message || 'Invalid email or password', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Registration
+        registrationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+
+            // Validation
+            if (password !== passwordConfirm) {
+                showAlert('registerAlert', 'Passwords do not match', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('registerAlert', 'Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            const btn = registrationForm.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation, call Supabase:
+                // const { error } = await supabase.auth.signUp({ email, password });
+                
+                console.log('Registration:', email);
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                state.registrationData = { email, password };
+                showAlert('registerAlert', 'Account created! Completing your profile...', 'success');
+                
+                setTimeout(() => {
+                    showForm('profile');
+                }, 1500);
+            } catch (error) {
+                showAlert('registerAlert', error.message || 'Failed to create account', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Password Reset
+        resetPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+
+            const btn = resetPasswordForm.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation, call Supabase:
+                // const { error } = await supabase.auth.resetPasswordForEmail(email);
+                
+                console.log('Reset password link sent to:', email);
+                state.resetEmail = email;
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showAlert('resetAlert', 'Reset link sent! Check your email.', 'success');
+                setTimeout(() => showForm('login'), 2000);
+            } catch (error) {
+                showAlert('resetAlert', error.message || 'Failed to send reset link', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Set New Password
+        setNewPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('newPassword').value;
+            const passwordConfirm = document.getElementById('newPasswordConfirm').value;
+
+            if (password !== passwordConfirm) {
+                showAlert('setPasswordAlert', 'Passwords do not match', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('setPasswordAlert', 'Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            const btn = setNewPasswordForm.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation, call Supabase:
+                // const { error } = await supabase.auth.updateUser({ password });
+                
+                console.log('Password updated');
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showAlert('setPasswordAlert', 'Password updated successfully!', 'success');
+                setTimeout(() => {
+                    showForm('login');
+                }, 2000);
+            } catch (error) {
+                showAlert('setPasswordAlert', error.message || 'Failed to update password', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Profile Completion
+        profileCompletionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('profileFullName').value;
+            const location = document.getElementById('profileLocation').value;
+            const bio = document.getElementById('profileBio').value;
+            const publicProfile = document.getElementById('publicProfile').checked;
+
+            const profileData = {
+                full_name: fullName,
+                location: location,
+                bio: bio,
+                is_public_profile: publicProfile,
+                skills: state.tags.skills,
+                interests: state.tags.interests,
+                looking_for: state.tags.lookingFor,
+                profile_completed: true
+            };
+
+            const btn = profileCompletionForm.querySelector('button');
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation, call Supabase:
+                // const { error } = await supabase.from('users').insert([profileData]);
+                
+                console.log('Profile data:', profileData);
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                showAlert('profileAlert', 'Profile completed! Redirecting...', 'success');
+                showForm('success');
+                
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 2000);
+            } catch (error) {
+                showAlert('profileAlert', error.message || 'Failed to save profile', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // Resend Magic Link
+        resendMagicLinkBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const btn = resendMagicLinkBtn;
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+
+            try {
+                // In real implementation: resend magic link to state.resetEmail
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                showAlert('magicLinkCheckAlert', 'Link resent! Check your email.', 'success');
+            } catch (error) {
+                showAlert('magicLinkCheckAlert', 'Failed to resend link', 'error');
+            } finally {
+                btn.classList.remove('btn-loading');
+                btn.disabled = false;
+            }
+        });
+
+        // ============ TAG INPUT HANDLING ============
+        const tagInputs = {
+            skills: document.getElementById('skillsInput'),
+            interests: document.getElementById('interestsInput'),
+            lookingFor: document.getElementById('lookingForInput')
+        };
+
+        Object.keys(tagInputs).forEach(key => {
+            const container = tagInputs[key];
+            const input = container.querySelector('input');
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && input.value.trim()) {
+                    e.preventDefault();
+                    const tag = input.value.trim();
+                    if (!state.tags[key].includes(tag)) {
+                        state.tags[key].push(tag);
+                        addTag(container, tag);
+                        input.value = '';
+                    }
+                }
+            });
+        });
+
+        // Make removeTag global for inline onclick
+        window.removeTag = function(button) {
+            const container = button.closest('.tag-input');
+            const tagText = button.parentElement.textContent.replace('×', '').trim();
+            const inputId = container.id;
+            const key = inputId.replace('Input', '');
+            
+            state.tags[key] = state.tags[key].filter(t => t !== tagText);
+            button.parentElement.remove();
+        };
+
+        // ============ INITIALIZATION ============
+        // Hide splash screen after 3 seconds
+        setTimeout(() => {
+            splashScreen.style.display = 'none';
+        }, 3000);
+    </script>
+</body>
+</html>

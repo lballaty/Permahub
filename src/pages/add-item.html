@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="add.title">Add Item - Permaculture Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f0 0%, #e8f4f0 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: white;
+            border-bottom: 2px solid #e0e7e9;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d8659;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo:hover {
+            color: #1a5f3f;
+        }
+
+        /* ============ MAIN CONTAINER ============ */
+        .main-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* ============ FORM SECTIONS ============ */
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e7e9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ============ FORM GROUPS ============ */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .form-label .required {
+            color: #e74c3c;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-hint {
+            font-size: 0.85rem;
+            color: #95a5a6;
+            margin-top: 0.3rem;
+        }
+
+        /* ============ ITEM TYPE SELECTOR ============ */
+        .item-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .item-type-btn {
+            padding: 1.5rem;
+            border: 2px solid #e0e7e9;
+            background: #f9f9f9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .item-type-btn:hover {
+            border-color: #2d8659;
+            background: white;
+        }
+
+        .item-type-btn.selected {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        .item-type-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ============ CATEGORY SELECTOR ============ */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .category-btn {
+            padding: 0.75rem;
+            border: 2px solid #e0e7e9;
+            background: white;
+            color: #2c3e50;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            border-color: #2d8659;
+        }
+
+        .category-btn.selected {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        /* ============ TAGS INPUT ============ */
+        .tags-input-container {
+            border: 2px solid #e0e7e9;
+            border-radius: 6px;
+            padding: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: white;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.65rem;
+            background: #2d8659;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .tag-remove {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        .tag-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .tags-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 100px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        /* ============ SUBSCRIPTION OPTIONS ============ */
+        .subscription-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .subscription-option {
+            padding: 1.5rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscription-option:hover {
+            border-color: #2d8659;
+            background: white;
+        }
+
+        .subscription-option input[type="checkbox"] {
+            margin-right: 0.75rem;
+        }
+
+        .subscription-title {
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subscription-desc {
+            font-size: 0.85rem;
+            color: #556b6f;
+        }
+
+        /* ============ LOCATION INPUT ============ */
+        .location-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .location-btn {
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        /* ============ BUTTONS ============ */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e7e9;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #d0dae0;
+        }
+
+        /* ============ LOADING STATE ============ */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e0e7e9;
+            border-top-color: #2d8659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ SUCCESS MESSAGE ============ */
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* ============ ERROR MESSAGE ============ */
+        .error-message {
+            background: #f8d7da;
+            border: 2px solid #e74c3c;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 1rem auto;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .location-input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                flex: 1;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/Permahub/assets/supabase-client-CuLFK5he.js"></script>
+</head>
+<body>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span>🌱</span>
+                <span data-i18n="landing.title">Permaculture Network</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ============ MAIN CONTAINER ============ -->
+    <div class="main-container">
+        <!-- Success/Error Messages -->
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <!-- ============ SECTION 1: WHAT ARE YOU ADDING? ============ -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-plus-circle"></i>
+                <span data-i18n="add.title">What are you adding?</span>
+            </h2>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.itemType">
+                    Item Type <span class="required">*</span>
+                </label>
+                <div class="item-type-grid" id="itemTypeGrid">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.category">
+                    Category <span class="required">*</span>
+                </label>
+                <div class="category-grid" id="categoryGrid">
+                    <!-- Dynamically populated -->
+                </div>
+                <p class="form-hint" data-i18n="add.categoryHint">Select the specific category that best describes your item</p>
+            </div>
+        </div>
+
+        <!-- ============ SECTION 2: BASIC INFORMATION ============ -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-info-circle"></i>
+                <span data-i18n="add.basicInfo">Basic Information</span>
+            </h2>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.name">
+                    Name/Title <span class="required">*</span>
+                </label>
+                <input type="text" id="itemName" class="form-input" placeholder="Enter the name or title..." required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.description">
+                    Description <span class="required">*</span>
+                </label>
+                <textarea id="itemDescription" class="form-textarea" placeholder="Describe what you're adding in detail..." required></textarea>
+                <p class="form-hint" data-i18n="add.descriptionHint">Provide helpful details (200-500 characters recommended)</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.tags">Tags</label>
+                <div class="tags-input-container">
+                    <input type="text" id="tagsInput" class="tags-input" placeholder="Type a tag and press Enter...">
+                </div>
+                <div id="tagsList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;"></div>
+                <p class="form-hint" data-i18n="add.tagsHint">Add relevant tags to help others find your item</p>
+            </div>
+        </div>
+
+        <!-- ============ SECTION 3: LOCATION & CONTACT ============ -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-map-marker-alt"></i>
+                <span data-i18n="add.location">Location & Contact</span>
+            </h2>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.region">
+                    Region/Location <span class="required">*</span>
+                </label>
+                <input type="text" id="itemLocation" class="form-input" placeholder="e.g., Funchal, Madeira" required>
+            </div>
+
+            <div class="location-input-group">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="add.latitude">Latitude</label>
+                    <input type="number" id="itemLatitude" class="form-input" placeholder="e.g., 32.7546" step="0.0001">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-i18n="add.longitude">Longitude</label>
+                    <input type="number" id="itemLongitude" class="form-input" placeholder="e.g., -17.0031" step="0.0001">
+                </div>
+            </div>
+
+            <button class="location-btn" id="useGeolocationBtn">
+                <i class="fas fa-location-dot"></i>
+                <span data-i18n="add.useLocation">Use My Location</span>
+            </button>
+
+            <div class="form-group" style="margin-top: 1rem;">
+                <label class="form-label" data-i18n="add.contactEmail">Contact Email</label>
+                <input type="email" id="itemContactEmail" class="form-input" placeholder="your@email.com">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.contactPhone">Contact Phone</label>
+                <input type="tel" id="itemContactPhone" class="form-input" placeholder="+1234567890">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.website">Website/URL</label>
+                <input type="url" id="itemWebsite" class="form-input" placeholder="https://example.com">
+            </div>
+        </div>
+
+        <!-- ============ SECTION 4: AVAILABILITY & PRICING ============ -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-tag"></i>
+                <span data-i18n="add.availability">Availability & Pricing</span>
+            </h2>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.availability">
+                    Availability <span class="required">*</span>
+                </label>
+                <select id="itemAvailability" class="form-select" required>
+                    <option value="">Select availability...</option>
+                    <option value="available">Available</option>
+                    <option value="seasonal">Seasonal</option>
+                    <option value="on-demand">On Demand</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.price">Price</label>
+                <input type="number" id="itemPrice" class="form-input" placeholder="Leave blank if free" min="0" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="add.currency">Currency</label>
+                <select id="itemCurrency" class="form-select">
+                    <option value="EUR">€ EUR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="GBP">£ GBP</option>
+                    <option value="JPY">¥ JPY</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <input type="checkbox" id="itemDelivery" style="margin-right: 0.5rem;">
+                    <span data-i18n="add.delivery">Available for delivery/shipping</span>
+                </label>
+            </div>
+
+            <div class="form-group" id="deliveryRadiusGroup" style="display: none;">
+                <label class="form-label" data-i18n="add.deliveryRadius">Delivery Radius (km)</label>
+                <input type="number" id="itemDeliveryRadius" class="form-input" placeholder="e.g., 50" min="1">
+            </div>
+        </div>
+
+        <!-- ============ SECTION 5: SUBSCRIPTION & NOTIFICATIONS ============ -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-bell"></i>
+                <span data-i18n="add.notifications">Notifications & Updates</span>
+            </h2>
+
+            <p style="margin-bottom: 1.5rem; color: #556b6f;">
+                <span data-i18n="add.notificationsDesc">Let interested community members know about updates to this item</span>
+            </p>
+
+            <div class="subscription-options">
+                <label class="subscription-option">
+                    <input type="checkbox" id="notifyViews" checked>
+                    <div class="subscription-title">
+                        <i class="fas fa-eye"></i>
+                        <span data-i18n="add.notifyViews">When Viewed</span>
+                    </div>
+                    <div class="subscription-desc" data-i18n="add.notifyViewsDesc">Get notified when someone views your item</div>
+                </label>
+
+                <label class="subscription-option">
+                    <input type="checkbox" id="notifyInterest" checked>
+                    <div class="subscription-title">
+                        <i class="fas fa-heart"></i>
+                        <span data-i18n="add.notifyInterest">When Saved</span>
+                    </div>
+                    <div class="subscription-desc" data-i18n="add.notifyInterestDesc">Get notified when someone saves/bookmarks your item</div>
+                </label>
+
+                <label class="subscription-option">
+                    <input type="checkbox" id="notifyUpdates" checked>
+                    <div class="subscription-title">
+                        <i class="fas fa-refresh"></i>
+                        <span data-i18n="add.notifyUpdates">When Updated</span>
+                    </div>
+                    <div class="subscription-desc" data-i18n="add.notifyUpdatesDesc">Notify followers when you update this item</div>
+                </label>
+
+                <label class="subscription-option">
+                    <input type="checkbox" id="notifyComments" checked>
+                    <div class="subscription-title">
+                        <i class="fas fa-comments"></i>
+                        <span data-i18n="add.notifyComments">When Commented</span>
+                    </div>
+                    <div class="subscription-desc" data-i18n="add.notifyCommentsDesc">Get notified when someone comments on your item</div>
+                </label>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #f0f7f5; border-radius: 6px; border-left: 4px solid #2d8659;">
+                <p style="font-size: 0.9rem; color: #2c3e50;">
+                    <i class="fas fa-info-circle" style="margin-right: 0.5rem; color: #2d8659;"></i>
+                    <span data-i18n="add.subscriberNote">Followers of this item will receive notifications based on your settings above. They can manage their notification preferences anytime.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- ============ SECTION 6: SUBMIT ============ -->
+        <div class="form-section">
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="cancelBtn" data-i18n="btn.cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" id="submitBtn" data-i18n="btn.publish">
+                    <i class="fas fa-paper-plane"></i> Publish Item
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        // ============ PAGE STATE ============
+        let currentUser = null;
+        let selectedItemType = null;
+        let selectedCategory = null;
+        let itemTags = [];
+
+        // ============ ITEM TYPES ============
+        const itemTypes = [
+            { id: 'project', name: 'Project', icon: '🌱', desc: 'A permaculture or sustainability project' },
+            { id: 'resource', name: 'Resource', icon: '📦', desc: 'Seeds, tools, materials, or services' },
+            { id: 'knowledge', name: 'Knowledge', icon: '📚', desc: 'Guides, courses, or information' },
+            { id: 'event', name: 'Event', icon: '📅', desc: 'Workshop, gathering, or conference' },
+            { id: 'service', name: 'Service', icon: '👷', desc: 'Professional services or expertise' },
+            { id: 'other', name: 'Other', icon: '⭐', desc: 'Something else' }
+        ];
+
+        // ============ CATEGORIES BY TYPE ============
+        const categoriesByType = {
+            'project': ['Permaculture', 'Agroforestry', 'Aquaponics', 'Community Garden', 'Regenerative', 'Other'],
+            'resource': ['Seeds', 'Tools', 'Materials', 'Equipment', 'Supplies', 'Other'],
+            'knowledge': ['Book', 'Course', 'Video', 'Article', 'Podcast', 'Research'],
+            'event': ['Workshop', 'Conference', 'Farm Visit', 'Networking', 'Training', 'Other'],
+            'service': ['Design', 'Installation', 'Training', 'Consulting', 'Maintenance', 'Other'],
+            'other': ['Miscellaneous']
+        };
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            currentUser = await supabase.getCurrentUser();
+            
+            if (!currentUser) {
+                window.location.href = '/public/pages/auth.html';
+                return;
+            }
+
+            renderItemTypes();
+            setupEventListeners();
+            updateTranslationsInDOM();
+        });
+
+        // ============ RENDER ITEM TYPES ============
+        function renderItemTypes() {
+            const container = document.getElementById('itemTypeGrid');
+            
+            container.innerHTML = itemTypes.map(type => `
+                <button class="item-type-btn" onclick="selectItemType('${type.id}')">
+                    <span class="item-type-icon">${type.icon}</span>
+                    <span>${type.name}</span>
+                </button>
+            `).join('');
+        }
+
+        // ============ SELECT ITEM TYPE ============
+        function selectItemType(typeId) {
+            selectedItemType = typeId;
+            selectedCategory = null;
+            itemTags = [];
+
+            // Update button state
+            document.querySelectorAll('.item-type-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.closest('.item-type-btn').classList.add('selected');
+
+            // Render categories for this type
+            renderCategories();
+        }
+
+        // ============ RENDER CATEGORIES ============
+        function renderCategories() {
+            const container = document.getElementById('categoryGrid');
+            const categories = categoriesByType[selectedItemType] || [];
+
+            container.innerHTML = categories.map(category => `
+                <button class="category-btn" onclick="selectCategory('${category}')">
+                    ${category}
+                </button>
+            `).join('');
+        }
+
+        // ============ SELECT CATEGORY ============
+        function selectCategory(category) {
+            selectedCategory = category;
+
+            // Update button state
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+        }
+
+        // ============ SETUP EVENT LISTENERS ============
+        function setupEventListeners() {
+            // Tags input
+            document.getElementById('tagsInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const tag = e.target.value.trim();
+                    if (tag && !itemTags.includes(tag)) {
+                        itemTags.push(tag);
+                        e.target.value = '';
+                        renderTags();
+                    }
+                }
+            });
+
+            // Delivery checkbox
+            document.getElementById('itemDelivery').addEventListener('change', (e) => {
+                document.getElementById('deliveryRadiusGroup').style.display = 
+                    e.target.checked ? 'block' : 'none';
+            });
+
+            // Use geolocation
+            document.getElementById('useGeolocationBtn').addEventListener('click', getGeolocation);
+
+            // Cancel button
+            document.getElementById('cancelBtn').addEventListener('click', () => {
+                window.history.back();
+            });
+
+            // Submit button
+            document.getElementById('submitBtn').addEventListener('click', submitForm);
+        }
+
+        // ============ RENDER TAGS ============
+        function renderTags() {
+            const container = document.getElementById('tagsList');
+            
+            container.innerHTML = itemTags.map(tag => `
+                <div class="tag">
+                    <span>${escapeHtml(tag)}</span>
+                    <button class="tag-remove" onclick="removeTag('${tag}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ============ REMOVE TAG ============
+        function removeTag(tag) {
+            itemTags = itemTags.filter(t => t !== tag);
+            renderTags();
+        }
+
+        // ============ GET GEOLOCATION ============
+        function getGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        document.getElementById('itemLatitude').value = 
+                            position.coords.latitude.toFixed(4);
+                        document.getElementById('itemLongitude').value = 
+                            position.coords.longitude.toFixed(4);
+                        showSuccess('Location set from your device');
+                    },
+                    (error) => {
+                        showError('Could not get your location. Please enter it manually.');
+                    }
+                );
+            } else {
+                showError('Geolocation not supported by your browser');
+            }
+        }
+
+        // ============ SUBMIT FORM ============
+        async function submitForm() {
+            try {
+                // Validate required fields
+                if (!selectedItemType || !selectedCategory) {
+                    showError('Please select item type and category');
+                    return;
+                }
+
+                const name = document.getElementById('itemName').value.trim();
+                const description = document.getElementById('itemDescription').value.trim();
+                const location = document.getElementById('itemLocation').value.trim();
+
+                if (!name || !description || !location) {
+                    showError('Please fill in all required fields');
+                    return;
+                }
+
+                // Show loading state
+                const btn = document.getElementById('submitBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span class="loading"></span> Publishing...';
+                btn.disabled = true;
+
+                // Prepare item data
+                const itemData = {
+                    item_type: selectedItemType,
+                    category: selectedCategory,
+                    title: name,
+                    name: name,
+                    description: description,
+                    location: location,
+                    latitude: parseFloat(document.getElementById('itemLatitude').value) || null,
+                    longitude: parseFloat(document.getElementById('itemLongitude').value) || null,
+                    tags: itemTags,
+                    contact_email: document.getElementById('itemContactEmail').value || null,
+                    contact_phone: document.getElementById('itemContactPhone').value || null,
+                    website: document.getElementById('itemWebsite').value || null,
+                    availability: document.getElementById('itemAvailability').value,
+                    price: parseFloat(document.getElementById('itemPrice').value) || null,
+                    currency: document.getElementById('itemCurrency').value,
+                    delivery_available: document.getElementById('itemDelivery').checked,
+                    delivery_radius_km: document.getElementById('itemDelivery').checked ? 
+                        parseFloat(document.getElementById('itemDeliveryRadius').value) || null : null,
+                    provider_id: currentUser.id,
+                    created_by: currentUser.id,
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
+                    status: 'active',
+                    verified: false
+                };
+
+                // Create subscription config
+                const subscriptionConfig = {
+                    notify_on_views: document.getElementById('notifyViews').checked,
+                    notify_on_interest: document.getElementById('notifyInterest').checked,
+                    notify_on_updates: document.getElementById('notifyUpdates').checked,
+                    notify_on_comments: document.getElementById('notifyComments').checked,
+                    publisher_id: currentUser.id,
+                    item_type: selectedItemType,
+                    created_at: new Date().toISOString()
+                };
+
+                // Insert item into database
+                // Note: This depends on having a flexible 'items' table or using different tables
+                const response = await supabase.insert('items', itemData);
+
+                // Save subscription preferences
+                if (response && response[0]) {
+                    subscriptionConfig.item_id = response[0].id;
+                    await supabase.insert('publication_subscriptions', subscriptionConfig);
+                }
+
+                showSuccess('Item published successfully! 🎉');
+                
+                setTimeout(() => {
+                    window.location.href = '/landing.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showError('Error publishing item: ' + error.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // ============ SHOW SUCCESS ============
+        function showSuccess(message) {
+            const msg = document.getElementById('successMessage');
+            msg.textContent = message;
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 5000);
+        }
+
+        // ============ SHOW ERROR ============
+        function showError(message) {
+            const msg = document.getElementById('errorMessage');
+            msg.textContent = message;
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 5000);
+        }
+
+        // ============ UPDATE TRANSLATIONS ============
+        function updateTranslationsInDOM() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const translated = i18n.t(key);
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = translated;
+                } else if (element.getAttribute('data-i18n-placeholder')) {
+                    element.placeholder = translated;
+                } else {
+                    element.textContent = translated;
+                }
+            });
+        }
+
+        // ============ UTILITY ============
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        window.addEventListener('languageChanged', updateTranslationsInDOM);
+    </script>
+</body>
+</html>
