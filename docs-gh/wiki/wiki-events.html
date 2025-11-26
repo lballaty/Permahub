@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.events.page_title">Community Events - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" class="active" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+              <div class="lang-option" data-lang="cs">
+                <span class="lang-flag">🇨🇿</span>
+                <span class="lang-name">Čeština</span>
+              </div>
+              <div class="lang-option" data-lang="sk">
+                <span class="lang-flag">🇸🇰</span>
+                <span class="lang-name">Slovenčina</span>
+              </div>
+              <div class="lang-option" data-lang="uk">
+                <span class="lang-flag">🇺🇦</span>
+                <span class="lang-name">Українська</span>
+              </div>
+              <div class="lang-option" data-lang="ru">
+                <span class="lang-flag">🇷🇺</span>
+                <span class="lang-name">Русский</span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.events.title">Community Events</h1>
+          <p class="text-muted" data-i18n="wiki.events.subtitle">Workshops, meetups, and gatherings for our permaculture community</p>
+        </div>
+        <a href="wiki-editor.html" class="btn btn-primary" id="addEventBtn">
+          <i class="fas fa-calendar-plus"></i> <span data-i18n="wiki.events.create_event">Add Event</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card">
+      <!-- Time Filter -->
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--wiki-border);">
+        <div>
+          <strong>Show:</strong>
+        </div>
+        <div class="tags">
+          <a href="javascript:void(0)" class="tag time-filter active" data-timefilter="upcoming">
+            <i class="fas fa-calendar-day"></i> Upcoming Events
+          </a>
+          <a href="javascript:void(0)" class="tag time-filter" data-timefilter="past">
+            <i class="fas fa-history"></i> Past Events
+          </a>
+          <a href="javascript:void(0)" class="tag time-filter" data-timefilter="all">
+            <i class="fas fa-calendar-alt"></i> All Events
+          </a>
+        </div>
+      </div>
+
+      <!-- Type Filter -->
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <div>
+          <strong data-i18n="wiki.events.filter_type">Filter by type:</strong>
+        </div>
+        <div class="tags">
+          <a href="javascript:void(0)" class="tag event-filter active" data-filter="all" data-i18n="wiki.events.all_events">All Events</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workshop" data-i18n="wiki.events.type_workshop">Workshops</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="meetup" data-i18n="wiki.events.type_meetup">Meetups</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="tour" data-i18n="wiki.events.type_tour">Tours</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="course" data-i18n="wiki.events.type_course">Courses</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workday" data-i18n="wiki.events.type_workday">Work Days</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Toggle -->
+    <div style="margin-bottom: 2rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
+      <button class="btn btn-primary btn-small" id="listView">
+        <i class="fas fa-list"></i> <span data-i18n="wiki.events.list_view">List View</span>
+      </button>
+      <button class="btn btn-outline btn-small" id="calendarView">
+        <i class="fas fa-calendar"></i> <span data-i18n="wiki.events.calendar_view">Calendar View</span>
+      </button>
+    </div>
+
+    <!-- List View Section -->
+    <section class="mb-3" id="listViewSection">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.events.upcoming_events">
+        <i class="fas fa-calendar-day"></i> Upcoming Events
+      </h2>
+
+      <div class="grid grid-2" id="eventsGrid">
+        <!-- Events will be loaded dynamically from database -->
+      </div>
+    </section>
+
+    <!-- Calendar View Section -->
+    <section class="mb-3" id="calendarViewSection" style="display: none;">
+      <div class="card">
+        <div class="calendar-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <button class="btn btn-outline btn-small" id="prevMonth">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <h2 id="currentMonth" style="margin: 0; color: var(--wiki-primary);"></h2>
+          <button class="btn btn-outline btn-small" id="nextMonth">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+
+      <!-- Selected Events for Day -->
+      <div id="selectedDayEvents" style="display: none; margin-top: 2rem;">
+        <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);" id="selectedDayTitle"></h3>
+        <div class="grid grid-2" id="selectedEventsGrid"></div>
+      </div>
+    </section>
+
+    <!-- Subscribe -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.events.never_miss">Never Miss an Event</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.events.notification_desc">
+        Get email notifications about new events and changes to your registered events
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          id="subscribeEmail"
+          data-i18n-placeholder="wiki.events.email_placeholder"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary" id="subscribeBtn">
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.events.subscribe">Subscribe</span>
+        </button>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
+        <span data-i18n="wiki.events.sync_calendar">Or sync to your calendar:</span> <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.events.google_calendar">Google Calendar</a> | <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.events.ical">iCal</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-events.js"></script>
+</body>
+</html>

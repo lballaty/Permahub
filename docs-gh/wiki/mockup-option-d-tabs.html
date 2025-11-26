@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOCKUP Option D: Horizontal Scroll Tabs - Permahub Wiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%);
+      padding: 20px;
+      color: #333;
+    }
+
+    .mockup-banner {
+      background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .mockup-banner h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .mockup-banner p {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .tabs-container {
+      background: white;
+      border-bottom: 2px solid #e9ecef;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .tabs-wrapper {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .tabs-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .theme-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 10px;
+      min-width: min-content;
+    }
+
+    .theme-tab {
+      flex: 0 0 auto;
+      padding: 15px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+      font-weight: 600;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .theme-tab:hover {
+      background: #f8f9fa;
+      color: #2d8659;
+    }
+
+    .theme-tab.active {
+      color: #2d8659;
+      border-bottom-color: #2d8659;
+      background: #f8f9fa;
+    }
+
+    .theme-icon {
+      font-size: 18px;
+    }
+
+    .category-pills-container {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .category-pills-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6c757d;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-pills-wrapper {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin: 0 -20px;
+      padding: 0 20px;
+    }
+
+    .category-pills-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-pills {
+      display: flex;
+      gap: 10px;
+      min-width: min-content;
+    }
+
+    .category-pill {
+      flex: 0 0 auto;
+      padding: 8px 16px;
+      background: white;
+      border: 2px solid #dee2e6;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+      font-weight: 600;
+      color: #495057;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .category-pill:hover {
+      border-color: #2d8659;
+      background: #e7f5f0;
+      color: #2d8659;
+    }
+
+    .category-pill.active {
+      background: #2d8659;
+      color: white;
+      border-color: #2d8659;
+    }
+
+    .pill-icon {
+      font-size: 16px;
+    }
+
+    .content-area {
+      padding: 30px;
+    }
+
+    .content-header {
+      margin-bottom: 25px;
+    }
+
+    .breadcrumb {
+      font-size: 14px;
+      color: #6c757d;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .breadcrumb-separator {
+      color: #dee2e6;
+    }
+
+    .result-count {
+      font-size: 24px;
+      font-weight: 700;
+      color: #212529;
+    }
+
+    .result-label {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .guide-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-color: #2d8659;
+    }
+
+    .guide-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .guide-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 8px;
+    }
+
+    .guide-excerpt {
+      font-size: 14px;
+      color: #6c757d;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .guide-meta {
+      font-size: 12px;
+      color: #adb5bd;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #adb5bd;
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .empty-state-text {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .empty-state-hint {
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 20px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .theme-tab {
+        padding: 12px 16px;
+        font-size: 13px;
+      }
+
+      .category-pills-container {
+        padding: 12px 15px;
+      }
+
+      .content-area {
+        padding: 20px 15px;
+      }
+
+      .guides-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-banner">
+    <h1><i class="fas fa-paint-brush"></i> OPTION D: HORIZONTAL SCROLL TABS</h1>
+    <p>Instagram/Netflix style - swipe through themes, tap categories</p>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-book-open"></i> Permaculture Guides</h1>
+      <p>Browse by theme, filter by category</p>
+    </div>
+
+    <div class="tabs-container">
+      <div class="tabs-wrapper">
+        <div class="theme-tabs" id="themeTabs"></div>
+      </div>
+    </div>
+
+    <div class="category-pills-container" id="categoryPillsContainer">
+      <div class="category-pills-label">Categories</div>
+      <div class="category-pills-wrapper">
+        <div class="category-pills" id="categoryPills"></div>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="content-header">
+        <div class="breadcrumb" id="breadcrumb">
+          <div class="breadcrumb-item">
+            <i class="fas fa-home"></i>
+            <span>All Guides</span>
+          </div>
+        </div>
+        <div>
+          <span class="result-count" id="resultCount">156</span>
+          <span class="result-label">guides</span>
+        </div>
+      </div>
+
+      <div class="guides-grid" id="guidesGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    // Category data
+    const categoryGroups = [
+      {
+        name: 'Animal Husbandry & Livestock',
+        icon: '🐓',
+        slug: 'animal',
+        categories: [
+          { name: 'Animal Husbandry', slug: 'animal-husbandry', icon: '🐓' },
+          { name: 'Beekeeping', slug: 'beekeeping', icon: '🐝' },
+          { name: 'Poultry Keeping', slug: 'poultry-keeping', icon: '🐔' }
+        ]
+      },
+      {
+        name: 'Food Preservation & Storage',
+        icon: '🫙',
+        slug: 'preservation',
+        categories: [
+          { name: 'Food Preservation', slug: 'food-preservation', icon: '🫙' },
+          { name: 'Fermentation', slug: 'fermentation', icon: '🥒' },
+          { name: 'Root Cellaring', slug: 'root-cellaring', icon: '🥔' }
+        ]
+      },
+      {
+        name: 'Mycology & Mushrooms',
+        icon: '🍄',
+        slug: 'mycology',
+        categories: [
+          { name: 'Mycology', slug: 'mycology', icon: '🍄' },
+          { name: 'Mushroom Cultivation', slug: 'mushroom-cultivation', icon: '🍄‍🟫' },
+          { name: 'Mycoremediation', slug: 'mycoremediation', icon: '🌿' }
+        ]
+      },
+      {
+        name: 'Herbal Medicine',
+        icon: '🌿',
+        slug: 'herbal',
+        categories: [
+          { name: 'Herbal Medicine', slug: 'herbal-medicine', icon: '🌿' },
+          { name: 'Plant Medicine Making', slug: 'plant-medicine-making', icon: '🧪' },
+          { name: 'Medicinal Gardens', slug: 'medicinal-gardens', icon: '🏥' }
+        ]
+      },
+      {
+        name: 'Appropriate Technology',
+        icon: '⚙️',
+        slug: 'technology',
+        categories: [
+          { name: 'Appropriate Technology', slug: 'appropriate-technology', icon: '⚙️' },
+          { name: 'Solar Technology', slug: 'solar-technology', icon: '☀️' },
+          { name: 'Bicycle Power', slug: 'bicycle-power', icon: '🚲' }
+        ]
+      },
+      {
+        name: 'Soil Science & Regeneration',
+        icon: '🌱',
+        slug: 'soil',
+        categories: [
+          { name: 'Soil Science', slug: 'soil-science', icon: '🌱' },
+          { name: 'Regenerative Agriculture', slug: 'regenerative-agriculture', icon: '♻️' },
+          { name: 'Cover Cropping', slug: 'cover-cropping', icon: '🌾' }
+        ]
+      },
+      {
+        name: 'Water & Aquaculture',
+        icon: '🐟',
+        slug: 'water',
+        categories: [
+          { name: 'Aquaculture', slug: 'aquaculture', icon: '🐟' },
+          { name: 'Aquaponics', slug: 'aquaponics', icon: '🌊' },
+          { name: 'Pond Management', slug: 'pond-management', icon: '💧' }
+        ]
+      },
+      {
+        name: 'Community & Social',
+        icon: '👥',
+        slug: 'community',
+        categories: [
+          { name: 'Social Permaculture', slug: 'social-permaculture', icon: '👥' },
+          { name: 'Ecovillage Design', slug: 'ecovillage-design', icon: '🏘️' },
+          { name: 'Consensus Decision Making', slug: 'consensus-decision-making', icon: '🗣️' }
+        ]
+      }
+    ];
+
+    // Sample guides
+    const sampleGuides = [
+      { title: 'Introduction to Beekeeping', icon: '🐝', excerpt: 'Learn the fundamentals of starting your first beehive...', category: 'beekeeping', theme: 'animal' },
+      { title: 'Lacto-Fermentation Basics', icon: '🥒', excerpt: 'Master the art of preserving vegetables...', category: 'fermentation', theme: 'preservation' },
+      { title: 'Oyster Mushroom Cultivation', icon: '🍄', excerpt: 'Step-by-step guide to growing oyster mushrooms...', category: 'mushroom-cultivation', theme: 'mycology' },
+      { title: 'Building a Solar Dehydrator', icon: '☀️', excerpt: 'Construct a passive solar dehydrator...', category: 'solar-technology', theme: 'technology' },
+      { title: 'Medicinal Herb Garden Design', icon: '🌿', excerpt: 'Plan and plant a healing garden...', category: 'medicinal-gardens', theme: 'herbal' },
+      { title: 'Backyard Chicken Keeping', icon: '🐔', excerpt: 'Everything about raising chickens...', category: 'poultry-keeping', theme: 'animal' },
+      { title: 'Root Cellar Construction', icon: '🥔', excerpt: 'Build a traditional root cellar...', category: 'root-cellaring', theme: 'preservation' },
+      { title: 'Introduction to Aquaponics', icon: '🌊', excerpt: 'Combine fish farming with hydroponics...', category: 'aquaponics', theme: 'water' }
+    ];
+
+    let currentTheme = null;
+    let currentCategory = null;
+
+    // Initialize
+    function init() {
+      renderThemeTabs();
+      renderCategoryPills();
+      renderGuides(sampleGuides);
+      attachEventListeners();
+    }
+
+    function renderThemeTabs() {
+      const container = document.getElementById('themeTabs');
+      container.innerHTML = `
+        <button class="theme-tab active" data-theme="all">
+          <span class="theme-icon">🏠</span>
+          <span>All Themes</span>
+        </button>
+      ` + categoryGroups.map(group => `
+        <button class="theme-tab" data-theme="${group.slug}">
+          <span class="theme-icon">${group.icon}</span>
+          <span>${group.name}</span>
+        </button>
+      `).join('');
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('categoryPills');
+      const pills = [];
+
+      if (currentTheme && currentTheme !== 'all') {
+        const group = categoryGroups.find(g => g.slug === currentTheme);
+        if (group) {
+          pills.push(...group.categories.map(cat => `
+            <button class="category-pill ${currentCategory === cat.slug ? 'active' : ''}" data-category="${cat.slug}">
+              <span class="pill-icon">${cat.icon}</span>
+              <span>${cat.name}</span>
+            </button>
+          `));
+        }
+      } else {
+        // Show all categories from all themes
+        categoryGroups.forEach(group => {
+          group.categories.forEach(cat => {
+            pills.push(`
+              <button class="category-pill ${currentCategory === cat.slug ? 'active' : ''}" data-category="${cat.slug}">
+                <span class="pill-icon">${cat.icon}</span>
+                <span>${cat.name}</span>
+              </button>
+            `);
+          });
+        });
+      }
+
+      container.innerHTML = pills.join('');
+
+      // Show/hide category pills container
+      const pillsContainer = document.getElementById('categoryPillsContainer');
+      if (pills.length > 0) {
+        pillsContainer.style.display = 'block';
+      }
+    }
+
+    function renderGuides(guides) {
+      const grid = document.getElementById('guidesGrid');
+      const count = document.getElementById('resultCount');
+
+      count.textContent = guides.length;
+
+      if (guides.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📚</div>
+            <div class="empty-state-text">No guides found</div>
+            <div class="empty-state-hint">Try selecting a different theme or category</div>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = guides.map(guide => `
+        <div class="guide-card">
+          <div class="guide-icon">${guide.icon}</div>
+          <div class="guide-title">${guide.title}</div>
+          <div class="guide-excerpt">${guide.excerpt}</div>
+        </div>
+      `).join('');
+    }
+
+    function updateBreadcrumb() {
+      const breadcrumb = document.getElementById('breadcrumb');
+      const parts = [];
+
+      parts.push(`
+        <div class="breadcrumb-item">
+          <i class="fas fa-home"></i>
+          <span>All Guides</span>
+        </div>
+      `);
+
+      if (currentTheme && currentTheme !== 'all') {
+        const group = categoryGroups.find(g => g.slug === currentTheme);
+        if (group) {
+          parts.push(`
+            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+            <div class="breadcrumb-item">
+              <span>${group.icon}</span>
+              <span>${group.name}</span>
+            </div>
+          `);
+        }
+      }
+
+      if (currentCategory) {
+        let cat = null;
+        categoryGroups.forEach(group => {
+          const found = group.categories.find(c => c.slug === currentCategory);
+          if (found) cat = found;
+        });
+
+        if (cat) {
+          parts.push(`
+            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+            <div class="breadcrumb-item">
+              <span>${cat.icon}</span>
+              <span>${cat.name}</span>
+            </div>
+          `);
+        }
+      }
+
+      breadcrumb.innerHTML = parts.join('');
+    }
+
+    function applyFilters() {
+      let filtered = sampleGuides;
+
+      if (currentTheme && currentTheme !== 'all') {
+        filtered = filtered.filter(g => g.theme === currentTheme);
+      }
+
+      if (currentCategory) {
+        filtered = filtered.filter(g => g.category === currentCategory);
+      }
+
+      renderGuides(filtered);
+      updateBreadcrumb();
+    }
+
+    function attachEventListeners() {
+      // Theme tabs
+      document.getElementById('themeTabs').addEventListener('click', function(e) {
+        const tab = e.target.closest('.theme-tab');
+        if (!tab) return;
+
+        const theme = tab.dataset.theme;
+        currentTheme = theme;
+        currentCategory = null;
+
+        // Update active states
+        document.querySelectorAll('.theme-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Re-render category pills and guides
+        renderCategoryPills();
+        applyFilters();
+
+        // Scroll tab into view
+        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      });
+
+      // Category pills
+      document.getElementById('categoryPills').addEventListener('click', function(e) {
+        const pill = e.target.closest('.category-pill');
+        if (!pill) return;
+
+        const category = pill.dataset.category;
+
+        // Toggle category selection
+        if (currentCategory === category) {
+          currentCategory = null;
+        } else {
+          currentCategory = category;
+        }
+
+        // Re-render pills and guides
+        renderCategoryPills();
+        applyFilters();
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

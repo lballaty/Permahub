@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.settings.page_title">Account Settings - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script src="js/wiki-i18n.js"></script>
+  <style>
+    /* Settings-specific styles */
+    .settings-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .settings-section {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .settings-section h2 {
+      color: var(--wiki-primary);
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .settings-section p.description {
+      color: var(--wiki-text-muted);
+      margin: 0 0 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .settings-group {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .settings-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .settings-group label {
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+      cursor: pointer;
+      padding: 0.75rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .settings-group label:hover {
+      background: var(--wiki-accent);
+    }
+
+    .settings-group input[type="checkbox"],
+    .settings-group input[type="radio"] {
+      margin-top: 0.25rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .settings-group .label-content {
+      flex: 1;
+    }
+
+    .settings-group .label-title {
+      font-weight: 600;
+      color: var(--wiki-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .settings-group .label-description {
+      font-size: 0.85rem;
+      color: var(--wiki-text-muted);
+      line-height: 1.4;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-left: 2.25rem;
+    }
+
+    .radio-group label {
+      padding: 0.5rem;
+    }
+
+    .master-toggle {
+      background: var(--wiki-accent);
+      border: 2px solid var(--wiki-primary);
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .master-toggle label {
+      margin: 0;
+    }
+
+    .master-toggle .label-title {
+      font-size: 1.1rem;
+      color: var(--wiki-primary);
+    }
+
+    .privacy-warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 4px;
+    }
+
+    .privacy-warning i {
+      color: #ffc107;
+      margin-right: 0.5rem;
+    }
+
+    .save-btn {
+      background: var(--wiki-primary);
+      color: white;
+      border: none;
+      padding: 0.875rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .save-btn:hover:not(:disabled) {
+      background: #1a5f3f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+    }
+
+    .save-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .success-message,
+    .error-message {
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error-message {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--wiki-text);
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--wiki-primary);
+    }
+
+    .form-group .help-text {
+      font-size: 0.85rem;
+      color: var(--wiki-text-muted);
+      margin-top: 0.5rem;
+    }
+  </style>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <!-- Language options (same as other pages) -->
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="settings-container">
+    <!-- Page Header -->
+    <div class="settings-section">
+      <h1 style="margin: 0 0 0.5rem 0; color: var(--wiki-primary); font-size: 2rem;">
+        <i class="fas fa-user-cog"></i> <span data-i18n="wiki.settings.title">Account Settings</span>
+      </h1>
+      <p style="margin: 0; color: var(--wiki-text-muted);" data-i18n="wiki.settings.subtitle">
+        Manage your profile, privacy preferences, and contact information visibility
+      </p>
+    </div>
+
+    <!-- Messages -->
+    <div class="success-message" id="successMessage">
+      <i class="fas fa-check-circle"></i>
+      <span id="successText"></span>
+    </div>
+    <div class="error-message" id="errorMessage">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="errorText"></span>
+    </div>
+
+    <!-- Profile Information Section -->
+    <div class="settings-section">
+      <h2><i class="fas fa-user"></i> <span data-i18n="wiki.settings.profile_section">Profile Information</span></h2>
+      <p class="description" data-i18n="wiki.settings.profile_desc">Update your basic profile information</p>
+
+      <div class="form-group">
+        <label for="fullName" data-i18n="wiki.settings.label_full_name">Full Name</label>
+        <input type="text" id="fullName" data-i18n-placeholder="wiki.settings.placeholder_full_name" placeholder="Your full name">
+      </div>
+
+      <div class="form-group">
+        <label for="username" data-i18n="wiki.settings.label_username">Username</label>
+        <input type="text" id="username" data-i18n-placeholder="wiki.settings.placeholder_username" placeholder="your-username" readonly disabled>
+        <p class="help-text" data-i18n="wiki.settings.help_username">Username cannot be changed after account creation</p>
+      </div>
+
+      <div class="form-group">
+        <label for="email" data-i18n="wiki.settings.label_email">Email Address</label>
+        <input type="email" id="email" data-i18n-placeholder="wiki.settings.placeholder_email" placeholder="you@example.com" readonly disabled>
+        <p class="help-text" data-i18n="wiki.settings.help_email">Email is managed through your account authentication</p>
+      </div>
+
+      <div class="form-group">
+        <label for="contactPhone" data-i18n="wiki.settings.label_phone">Phone Number</label>
+        <input type="tel" id="contactPhone" data-i18n-placeholder="wiki.settings.placeholder_phone" placeholder="+1 (555) 123-4567">
+        <p class="help-text" data-i18n="wiki.settings.help_phone">Optional. Only visible if you choose to share it below.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="website" data-i18n="wiki.settings.label_website">Website</label>
+        <input type="text" id="website" data-i18n-placeholder="wiki.settings.placeholder_website" placeholder="https://your-website.com">
+        <p class="help-text" data-i18n="wiki.settings.help_website">Your personal or business website</p>
+      </div>
+    </div>
+
+    <!-- My Location Section -->
+    <div class="settings-section">
+      <h2>
+        <i class="fas fa-map-marker-alt"></i>
+        <span data-i18n="wiki.settings.home_location_section">My Location (for maps and events)</span>
+      </h2>
+      <p class="description" data-i18n="wiki.settings.home_location_desc">
+        Set your primary location to personalize maps and show events near you. This location is private and only used to customize your experience.
+      </p>
+
+      <div class="form-group">
+        <label for="homeLocationLabel" data-i18n="wiki.settings.home_location_label">Location label</label>
+        <input
+          type="text"
+          id="homeLocationLabel"
+          data-i18n-placeholder="wiki.settings.home_location_label_placeholder"
+          placeholder="e.g., Home garden – Prague"
+        >
+        <p class="help-text" data-i18n="wiki.settings.home_location_label_help">
+          A friendly name for this location. Only you can see this.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label for="homeLocationLat" data-i18n="wiki.settings.home_location_lat">Latitude</label>
+          <input
+            type="text"
+            id="homeLocationLat"
+            data-i18n-placeholder="wiki.settings.home_location_lat_placeholder"
+            placeholder="e.g., 50.0870"
+          >
+          <p class="help-text" data-i18n="wiki.settings.home_location_lat_help">
+            Optional. Use a city-level coordinate if you prefer not to share your exact location.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="homeLocationLng" data-i18n="wiki.settings.home_location_lng">Longitude</label>
+          <input
+            type="text"
+            id="homeLocationLng"
+            data-i18n-placeholder="wiki.settings.home_location_lng_placeholder"
+            placeholder="e.g., 14.4208"
+          >
+          <p class="help-text" data-i18n="wiki.settings.home_location_lng_help">
+            Optional. Pair with latitude for distance calculations.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Settings Section -->
+    <div class="settings-section">
+      <h2><i class="fas fa-shield-alt"></i> <span data-i18n="wiki.settings.privacy_section">Privacy & Visibility</span></h2>
+      <p class="description" data-i18n="wiki.settings.privacy_desc">Control who can see your profile and contact information</p>
+
+      <!-- Master Toggle -->
+      <div class="master-toggle">
+        <div class="settings-group" style="margin: 0; padding: 0; border: none;">
+          <label>
+            <input type="checkbox" id="isPublicProfile">
+            <div class="label-content">
+              <div class="label-title" data-i18n="wiki.settings.public_profile">Make my profile public</div>
+              <div class="label-description" data-i18n="wiki.settings.public_profile_desc">
+                When unchecked, your profile will be completely hidden from other users.
+                When checked, you can control which specific contact details to show.
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Contact Information Visibility -->
+      <div id="contactVisibilitySettings" style="opacity: 0.5; pointer-events: none;">
+        <div class="privacy-warning">
+          <i class="fas fa-info-circle"></i>
+          <strong data-i18n="wiki.settings.privacy_warning_title">Privacy first:</strong> <span data-i18n="wiki.settings.privacy_warning_text">Your profile is currently private. Enable "Make my profile public" above to control individual contact information visibility.</span>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-envelope"></i> <span data-i18n="wiki.settings.email_visibility">Email Address Visibility</span>
+          </div>
+          <label>
+            <input type="checkbox" id="emailVisible">
+            <div class="label-content">
+              <div class="label-title" data-i18n="wiki.settings.show_email">Show my email address</div>
+              <div class="label-description" data-i18n="wiki.settings.show_email_desc">
+                Allow others to see your email address on your public profile
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-phone"></i> <span data-i18n="wiki.settings.phone_visibility">Phone Number Visibility</span>
+          </div>
+          <label>
+            <input type="checkbox" id="phoneVisible">
+            <div class="label-content">
+              <div class="label-title" data-i18n="wiki.settings.show_phone">Show my phone number</div>
+              <div class="label-description" data-i18n="wiki.settings.show_phone_desc">
+                Allow others to see your phone number on your public profile
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-globe"></i> <span data-i18n="wiki.settings.website_visibility">Website Visibility</span>
+          </div>
+          <label>
+            <input type="checkbox" id="websiteVisible">
+            <div class="label-content">
+              <div class="label-title" data-i18n="wiki.settings.show_website">Show my website</div>
+              <div class="label-description" data-i18n="wiki.settings.show_website_desc">
+                Allow others to see your website link on your public profile
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-share-alt"></i> <span data-i18n="wiki.settings.social_visibility">Social Media Visibility</span>
+          </div>
+          <label>
+            <input type="checkbox" id="socialMediaVisible">
+            <div class="label-content">
+              <div class="label-title" data-i18n="wiki.settings.show_social">Show my social media links</div>
+              <div class="label-description" data-i18n="wiki.settings.show_social_desc">
+                Allow others to see your social media profiles (Instagram, Facebook, YouTube, etc.)
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-map-marker-alt"></i> <span data-i18n="wiki.settings.location_precision">Location Precision</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted); margin-bottom: 0.75rem;" data-i18n="wiki.settings.location_precision_desc">
+            Choose how much location detail to show on your public profile
+          </p>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="locationPrecision" value="exact">
+              <div class="label-content">
+                <div class="label-title" data-i18n="wiki.settings.location_exact">Exact location</div>
+                <div class="label-description" data-i18n="wiki.settings.location_exact_desc">Show precise coordinates and full address</div>
+              </div>
+            </label>
+            <label>
+              <input type="radio" name="locationPrecision" value="city">
+              <div class="label-content">
+                <div class="label-title" data-i18n="wiki.settings.location_city">City level (recommended)</div>
+                <div class="label-description" data-i18n="wiki.settings.location_city_desc">Show only city and country, hide exact coordinates</div>
+              </div>
+            </label>
+            <label>
+              <input type="radio" name="locationPrecision" value="country">
+              <div class="label-content">
+                <div class="label-title" data-i18n="wiki.settings.location_country">Country only</div>
+                <div class="label-description" data-i18n="wiki.settings.location_country_desc">Show only country, hide city and coordinates</div>
+              </div>
+            </label>
+            <label>
+              <input type="radio" name="locationPrecision" value="hidden">
+              <div class="label-content">
+                <div class="label-title" data-i18n="wiki.settings.location_hidden">Hidden</div>
+                <div class="label-description" data-i18n="wiki.settings.location_hidden_desc">Don't show any location information</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--wiki-text);">
+            <i class="fas fa-comment-alt"></i> <span data-i18n="wiki.settings.contact_options">Contact Options</span>
+          </div>
+          <label>
+            <input type="checkbox" id="showContactButton">
+            <div class="label-content">
+              <div class="label-title" data-i18n="wiki.settings.show_contact_button">Show "Contact Me" button</div>
+              <div class="label-description" data-i18n="wiki.settings.show_contact_button_desc">
+                Display a button on your profile allowing others to send you messages through the platform (protects your email)
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div style="text-align: right; margin-bottom: 3rem;">
+      <button type="button" class="save-btn" id="saveSettingsBtn">
+        <i class="fas fa-save"></i> <span data-i18n="wiki.settings.save_button">Save Settings</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <p data-i18n="wiki.footer.copyright">&copy; 2025 Community Wiki. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-settings.js"></script>
+</body>
+</html>

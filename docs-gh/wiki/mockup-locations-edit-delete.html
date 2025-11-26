@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOCKUP: Locations with Edit/Delete Buttons</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    /* Highlight new elements for mockup */
+    .mockup-highlight {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(45, 134, 89, 0);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(45, 134, 89, 0.3);
+      }
+    }
+
+    .mockup-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .mockup-note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .author-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .location-popup {
+      max-width: 300px;
+    }
+
+    .location-popup h4 {
+      margin: 0 0 0.5rem 0;
+      color: var(--wiki-primary);
+    }
+
+    .location-popup p {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .location-popup .popup-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .location-popup .popup-actions-owner {
+      background: #f0f9ff;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+    }
+
+    .location-card {
+      background: white;
+      border: 1px solid var(--wiki-border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .location-card-owner {
+      border: 2px solid #2d8659;
+      background: #f9fffe;
+    }
+
+    .location-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .location-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--wiki-border);
+    }
+
+    .location-actions-owner {
+      background: #f0f9ff;
+      padding: 0.75rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span>Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html">Home</a></li>
+        <li><a href="wiki-guides.html">Guides</a></li>
+        <li><a href="wiki-events.html">Events</a></li>
+        <li><a href="wiki-map.html" class="active">Locations</a></li>
+        <li><a href="wiki-login.html">Login</a></li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="mockup-banner">
+      <h2 style="margin: 0 0 0.5rem 0;">
+        <i class="fas fa-eye"></i> MOCKUP: Locations with Edit/Delete Buttons
+      </h2>
+      <p style="margin: 0; opacity: 0.95;">
+        This is a visual preview. Map is static - no functionality implemented yet.
+      </p>
+    </div>
+
+    <div class="mockup-note">
+      <strong><i class="fas fa-info-circle"></i> What's New:</strong>
+      <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+        <li><strong>Edit</strong> and <strong>Delete</strong> buttons appear on locations you created</li>
+        <li>"You created this" badge shows your own locations</li>
+        <li>Map popups include Edit/Delete for your locations</li>
+        <li>Location list shows management buttons for your entries</li>
+      </ul>
+    </div>
+
+    <!-- Page Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+      <div>
+        <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
+          <i class="fas fa-map-marked-alt"></i> Community Locations
+        </h1>
+        <p class="text-muted">Discover permaculture farms, community gardens, and sustainable living projects</p>
+      </div>
+      <a href="wiki-editor.html?type=location" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Add Location
+      </a>
+    </div>
+
+    <!-- Map Container -->
+    <div id="map" style="background: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #666;">
+      <div style="text-align: center;">
+        <i class="fas fa-map" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+        <p style="margin: 0; font-size: 1.1rem;">Interactive Map Would Appear Here</p>
+        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.8;">
+          (See location cards and popup examples below)
+        </p>
+      </div>
+    </div>
+
+    <!-- Map Popup Examples -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+        <i class="fas fa-info-circle"></i> Map Popup Examples
+      </h3>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+
+        <!-- Popup Example 1: Your Location -->
+        <div style="border: 2px solid #2d8659; border-radius: 8px; padding: 1rem; background: white;">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+            <h4 style="margin: 0; color: var(--wiki-primary);">Green Valley Permaculture Farm</h4>
+            <span class="author-badge mockup-highlight">
+              <i class="fas fa-user-check"></i> You created this
+            </span>
+          </div>
+          <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+            50-acre permaculture demonstration site with food forest, swales, and natural building.
+          </p>
+          <p style="margin: 0.5rem 0; font-size: 0.85rem; color: #888;">
+            <i class="fas fa-map-marker-alt"></i> Portland, Oregon
+          </p>
+          <div class="popup-actions-owner mockup-highlight">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn btn-primary btn-small">
+                <i class="fas fa-info-circle"></i> Details
+              </button>
+              <a href="wiki-editor.html?slug=green-valley-farm&type=location" class="btn btn-primary btn-small">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Popup Example 2: Someone Else's Location -->
+        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1rem; background: white;">
+          <h4 style="margin: 0 0 0.5rem 0; color: var(--wiki-primary);">Urban Garden Collective</h4>
+          <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+            Community garden with 40+ plots, composting station, and tool library.
+          </p>
+          <p style="margin: 0.5rem 0; font-size: 0.85rem; color: #888;">
+            <i class="fas fa-map-marker-alt"></i> Seattle, Washington
+          </p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+            <button class="btn btn-primary btn-small">
+              <i class="fas fa-info-circle"></i> Details
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Location List -->
+    <div>
+      <h2 style="margin-bottom: 1.5rem; color: var(--wiki-primary);">
+        <i class="fas fa-list"></i> All Locations
+      </h2>
+
+      <!-- Location 1: YOUR LOCATION -->
+      <div class="location-card location-card-owner mockup-highlight">
+        <div class="location-header">
+          <div>
+            <h3 style="margin: 0 0 0.25rem 0; color: var(--wiki-primary);">Green Valley Permaculture Farm</h3>
+            <p style="margin: 0; color: #888; font-size: 0.9rem;">
+              <i class="fas fa-map-marker-alt"></i> 1234 Farm Road, Portland, OR 97201
+            </p>
+          </div>
+          <span class="author-badge">
+            <i class="fas fa-user-check"></i> You created this
+          </span>
+        </div>
+
+        <p style="color: #666; margin: 1rem 0;">
+          50-acre permaculture demonstration site featuring swales, food forest systems, natural building, and educational programs. Open for tours by appointment.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <span class="tag"><i class="fas fa-leaf"></i> Farm</span>
+          <span class="tag"><i class="fas fa-users"></i> Community Hub</span>
+          <span class="tag"><i class="fas fa-graduation-cap"></i> Education</span>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: #666;">
+          <span><i class="fas fa-envelope"></i> contact@greenfarm.org</span>
+          <span><i class="fas fa-phone"></i> (555) 123-4567</span>
+          <span><i class="fas fa-globe"></i> greenfarm.org</span>
+        </div>
+
+        <!-- NEW: Action buttons for owner -->
+        <div class="location-actions location-actions-owner">
+          <a href="#map" class="btn btn-outline btn-small">
+            <i class="fas fa-map"></i> View on Map
+          </a>
+          <button class="btn btn-outline btn-small">
+            <i class="fas fa-info-circle"></i> Full Details
+          </button>
+          <a href="wiki-editor.html?slug=green-valley-farm&type=location" class="btn btn-primary btn-small">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+          <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation would appear here')">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Location 2: SOMEONE ELSE'S LOCATION -->
+      <div class="location-card">
+        <div class="location-header">
+          <div>
+            <h3 style="margin: 0 0 0.25rem 0; color: var(--wiki-primary);">Urban Garden Collective</h3>
+            <p style="margin: 0; color: #888; font-size: 0.9rem;">
+              <i class="fas fa-map-marker-alt"></i> 789 Community Ave, Seattle, WA 98101
+            </p>
+          </div>
+        </div>
+
+        <p style="color: #666; margin: 1rem 0;">
+          Community garden with 40+ individual plots, shared composting facilities, tool library, and monthly workshops. New members welcome!
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <span class="tag"><i class="fas fa-seedling"></i> Community Garden</span>
+          <span class="tag"><i class="fas fa-recycle"></i> Composting</span>
+          <span class="tag"><i class="fas fa-tools"></i> Tool Sharing</span>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: #666;">
+          <span><i class="fas fa-envelope"></i> info@urbangarden.org</span>
+          <span><i class="fas fa-clock"></i> Mon-Sat 8am-6pm</span>
+        </div>
+
+        <!-- Read-only: Only view buttons -->
+        <div class="location-actions">
+          <a href="#map" class="btn btn-outline btn-small">
+            <i class="fas fa-map"></i> View on Map
+          </a>
+          <button class="btn btn-outline btn-small">
+            <i class="fas fa-info-circle"></i> Full Details
+          </button>
+        </div>
+      </div>
+
+      <!-- Location 3: YOUR LOCATION -->
+      <div class="location-card location-card-owner mockup-highlight">
+        <div class="location-header">
+          <div>
+            <h3 style="margin: 0 0 0.25rem 0; color: var(--wiki-primary);">Riverside Food Forest</h3>
+            <p style="margin: 0; color: #888; font-size: 0.9rem;">
+              <i class="fas fa-map-marker-alt"></i> 456 River Rd, Portland, OR 97212
+            </p>
+          </div>
+          <span class="author-badge">
+            <i class="fas fa-user-check"></i> You created this
+          </span>
+        </div>
+
+        <p style="color: #666; margin: 1rem 0;">
+          Public food forest featuring fruit and nut trees, berry bushes, perennial vegetables, and medicinal herbs. Free harvesting for all community members.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <span class="tag"><i class="fas fa-tree"></i> Food Forest</span>
+          <span class="tag"><i class="fas fa-users"></i> Public Access</span>
+          <span class="tag"><i class="fas fa-apple-alt"></i> Free Harvest</span>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: #666;">
+          <span><i class="fas fa-clock"></i> Open daily, dawn to dusk</span>
+        </div>
+
+        <!-- NEW: Action buttons for owner -->
+        <div class="location-actions location-actions-owner">
+          <a href="#map" class="btn btn-outline btn-small">
+            <i class="fas fa-map"></i> View on Map
+          </a>
+          <button class="btn btn-outline btn-small">
+            <i class="fas fa-info-circle"></i> Full Details
+          </button>
+          <a href="wiki-editor.html?slug=riverside-food-forest&type=location" class="btn btn-primary btn-small">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+          <button class="btn btn-danger btn-small" onclick="alert('Delete confirmation would appear here')">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Location 4: SOMEONE ELSE'S LOCATION -->
+      <div class="location-card">
+        <div class="location-header">
+          <div>
+            <h3 style="margin: 0 0 0.25rem 0; color: var(--wiki-primary);">Eco-Village Demonstration Site</h3>
+            <p style="margin: 0; color: #888; font-size: 0.9rem;">
+              <i class="fas fa-map-marker-alt"></i> 321 Sustainable Way, Eugene, OR 97401
+            </p>
+          </div>
+        </div>
+
+        <p style="color: #666; margin: 1rem 0;">
+          Intentional community showcasing sustainable living practices including solar power, greywater systems, natural building, and regenerative agriculture.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <span class="tag"><i class="fas fa-home"></i> Eco-Village</span>
+          <span class="tag"><i class="fas fa-sun"></i> Renewable Energy</span>
+          <span class="tag"><i class="fas fa-book-reader"></i> Tours Available</span>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: #666;">
+          <span><i class="fas fa-envelope"></i> tours@ecovillage.org</span>
+          <span><i class="fas fa-globe"></i> ecovillage.org</span>
+        </div>
+
+        <!-- Read-only: Only view buttons -->
+        <div class="location-actions">
+          <a href="#map" class="btn btn-outline btn-small">
+            <i class="fas fa-map"></i> View on Map
+          </a>
+          <button class="btn btn-outline btn-small">
+            <i class="fas fa-info-circle"></i> Full Details
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Explanation Section -->
+    <div class="card" style="margin-top: 3rem; background: #f8f9fa; border: 2px solid #dee2e6;">
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+        <i class="fas fa-question-circle"></i> How It Works
+      </h3>
+
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-user-check" style="color: #2e7d32;"></i> Your Locations
+          </h4>
+          <p style="margin: 0; color: #666;">
+            When you're logged in and viewing locations you created:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li><strong>Green "You created this" badge</strong> appears in location cards</li>
+            <li><strong>Green border</strong> around your location cards</li>
+            <li><strong>Light blue action area</strong> with Edit and Delete buttons</li>
+            <li><strong>Map popups</strong> include Edit/Delete buttons for your markers</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-users" style="color: #1976d2;"></i> Other Users' Locations
+          </h4>
+          <p style="margin: 0; color: #666;">
+            When viewing locations created by others:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li>No ownership badge or special borders</li>
+            <li>Only "View on Map" and "Full Details" buttons</li>
+            <li>No edit or delete permissions</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">
+            <i class="fas fa-map-marked-alt" style="color: #388e3c;"></i> Location Management Features
+          </h4>
+          <p style="margin: 0; color: #666;">
+            Managing your locations:
+          </p>
+          <ul style="margin: 0.5rem 0 0 1.5rem; color: #666;">
+            <li><strong>Edit</strong> - Update address, coordinates, description, contact info, hours</li>
+            <li><strong>Delete</strong> - Remove locations that are no longer active</li>
+            <li><strong>Status</strong> - Mark as draft, published, or archived</li>
+            <li><strong>Map Integration</strong> - Edit/delete directly from map popups</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+</body>
+</html>

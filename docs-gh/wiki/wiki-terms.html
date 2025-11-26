@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.legal.terms_page_title">Terms of Service - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+              <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+              <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+              <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+              <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+              <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-name">Polski</span></div>
+              <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
+              <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+              <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="legal-document">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📜</div>
+        <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.legal.terms_title">Terms of Service</h1>
+        <p class="text-muted" data-i18n="wiki.legal.platform_name">Permahub Community Wiki</p>
+        <p class="text-muted" style="margin-top: 1rem;">
+          <strong>Effective Date:</strong> January 1, 2025<br>
+          <strong>Last Updated:</strong> January 1, 2025
+        </p>
+      </div>
+
+      <div class="card" style="max-width: 900px; margin: 0 auto;">
+        <!-- Table of Contents -->
+        <div style="background-color: var(--wiki-accent); padding: 1.5rem; border-radius: 6px; margin-bottom: 2rem;">
+          <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">Table of Contents</h2>
+          <ol style="margin-left: 1.5rem; line-height: 1.8;">
+            <li><a href="#agreement">Agreement to Terms</a></li>
+            <li><a href="#license">Use License</a></li>
+            <li><a href="#accounts">User Accounts & Responsibilities</a></li>
+            <li><a href="#content">User-Generated Content</a></li>
+            <li><a href="#acceptable-use">Acceptable Use Policy</a></li>
+            <li><a href="#intellectual-property">Intellectual Property Rights</a></li>
+            <li><a href="#third-party">Third-Party Services & Links</a></li>
+            <li><a href="#payments">Payments & Pricing</a></li>
+            <li><a href="#disclaimers">Disclaimers & Limitation of Liability</a></li>
+            <li><a href="#indemnification">Indemnification</a></li>
+            <li><a href="#disputes">Dispute Resolution</a></li>
+            <li><a href="#modifications">Modifications to Terms</a></li>
+            <li><a href="#termination">Termination</a></li>
+            <li><a href="#contact">Contact Information</a></li>
+          </ol>
+        </div>
+
+        <!-- Section 1: Agreement to Terms -->
+        <section id="agreement" class="legal-section">
+          <h2>1. Agreement to Terms</h2>
+          <p>By accessing and using the Permahub Community Wiki platform ("Platform," "Service," "we," "us," or "our"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to abide by the above, please do not use this service.</p>
+          <p>These Terms apply to:</p>
+          <ul>
+            <li>The website and all subdomains</li>
+            <li>Mobile applications</li>
+            <li>All related features, content, and services</li>
+          </ul>
+        </section>
+
+        <!-- Section 2: Use License -->
+        <section id="license" class="legal-section">
+          <h2>2. Use License</h2>
+          <h3>2.1 Grant of License</h3>
+          <p>We grant you a limited, non-exclusive, non-transferable license to use the Platform for personal, non-commercial purposes in accordance with these Terms.</p>
+
+          <h3>2.2 Restrictions</h3>
+          <p>You may not:</p>
+          <ul>
+            <li>Modify or copy the Platform or its content</li>
+            <li>Use the Platform for any commercial purpose without written permission</li>
+            <li>Attempt to decompile, reverse engineer, or disassemble the Platform</li>
+            <li>Remove or obscure any copyright, trademark, or other proprietary notices</li>
+            <li>Use the Platform to transmit malware, spam, or harmful content</li>
+            <li>Access or use the Platform through automated means (bots, scrapers, crawlers)</li>
+            <li>Interfere with the Platform's normal operation or security</li>
+            <li>Exceed reasonable request limits or consume excessive bandwidth</li>
+            <li>Transfer, sell, or assign your account to another person</li>
+            <li>Use the Platform for illegal activities or purposes</li>
+          </ul>
+        </section>
+
+        <!-- Section 3: User Accounts -->
+        <section id="accounts" class="legal-section">
+          <h2>3. User Accounts & Responsibilities</h2>
+          <h3>3.1 Account Creation</h3>
+          <p>To use certain features of the Platform, you must create an account by providing:</p>
+          <ul>
+            <li>Valid email address</li>
+            <li>Secure password</li>
+            <li>Additional profile information as requested</li>
+          </ul>
+          <p>You must be at least 18 years of age (or reach the age of majority in your jurisdiction) to create an account.</p>
+
+          <h3>3.2 Account Information Accuracy</h3>
+          <p>You agree to:</p>
+          <ul>
+            <li>Provide accurate, current, and complete information</li>
+            <li>Update your account information if it changes</li>
+            <li>Maintain the confidentiality of your password</li>
+            <li>Accept responsibility for all activities under your account</li>
+            <li>Notify us immediately of unauthorized access</li>
+          </ul>
+
+          <h3>3.3 Account Security</h3>
+          <p>You are responsible for maintaining confidentiality of your login credentials and all activities conducted through your account. We are not liable for unauthorized access resulting from your failure to protect your credentials.</p>
+
+          <h3>3.4 Account Suspension & Termination</h3>
+          <p>We reserve the right to suspend or terminate your account if you violate these Terms, engage in abusive, fraudulent, or illegal conduct, harm other users or the Platform's integrity, or provide false or misleading information.</p>
+        </section>
+
+        <!-- Section 4: User-Generated Content -->
+        <section id="content" class="legal-section">
+          <h2>4. User-Generated Content</h2>
+          <h3>4.1 Definitions</h3>
+          <p>"User-Generated Content" (UGC) includes project descriptions, resource listings, photos, images, videos, comments, messages, profile information, and any other content you create or upload.</p>
+
+          <h3>4.2 Responsibility for Content</h3>
+          <p>You are solely responsible for any UGC you create or upload. You represent and warrant that you own or have the right to use all UGC, have obtained necessary permissions from any third parties, and will not infringe on copyrights, trademarks, or other rights.</p>
+
+          <h3>4.3 Rights Grant</h3>
+          <p>By posting UGC on the Platform, you grant us a non-exclusive, worldwide license to use, display, and distribute your content. This license does not give us ownership of your content. You retain all rights to your UGC.</p>
+
+          <h3>4.4 Content Removal</h3>
+          <p>We may remove UGC that violates these Terms, is illegal, defamatory, or harmful, infringes on intellectual property rights, contains malware or malicious code, is spam or misleading advertising, or violates another user's privacy or rights.</p>
+        </section>
+
+        <!-- Section 5: Acceptable Use Policy -->
+        <section id="acceptable-use" class="legal-section">
+          <h2>5. Acceptable Use Policy</h2>
+          <h3>5.1 Prohibited Content</h3>
+          <p>You may not post, share, or transmit:</p>
+          <ul>
+            <li>Illegal content or content promoting illegal activities</li>
+            <li>Violence, threats, harassment, or abusive language</li>
+            <li>Hate speech, discrimination, or content targeting protected groups</li>
+            <li>Sexual, obscene, or adult content</li>
+            <li>Content glorifying or promoting self-harm or suicide</li>
+            <li>Misinformation or disinformation</li>
+            <li>Private or confidential information without consent</li>
+            <li>Malware, viruses, or malicious code</li>
+            <li>Spam, advertising, or commercial solicitation</li>
+            <li>Copyright or trademark-infringing material</li>
+          </ul>
+
+          <h3>5.2 Prohibited Conduct</h3>
+          <p>You may not impersonate another person or organization, create multiple accounts to evade suspensions, phish for or collect private information, engage in blackmail or coercion, stalk or harass other users, discriminate against or demean others, manipulate or deceive other users, or participate in pyramid schemes or fraudulent offers.</p>
+
+          <h3>5.3 Enforcement</h3>
+          <p>Violations of this Acceptable Use Policy may result in content removal, account suspension, permanent account termination, legal action if criminal activity is involved, or cooperation with law enforcement.</p>
+        </section>
+
+        <!-- Section 6: Intellectual Property -->
+        <section id="intellectual-property" class="legal-section">
+          <h2>6. Intellectual Property Rights</h2>
+          <p>All Platform Content, including design, layout, software, code, algorithms, text, graphics, logos, icons, features and functionality, is owned by or licensed to Permahub and protected by copyright, trademark, and other intellectual property laws.</p>
+
+          <h3>6.1 Copyright & DMCA</h3>
+          <p>If you believe your copyright has been infringed, please contact us with a description of the work, where it appears on our Platform, and your contact information. We will investigate and respond within 10 business days.</p>
+        </section>
+
+        <!-- Section 7: Third-Party Services -->
+        <section id="third-party" class="legal-section">
+          <h2>7. Third-Party Services & Links</h2>
+          <p>The Platform may contain links to third-party websites and services. We are not responsible for availability or accuracy of external content, third-party privacy practices, third-party terms of service, or any loss or damage from using external services.</p>
+        </section>
+
+        <!-- Section 8: Payments -->
+        <section id="payments" class="legal-section">
+          <h2>8. Payments & Pricing</h2>
+          <p>Features may be offered free or paid. Pricing is displayed before purchase and is subject to change with notice. Payments are processed by third-party providers (Stripe, PayPal, etc.) and you agree to those providers' terms.</p>
+          <p>Refund eligibility depends on specific service terms. Requests must be submitted within 30 days of purchase.</p>
+        </section>
+
+        <!-- Section 9: Disclaimers -->
+        <section id="disclaimers" class="legal-section">
+          <h2>9. Disclaimers & Limitation of Liability</h2>
+          <div style="background-color: #fff3cd; padding: 1rem; border-radius: 6px; margin: 1rem 0; border-left: 4px solid #ffc107;">
+            <strong>⚠️ Important:</strong> THE PLATFORM IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND. WE DISCLAIM ALL EXPRESS AND IMPLIED WARRANTIES, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY OR COMPLETENESS, AND FUNCTIONALITY OR UNINTERRUPTED SERVICE.
+          </div>
+
+          <h3>9.1 Limitation of Liability</h3>
+          <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, we are not liable for indirect damages (lost profits, lost data, lost opportunity), incidental damages (inconvenience, frustration), consequential damages (downstream effects), or punitive damages.</p>
+
+          <p><strong>Liability Cap:</strong> Our total liability for any claim shall not exceed the amount you paid to us in the 12 months preceding the claim (or $100 if you have not paid us).</p>
+        </section>
+
+        <!-- Section 10: Indemnification -->
+        <section id="indemnification" class="legal-section">
+          <h2>10. Indemnification</h2>
+          <p>You agree to indemnify and hold harmless Permahub from any claims, damages, and costs (including attorneys' fees) arising from your violation of these Terms, your use of the Platform, your user-generated content, your infringement of others' rights, or any dispute between you and another user.</p>
+        </section>
+
+        <!-- Section 11: Dispute Resolution -->
+        <section id="disputes" class="legal-section">
+          <h2>11. Dispute Resolution</h2>
+          <h3>11.1 Governing Law</h3>
+          <p>These Terms are governed by and construed in accordance with the laws of Portugal (EU) and European Union law and GDPR.</p>
+
+          <h3>11.2 Informal Resolution</h3>
+          <p>Before pursuing formal legal action, please contact us to describe the dispute and desired resolution. We will attempt to resolve the matter informally.</p>
+        </section>
+
+        <!-- Section 12: Modifications -->
+        <section id="modifications" class="legal-section">
+          <h2>12. Modifications to Terms</h2>
+          <p>We reserve the right to modify these Terms at any time. Modifications take effect upon posting to the Platform. Significant changes will be announced via email, and your continued use of the Platform after modifications constitute acceptance of updated Terms.</p>
+        </section>
+
+        <!-- Section 13: Termination -->
+        <section id="termination" class="legal-section">
+          <h2>13. Termination</h2>
+          <h3>13.1 Termination by You</h3>
+          <p>You may terminate your account at any time through Account Settings or by contacting support. Account deletion is processed within 30 days.</p>
+
+          <h3>13.2 Termination by Us</h3>
+          <p>We may terminate your account if you violate these Terms, engage in illegal or harmful conduct, create harm to other users or the Platform, or remain inactive for an extended period.</p>
+
+          <h3>13.3 Effect of Termination</h3>
+          <p>Upon termination, your account is disabled, your content may be deleted or anonymized, your access to the Platform ceases, and outstanding obligations remain binding.</p>
+        </section>
+
+        <!-- Section 14: Contact -->
+        <section id="contact" class="legal-section">
+          <h2>14. Contact Information</h2>
+          <div style="background-color: var(--wiki-accent); padding: 1.5rem; border-radius: 6px;">
+            <p><strong>General Inquiries:</strong><br>
+            Email: support@permahub.org</p>
+
+            <p style="margin-top: 1rem;"><strong>Legal & Compliance:</strong><br>
+            Email: legal@permahub.org</p>
+
+            <p style="margin-top: 1rem;"><strong>Abuse & Violations:</strong><br>
+            Email: abuse@permahub.org</p>
+
+            <p style="margin-top: 1rem;"><em>We aim to respond to inquiries within 5 business days.</em></p>
+          </div>
+        </section>
+
+        <!-- Acceptance Notice -->
+        <div style="background-color: #d4edda; border: 1px solid #c3e6cb; padding: 1.5rem; border-radius: 6px; margin-top: 3rem; text-align: center;">
+          <p style="margin: 0;"><strong>📜 Last Updated:</strong> January 1, 2025</p>
+          <p style="margin-top: 1rem;">This Terms of Service is effective and binding. By using the Platform, you acknowledge that you have read, understood, and agree to all terms contained herein.</p>
+        </div>
+
+        <!-- Back to Home -->
+        <div style="margin-top: 2rem; text-align: center;">
+          <a href="wiki-home.html" class="btn btn-primary">
+            <i class="fas fa-home"></i> Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Load shared wiki functionality and version management -->
+  <script src="js/wiki.js"></script>
+  <script type="module">
+    import { displayVersionBadge, VERSION_DISPLAY } from "../js/version-manager.js"';
+
+    // Display version in header
+    displayVersionBadge();
+    console.log(`🚀 Wiki Terms ${VERSION_DISPLAY}: Page initialized`);
+  </script>
+  <script type="module" src="js/auth-header.js"></script>
+</body>
+</html>

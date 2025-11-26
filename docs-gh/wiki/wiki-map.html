@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.map.page_title">Community Locations - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" class="active" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+              <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+              <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+              <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+              <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+              <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-name">Polski</span></div>
+              <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
+              <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+              <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.map.title">Community Locations</h1>
+          <p class="text-muted" data-i18n="wiki.map.subtitle">Discover farms, gardens, and permaculture sites in our region</p>
+        </div>
+        <a href="wiki-editor.html" class="btn btn-primary" id="addLocationBtn" data-i18n="wiki.map.add">
+          <i class="fas fa-map-pin"></i> Add Location
+        </a>
+      </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="card">
+      <div style="display: grid; gap: 1rem;">
+        <!-- Search -->
+        <div class="search-bar" style="margin-bottom: 0;">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            data-i18n-placeholder="wiki.map.search"
+            placeholder="Search locations..."
+            id="locationSearch"
+          >
+        </div>
+
+        <!-- Filters -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <div>
+            <strong data-i18n="wiki.map.filter_type">Filter by type:</strong>
+          </div>
+          <div class="tags">
+            <a href="#" class="tag filter-tag" data-filter="all" style="background-color: var(--wiki-primary); color: white;" data-i18n="wiki.map.all">
+              All Locations
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="farm" data-i18n="wiki.map.farms">
+              🌾 Farms
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="garden" data-i18n="wiki.map.gardens">
+              🏡 Gardens
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="education" data-i18n="wiki.map.education">
+              📚 Education Centers
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="community" data-i18n="wiki.map.community">
+              👥 Community Spaces
+            </a>
+            <a href="#" class="tag filter-tag" data-filter="business" data-i18n="wiki.map.business">
+              🏪 Businesses
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map and List Layout -->
+    <div style="display: grid; grid-template-columns: 1fr 400px; gap: 1.5rem; margin-bottom: 2rem;">
+      <!-- Map -->
+      <div class="map-container" style="height: 700px;">
+        <div id="map"></div>
+      </div>
+
+      <!-- Location List Sidebar -->
+      <div style="overflow-y: auto; max-height: 700px;">
+        <div style="background-color: var(--wiki-white); border-radius: 8px; padding: 1rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+            <i class="fas fa-list"></i> <span data-i18n="wiki.map.locations_count">Locations</span> (<span id="locationCount">0</span>)
+          </h3>
+
+          <div id="locationList">
+            <!-- Locations will be populated from database -->
+          </div>
+      </div>
+    </div>
+
+    <!-- Location Stats - Loaded dynamically from database -->
+    <div class="card">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.map.stats_title">Location Statistics</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div style="text-align: center;">
+          <div data-stat="total" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-primary);">0</div>
+          <div class="text-muted" data-i18n="wiki.map.total">Total Locations</div>
+        </div>
+        <div style="text-align: center;">
+          <div data-stat="farm" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-secondary);">0</div>
+          <div class="text-muted" data-i18n="wiki.map.farms_gardens">Farms & Gardens</div>
+        </div>
+        <div style="text-align: center;">
+          <div data-stat="education" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-accent);">0</div>
+          <div class="text-muted" data-i18n="wiki.map.education">Education Centers</div>
+        </div>
+        <div style="text-align: center;">
+          <div data-stat="community" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-primary);">0</div>
+          <div class="text-muted" data-i18n="wiki.map.community">Community Spaces</div>
+        </div>
+        <div style="text-align: center;">
+          <div data-stat="business" style="font-size: 2.5rem; font-weight: bold; color: var(--wiki-secondary);">0</div>
+          <div class="text-muted" data-i18n="wiki.map.business">Businesses</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscribe Newsletter -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.map.stay_updated">Stay Updated</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.map.newsletter_desc">
+        Get notified when new locations are added to the map
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          id="subscribeEmail"
+          data-i18n-placeholder="wiki.map.email_placeholder"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary" id="subscribeBtn">
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.map.subscribe">Subscribe</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. <span data-i18n="wiki.footer.made_with">Made with</span> 🌱 <span data-i18n="wiki.footer.for">for the global permaculture community</span>.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Load wiki map module to fetch locations from database -->
+  <script type="module" src="js/wiki-map.js"></script>
+
+  <style>
+    @media (max-width: 768px) {
+      main > div:nth-child(3) {
+        grid-template-columns: 1fr !important;
+      }
+      .map-container {
+        height: 400px !important;
+      }
+      #locationList {
+        max-height: none !important;
+      }
+    }
+  </style>
+
+  <!-- Load shared wiki functionality and version management -->
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module">
+    import { displayVersionBadge, VERSION_DISPLAY } from '../js/version-manager.js';
+    import { initializeSubscribeButton } from './js/subscribe-newsletter.js';
+
+    // Display version in header
+    displayVersionBadge();
+    console.log(`🚀 Wiki Map ${VERSION_DISPLAY}: Page initialized`);
+
+    // Initialize subscribe button
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSubscribeButton('locations', 'map-page');
+    });
+  </script>
+</body>
+</html>

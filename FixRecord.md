@@ -49,6 +49,29 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.77 - 2025-11-27 00:56:48
+**Commit:** `pending`
+
+### 2025-11-27 - Publish wiki pages to gh-pages
+
+**Issue:**
+Wiki pages were still missing from the GitHub Pages deployment.
+
+**Root Cause:**
+- docs-gh updates (including the new wiki copy step) were not committed, so subtree pushes used the previous HEAD without wiki content.
+
+**Solution:**
+- Commit the regenerated docs-gh/ output (including docs-gh/wiki/ and updated assets).
+- Republish gh-pages using the updated subtree.
+
+**Files Changed:**
+- docs-gh/**
+- FixRecord.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.76 - 2025-11-27 00:48:27
 **Commit:** `pending`
 

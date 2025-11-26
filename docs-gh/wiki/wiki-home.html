@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../assets/icons/icon-144x144.png">
+
+  <title>Community Wiki - Permahub</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" class="active" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+              <div class="lang-option" data-lang="cs">
+                <span class="lang-flag">🇨🇿</span>
+                <span class="lang-name">Čeština</span>
+              </div>
+              <div class="lang-option" data-lang="sk">
+                <span class="lang-flag">🇸🇰</span>
+                <span class="lang-name">Slovenčina</span>
+              </div>
+              <div class="lang-option" data-lang="uk">
+                <span class="lang-flag">🇺🇦</span>
+                <span class="lang-name">Українська</span>
+              </div>
+              <div class="lang-option" data-lang="ru">
+                <span class="lang-flag">🇷🇺</span>
+                <span class="lang-name">Русский</span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Hero Section -->
+    <div class="card">
+      <div class="text-center">
+        <h1 style="color: var(--wiki-primary); margin-bottom: 0.5rem;" data-i18n="wiki.home.welcome">Welcome to Our Community Knowledge Base</h1>
+        <p style="font-size: 1.1rem; color: var(--wiki-text-muted); margin-bottom: 2rem;" data-i18n="wiki.home.subtitle">
+          Share guides, locations, events, and resources with our permaculture community
+        </p>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search for guides, events, locations..."
+          data-i18n-placeholder="wiki.home.search"
+          id="searchInput"
+        >
+      </div>
+
+      <!-- Quick Stats - Loaded dynamically from database -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
+        <div>
+          <div id="stat-guides" style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">0</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.guides">Guides</div>
+        </div>
+        <div>
+          <div id="stat-locations" style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">0</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.locations">Locations</div>
+        </div>
+        <div>
+          <div id="stat-events" style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">0</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.events">Upcoming Events</div>
+        </div>
+        <div>
+          <div id="stat-contributors" style="font-size: 2rem; font-weight: bold; color: var(--wiki-primary);">0</div>
+          <div class="text-muted" data-i18n="wiki.home.stats.contributors">Contributors</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="card mb-3">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.categories">Browse by Category</h2>
+
+      <div class="filter-controls">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="wiki.home.filter_theme">Theme</label>
+            <div style="position: relative;">
+              <span class="filter-icon">🎨</span>
+              <select class="filter-select" id="themeSelect">
+                <option value="" data-i18n="wiki.home.all_themes">All Themes</option>
+              </select>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" data-i18n="wiki.home.filter_category">Category</label>
+            <div style="position: relative;">
+              <span class="filter-icon">🏷️</span>
+              <select class="filter-select" id="categorySelect">
+                <option value="" data-i18n="wiki.home.all_categories">All Categories</option>
+              </select>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Filters Row -->
+        <div class="filter-row" id="activeFiltersRow" style="display: none;">
+          <div class="active-filters" id="activeFilters"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Guides -->
+    <section class="mb-3">
+      <div class="flex-between mb-2">
+        <h2 data-i18n="wiki.home.recent_guides">Recent Guides</h2>
+      </div>
+
+      <!-- Desktop: Summary bar (hidden on mobile) -->
+      <div class="summary-bar" id="summaryBar">
+        <span data-i18n="wiki.home.showing">Showing</span> <strong id="currentCount">0</strong> <span data-i18n="wiki.home.of">of</span> <strong id="totalCount">0</strong> <span data-i18n="wiki.home.guides">guides</span>
+      </div>
+
+      <div class="grid grid-2" id="guidesGrid">
+        <!-- Guides will be loaded dynamically from database -->
+        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
+          <p class="text-muted" data-i18n="wiki.home.loading_guides">Loading guides...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="mb-3">
+      <div class="flex-between mb-2">
+        <h2 data-i18n="wiki.home.upcoming_events">Upcoming Events</h2>
+        <a href="wiki-events.html" class="text-muted" data-i18n="wiki.home.view_all">View All →</a>
+      </div>
+
+      <!-- Events will be loaded dynamically here -->
+      <div id="upcomingEventsGrid" class="grid grid-2">
+        <!-- Loading state (will be replaced by JavaScript) -->
+        <div class="event-card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
+          <p class="text-muted" data-i18n="wiki.home.loading_events">Loading upcoming events...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Locations -->
+    <section class="mb-3">
+      <div class="flex-between mb-2">
+        <h2 data-i18n="wiki.home.featured_locations">Featured Locations</h2>
+        <a href="wiki-map.html" class="text-muted" data-i18n="wiki.home.view_all">View All →</a>
+      </div>
+
+      <!-- Featured locations loaded dynamically from database -->
+      <div class="grid grid-3" id="featuredLocationsGrid">
+        <!-- Loading state -->
+        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary); margin-bottom: 0.5rem;"></i>
+          <p class="text-muted" data-i18n="wiki.home.loading_locations">Loading featured locations...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.contribute_title">Contribute to Our Community Knowledge</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.home.contribute_subtitle">
+        Share your permaculture experiences, tips, and projects with the community. Every contribution helps us grow!
+      </p>
+      <div class="flex gap-2" style="justify-content: center;">
+        <a href="wiki-editor.html" class="btn btn-primary">
+          <i class="fas fa-plus"></i> <span data-i18n="wiki.home.create_guide">Create a Guide</span>
+        </a>
+        <a href="wiki-events.html" class="btn btn-secondary">
+          <i class="fas fa-calendar-plus"></i> <span data-i18n="wiki.home.add_event">Add an Event</span>
+        </a>
+        <a href="wiki-map.html" class="btn btn-outline">
+          <i class="fas fa-map-pin"></i> <span data-i18n="wiki.home.add_location">Add a Location</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Subscribe Newsletter -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.home.stay_connected">Stay Connected</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.home.newsletter_desc">
+        Get updates about new guides, events, and community news
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          id="subscribeEmail"
+          data-i18n-placeholder="wiki.home.email_placeholder"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary" id="subscribeBtn">
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.home.subscribe">Subscribe</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a> |
+        <a href="wiki-unsubscribe.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.unsubscribe">Unsubscribe from Newsletter</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-callback.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-home.js"></script>
+</body>
+</html>
