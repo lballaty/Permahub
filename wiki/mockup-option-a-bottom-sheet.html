@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOCKUP Option A: Bottom Sheet - Permahub Wiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%);
+      padding: 20px;
+      color: #333;
+    }
+
+    .mockup-banner {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .mockup-banner h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .mockup-banner p {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .controls {
+      padding: 20px 30px;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #2d8659;
+      box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+    }
+
+    .expand-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-outline {
+      background: white;
+      color: #2d8659;
+      border: 2px solid #2d8659;
+    }
+
+    .btn-outline:hover {
+      background: #2d8659;
+      color: white;
+    }
+
+    .btn-primary {
+      background: #2d8659;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1a5f3f;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 0;
+      min-height: 600px;
+    }
+
+    .sidebar {
+      border-right: 2px solid #e9ecef;
+      background: #f8f9fa;
+      overflow-y: auto;
+      max-height: calc(100vh - 300px);
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      background: white;
+      border-bottom: 2px solid #e9ecef;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .sidebar-header h2 {
+      font-size: 18px;
+      color: #2d8659;
+      margin-bottom: 5px;
+    }
+
+    .sidebar-header p {
+      font-size: 13px;
+      color: #6c757d;
+    }
+
+    .category-group {
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .group-header {
+      padding: 15px 20px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+      border-left: 4px solid transparent;
+    }
+
+    .group-header:hover {
+      background: #f1f3f5;
+      border-left-color: #2d8659;
+    }
+
+    .group-header.active {
+      background: #e7f5f0;
+      border-left-color: #2d8659;
+    }
+
+    .group-icon {
+      font-size: 24px;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .group-info {
+      flex: 1;
+    }
+
+    .group-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 2px;
+    }
+
+    .group-count {
+      font-size: 12px;
+      color: #6c757d;
+    }
+
+    .expand-icon {
+      font-size: 14px;
+      color: #6c757d;
+      transition: transform 0.3s;
+    }
+
+    .group-header.expanded .expand-icon {
+      transform: rotate(90deg);
+    }
+
+    .subcategories {
+      display: none;
+      background: #ffffff;
+      padding: 8px 0;
+    }
+
+    .subcategories.show {
+      display: block;
+    }
+
+    .subcategory {
+      padding: 10px 20px 10px 66px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid transparent;
+    }
+
+    .subcategory:hover {
+      background: #f8f9fa;
+      border-left-color: #3d9970;
+    }
+
+    .subcategory.active {
+      background: #d4f1e8;
+      border-left-color: #2d8659;
+      font-weight: 600;
+    }
+
+    .subcategory-icon {
+      font-size: 18px;
+      min-width: 24px;
+    }
+
+    .subcategory-name {
+      font-size: 14px;
+      color: #495057;
+    }
+
+    .subcategory.active .subcategory-name {
+      color: #2d8659;
+    }
+
+    .main-content {
+      padding: 30px;
+      overflow-y: auto;
+      max-height: calc(100vh - 300px);
+    }
+
+    .filter-info {
+      background: #e7f5f0;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-info-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #2d8659;
+      font-weight: 600;
+    }
+
+    .clear-filter {
+      background: transparent;
+      border: none;
+      color: #6c757d;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.2s;
+    }
+
+    .clear-filter:hover {
+      background: rgba(0,0,0,0.05);
+      color: #212529;
+    }
+
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .guide-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-color: #2d8659;
+    }
+
+    .guide-header {
+      display: flex;
+      align-items: start;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .guide-icon {
+      font-size: 32px;
+      min-width: 40px;
+    }
+
+    .guide-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 8px;
+    }
+
+    .guide-excerpt {
+      font-size: 14px;
+      color: #6c757d;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .guide-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 12px;
+      color: #6c757d;
+      margin-bottom: 12px;
+    }
+
+    .guide-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .guide-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .guide-tag {
+      background: #e7f5f0;
+      color: #2d8659;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .stats {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid #e9ecef;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #2d8659;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Mobile Filter Button */
+    .mobile-filter-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(45, 134, 89, 0.4);
+      z-index: 999;
+      transition: all 0.3s;
+    }
+
+    .mobile-filter-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(45, 134, 89, 0.6);
+    }
+
+    .mobile-filter-toggle.active {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    }
+
+    .filter-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #dc3545;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid white;
+    }
+
+    /* Mobile Overlay */
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .mobile-overlay.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 968px) {
+      body {
+        padding: 10px;
+      }
+
+      .mockup-banner {
+        padding: 12px 15px;
+        margin-bottom: 20px;
+      }
+
+      .mockup-banner h1 {
+        font-size: 18px;
+      }
+
+      .mockup-banner p {
+        font-size: 12px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .header p {
+        font-size: 14px;
+      }
+
+      .controls {
+        padding: 15px;
+        gap: 10px;
+      }
+
+      .search-box {
+        min-width: 100%;
+        order: 1;
+      }
+
+      .expand-controls {
+        display: none; /* Hide on mobile - not needed with overlay */
+      }
+
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      /* Bottom sheet on mobile */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: -100%;
+        top: auto;
+        width: 100%;
+        max-width: none;
+        z-index: 1001;
+        transition: bottom 0.3s ease;
+        max-height: 70vh;
+        border-right: none;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidebar.show {
+        bottom: 0;
+      }
+
+      .sidebar-header {
+        position: relative;
+      }
+
+      /* Add drag handle to bottom sheet */
+      .sidebar-header::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 5px;
+        background: #dee2e6;
+        border-radius: 10px;
+      }
+
+      .sidebar-header h2 {
+        margin-top: 15px;
+      }
+
+      /* Mobile close button in sidebar */
+      .mobile-close-btn {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        color: #6c757d;
+        font-size: 24px;
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        transition: all 0.2s;
+      }
+
+      .mobile-close-btn:hover {
+        background: #f1f3f5;
+        color: #212529;
+      }
+
+      .main-content {
+        padding: 20px 15px;
+        max-height: none;
+      }
+
+      /* Show mobile filter button */
+      .mobile-filter-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .stats {
+        padding: 15px;
+      }
+
+      .stats-grid {
+        gap: 10px;
+      }
+
+      .stat-item {
+        padding: 12px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+      }
+
+      .guides-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .guide-card {
+        padding: 15px;
+      }
+
+      .filter-info {
+        padding: 12px 15px;
+        font-size: 14px;
+      }
+    }
+
+    /* Desktop - hide mobile-only elements */
+    @media (min-width: 969px) {
+      .mobile-close-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-banner">
+    <h1><i class="fas fa-paint-brush"></i> OPTION A: BOTTOM SHEET</h1>
+    <p>Filter panel slides up from bottom (like mobile maps/shopping apps)</p>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-book-open"></i> Permaculture Guides</h1>
+      <p>Discover comprehensive guides organized by theme and category</p>
+    </div>
+
+    <div class="controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search guides by title, category, or keyword...">
+      </div>
+      <div class="expand-controls">
+        <button class="btn btn-outline" id="expandAll">
+          <i class="fas fa-chevron-down"></i> Expand All
+        </button>
+        <button class="btn btn-outline" id="collapseAll">
+          <i class="fas fa-chevron-up"></i> Collapse All
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Filter Button (FAB) -->
+    <button class="mobile-filter-toggle" id="mobileFilterBtn" aria-label="Filter categories">
+      <i class="fas fa-filter"></i>
+      <span class="filter-badge" id="filterBadge" style="display: none;">1</span>
+    </button>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="content">
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h2><i class="fas fa-filter"></i> Browse by Category</h2>
+          <p>15 themes • 48 categories</p>
+          <button class="mobile-close-btn" id="mobileCloseBtn" aria-label="Close filters">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="categoryGroups"></div>
+      </div>
+
+      <div class="main-content">
+        <div class="stats">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value">156</div>
+              <div class="stat-label">Total Guides</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">48</div>
+              <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">15</div>
+              <div class="stat-label">Themes</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="filterInfo" style="display: none;" class="filter-info">
+          <div class="filter-info-text">
+            <i class="fas fa-filter"></i>
+            <span id="filterText">Showing all guides</span>
+          </div>
+          <button class="clear-filter" id="clearFilter">
+            <i class="fas fa-times"></i> Clear Filter
+          </button>
+        </div>
+
+        <div class="guides-grid" id="guidesGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Category data structure (from seed file)
+    const categoryGroups = [
+      {
+        name: 'Animal Husbandry & Livestock',
+        icon: '🐓',
+        color: '#8b7355',
+        description: 'Raising animals for food, fiber, and fertility',
+        categories: [
+          { name: 'Animal Husbandry', slug: 'animal-husbandry', icon: '🐓' },
+          { name: 'Beekeeping', slug: 'beekeeping', icon: '🐝' },
+          { name: 'Poultry Keeping', slug: 'poultry-keeping', icon: '🐔' }
+        ]
+      },
+      {
+        name: 'Food Preservation & Storage',
+        icon: '🫙',
+        color: '#b87333',
+        description: 'Preserving harvests for year-round food security',
+        categories: [
+          { name: 'Food Preservation', slug: 'food-preservation', icon: '🫙' },
+          { name: 'Fermentation', slug: 'fermentation', icon: '🥒' },
+          { name: 'Root Cellaring', slug: 'root-cellaring', icon: '🥔' }
+        ]
+      },
+      {
+        name: 'Mycology & Mushrooms',
+        icon: '🍄',
+        color: '#8b4513',
+        description: 'Fungi cultivation and ecosystem restoration',
+        categories: [
+          { name: 'Mycology', slug: 'mycology', icon: '🍄' },
+          { name: 'Mushroom Cultivation', slug: 'mushroom-cultivation', icon: '🍄‍🟫' },
+          { name: 'Mycoremediation', slug: 'mycoremediation', icon: '🌿' }
+        ]
+      },
+      {
+        name: 'Indigenous & Traditional Knowledge',
+        icon: '🪶',
+        color: '#8b6914',
+        description: 'Ancient wisdom and place-based practices',
+        categories: [
+          { name: 'Indigenous Knowledge', slug: 'indigenous-knowledge', icon: '🪶' },
+          { name: 'Ethnobotany', slug: 'ethnobotany', icon: '🌿' },
+          { name: 'Bioregionalism', slug: 'bioregionalism', icon: '🗺️' }
+        ]
+      },
+      {
+        name: 'Fiber Arts & Textiles',
+        icon: '🧶',
+        color: '#9370db',
+        description: 'Natural fiber production and processing',
+        categories: [
+          { name: 'Fiber Arts', slug: 'fiber-arts', icon: '🧶' },
+          { name: 'Natural Dyeing', slug: 'natural-dyeing', icon: '🎨' },
+          { name: 'Textile Production', slug: 'textile-production', icon: '🧵' }
+        ]
+      },
+      {
+        name: 'Appropriate Technology',
+        icon: '⚙️',
+        color: '#4682b4',
+        description: 'Simple, sustainable, and accessible technology',
+        categories: [
+          { name: 'Appropriate Technology', slug: 'appropriate-technology', icon: '⚙️' },
+          { name: 'Solar Technology', slug: 'solar-technology', icon: '☀️' },
+          { name: 'Bicycle Power', slug: 'bicycle-power', icon: '🚲' }
+        ]
+      },
+      {
+        name: 'Herbal Medicine',
+        icon: '🌿',
+        color: '#228b22',
+        description: 'Plant-based healing and wellness',
+        categories: [
+          { name: 'Herbal Medicine', slug: 'herbal-medicine', icon: '🌿' },
+          { name: 'Plant Medicine Making', slug: 'plant-medicine-making', icon: '🧪' },
+          { name: 'Medicinal Gardens', slug: 'medicinal-gardens', icon: '🏥' }
+        ]
+      },
+      {
+        name: 'Soil Science & Regeneration',
+        icon: '🌱',
+        color: '#704214',
+        description: 'Building healthy, living soil',
+        categories: [
+          { name: 'Soil Science', slug: 'soil-science', icon: '🌱' },
+          { name: 'Regenerative Agriculture', slug: 'regenerative-agriculture', icon: '♻️' },
+          { name: 'Cover Cropping', slug: 'cover-cropping', icon: '🌾' }
+        ]
+      },
+      {
+        name: 'Foraging & Wildcrafting',
+        icon: '🌲',
+        color: '#2e8b57',
+        description: 'Ethical harvesting from wild ecosystems',
+        categories: [
+          { name: 'Foraging', slug: 'foraging', icon: '🌲' },
+          { name: 'Wild Edibles', slug: 'wild-edibles', icon: '🍃' },
+          { name: 'Ethical Wildcrafting', slug: 'ethical-wildcrafting', icon: '🌿' }
+        ]
+      },
+      {
+        name: 'Aquaculture & Water Systems',
+        icon: '🐟',
+        color: '#4169e1',
+        description: 'Productive water-based food systems',
+        categories: [
+          { name: 'Aquaculture', slug: 'aquaculture', icon: '🐟' },
+          { name: 'Aquaponics', slug: 'aquaponics', icon: '🌊' },
+          { name: 'Pond Management', slug: 'pond-management', icon: '💧' }
+        ]
+      },
+      {
+        name: 'Ecosystem Restoration',
+        icon: '🌳',
+        color: '#32cd32',
+        description: 'Healing damaged landscapes',
+        categories: [
+          { name: 'Bioremediation', slug: 'bioremediation', icon: '🌳' },
+          { name: 'Erosion Control', slug: 'erosion-control', icon: '🏔️' },
+          { name: 'Pollinator Support', slug: 'pollinator-support', icon: '🐝' }
+        ]
+      },
+      {
+        name: 'Community & Social Systems',
+        icon: '👥',
+        color: '#ff6347',
+        description: 'Building resilient communities',
+        categories: [
+          { name: 'Social Permaculture', slug: 'social-permaculture', icon: '👥' },
+          { name: 'Ecovillage Design', slug: 'ecovillage-design', icon: '🏘️' },
+          { name: 'Consensus Decision Making', slug: 'consensus-decision-making', icon: '🗣️' }
+        ]
+      },
+      {
+        name: 'Alternative Economics',
+        icon: '💚',
+        color: '#ffa500',
+        description: 'Beyond conventional money systems',
+        categories: [
+          { name: 'Alternative Economics', slug: 'alternative-economics', icon: '💚' },
+          { name: 'Time Banking', slug: 'time-banking', icon: '⏰' },
+          { name: 'Gift Economy', slug: 'gift-economy', icon: '🎁' }
+        ]
+      },
+      {
+        name: 'Climate Resilience',
+        icon: '🌡️',
+        color: '#dc143c',
+        description: 'Adapting to changing climate conditions',
+        categories: [
+          { name: 'Climate Adaptation', slug: 'climate-adaptation', icon: '🌡️' },
+          { name: 'Drought Strategies', slug: 'drought-strategies', icon: '🏜️' },
+          { name: 'Fire-Smart Landscaping', slug: 'fire-smart-landscaping', icon: '🔥' }
+        ]
+      },
+      {
+        name: 'Family & Education',
+        icon: '👨‍👩‍👧‍👦',
+        color: '#ff69b4',
+        description: 'Learning and growing together',
+        categories: [
+          { name: "Children's Gardens", slug: 'childrens-gardens', icon: '🧒' },
+          { name: 'Nature Education', slug: 'nature-education', icon: '📚' },
+          { name: 'Family Homesteading', slug: 'family-homesteading', icon: '🏡' }
+        ]
+      }
+    ];
+
+    // Sample guide data
+    const sampleGuides = [
+      {
+        title: 'Introduction to Beekeeping',
+        icon: '🐝',
+        excerpt: 'Learn the fundamentals of starting your first beehive, understanding bee behavior, and harvesting honey sustainably.',
+        category: 'beekeeping',
+        group: 'Animal Husbandry & Livestock',
+        author: 'Maria Santos',
+        views: 2847,
+        tags: ['Beginner', 'Pollinators', 'Food Production']
+      },
+      {
+        title: 'Lacto-Fermentation Basics',
+        icon: '🥒',
+        excerpt: 'Master the art of preserving vegetables through natural fermentation. Create sauerkraut, kimchi, and probiotic-rich foods.',
+        category: 'fermentation',
+        group: 'Food Preservation & Storage',
+        author: 'John Kim',
+        views: 3521,
+        tags: ['Beginner', 'Food Security', 'Health']
+      },
+      {
+        title: 'Oyster Mushroom Cultivation',
+        icon: '🍄',
+        excerpt: 'Step-by-step guide to growing oyster mushrooms on straw, coffee grounds, and cardboard. Perfect for beginners.',
+        category: 'mushroom-cultivation',
+        group: 'Mycology & Mushrooms',
+        author: 'Paul Stamets',
+        views: 4129,
+        tags: ['Intermediate', 'Food Production', 'Waste Recycling']
+      },
+      {
+        title: 'Building a Solar Food Dehydrator',
+        icon: '☀️',
+        excerpt: 'Construct a passive solar dehydrator using simple materials. Preserve fruits, vegetables, and herbs without electricity.',
+        category: 'solar-technology',
+        group: 'Appropriate Technology',
+        author: 'Sarah Green',
+        views: 2156,
+        tags: ['DIY', 'Food Preservation', 'Solar Power']
+      },
+      {
+        title: 'Backyard Chicken Keeping',
+        icon: '🐔',
+        excerpt: 'Everything you need to know about raising chickens: coop design, feeding, egg production, and flock health.',
+        category: 'poultry-keeping',
+        group: 'Animal Husbandry & Livestock',
+        author: 'Tom Johnson',
+        views: 5234,
+        tags: ['Beginner', 'Food Production', 'Sustainability']
+      },
+      {
+        title: 'Medicinal Herb Garden Design',
+        icon: '🌿',
+        excerpt: 'Plan and plant a healing garden with essential medicinal herbs. Includes plant profiles and growing guides.',
+        category: 'medicinal-gardens',
+        group: 'Herbal Medicine',
+        author: 'Dr. Emma Wilson',
+        views: 3847,
+        tags: ['Intermediate', 'Health', 'Garden Design']
+      },
+      {
+        title: 'Introduction to Aquaponics',
+        icon: '🌊',
+        excerpt: 'Combine fish farming with hydroponic vegetable production. Create a closed-loop system for maximum efficiency.',
+        category: 'aquaponics',
+        group: 'Aquaculture & Water Systems',
+        author: 'Carlos Rodriguez',
+        views: 4621,
+        tags: ['Advanced', 'Water Systems', 'Food Production']
+      },
+      {
+        title: 'Root Cellar Construction',
+        icon: '🥔',
+        excerpt: 'Build a traditional root cellar for year-round food storage. Designs for both in-ground and above-ground cellars.',
+        category: 'root-cellaring',
+        group: 'Food Preservation & Storage',
+        author: 'Anna Peterson',
+        views: 2934,
+        tags: ['DIY', 'Food Security', 'Building']
+      }
+    ];
+
+    // State
+    let currentFilter = null;
+    let currentGroup = null;
+    let expandedGroups = new Set([0, 1, 2, 3, 4]); // First 5 expanded by default
+
+    // Initialize
+    function init() {
+      renderCategoryGroups();
+      renderGuides(sampleGuides);
+      attachEventListeners();
+    }
+
+    function renderCategoryGroups() {
+      const container = document.getElementById('categoryGroups');
+      container.innerHTML = categoryGroups.map((group, index) => `
+        <div class="category-group">
+          <div class="group-header ${expandedGroups.has(index) ? 'expanded' : ''}" data-group-index="${index}">
+            <div class="group-icon">${group.icon}</div>
+            <div class="group-info">
+              <div class="group-name">${group.name}</div>
+              <div class="group-count">${group.categories.length} categories</div>
+            </div>
+            <i class="fas fa-chevron-right expand-icon"></i>
+          </div>
+          <div class="subcategories ${expandedGroups.has(index) ? 'show' : ''}" data-group-index="${index}">
+            ${group.categories.map(cat => `
+              <div class="subcategory" data-category="${cat.slug}" data-group="${group.name}">
+                <div class="subcategory-icon">${cat.icon}</div>
+                <div class="subcategory-name">${cat.name}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGuides(guides) {
+      const container = document.getElementById('guidesGrid');
+      container.innerHTML = guides.map(guide => `
+        <div class="guide-card">
+          <div class="guide-header">
+            <div class="guide-icon">${guide.icon}</div>
+            <div>
+              <div class="guide-title">${guide.title}</div>
+            </div>
+          </div>
+          <div class="guide-excerpt">${guide.excerpt}</div>
+          <div class="guide-meta">
+            <div class="guide-meta-item">
+              <i class="fas fa-user"></i> ${guide.author}
+            </div>
+            <div class="guide-meta-item">
+              <i class="fas fa-eye"></i> ${guide.views.toLocaleString()}
+            </div>
+          </div>
+          <div class="guide-tags">
+            ${guide.tags.map(tag => `<span class="guide-tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function attachEventListeners() {
+      // Mobile filter toggle
+      const mobileFilterBtn = document.getElementById('mobileFilterBtn');
+      const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const sidebar = document.getElementById('sidebar');
+
+      function openMobileFilter() {
+        sidebar.classList.add('show');
+        mobileOverlay.style.display = 'block';
+        mobileFilterBtn.classList.add('active');
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+        // Trigger animation
+        setTimeout(() => mobileOverlay.classList.add('show'), 10);
+      }
+
+      function closeMobileFilter() {
+        sidebar.classList.remove('show');
+        mobileOverlay.classList.remove('show');
+        mobileFilterBtn.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          mobileOverlay.style.display = 'none';
+        }, 300);
+      }
+
+      mobileFilterBtn.addEventListener('click', openMobileFilter);
+      mobileCloseBtn.addEventListener('click', closeMobileFilter);
+      mobileOverlay.addEventListener('click', closeMobileFilter);
+
+      // Group headers
+      document.querySelectorAll('.group-header').forEach(header => {
+        header.addEventListener('click', function() {
+          const index = parseInt(this.dataset.groupIndex);
+          const subcats = document.querySelector(`.subcategories[data-group-index="${index}"]`);
+
+          if (expandedGroups.has(index)) {
+            expandedGroups.delete(index);
+            this.classList.remove('expanded');
+            subcats.classList.remove('show');
+          } else {
+            expandedGroups.add(index);
+            this.classList.add('expanded');
+            subcats.classList.add('show');
+          }
+        });
+      });
+
+      // Subcategories
+      document.querySelectorAll('.subcategory').forEach(subcat => {
+        subcat.addEventListener('click', function() {
+          const category = this.dataset.category;
+          const group = this.dataset.group;
+
+          // Update active states
+          document.querySelectorAll('.subcategory').forEach(s => s.classList.remove('active'));
+          this.classList.add('active');
+
+          // Filter guides
+          currentFilter = category;
+          currentGroup = group;
+          const filtered = sampleGuides.filter(g => g.category === category);
+          renderGuides(filtered);
+
+          // Show filter info
+          document.getElementById('filterInfo').style.display = 'flex';
+          document.getElementById('filterText').textContent = `Showing ${filtered.length} guides in "${this.querySelector('.subcategory-name').textContent}"`;
+
+          // Update filter badge
+          const badge = document.getElementById('filterBadge');
+          badge.style.display = 'flex';
+          badge.textContent = '1';
+
+          // Close mobile filter after selection
+          if (window.innerWidth <= 968) {
+            closeMobileFilter();
+          }
+        });
+      });
+
+      // Expand/Collapse All
+      document.getElementById('expandAll').addEventListener('click', () => {
+        categoryGroups.forEach((_, index) => expandedGroups.add(index));
+        renderCategoryGroups();
+        attachEventListeners();
+      });
+
+      document.getElementById('collapseAll').addEventListener('click', () => {
+        expandedGroups.clear();
+        renderCategoryGroups();
+        attachEventListeners();
+      });
+
+      // Clear filter
+      document.getElementById('clearFilter').addEventListener('click', () => {
+        currentFilter = null;
+        currentGroup = null;
+        document.querySelectorAll('.subcategory').forEach(s => s.classList.remove('active'));
+        document.getElementById('filterInfo').style.display = 'none';
+        document.getElementById('filterBadge').style.display = 'none';
+        renderGuides(sampleGuides);
+      });
+
+      // Search
+      document.getElementById('searchInput').addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        if (!query) {
+          renderGuides(currentFilter ? sampleGuides.filter(g => g.category === currentFilter) : sampleGuides);
+          return;
+        }
+
+        const filtered = sampleGuides.filter(g =>
+          g.title.toLowerCase().includes(query) ||
+          g.excerpt.toLowerCase().includes(query) ||
+          g.tags.some(t => t.toLowerCase().includes(query)) ||
+          g.category.toLowerCase().includes(query)
+        );
+        renderGuides(filtered);
+
+        if (filtered.length > 0) {
+          document.getElementById('filterInfo').style.display = 'flex';
+          document.getElementById('filterText').textContent = `Found ${filtered.length} guides matching "${query}"`;
+        }
+      });
+    }
+
+    // Start
+    init();
+  </script>
+</body>
+</html>

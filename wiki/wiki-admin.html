@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.admin.page_title">Admin - Category Management</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .admin-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--wiki-border);
+      overflow-x: auto;
+    }
+
+    .admin-tab {
+      padding: 1rem 1.5rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      color: var(--wiki-text-muted);
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .admin-tab.active {
+      border-bottom-color: var(--wiki-primary);
+      color: var(--wiki-primary);
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border: 1px solid var(--wiki-border);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: background 0.2s;
+    }
+
+    .category-item:hover {
+      background: var(--wiki-bg-secondary);
+    }
+
+    .category-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .category-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border-radius: 8px;
+      background: var(--wiki-bg-secondary);
+    }
+
+    .category-details {
+      flex: 1;
+    }
+
+    .category-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .category-slug {
+      font-size: 0.85rem;
+      color: var(--wiki-text-muted);
+      font-family: monospace;
+    }
+
+    .category-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .color-picker {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .color-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.selected {
+      border-color: var(--wiki-primary);
+      box-shadow: 0 0 0 2px rgba(82, 183, 136, 0.2);
+    }
+
+    .emoji-picker {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .emoji-option {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 2px solid var(--wiki-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .emoji-option:hover {
+      background: var(--wiki-bg-secondary);
+      transform: scale(1.1);
+    }
+
+    .emoji-option.selected {
+      border-color: var(--wiki-primary);
+      background: var(--wiki-bg-secondary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem;
+      background: var(--wiki-bg-secondary);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--wiki-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--wiki-text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.admin.logo">Community Wiki Admin</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.back_to_wiki">Back to Wiki</a></li>
+        <li><a href="wiki-admin.html" class="active" data-i18n="wiki.admin.nav_categories">Categories</a></li>
+        <li><a href="#" data-i18n="wiki.admin.nav_users">Users</a></li>
+        <li><a href="#" data-i18n="wiki.admin.nav_content">Content</a></li>
+        <li><a href="#" data-i18n="wiki.admin.nav_settings">Settings</a></li>
+        <li>
+          <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+              A
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">
+            <i class="fas fa-cog"></i> <span data-i18n="wiki.admin.category_management">Category Management</span>
+          </h1>
+          <p class="text-muted" data-i18n="wiki.admin.category_management_desc">Manage categories for guides, events, and locations</p>
+        </div>
+        <button class="btn btn-primary" id="addCategoryBtn">
+          <i class="fas fa-plus"></i> <span data-i18n="wiki.admin.btn_add_category">Add Category</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalCategories">0</div>
+        <div class="stat-label" data-i18n="wiki.admin.stat_total_categories">Total Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="guidesUsingCategories">0</div>
+        <div class="stat-label" data-i18n="wiki.admin.stat_guides_categories">Guides Using Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="eventsUsingCategories">0</div>
+        <div class="stat-label" data-i18n="wiki.admin.stat_events_categories">Events Using Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="locationsUsingCategories">0</div>
+        <div class="stat-label" data-i18n="wiki.admin.stat_locations_categories">Locations Using Categories</div>
+      </div>
+    </div>
+
+    <!-- Category Type Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-type="all" data-i18n="wiki.admin.tab_all_categories">All Categories</button>
+      <button class="admin-tab" data-type="guides" data-i18n="wiki.admin.tab_guide_categories">Guide Categories</button>
+      <button class="admin-tab" data-type="events" data-i18n="wiki.admin.tab_event_categories">Event Categories</button>
+      <button class="admin-tab" data-type="locations" data-i18n="wiki.admin.tab_location_categories">Location Categories</button>
+    </div>
+
+    <!-- Categories List -->
+    <div class="card">
+      <div class="flex-between mb-2">
+        <h2 data-i18n="wiki.admin.categories_heading">Categories</h2>
+        <input type="text" class="form-input" placeholder="Search categories..." id="searchCategories" style="width: 300px;" data-i18n-placeholder="wiki.admin.placeholder_search_categories">
+      </div>
+
+      <div id="categoriesList">
+        <!-- Categories will be loaded here -->
+        <div style="text-align: center; padding: 3rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--wiki-primary);"></i>
+          <p class="text-muted" style="margin-top: 1rem;" data-i18n="wiki.common.loading">Loading categories...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add/Edit Category Modal -->
+  <div class="modal" id="categoryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle" data-i18n="wiki.admin.modal_add_category">Add New Category</h2>
+        <button class="btn btn-outline btn-small" onclick="closeCategoryModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form id="categoryForm">
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.admin.form_category_name">Category Name *</label>
+          <input type="text" class="form-input" id="categoryName" required placeholder="e.g., Water Management" data-i18n-placeholder="wiki.admin.form_category_name_placeholder">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.admin.form_slug">Slug (URL-friendly name) *</label>
+          <input type="text" class="form-input" id="categorySlug" required placeholder="e.g., water-management" pattern="[a-z0-9-]+" data-i18n-placeholder="wiki.admin.form_slug_placeholder">
+          <small class="text-muted" data-i18n="wiki.admin.form_slug_hint">Lowercase letters, numbers, and hyphens only</small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.admin.form_description">Description</label>
+          <textarea class="form-input" id="categoryDescription" rows="3" placeholder="Brief description of this category..." data-i18n-placeholder="wiki.admin.form_description_placeholder"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.admin.form_icon">Icon (Emoji)</label>
+          <div class="emoji-picker">
+            <div class="emoji-option" data-emoji="🌱">🌱</div>
+            <div class="emoji-option" data-emoji="💧">💧</div>
+            <div class="emoji-option" data-emoji="♻️">♻️</div>
+            <div class="emoji-option" data-emoji="☀️">☀️</div>
+            <div class="emoji-option" data-emoji="🥕">🥕</div>
+            <div class="emoji-option" data-emoji="🌳">🌳</div>
+            <div class="emoji-option" data-emoji="🏡">🏡</div>
+            <div class="emoji-option" data-emoji="💦">💦</div>
+            <div class="emoji-option" data-emoji="👥">👥</div>
+            <div class="emoji-option" data-emoji="🌾">🌾</div>
+            <div class="emoji-option" data-emoji="🌻">🌻</div>
+            <div class="emoji-option" data-emoji="🎓">🎓</div>
+            <div class="emoji-option" data-emoji="🏘️">🏘️</div>
+            <div class="emoji-option" data-emoji="🏪">🏪</div>
+            <div class="emoji-option" data-emoji="🛒">🛒</div>
+            <div class="emoji-option" data-emoji="📍">📍</div>
+          </div>
+          <input type="hidden" id="categoryIcon">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.admin.form_color">Color</label>
+          <div class="color-picker">
+            <div class="color-option" data-color="#52b788" style="background: #52b788;"></div>
+            <div class="color-option" data-color="#0077b6" style="background: #0077b6;"></div>
+            <div class="color-option" data-color="#8b4513" style="background: #8b4513;"></div>
+            <div class="color-option" data-color="#ffd60a" style="background: #ffd60a;"></div>
+            <div class="color-option" data-color="#d62828" style="background: #d62828;"></div>
+            <div class="color-option" data-color="#2d6a4f" style="background: #2d6a4f;"></div>
+            <div class="color-option" data-color="#bc6c25" style="background: #bc6c25;"></div>
+            <div class="color-option" data-color="#6a994e" style="background: #6a994e;"></div>
+            <div class="color-option" data-color="#7209b7" style="background: #7209b7;"></div>
+            <div class="color-option" data-color="#f77f00" style="background: #f77f00;"></div>
+            <div class="color-option" data-color="#06ffa5" style="background: #06ffa5;"></div>
+            <div class="color-option" data-color="#e63946" style="background: #e63946;"></div>
+          </div>
+          <input type="hidden" id="categoryColor">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.admin.form_category_type">Category Type</label>
+          <select class="form-input" id="categoryType">
+            <option value="all" data-i18n="wiki.admin.option_all_content_types">All Content Types</option>
+            <option value="guides" data-i18n="wiki.admin.option_guides_only">Guides Only</option>
+            <option value="events" data-i18n="wiki.admin.option_events_only">Events Only</option>
+            <option value="locations" data-i18n="wiki.admin.option_locations_only">Locations Only</option>
+          </select>
+        </div>
+
+        <div class="flex-between" style="margin-top: 2rem;">
+          <button type="button" class="btn btn-outline" onclick="closeCategoryModal()" data-i18n="wiki.common.btn_cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> <span data-i18n="wiki.admin.btn_save_category">Save Category</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal" id="deleteModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h2 data-i18n="wiki.admin.modal_delete_category">Delete Category?</h2>
+      </div>
+      <p><span data-i18n="wiki.admin.delete_confirm_text">Are you sure you want to delete</span> <strong id="deleteCategoryName"></strong>?</p>
+      <p class="text-muted" data-i18n="wiki.admin.delete_warning">This action cannot be undone. Content using this category will need to be re-categorized.</p>
+
+      <div class="flex-between" style="margin-top: 2rem;">
+        <button class="btn btn-outline" onclick="closeDeleteModal()" data-i18n="wiki.common.btn_cancel">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmDelete()" style="background: #e63946;">
+          <i class="fas fa-trash"></i> <span data-i18n="wiki.admin.btn_delete">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <div style="text-align: center; color: var(--wiki-text-muted);">
+        <p data-i18n="wiki.footer.copyright_admin">© 2024 Permahub Wiki Admin. Built with 💚 for sustainable communities.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/wiki-admin.js"></script>
+</body>
+</html>

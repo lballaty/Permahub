@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.about.page_title">About - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+              <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+              <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+              <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+              <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+              <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-name">Polski</span></div>
+              <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
+              <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+              <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <!-- Hero Section -->
+      <div style="text-align: center; margin-bottom: 3rem; padding: 3rem 0;">
+        <div style="font-size: 5rem; margin-bottom: 1rem;">🌱</div>
+        <h1 style="margin-bottom: 1rem; color: var(--wiki-primary); font-size: 2.5rem;" data-i18n="wiki.about.title">About Permahub Community Wiki</h1>
+        <p style="font-size: 1.2rem; color: var(--wiki-text-muted); max-width: 700px; margin: 0 auto;" data-i18n="wiki.about.subtitle">
+          A collaborative knowledge base for the global permaculture and sustainable living community
+        </p>
+      </div>
+
+      <!-- Mission Section -->
+      <section class="card" style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.about.mission_title">Our Mission</h2>
+        <p style="line-height: 1.8; font-size: 1.1rem;" data-i18n="wiki.about.mission_text">
+          Permahub Community Wiki exists to connect permaculture practitioners, sustainable living enthusiasts, and eco-conscious communities worldwide. We believe that sharing knowledge and experiences is essential to building a more sustainable future. Our platform empowers you to discover projects, learn from others, share your expertise, and connect with like-minded individuals passionate about regenerative practices.
+        </p>
+      </section>
+
+      <!-- What We Offer -->
+      <section class="card" style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.what_we_offer">What We Offer</h2>
+        <div style="display: grid; gap: 1.5rem;">
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 2rem; flex-shrink: 0;">📚</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.feature_guides_title">Comprehensive Guides</h3>
+              <p class="text-muted" data-i18n="wiki.about.feature_guides_desc">
+                Learn permaculture techniques, sustainable practices, and regenerative methods from experienced practitioners. Browse step-by-step guides covering everything from soil building to water management.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 2rem; flex-shrink: 0;">📅</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.feature_events_title">Community Events</h3>
+              <p class="text-muted" data-i18n="wiki.about.feature_events_desc">
+                Discover workshops, courses, gatherings, and volunteering opportunities. Connect with local and global events that advance permaculture and sustainable living.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 2rem; flex-shrink: 0;">🗺️</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.feature_locations_title">Location Discovery</h3>
+              <p class="text-muted" data-i18n="wiki.about.feature_locations_desc">
+                Find permaculture projects, eco-villages, farms, gardens, and sustainable communities near you or around the world. Our interactive map makes it easy to explore and connect.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem;">
+            <div style="font-size: 2rem; flex-shrink: 0;">🌍</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.feature_multilingual_title">Multilingual Support</h3>
+              <p class="text-muted" data-i18n="wiki.about.feature_multilingual_desc">
+                Access content in 15 languages including English, Portuguese, Spanish, French, German, Italian, Dutch, Polish, Japanese, Chinese, Korean, Czech, Slovak, Ukrainian, and Russian.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="card" style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.how_it_works">How It Works</h2>
+        <div style="display: grid; gap: 1.5rem;">
+          <div style="display: flex; gap: 1rem; align-items: start;">
+            <div style="background: var(--wiki-primary); color: white; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem;" data-i18n="wiki.about.step1_title">Create an Account</h3>
+              <p class="text-muted" data-i18n="wiki.about.step1_desc">Sign up for free with your email or use magic link authentication for passwordless access.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; align-items: start;">
+            <div style="background: var(--wiki-primary); color: white; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem;" data-i18n="wiki.about.step2_title">Explore Content</h3>
+              <p class="text-muted" data-i18n="wiki.about.step2_desc">Browse guides, events, and locations. Use our search and filtering tools to find exactly what you're looking for.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; align-items: start;">
+            <div style="background: var(--wiki-primary); color: white; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem;" data-i18n="wiki.about.step3_title">Contribute & Share</h3>
+              <p class="text-muted" data-i18n="wiki.about.step3_desc">Share your knowledge by creating guides, listing events, and adding locations. Help grow the community knowledge base.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; align-items: start;">
+            <div style="background: var(--wiki-primary); color: white; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
+            <div>
+              <h3 style="margin-bottom: 0.5rem;" data-i18n="wiki.about.step4_title">Connect & Collaborate</h3>
+              <p class="text-muted" data-i18n="wiki.about.step4_desc">Engage with other community members, save favorites, and build connections with people who share your passion.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Values -->
+      <section class="card" style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1.5rem; color: var(--wiki-primary);" data-i18n="wiki.about.our_values">Our Values</h2>
+        <div style="display: grid; gap: 1rem;">
+          <div style="padding: 1rem; background: var(--wiki-accent); border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <i class="fas fa-leaf" style="color: var(--wiki-primary);"></i>
+              <strong data-i18n="wiki.about.value_sustainability">Sustainability First</strong>
+            </div>
+            <p class="text-muted" style="font-size: 0.9rem; margin: 0;" data-i18n="wiki.about.value_sustainability_desc">
+              We prioritize regenerative practices, ecological stewardship, and solutions that benefit both people and planet.
+            </p>
+          </div>
+
+          <div style="padding: 1rem; background: var(--wiki-accent); border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <i class="fas fa-users" style="color: var(--wiki-primary);"></i>
+              <strong data-i18n="wiki.about.value_community">Community Driven</strong>
+            </div>
+            <p class="text-muted" style="font-size: 0.9rem; margin: 0;" data-i18n="wiki.about.value_community_desc">
+              Our platform is built by and for the community. Every contribution strengthens our collective knowledge.
+            </p>
+          </div>
+
+          <div style="padding: 1rem; background: var(--wiki-accent); border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <i class="fas fa-book-open" style="color: var(--wiki-primary);"></i>
+              <strong data-i18n="wiki.about.value_open">Open Knowledge</strong>
+            </div>
+            <p class="text-muted" style="font-size: 0.9rem; margin: 0;" data-i18n="wiki.about.value_open_desc">
+              Knowledge should be accessible to all. We believe in sharing information freely and transparently.
+            </p>
+          </div>
+
+          <div style="padding: 1rem; background: var(--wiki-accent); border-radius: 6px;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <i class="fas fa-shield-alt" style="color: var(--wiki-primary);"></i>
+              <strong data-i18n="wiki.about.value_privacy">Privacy & Security</strong>
+            </div>
+            <p class="text-muted" style="font-size: 0.9rem; margin: 0;" data-i18n="wiki.about.value_privacy_desc">
+              Your data belongs to you. We implement strong privacy protections and never sell your information.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Get Involved -->
+      <section class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, var(--wiki-accent) 0%, #e8f5e9 100%); border: 2px solid var(--wiki-primary);">
+        <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.about.get_involved">Get Involved</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.8;" data-i18n="wiki.about.get_involved_desc">
+          Whether you're a seasoned permaculture expert or just beginning your sustainable living journey, there's a place for you in our community. Join us in building a comprehensive resource that helps people around the world live more sustainably.
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="wiki-signup.html" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> <span data-i18n="wiki.about.join_community">Join the Community</span>
+          </a>
+          <a href="wiki-guides.html" class="btn btn-outline">
+            <i class="fas fa-book"></i> <span data-i18n="wiki.about.browse_guides">Browse Guides</span>
+          </a>
+          <a href="wiki-map.html" class="btn btn-outline">
+            <i class="fas fa-map-marked-alt"></i> <span data-i18n="wiki.about.explore_map">Explore the Map</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Contact & Support -->
+      <section class="card" style="margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);" data-i18n="wiki.about.contact_support">Contact & Support</h2>
+        <p style="margin-bottom: 1rem;" data-i18n="wiki.about.contact_intro">Have questions, feedback, or need help? We're here for you:</p>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; gap: 0.5rem; align-items: start;">
+            <i class="fas fa-envelope" style="color: var(--wiki-primary); margin-top: 0.25rem;"></i>
+            <div>
+              <strong data-i18n="wiki.about.general_inquiries">General Inquiries:</strong>
+              <a href="mailto:support@permahub.org" style="color: var(--wiki-primary);"> support@permahub.org</a>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: start;">
+            <i class="fas fa-bug" style="color: var(--wiki-primary); margin-top: 0.25rem;"></i>
+            <div>
+              <strong data-i18n="wiki.about.report_issue">Report an Issue:</strong>
+              <a href="wiki-issues.html" style="color: var(--wiki-primary);" data-i18n="wiki.about.issue_tracker"> Issue Tracker</a>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: start;">
+            <i class="fas fa-shield-alt" style="color: var(--wiki-primary); margin-top: 0.25rem;"></i>
+            <div>
+              <strong data-i18n="wiki.about.privacy_concerns">Privacy Concerns:</strong>
+              <a href="mailto:privacy@permahub.org" style="color: var(--wiki-primary);"> privacy@permahub.org</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Back to Home -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="wiki-home.html" class="btn btn-outline">
+          <i class="fas fa-home"></i> <span data-i18n="wiki.nav.home">Back to Home</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Subscribe Newsletter -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.about.stay_connected">Stay Connected</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.about.newsletter_desc">
+        Join our community and get updates about Permahub
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          id="subscribeEmail"
+          data-i18n-placeholder="wiki.about.email_placeholder"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary" id="subscribeBtn">
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.about.subscribe">Subscribe</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p><span data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</span></p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Load shared wiki functionality and version management -->
+  <script src="js/wiki.js"></script>
+  <script type="module">
+    import { displayVersionBadge, VERSION_DISPLAY } from '../js/version-manager.js';
+    import { initializeSubscribeButton } from './js/subscribe-newsletter.js';
+
+    // Display version in header
+    displayVersionBadge();
+    console.log(`🚀 Wiki About ${VERSION_DISPLAY}: Page initialized`);
+
+    // Initialize subscribe button
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSubscribeButton('general', 'about-page');
+    });
+  </script>
+  <script type="module" src="js/auth-header.js"></script>
+</body>
+</html>

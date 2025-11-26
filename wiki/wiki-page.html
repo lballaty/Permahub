@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.page.pageTitle">Loading... - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-favorites.html" data-i18n="wiki.nav.favorites"><i class="fas fa-star"></i> My Favorites</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+              <div class="lang-option" data-lang="cs">
+                <span class="lang-flag">🇨🇿</span>
+                <span class="lang-name">Čeština</span>
+              </div>
+              <div class="lang-option" data-lang="sk">
+                <span class="lang-flag">🇸🇰</span>
+                <span class="lang-name">Slovenčina</span>
+              </div>
+              <div class="lang-option" data-lang="uk">
+                <span class="lang-flag">🇺🇦</span>
+                <span class="lang-name">Українська</span>
+              </div>
+              <div class="lang-option" data-lang="ru">
+                <span class="lang-flag">🇷🇺</span>
+                <span class="lang-name">Русский</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--wiki-primary), var(--wiki-secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+              JD
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="two-column">
+      <!-- Article Content -->
+      <article class="wiki-content">
+        <!-- Breadcrumb (populated by JavaScript) -->
+        <div style="margin-bottom: 1rem; color: var(--wiki-text-muted); font-size: 0.9rem;">
+          <a href="wiki-home.html" style="color: var(--wiki-primary);" data-i18n="wiki.nav.home">Home</a>
+        </div>
+
+        <!-- Article Header (populated by JavaScript) -->
+        <h1 data-i18n="wiki.page.loading">Loading...</h1>
+
+        <!-- Metadata (populated by JavaScript) -->
+        <div class="card-meta" style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--wiki-border);">
+          <span data-i18n="wiki.page.loadingMetadata"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
+        </div>
+
+        <!-- Tags (populated by JavaScript) -->
+        <div class="tags mt-2">
+          <!-- Tags will be added here -->
+        </div>
+
+        <!-- Action Buttons for Logged In Users -->
+        <div style="margin-top: 1rem; padding: 1rem; background-color: var(--wiki-bg); border-radius: 6px; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="wiki-editor.html" class="btn btn-outline btn-small" id="editPageBtn" data-i18n="wiki.page.editPage">
+              <i class="fas fa-edit"></i> Edit This Page
+            </a>
+            <button id="deletePageBtn" class="btn btn-danger btn-small" style="display: none;">
+              <i class="fas fa-trash"></i> <span data-i18n="wiki.page.deletePage">Delete</span>
+            </button>
+            <button id="favoriteBtn" class="btn btn-primary btn-small" onclick="toggleFavorite()" style="display: flex; align-items: center; gap: 0.5rem;">
+              <i class="far fa-star" id="favoriteIcon"></i>
+              <span id="favoriteText" data-i18n="wiki.page.saveToFavorites">Save to Favorites</span>
+            </button>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button class="btn btn-outline btn-small" title="Share" data-i18n="wiki.page.share">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button class="btn btn-outline btn-small" title="Print" data-i18n="wiki.page.print">
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
+        </div>
+
+        <script>
+          function toggleFavorite() {
+            const btn = document.getElementById('favoriteBtn');
+            const icon = document.getElementById('favoriteIcon');
+            const text = document.getElementById('favoriteText');
+
+            if (icon.classList.contains('far')) {
+              // Add to favorites
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              icon.style.color = '#ffc107';
+              text.textContent = 'Saved!';
+              btn.classList.remove('btn-primary');
+              btn.classList.add('btn-secondary');
+              setTimeout(() => {
+                text.textContent = 'Remove from Favorites';
+              }, 1000);
+            } else {
+              // Remove from favorites
+              icon.classList.remove('fas');
+              icon.classList.add('far');
+              icon.style.color = '';
+              text.textContent = 'Save to Favorites';
+              btn.classList.remove('btn-secondary');
+              btn.classList.add('btn-primary');
+            }
+          }
+        </script>
+
+        <!-- Article Body (populated by JavaScript) -->
+        <div style="margin-top: 2rem;">
+          <p style="text-align: center; padding: 3rem; color: var(--wiki-text-muted);" data-i18n="wiki.page.loadingContent">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            Loading guide content...
+          </p>
+        </div>
+
+        <!-- Page Footer Meta -->
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
+          <div class="flex-between">
+            <div>
+              <strong data-i18n="wiki.page.lastEdited">Last edited:</strong> November 8, 2025 by Emma Wilson
+            </div>
+            <div>
+              <strong data-i18n="wiki.page.contributors">Contributors:</strong> 3 people
+            </div>
+          </div>
+          <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--wiki-text-muted);">
+            <span data-i18n="wiki.page.viewCount">This page has been viewed 127 times</span> | <a href="#" style="color: var(--wiki-primary);" data-i18n="wiki.page.viewHistory">View edit history</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside>
+        <!-- Table of Contents (future feature) -->
+        <div class="sidebar mb-3" style="display: none;">
+          <h3 class="sidebar-title" data-i18n="wiki.page.onThisPage">On This Page</h3>
+          <ul class="sidebar-list">
+            <!-- Table of contents will be generated here -->
+          </ul>
+        </div>
+
+        <!-- Author Info (future feature) -->
+        <div class="sidebar mb-3" style="display: none;">
+          <h3 class="sidebar-title" data-i18n="wiki.page.aboutAuthor">About the Author</h3>
+          <div style="text-align: center;">
+            <!-- Author info will be populated here -->
+          </div>
+        </div>
+
+        <!-- Related Pages (populated by JavaScript) -->
+        <div class="card">
+          <h3 class="sidebar-title" data-i18n="wiki.page.relatedGuides">Related Guides</h3>
+          <ul>
+            <li data-i18n="wiki.page.loadingRelated"><i class="fas fa-spinner fa-spin"></i> Loading...</li>
+          </ul>
+        </div>
+
+        <!-- Categories (populated by JavaScript) -->
+        <div class="sidebar" style="display: none;">
+          <h3 class="sidebar-title" data-i18n="wiki.page.categories">Categories</h3>
+          <div class="tags">
+            <!-- Categories will be populated here -->
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Subscribe Newsletter -->
+    <div class="card text-center" style="max-width: 800px; margin: 2rem auto;">
+      <h2 style="margin-bottom: 1rem;" data-i18n="wiki.page.stay_updated">Stay Updated</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.page.newsletter_desc">
+        Get notified about new content and updates
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          id="subscribeEmail"
+          data-i18n-placeholder="wiki.page.email_placeholder"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary" id="subscribeBtn">
+          <i class="fas fa-bell"></i> <span data-i18n="wiki.page.subscribe">Subscribe</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.reportIssue"><i class="fas fa-bug"></i> Report Issue</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-page.js"></script>
+</body>
+</html>

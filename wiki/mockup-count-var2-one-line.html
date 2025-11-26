@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VARIATION 2: Compact One-Line Summary - Permahub Wiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%);
+      padding: 20px;
+      color: #333;
+    }
+
+    .mockup-banner {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .mockup-banner h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .mockup-banner p {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .filters-bar {
+      padding: 20px;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .filter-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #6c757d;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 12px 40px 12px 45px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: #2d8659;
+      box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+    }
+
+    .filter-icon {
+      position: absolute;
+      left: 15px;
+      bottom: 14px;
+      font-size: 18px;
+      color: #6c757d;
+      pointer-events: none;
+    }
+
+    .dropdown-arrow {
+      position: absolute;
+      right: 15px;
+      bottom: 14px;
+      font-size: 14px;
+      color: #6c757d;
+      pointer-events: none;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      bottom: 14px;
+      font-size: 16px;
+      color: #6c757d;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 2px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #2d8659;
+      box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+    }
+
+    .active-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .active-filter-tag {
+      background: #e7f5f0;
+      color: #2d8659;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid #2d8659;
+      box-shadow: 0 2px 4px rgba(45, 134, 89, 0.1);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .remove-filter {
+      background: none;
+      border: none;
+      color: #2d8659;
+      cursor: pointer;
+      padding: 0;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .remove-filter:hover {
+      color: #dc3545;
+    }
+
+    .clear-all {
+      background: transparent;
+      border: none;
+      color: #6c757d;
+      cursor: pointer;
+      font-size: 13px;
+      text-decoration: underline;
+      padding: 6px 12px;
+    }
+
+    .clear-all:hover {
+      color: #212529;
+    }
+
+    .content-area {
+      padding: 30px;
+    }
+
+    .summary-bar {
+      background: #f8f9fa;
+      padding: 12px 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #6c757d;
+      text-align: center;
+      border-left: 4px solid #2d8659;
+    }
+
+    .summary-bar strong {
+      color: #2d8659;
+      font-size: 16px;
+    }
+
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .guide-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-color: #2d8659;
+    }
+
+    .guide-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .guide-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 8px;
+    }
+
+    .guide-excerpt {
+      font-size: 14px;
+      color: #6c757d;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .guide-meta {
+      font-size: 12px;
+      color: #adb5bd;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .filters-bar {
+        padding: 15px;
+      }
+
+      .filter-row {
+        gap: 12px;
+      }
+
+      .filter-group {
+        min-width: 100%;
+      }
+
+      .content-area {
+        padding: 20px 15px;
+      }
+
+      .guides-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-banner">
+    <h1><i class="fas fa-align-left"></i> VARIATION 2: Compact One-Line Summary</h1>
+    <p>Active filters + slim summary bar showing count • Minimal vertical space • Clear information</p>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-book-open"></i> Permaculture Guides</h1>
+      <p>Filter by theme and category using the dropdowns below</p>
+    </div>
+
+    <div class="filters-bar">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label class="filter-label">Search</label>
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search guides...">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Theme</label>
+          <div style="position: relative;">
+            <i class="filter-icon">🎨</i>
+            <select class="filter-select" id="themeSelect">
+              <option value="">All Themes</option>
+            </select>
+            <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Category</label>
+          <div style="position: relative;">
+            <i class="filter-icon">🏷️</i>
+            <select class="filter-select" id="categorySelect">
+              <option value="">All Categories</option>
+            </select>
+            <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-row" id="activeFiltersRow" style="display: none;">
+        <div class="active-filters" id="activeFilters"></div>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="summary-bar" id="summaryBar">
+        Showing <strong id="currentCount">6</strong> of <strong id="totalCount">156</strong> guides
+      </div>
+
+      <div class="guides-grid" id="guidesGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    // Category data
+    const categoryGroups = [
+      {
+        name: 'Animal Husbandry & Livestock',
+        icon: '🐓',
+        categories: [
+          { name: 'Animal Husbandry', slug: 'animal-husbandry', icon: '🐓' },
+          { name: 'Beekeeping', slug: 'beekeeping', icon: '🐝' },
+          { name: 'Poultry Keeping', slug: 'poultry-keeping', icon: '🐔' }
+        ]
+      },
+      {
+        name: 'Food Preservation & Storage',
+        icon: '🫙',
+        categories: [
+          { name: 'Food Preservation', slug: 'food-preservation', icon: '🫙' },
+          { name: 'Fermentation', slug: 'fermentation', icon: '🥒' },
+          { name: 'Root Cellaring', slug: 'root-cellaring', icon: '🥔' }
+        ]
+      },
+      {
+        name: 'Mycology & Mushrooms',
+        icon: '🍄',
+        categories: [
+          { name: 'Mycology', slug: 'mycology', icon: '🍄' },
+          { name: 'Mushroom Cultivation', slug: 'mushroom-cultivation', icon: '🍄‍🟫' },
+          { name: 'Mycoremediation', slug: 'mycoremediation', icon: '🌿' }
+        ]
+      },
+      {
+        name: 'Herbal Medicine',
+        icon: '🌿',
+        categories: [
+          { name: 'Herbal Medicine', slug: 'herbal-medicine', icon: '🌿' },
+          { name: 'Plant Medicine Making', slug: 'plant-medicine-making', icon: '🧪' },
+          { name: 'Medicinal Gardens', slug: 'medicinal-gardens', icon: '🏥' }
+        ]
+      },
+      {
+        name: 'Appropriate Technology',
+        icon: '⚙️',
+        categories: [
+          { name: 'Appropriate Technology', slug: 'appropriate-technology', icon: '⚙️' },
+          { name: 'Solar Technology', slug: 'solar-technology', icon: '☀️' },
+          { name: 'Bicycle Power', slug: 'bicycle-power', icon: '🚲' }
+        ]
+      }
+    ];
+
+    // Sample guides
+    const sampleGuides = [
+      { title: 'Introduction to Beekeeping', icon: '🐝', excerpt: 'Learn the fundamentals of starting your first beehive...', category: 'beekeeping', theme: 'Animal Husbandry & Livestock' },
+      { title: 'Lacto-Fermentation Basics', icon: '🥒', excerpt: 'Master the art of preserving vegetables...', category: 'fermentation', theme: 'Food Preservation & Storage' },
+      { title: 'Oyster Mushroom Cultivation', icon: '🍄', excerpt: 'Step-by-step guide to growing oyster mushrooms...', category: 'mushroom-cultivation', theme: 'Mycology & Mushrooms' },
+      { title: 'Building a Solar Dehydrator', icon: '☀️', excerpt: 'Construct a passive solar dehydrator...', category: 'solar-technology', theme: 'Appropriate Technology' },
+      { title: 'Medicinal Herb Garden Design', icon: '🌿', excerpt: 'Plan and plant a healing garden...', category: 'medicinal-gardens', theme: 'Herbal Medicine' },
+      { title: 'Backyard Chicken Keeping', icon: '🐔', excerpt: 'Everything about raising chickens...', category: 'poultry-keeping', theme: 'Animal Husbandry & Livestock' }
+    ];
+
+    const TOTAL_GUIDES = 156; // Mock total
+    let currentTheme = '';
+    let currentCategory = '';
+    let allCategories = [];
+
+    // Initialize
+    function init() {
+      populateThemeSelect();
+      populateAllCategories();
+      renderGuides(sampleGuides);
+      updateSummary(sampleGuides.length);
+      attachEventListeners();
+    }
+
+    function populateThemeSelect() {
+      const select = document.getElementById('themeSelect');
+      select.innerHTML = '<option value="">All Themes</option>' +
+        categoryGroups.map(group =>
+          `<option value="${group.name}">${group.icon} ${group.name}</option>`
+        ).join('');
+    }
+
+    function populateAllCategories() {
+      const select = document.getElementById('categorySelect');
+      allCategories = [];
+
+      categoryGroups.forEach(group => {
+        group.categories.forEach(cat => {
+          allCategories.push({ ...cat, theme: group.name, themeIcon: group.icon });
+        });
+      });
+
+      select.innerHTML = '<option value="">All Categories</option>' +
+        allCategories.map(cat =>
+          `<option value="${cat.slug}">${cat.icon} ${cat.name}</option>`
+        ).join('');
+    }
+
+    function filterCategoriesByTheme(themeName) {
+      const select = document.getElementById('categorySelect');
+
+      if (!themeName) {
+        populateAllCategories();
+        return;
+      }
+
+      const group = categoryGroups.find(g => g.name === themeName);
+      if (group) {
+        select.innerHTML = '<option value="">All Categories in Theme</option>' +
+          group.categories.map(cat =>
+            `<option value="${cat.slug}">${cat.icon} ${cat.name}</option>`
+          ).join('');
+      }
+    }
+
+    function renderGuides(guides) {
+      const grid = document.getElementById('guidesGrid');
+
+      grid.innerHTML = guides.map(guide => `
+        <div class="guide-card">
+          <div class="guide-icon">${guide.icon}</div>
+          <div class="guide-title">${guide.title}</div>
+          <div class="guide-excerpt">${guide.excerpt}</div>
+          <div class="guide-meta">${guide.theme}</div>
+        </div>
+      `).join('');
+    }
+
+    function updateSummary(currentCount) {
+      document.getElementById('currentCount').textContent = currentCount;
+      document.getElementById('totalCount').textContent = TOTAL_GUIDES;
+    }
+
+    function updateActiveFilters() {
+      const container = document.getElementById('activeFilters');
+      const row = document.getElementById('activeFiltersRow');
+      const filters = [];
+
+      if (currentTheme) {
+        const group = categoryGroups.find(g => g.name === currentTheme);
+        filters.push(`
+          <div class="active-filter-tag">
+            <span>${group.icon} ${currentTheme}</span>
+            <button class="remove-filter" data-type="theme">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `);
+      }
+
+      if (currentCategory) {
+        const cat = allCategories.find(c => c.slug === currentCategory);
+        if (cat) {
+          filters.push(`
+            <div class="active-filter-tag">
+              <span>${cat.icon} ${cat.name}</span>
+              <button class="remove-filter" data-type="category">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          `);
+        }
+      }
+
+      if (filters.length > 0) {
+        container.innerHTML = filters.join('') + `
+          <button class="clear-all">Clear all filters</button>
+        `;
+        row.style.display = 'flex';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+
+    function applyFilters() {
+      let filtered = sampleGuides;
+
+      if (currentTheme) {
+        filtered = filtered.filter(g => g.theme === currentTheme);
+      }
+
+      if (currentCategory) {
+        filtered = filtered.filter(g => g.category === currentCategory);
+      }
+
+      renderGuides(filtered);
+      updateSummary(filtered.length);
+      updateActiveFilters();
+    }
+
+    function attachEventListeners() {
+      document.getElementById('themeSelect').addEventListener('change', function() {
+        currentTheme = this.value;
+        currentCategory = '';
+        document.getElementById('categorySelect').value = '';
+        filterCategoriesByTheme(currentTheme);
+        applyFilters();
+      });
+
+      document.getElementById('categorySelect').addEventListener('change', function() {
+        currentCategory = this.value;
+        applyFilters();
+      });
+
+      document.getElementById('searchInput').addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        const filtered = sampleGuides.filter(g =>
+          g.title.toLowerCase().includes(query) ||
+          g.excerpt.toLowerCase().includes(query)
+        );
+        renderGuides(filtered);
+        updateSummary(filtered.length);
+      });
+
+      document.getElementById('activeFilters').addEventListener('click', function(e) {
+        const removeBtn = e.target.closest('.remove-filter');
+        if (removeBtn) {
+          const type = removeBtn.dataset.type;
+          if (type === 'theme') {
+            currentTheme = '';
+            document.getElementById('themeSelect').value = '';
+            populateAllCategories();
+          } else if (type === 'category') {
+            currentCategory = '';
+            document.getElementById('categorySelect').value = '';
+          }
+          applyFilters();
+        }
+
+        if (e.target.closest('.clear-all')) {
+          currentTheme = '';
+          currentCategory = '';
+          document.getElementById('themeSelect').value = '';
+          document.getElementById('categorySelect').value = '';
+          populateAllCategories();
+          applyFilters();
+        }
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

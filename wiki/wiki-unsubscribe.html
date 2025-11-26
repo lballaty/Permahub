@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title data-i18n="wiki.unsubscribe.page_title">Unsubscribe from Newsletter - Community Wiki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+              <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+              <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+              <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+              <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+              <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-name">Polski</span></div>
+              <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
+              <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+              <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div style="max-width: 700px; margin: 0 auto;">
+
+      <!-- Unsubscribe Form -->
+      <div class="card" id="unsubscribeForm">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);" data-i18n="wiki.unsubscribe.title">Unsubscribe from Newsletter</h1>
+          <p class="text-muted" data-i18n="wiki.unsubscribe.subtitle">We're sorry to see you go!</p>
+        </div>
+
+        <!-- Email Input -->
+        <div style="margin-bottom: 2rem;">
+          <label for="unsubscribeEmail" class="form-label" data-i18n="wiki.unsubscribe.email_label">Email Address</label>
+          <input
+            type="email"
+            id="unsubscribeEmail"
+            class="form-input"
+            data-i18n-placeholder="wiki.unsubscribe.email_placeholder"
+            placeholder="Enter your email address"
+            required
+          >
+          <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.5rem;" data-i18n="wiki.unsubscribe.email_help">
+            Enter the email address you used to subscribe
+          </p>
+        </div>
+
+        <!-- Feedback Section -->
+        <div style="margin-bottom: 2rem;">
+          <h3 style="margin-bottom: 1rem;" data-i18n="wiki.unsubscribe.feedback_title">Help us improve (optional)</h3>
+          <p class="text-muted" style="margin-bottom: 1rem;" data-i18n="wiki.unsubscribe.feedback_subtitle">
+            We'd love to know why you're unsubscribing. Your feedback helps us improve our newsletter.
+          </p>
+
+          <!-- Reason Checkboxes -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="reasonTooFrequent" class="form-checkbox">
+              <span data-i18n="wiki.unsubscribe.reason_too_frequent">Emails are too frequent</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="reasonNotRelevant" class="form-checkbox">
+              <span data-i18n="wiki.unsubscribe.reason_not_relevant">Content is not relevant to me</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="reasonNeverSignedUp" class="form-checkbox">
+              <span data-i18n="wiki.unsubscribe.reason_never_signed_up">I never signed up for this</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="reasonNoLongerInterested" class="form-checkbox">
+              <span data-i18n="wiki.unsubscribe.reason_no_longer_interested">No longer interested in permaculture</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="reasonSpam" class="form-checkbox">
+              <span data-i18n="wiki.unsubscribe.reason_spam">Emails feel like spam</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="reasonOther" class="form-checkbox">
+              <span data-i18n="wiki.unsubscribe.reason_other">Other reason</span>
+            </label>
+          </div>
+
+          <!-- Other Reason Text -->
+          <div id="otherReasonContainer" style="display: none; margin-bottom: 1.5rem;">
+            <label for="otherReasonText" class="form-label" data-i18n="wiki.unsubscribe.other_reason_label">Please specify:</label>
+            <textarea
+              id="otherReasonText"
+              class="form-input"
+              rows="3"
+              data-i18n-placeholder="wiki.unsubscribe.other_reason_placeholder"
+              placeholder="Tell us more..."
+            ></textarea>
+          </div>
+
+          <!-- Additional Comments -->
+          <div style="margin-bottom: 1.5rem;">
+            <label for="additionalComments" class="form-label" data-i18n="wiki.unsubscribe.additional_comments_label">Additional Comments (optional)</label>
+            <textarea
+              id="additionalComments"
+              class="form-input"
+              rows="3"
+              data-i18n-placeholder="wiki.unsubscribe.additional_comments_placeholder"
+              placeholder="Any other feedback you'd like to share..."
+            ></textarea>
+          </div>
+
+          <!-- Would Resubscribe -->
+          <div>
+            <label for="wouldResubscribe" class="form-label" data-i18n="wiki.unsubscribe.would_resubscribe_label">What would make you come back?</label>
+            <textarea
+              id="wouldResubscribe"
+              class="form-input"
+              rows="2"
+              data-i18n-placeholder="wiki.unsubscribe.would_resubscribe_placeholder"
+              placeholder="E.g., less frequent emails, different content, etc."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <button id="unsubscribeBtn" class="btn btn-danger">
+            <i class="fas fa-times-circle"></i> <span data-i18n="wiki.unsubscribe.button">Unsubscribe</span>
+          </button>
+          <a href="wiki-home.html" class="btn btn-outline" data-i18n="wiki.unsubscribe.cancel">Keep Subscription</a>
+        </div>
+      </div>
+
+      <!-- Success Message (hidden by default) -->
+      <div class="card" id="successMessage" style="display: none; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+        <h2 style="margin-bottom: 1rem; color: var(--wiki-success);" data-i18n="wiki.unsubscribe.success_title">Successfully Unsubscribed</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="wiki.unsubscribe.success_message">
+          You have been unsubscribed from our newsletter. We're sorry to see you go!
+        </p>
+        <p class="text-muted" style="margin-bottom: 2rem;" data-i18n="wiki.unsubscribe.success_note">
+          You won't receive any more emails from us. If you change your mind, you can always subscribe again from our home page.
+        </p>
+        <a href="wiki-home.html" class="btn btn-primary" data-i18n="wiki.unsubscribe.back_home">Back to Home</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="wiki-about.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.about">About</a> |
+        <a href="wiki-privacy.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.privacy">Privacy</a> |
+        <a href="wiki-terms.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;" data-i18n="wiki.footer.terms">Terms</a> |
+        <a href="wiki-issues.html" style="color: var(--wiki-text-muted); margin: 0 0.5rem;"><i class="fas fa-bug"></i> <span data-i18n="wiki.footer.report_issue">Report Issue</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/wiki-unsubscribe.js"></script>
+</body>
+</html>

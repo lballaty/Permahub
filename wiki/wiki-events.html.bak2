@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Events - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="js/wiki-i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-events.html" class="active">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en">
+                <span class="lang-flag">🇬🇧</span>
+                <span class="lang-name">English</span>
+              </div>
+              <div class="lang-option" data-lang="pt">
+                <span class="lang-flag">🇵🇹</span>
+                <span class="lang-name">Português</span>
+              </div>
+              <div class="lang-option" data-lang="es">
+                <span class="lang-flag">🇪🇸</span>
+                <span class="lang-name">Español</span>
+              </div>
+              <div class="lang-option" data-lang="fr">
+                <span class="lang-flag">🇫🇷</span>
+                <span class="lang-name">Français</span>
+              </div>
+              <div class="lang-option" data-lang="de">
+                <span class="lang-flag">🇩🇪</span>
+                <span class="lang-name">Deutsch</span>
+              </div>
+              <div class="lang-option" data-lang="it">
+                <span class="lang-flag">🇮🇹</span>
+                <span class="lang-name">Italiano</span>
+              </div>
+              <div class="lang-option" data-lang="nl">
+                <span class="lang-flag">🇳🇱</span>
+                <span class="lang-name">Nederlands</span>
+              </div>
+              <div class="lang-option" data-lang="pl">
+                <span class="lang-flag">🇵🇱</span>
+                <span class="lang-name">Polski</span>
+              </div>
+              <div class="lang-option" data-lang="ja">
+                <span class="lang-flag">🇯🇵</span>
+                <span class="lang-name">日本語</span>
+              </div>
+              <div class="lang-option" data-lang="zh">
+                <span class="lang-flag">🇨🇳</span>
+                <span class="lang-name">中文</span>
+              </div>
+              <div class="lang-option" data-lang="ko">
+                <span class="lang-flag">🇰🇷</span>
+                <span class="lang-name">한국어</span>
+              </div>
+              <div class="lang-option" data-lang="cs">
+                <span class="lang-flag">🇨🇿</span>
+                <span class="lang-name">Čeština</span>
+              </div>
+              <div class="lang-option" data-lang="sk">
+                <span class="lang-flag">🇸🇰</span>
+                <span class="lang-name">Slovenčina</span>
+              </div>
+              <div class="lang-option" data-lang="uk">
+                <span class="lang-flag">🇺🇦</span>
+                <span class="lang-name">Українська</span>
+              </div>
+              <div class="lang-option" data-lang="ru">
+                <span class="lang-flag">🇷🇺</span>
+                <span class="lang-name">Русский</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">Create Page</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <!-- Page Header -->
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1 style="margin-bottom: 0.5rem; color: var(--wiki-primary);">Community Events</h1>
+          <p class="text-muted">Workshops, meetups, and gatherings for our permaculture community</p>
+        </div>
+        <a href="wiki-editor.html" class="btn btn-primary">
+          <i class="fas fa-calendar-plus"></i> Add Event
+        </a>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card">
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <div>
+          <strong>Filter by:</strong>
+        </div>
+        <div class="tags">
+          <a href="javascript:void(0)" class="tag event-filter active" data-filter="all">All Events</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workshop">Workshops</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="meetup">Meetups</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="tour">Tours</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="course">Courses</a>
+          <a href="javascript:void(0)" class="tag event-filter" data-filter="workday">Work Days</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar View Toggle -->
+    <div style="margin-bottom: 2rem; display: flex; justify-content: flex-end; gap: 0.5rem;">
+      <button class="btn btn-outline btn-small" id="listView">
+        <i class="fas fa-list"></i> List View
+      </button>
+      <button class="btn btn-primary btn-small" id="calendarView">
+        <i class="fas fa-calendar"></i> Calendar View
+      </button>
+    </div>
+
+    <!-- Events Section -->
+    <section class="mb-3">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+        <i class="fas fa-calendar-day"></i> Upcoming Events
+      </h2>
+
+      <div class="grid grid-2" id="eventsGrid">
+        <!-- Events will be loaded dynamically from database -->
+      </div>
+    </section>
+
+    <!-- Next Month Section -->
+    <section class="mb-3">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+        <i class="fas fa-calendar-week"></i> Coming Up - December 2025
+      </h2>
+
+      <div class="grid grid-2">
+        <!-- Event 7 -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-day">5</div>
+            <div class="event-month">Dec</div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">Rainwater Harvesting Systems Workshop</h3>
+            <div class="event-info">
+              <span><i class="fas fa-clock"></i> 10:00 AM - 3:00 PM</span>
+              <span><i class="fas fa-map-marker-alt"></i> River Bend Gardens</span>
+            </div>
+            <p class="text-muted mt-1">
+              Learn to design and install rainwater collection systems. Includes tank sizing, gutter design, and filtration. Materials list provided.
+            </p>
+            <div class="tags mt-1">
+              <span class="tag">Workshop</span>
+              <span class="tag">$25</span>
+            </div>
+            <div style="margin-top: 1rem;">
+              <a href="#" class="btn btn-primary btn-small">Register</a>
+              <a href="#" class="btn btn-outline btn-small">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 8 -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-day">8</div>
+            <div class="event-month">Dec</div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">Winter Gardening Techniques</h3>
+            <div class="event-info">
+              <span><i class="fas fa-clock"></i> 2:00 PM - 4:00 PM</span>
+              <span><i class="fas fa-map-marker-alt"></i> Urban Homestead Hub</span>
+            </div>
+            <p class="text-muted mt-1">
+              Discover how to keep your garden productive through winter. Topics: cold frames, season extension, and winter vegetables.
+            </p>
+            <div class="tags mt-1">
+              <span class="tag">Workshop</span>
+              <span class="tag">Free</span>
+            </div>
+            <div style="margin-top: 1rem;">
+              <a href="#" class="btn btn-primary btn-small">Register</a>
+              <a href="#" class="btn btn-outline btn-small">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 9 -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-day">12</div>
+            <div class="event-month">Dec</div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">Permaculture Design Certificate Course</h3>
+            <div class="event-info">
+              <span><i class="fas fa-clock"></i> 9:00 AM - 5:00 PM</span>
+              <span><i class="fas fa-map-marker-alt"></i> Sunset Permaculture</span>
+            </div>
+            <p class="text-muted mt-1">
+              Intensive 72-hour PDC course starting Dec 12. Learn comprehensive permaculture design from certified instructors. Early bird discount available!
+            </p>
+            <div class="tags mt-1">
+              <span class="tag">Course</span>
+              <span class="tag">$1,200</span>
+              <span class="tag">Multi-day</span>
+            </div>
+            <div style="margin-top: 1rem;">
+              <a href="#" class="btn btn-primary btn-small">Register</a>
+              <a href="#" class="btn btn-outline btn-small">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 10 -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-day">15</div>
+            <div class="event-month">Dec</div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">Herbal Medicine Garden Planning</h3>
+            <div class="event-info">
+              <span><i class="fas fa-clock"></i> 6:00 PM - 8:00 PM</span>
+              <span><i class="fas fa-map-marker-alt"></i> Community Center</span>
+            </div>
+            <p class="text-muted mt-1">
+              Design a medicinal herb garden for your space. Learn about common medicinal plants, cultivation tips, and basic processing methods.
+            </p>
+            <div class="tags mt-1">
+              <span class="tag">Workshop</span>
+              <span class="tag">$10</span>
+            </div>
+            <div style="margin-top: 1rem;">
+              <a href="#" class="btn btn-primary btn-small">Register</a>
+              <a href="#" class="btn btn-outline btn-small">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 11 -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-day">20</div>
+            <div class="event-month">Dec</div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">End of Year Community Potluck</h3>
+            <div class="event-info">
+              <span><i class="fas fa-clock"></i> 5:00 PM - 9:00 PM</span>
+              <span><i class="fas fa-map-marker-alt"></i> Green Valley Farm</span>
+            </div>
+            <p class="text-muted mt-1">
+              Celebrate the year with good food and great company! Bring a dish to share. Live music, bonfire, and year-in-review slideshow.
+            </p>
+            <div class="tags mt-1">
+              <span class="tag">Social</span>
+              <span class="tag">Free</span>
+            </div>
+            <div style="margin-top: 1rem;">
+              <a href="#" class="btn btn-primary btn-small">Register</a>
+              <a href="#" class="btn btn-outline btn-small">Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 12 -->
+        <div class="event-card">
+          <div class="event-date">
+            <div class="event-day">28</div>
+            <div class="event-month">Dec</div>
+          </div>
+          <div class="event-details">
+            <h3 class="event-title">Soil Testing & Analysis Workshop</h3>
+            <div class="event-info">
+              <span><i class="fas fa-clock"></i> 10:00 AM - 1:00 PM</span>
+              <span><i class="fas fa-map-marker-alt"></i> Green Valley Farm</span>
+            </div>
+            <p class="text-muted mt-1">
+              Learn to conduct and interpret soil tests. Hands-on practice with pH testing, texture analysis, and understanding soil reports.
+            </p>
+            <div class="tags mt-1">
+              <span class="tag">Workshop</span>
+              <span class="tag">$20</span>
+            </div>
+            <div style="margin-top: 1rem;">
+              <a href="#" class="btn btn-primary btn-small">Register</a>
+              <a href="#" class="btn btn-outline btn-small">Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recurring Events -->
+    <section class="mb-3">
+      <h2 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+        <i class="fas fa-redo"></i> Recurring Events
+      </h2>
+
+      <div class="card">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <div>
+            <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-calendar-week"></i> Weekly Garden Club</h3>
+            <p class="text-muted" style="margin-bottom: 0.5rem;">Every Saturday, 9:00 AM - 11:00 AM</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Casual weekly meetup for gardeners of all levels. Share experiences, swap plants, and get advice.</p>
+            <div style="font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+              <i class="fas fa-map-marker-alt"></i> Urban Homestead Hub
+            </div>
+            <span class="tag">Free</span>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-calendar-week"></i> Permaculture Study Group</h3>
+            <p class="text-muted" style="margin-bottom: 0.5rem;">First Wednesday, 7:00 PM - 9:00 PM</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Monthly discussion group diving deep into permaculture books and concepts. Bring your questions!</p>
+            <div style="font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+              <i class="fas fa-map-marker-alt"></i> Community Center
+            </div>
+            <span class="tag">Free</span>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-calendar-week"></i> Farm Work Exchange</h3>
+            <p class="text-muted" style="margin-bottom: 0.5rem;">Every Sunday, 8:00 AM - 12:00 PM</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Trade your time for fresh produce and learning. Help with farm tasks and take home veggies!</p>
+            <div style="font-size: 0.85rem; color: var(--wiki-text-muted); margin-bottom: 0.5rem;">
+              <i class="fas fa-map-marker-alt"></i> Green Valley Farm
+            </div>
+            <span class="tag">Free + Take Home Food</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subscribe -->
+    <div class="card text-center">
+      <h2 style="margin-bottom: 1rem;">Never Miss an Event</h2>
+      <p class="text-muted" style="font-size: 1.1rem; margin-bottom: 2rem;">
+        Get email notifications about new events and changes to your registered events
+      </p>
+      <div style="max-width: 500px; margin: 0 auto; display: flex; gap: 0.5rem;">
+        <input
+          type="email"
+          placeholder="Enter your email"
+          class="form-input"
+          style="flex: 1;"
+        >
+        <button class="btn btn-primary">
+          <i class="fas fa-bell"></i> Subscribe
+        </button>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
+        Or sync to your calendar: <a href="#" style="color: var(--wiki-primary);">Google Calendar</a> | <a href="#" style="color: var(--wiki-primary);">iCal</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p>&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">About</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Privacy</a> |
+        <a href="#" style="color: var(--wiki-text-muted); margin: 0 0.5rem;">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/wiki.js"></script>
+  <script type="module" src="js/wiki-events.js"></script>
+</body>
+</html>

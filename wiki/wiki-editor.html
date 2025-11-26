@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="../../manifest.json">
+
+  <!-- iOS-specific meta tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Permahub">
+  <link rel="apple-touch-icon" href="../../assets/icons/icon-192x192.png">
+
+  <!-- Theme color for browser UI -->
+  <meta name="theme-color" content="#2d8659">
+
+  <!-- MS Tile icons (Windows) -->
+  <meta name="msapplication-TileColor" content="#2d8659">
+  <meta name="msapplication-TileImage" content="../../assets/icons/icon-144x144.png">
+  <title>Create New Guide - Community Wiki</title>
+  <link rel="stylesheet" href="css/wiki.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+  <script src="js/wiki-i18n.js"></script>
+  <script src="js/pwa-register.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="wiki-header">
+    <nav class="wiki-nav">
+      <a href="wiki-home.html" class="wiki-logo">
+        <span class="wiki-logo-icon">🌱</span>
+        <span data-i18n="wiki.nav.logo">Community Wiki</span>
+      </a>
+      <ul class="wiki-menu">
+        <li><a href="wiki-home.html" data-i18n="wiki.nav.home">Home</a></li>
+        <li><a href="wiki-guides.html" data-i18n="wiki.nav.guides">Guides</a></li>
+        <li><a href="wiki-events.html" data-i18n="wiki.nav.events">Events</a></li>
+        <li><a href="wiki-map.html" data-i18n="wiki.nav.locations">Locations</a></li>
+        <li><a href="wiki-login.html" data-i18n="wiki.nav.login">Login</a></li>
+        <li>
+          <!-- Language Selector -->
+          <div class="lang-selector">
+            <button class="lang-selector-btn" id="langSelectorBtn">
+              <i class="fas fa-globe"></i>
+              <span class="lang-current">English</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></div>
+              <div class="lang-option" data-lang="pt"><span class="lang-flag">🇵🇹</span><span class="lang-name">Português</span></div>
+              <div class="lang-option" data-lang="es"><span class="lang-flag">🇪🇸</span><span class="lang-name">Español</span></div>
+              <div class="lang-option" data-lang="fr"><span class="lang-flag">🇫🇷</span><span class="lang-name">Français</span></div>
+              <div class="lang-option" data-lang="de"><span class="lang-flag">🇩🇪</span><span class="lang-name">Deutsch</span></div>
+              <div class="lang-option" data-lang="it"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italiano</span></div>
+              <div class="lang-option" data-lang="nl"><span class="lang-flag">🇳🇱</span><span class="lang-name">Nederlands</span></div>
+              <div class="lang-option" data-lang="pl"><span class="lang-flag">🇵🇱</span><span class="lang-name">Polski</span></div>
+              <div class="lang-option" data-lang="ja"><span class="lang-flag">🇯🇵</span><span class="lang-name">日本語</span></div>
+              <div class="lang-option" data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-name">中文</span></div>
+              <div class="lang-option" data-lang="ko"><span class="lang-flag">🇰🇷</span><span class="lang-name">한국어</span></div>
+              <div class="lang-option" data-lang="cs"><span class="lang-flag">🇨🇿</span><span class="lang-name">Čeština</span></div>
+              <div class="lang-option" data-lang="sk"><span class="lang-flag">🇸🇰</span><span class="lang-name">Slovenčina</span></div>
+              <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span><span class="lang-name">Українська</span></div>
+              <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-name">Русский</span></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="wiki-container">
+    <div class="card" style="max-width: 900px; margin: 0 auto;">
+      <div class="card-header">
+        <h1 class="card-title" data-i18n="wiki.editor.title">Create New Guide</h1>
+        <div class="flex gap-2">
+          <!-- Current Status Badge (only when editing) -->
+          <div id="currentStatusBadge" style="display: none; align-items: center; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+            <span id="statusBadgeText">Draft</span>
+          </div>
+
+          <button class="btn btn-outline btn-small" id="previewBtn">
+            <i class="fas fa-eye"></i> <span data-i18n="wiki.editor.preview">Preview</span>
+          </button>
+
+          <a href="wiki-editor.html" class="btn btn-primary btn-small" data-i18n="wiki.nav.create">
+            Create Page
+          </a>
+
+          <!-- Status Selector -->
+          <select id="statusSelect" class="form-input" style="width: auto; padding: 0.5rem;">
+            <option value="draft" data-i18n="wiki.editor.status_draft">Draft</option>
+            <option value="published" data-i18n="wiki.editor.status_published">Published</option>
+            <option value="archived" data-i18n="wiki.editor.status_archived">Archived</option>
+          </select>
+
+          <button class="btn btn-primary btn-small" id="saveBtn">
+            <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save">Save</span>
+          </button>
+
+          <!-- Delete Button (only when editing) -->
+          <button class="btn btn-danger btn-small" id="deleteBtn" style="display: none;">
+            <i class="fas fa-trash"></i> <span data-i18n="wiki.editor.delete">Delete</span>
+          </button>
+        </div>
+      </div>
+      <form id="editorForm">
+        <!-- Content Type Selection -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.editor.content_type">Content Type</label>
+          <div style="display: flex; gap: 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="contentType" value="guide" checked>
+              <span><i class="fas fa-book"></i> <span data-i18n="wiki.editor.type.guide">Guide/Article</span></span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="contentType" value="event">
+              <span><i class="fas fa-calendar"></i> <span data-i18n="wiki.editor.type.event">Event</span></span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="contentType" value="location">
+              <span><i class="fas fa-map-marker-alt"></i> <span data-i18n="wiki.editor.type.location">Location</span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label class="form-label" for="title">
+            <span data-i18n="wiki.editor.title_label">Title</span> <span style="color: var(--wiki-danger);">*</span>
+          </label>
+          <input
+            type="text"
+            id="title"
+            class="form-input"
+            data-i18n-placeholder="wiki.editor.title_placeholder"
+            placeholder="e.g., Building a Swale System for Water Retention"
+            required
+          >
+          <small class="text-muted" data-i18n="wiki.editor.title_hint">A clear, descriptive title helps others find your content</small>
+        </div>
+
+        <!-- Summary -->
+        <div class="form-group">
+          <label class="form-label" for="summary">
+            <span data-i18n="wiki.editor.summary_label">Summary</span> <span style="color: var(--wiki-danger);">*</span>
+          </label>
+          <textarea
+            id="summary"
+            class="form-input"
+            rows="3"
+            data-i18n-placeholder="wiki.editor.summary_placeholder"
+            placeholder="Write a brief 1-2 sentence summary that will appear in search results and previews..."
+            required
+            style="resize: vertical;"
+          ></textarea>
+        </div>
+
+        <!-- Categories/Tags -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.editor.categories_label">Categories</label>
+          <div id="categoriesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+            <!-- Categories will be loaded dynamically from database -->
+            <div style="color: var(--wiki-text-muted); padding: 1rem;">
+              <i class="fas fa-spinner fa-spin"></i> <span data-i18n="wiki.editor.loading_categories">Loading categories...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rich Text Editor -->
+        <div class="form-group">
+          <label class="form-label">
+            <span data-i18n="wiki.editor.content_label">Content</span> <span style="color: var(--wiki-danger);">*</span>
+          </label>
+
+          <!-- Quill Editor Container -->
+          <div id="editor" style="min-height: 400px; background: white;"></div>
+
+          <!-- Hidden field to store content for form submission -->
+          <input type="hidden" id="content" name="content">
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--wiki-text-muted);">
+            <span data-i18n="wiki.editor.formatting_tip">💡 Tip: Format text using the toolbar above. What you see is what you get!</span>
+            <span id="charCount" data-i18n="wiki.editor.char_count_zero">0 characters</span>
+          </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="wiki.editor.image_label">Featured Image</label>
+          <div style="border: 2px dashed var(--wiki-border); border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer;" id="imageUploadZone">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--wiki-text-muted); margin-bottom: 1rem;"></i>
+            <p><strong data-i18n="wiki.editor.click_upload">Click to upload</strong> <span data-i18n="wiki.editor.drag_drop">or drag and drop</span></p>
+            <p class="text-muted" style="font-size: 0.9rem;" data-i18n="wiki.editor.upload_limit">PNG, JPG, GIF up to 5MB</p>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+          </div>
+          <div id="imagePreview" style="margin-top: 1rem; display: none;">
+            <img id="previewImg" style="max-width: 100%; border-radius: 8px;">
+            <button type="button" class="btn btn-outline btn-small mt-1" id="removeImage">
+              <i class="fas fa-times"></i> <span data-i18n="wiki.editor.remove_image">Remove Image</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Wikipedia Reference (shown for guides) -->
+        <div id="wikipediaFields" style="display: none;">
+          <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--wiki-primary);">
+              <i class="fab fa-wikipedia-w"></i> <span data-i18n="wiki.editor.wikipedia_section">Wikipedia Reference</span>
+            </h3>
+
+            <div class="form-group">
+              <label class="form-label" for="wikipediaUrl" data-i18n="wiki.editor.wikipedia_label">Wikipedia Link (optional)</label>
+              <input
+                type="url"
+                id="wikipediaUrl"
+                class="form-input"
+                data-i18n-placeholder="wiki.editor.wikipedia_placeholder"
+                placeholder="https://en.wikipedia.org/wiki/Permaculture"
+                pattern="https://.*\.wikipedia\.org/wiki/.*"
+              >
+              <small class="text-muted">
+                <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.wikipedia_hint">Add a Wikipedia link for fact-checking and additional information</span>
+              </small>
+            </div>
+
+            <div id="wikipediaVerification" style="display: none; margin-top: 1rem;">
+              <div style="padding: 1rem; background: #fff3e0; border-left: 4px solid #f57c00; border-radius: 4px;">
+                <strong style="color: #e65100;">
+                  <i class="fas fa-exclamation-triangle"></i> <span data-i18n="wiki.editor.verification_required">Verification Required</span>
+                </strong>
+                <p style="margin: 0.5rem 0 1rem; color: #424242;" data-i18n="wiki.editor.verification_text">
+                  Please verify that the Wikipedia article is relevant and accurate for this guide.
+                </p>
+                <button type="button" id="verifyWikipedia" class="btn btn-primary btn-small">
+                  <i class="fas fa-check-circle"></i> <span data-i18n="wiki.editor.verify_link">Verify Link</span>
+                </button>
+                <button type="button" id="fetchWikipediaSummary" class="btn btn-outline btn-small" style="margin-left: 0.5rem;">
+                  <i class="fas fa-sync"></i> <span data-i18n="wiki.editor.fetch_summary">Fetch Summary</span>
+                </button>
+              </div>
+
+              <div id="wikipediaSummaryBox" style="display: none; margin-top: 1rem;">
+                <label class="form-label" data-i18n="wiki.editor.wikipedia_summary_label">Wikipedia Summary</label>
+                <textarea
+                  id="wikipediaSummary"
+                  class="form-input"
+                  rows="3"
+                  data-i18n-placeholder="wiki.editor.wikipedia_summary_placeholder"
+                  placeholder="Brief summary from Wikipedia article..."
+                  style="resize: vertical;"
+                ></textarea>
+              </div>
+
+              <div id="wikipediaVerifiedStatus" style="display: none; margin-top: 1rem; padding: 1rem; background: #e8f5e9; border-left: 4px solid #4caf50; border-radius: 4px;">
+                <strong style="color: #2e7d32;">
+                  <i class="fas fa-check-circle"></i> <span data-i18n="wiki.editor.verified">Verified</span>
+                </strong>
+                <p style="margin: 0.5rem 0 0; color: #424242; font-size: 0.9rem;" data-i18n="wiki.editor.verified_text">
+                  This Wikipedia link has been verified as accurate and relevant.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Fields (shown based on content type) -->
+        <div id="eventFields" style="display: none;">
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.event_details">Event Details</h3>
+
+          <div class="form-group">
+            <label class="form-label" for="eventDate" data-i18n="wiki.editor.event_date">Event Date</label>
+            <input type="date" id="eventDate" class="form-input">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="eventStartTime" data-i18n="wiki.editor.start_time">Start Time</label>
+              <input type="time" id="eventStartTime" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eventEndTime" data-i18n="wiki.editor.end_time">End Time</label>
+              <input type="time" id="eventEndTime" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="eventLocation" data-i18n="wiki.editor.location_field">Location</label>
+            <input type="text" id="eventLocation" class="form-input" data-i18n-placeholder="wiki.editor.event_location_placeholder" placeholder="e.g., Green Valley Farm, 123 Farm Road">
+          </div>
+
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">
+            <i class="fas fa-address-card"></i> <span data-i18n="wiki.editor.event_organizer_section">Organizer & Contact Information</span>
+          </h3>
+          <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.event_organizer_help">Help attendees reach you! All fields are optional.</span>
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="organizerName" data-i18n="wiki.editor.organizer_name">Organizer Name</label>
+            <input
+              type="text"
+              id="organizerName"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.organizer_name_placeholder"
+              placeholder="e.g., Sarah Chen"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.organizer_name_hint">Name of the person organizing this event</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="organizerOrganization" data-i18n="wiki.editor.organizer_org">Organization</label>
+            <input
+              type="text"
+              id="organizerOrganization"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.organizer_org_placeholder"
+              placeholder="e.g., Brooklyn Botanic Garden"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.organizer_org_hint">Organization or group hosting the event</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactEmail" data-i18n="wiki.editor.contact_email">Contact Email</label>
+            <input
+              type="email"
+              id="contactEmail"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.contact_email_placeholder"
+              placeholder="e.g., info@organization.org"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.contact_email_hint">Email address for event inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactPhone" data-i18n="wiki.editor.contact_phone">Contact Phone</label>
+            <input
+              type="tel"
+              id="contactPhone"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.contact_phone_placeholder"
+              placeholder="e.g., +1 555 123 4567"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.contact_phone_hint">Phone number for event inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contactWebsite" data-i18n="wiki.editor.contact_website">Contact Website</label>
+            <input
+              type="url"
+              id="contactWebsite"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.contact_website_placeholder"
+              placeholder="e.g., https://www.organization.org"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.contact_website_hint">Event-specific website (if different from registration URL)</small>
+          </div>
+        </div>
+
+        <div id="locationFields" style="display: none;">
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);" data-i18n="wiki.editor.location_details">Location Details</h3>
+
+          <div class="form-group">
+            <label class="form-label" for="address" data-i18n="wiki.editor.address">Address</label>
+            <input type="text" id="address" class="form-input" data-i18n-placeholder="wiki.editor.address_placeholder" placeholder="123 Farm Road, City, Country">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="latitude" data-i18n="wiki.editor.latitude">Latitude</label>
+              <input type="text" id="latitude" class="form-input" data-i18n-placeholder="wiki.editor.latitude_placeholder" placeholder="e.g., 40.7128">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="longitude" data-i18n="wiki.editor.longitude">Longitude</label>
+              <input type="text" id="longitude" class="form-input" data-i18n-placeholder="wiki.editor.longitude_placeholder" placeholder="e.g., -74.0060">
+            </div>
+          </div>
+
+          <p class="text-muted" style="font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.coordinates_help">You can find coordinates by clicking on the location in <a href="https://www.google.com/maps" target="_blank" style="color: var(--wiki-primary);">Google Maps</a></span>
+          </p>
+
+          <h3 style="margin: 2rem 0 1rem; color: var(--wiki-primary);">
+            <i class="fas fa-address-card"></i> <span data-i18n="wiki.editor.location_contact_section">Contact Information</span>
+          </h3>
+          <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> <span data-i18n="wiki.editor.location_contact_help">Help visitors connect with this location! All fields are optional.</span>
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactName" data-i18n="wiki.editor.location_contact_name">Contact Name</label>
+            <input
+              type="text"
+              id="locationContactName"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.location_contact_name_placeholder"
+              placeholder="e.g., John Smith"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.location_contact_name_hint">Name of primary contact person for this location</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactEmail" data-i18n="wiki.editor.location_contact_email">Contact Email</label>
+            <input
+              type="email"
+              id="locationContactEmail"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.location_contact_email_placeholder"
+              placeholder="e.g., contact@location.org"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.location_contact_email_hint">Email address for location inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactPhone" data-i18n="wiki.editor.location_contact_phone">Contact Phone</label>
+            <input
+              type="tel"
+              id="locationContactPhone"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.location_contact_phone_placeholder"
+              placeholder="e.g., +1 555 123 4567"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.location_contact_phone_hint">Phone number for location inquiries</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationWebsite" data-i18n="wiki.editor.location_website">Website</label>
+            <input
+              type="url"
+              id="locationWebsite"
+              class="form-input"
+              data-i18n-placeholder="wiki.editor.location_website_placeholder"
+              placeholder="e.g., https://www.location.org"
+            >
+            <small class="text-muted" data-i18n="wiki.editor.location_website_hint">Location's official website</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="locationContactHours" data-i18n="wiki.editor.location_hours">Operating Hours</label>
+            <textarea
+              id="locationContactHours"
+              class="form-input"
+              rows="3"
+              data-i18n-placeholder="wiki.editor.location_hours_placeholder"
+              placeholder="e.g., Monday-Friday 9am-5pm&#10;Saturday 10am-3pm&#10;Closed Sunday"
+              style="resize: vertical;"
+            ></textarea>
+            <small class="text-muted" data-i18n="wiki.editor.location_hours_hint">When is this location open to visitors?</small>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div style="background-color: var(--wiki-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+          <h3 style="margin-bottom: 1rem;" data-i18n="wiki.editor.settings">Publishing Settings</h3>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="allowComments" checked>
+              <span data-i18n="wiki.editor.allow_comments">Allow comments on this page</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="allowEdits" checked>
+              <span data-i18n="wiki.editor.allow_edits">Allow other registered users to suggest edits</span>
+            </label>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" name="notifyGroup">
+              <span data-i18n="wiki.editor.notify_group">Notify WhatsApp group about this content</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 1rem; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--wiki-border);">
+          <div>
+            <!-- Delete Button (only when editing) -->
+            <button type="button" class="btn btn-danger" id="deleteBtn2" style="display: none;">
+              <i class="fas fa-trash"></i> <span data-i18n="wiki.editor.delete">Delete</span>
+            </button>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <button type="button" class="btn btn-outline" onclick="history.back()">
+              <i class="fas fa-times"></i> <span data-i18n="wiki.editor.cancel">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveBtn2">
+              <i class="fas fa-save"></i> <span data-i18n="wiki.editor.save">Save</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Help Sidebar -->
+    <div class="card" style="max-width: 900px; margin: 2rem auto 0;">
+      <h3 style="color: var(--wiki-primary); margin-bottom: 1rem;">
+        <i class="fas fa-question-circle"></i> <span data-i18n="wiki.editor.tips_title">Writing Tips</span>
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <div>
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip1_title">✍️ Be Clear & Concise</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip1_text">
+            Write in simple language. Break complex topics into sections with clear headings.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip2_title">📸 Use Images</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip2_text">
+            Visual aids help readers understand. Include photos, diagrams, and charts where relevant.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip3_title">🔗 Link to Related Content</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip3_text">
+            Reference other guides and resources to help readers dive deeper into topics.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;" data-i18n="wiki.editor.tip4_title">📋 Add Practical Steps</h4>
+          <p style="font-size: 0.9rem; color: var(--wiki-text-muted);" data-i18n="wiki.editor.tip4_text">
+            Include actionable instructions, materials lists, and troubleshooting tips.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="wiki-footer">
+    <div class="wiki-container">
+      <p data-i18n="wiki.footer.copyright">&copy; 2025 Permahub Community Wiki. Made with 🌱 for the global permaculture community.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="js/wiki.js"></script>
+  <script>
+    // Initialize Quill editor
+    let quill = null;
+
+    // Simple mockup interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      // Note: Quill editor is initialized in wiki-editor.js module to avoid duplicate toolbars
+      // The module provides the actual editor instance with proper saving functionality
+
+      // Note: All handlers including content type switching, image upload, form submission,
+      // save draft, and preview are properly implemented in wiki-editor.js module
+      // The module saves to Supabase database
+    });
+  </script>
+
+  <!-- Load wiki editor module -->
+  <script type="module" src="js/auth-header.js"></script>
+  <script type="module" src="js/wiki-editor.js"></script>
+</body>
+</html>
