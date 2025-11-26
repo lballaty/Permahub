@@ -49,6 +49,28 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.73 - 2025-11-27 00:00:36
+**Commit:** `pending`
+
+### 2025-11-27 - Publish GitHub Pages build to docs-gh
+
+**Issue:**
+Latest Vite build needed to be published to the GitHub Pages source directory.
+
+**Root Cause:**
+- GitHub Pages output (`docs-gh/`) was not yet committed after the new build.
+
+**Solution:**
+- Ran the local publish script to regenerate `dist/` and sync it into `docs-gh/`.
+- Prepared the updated `docs-gh/` artifacts for commit to main.
+
+**Files Changed:**
+- docs-gh/**
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.72 - 2025-11-26 23:50:09
 **Commit:** `ec8229a`
 

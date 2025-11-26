@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permaculture Network - Legal Documents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f5f5f0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a5f3f 0%, #2d8659 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            background: white;
+            display: flex;
+            border-bottom: 2px solid #e0e7e9;
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: #556b6f;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs button.active {
+            color: #2d8659;
+            border-bottom-color: #2d8659;
+            background: #f0f7f5;
+        }
+
+        .nav-tabs button:hover {
+            background: #f9f9f9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .document {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .document.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #1a5f3f;
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e7e9;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #2d8659;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        h4 {
+            color: #556b6f;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            text-align: justify;
+        }
+
+        strong {
+            color: #1a5f3f;
+            font-weight: 600;
+        }
+
+        code {
+            background: #f0f7f5;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .info-box {
+            background: #d4f4e3;
+            border-left: 4px solid #2d8659;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            margin: 0;
+            text-align: left;
+        }
+
+        .last-updated {
+            color: #95a5a6;
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e7e9;
+        }
+
+        .toc {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #2d8659;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: #1a5f3f;
+        }
+
+        .toc ol {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .toc li {
+            margin-bottom: 0.3rem;
+        }
+
+        .toc a {
+            color: #2d8659;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #d4f4e3;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2d8659;
+            border: 2px solid #2d8659;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f7f5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .nav-tabs button {
+                font-size: 0.8rem;
+                padding: 0.75rem 0.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .print-info {
+            text-align: center;
+            padding: 1rem;
+            background: #f0f7f5;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #556b6f;
+        }
+
+        @media print {
+            header, .nav-tabs, footer, .button-group, .print-info {
+                display: none;
+            }
+
+            .document {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🌿 Permaculture Network</h1>
+        <p>Legal Documents & Policies</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <button class="tab-button active" onclick="showDocument('privacy')">Privacy Policy</button>
+        <button class="tab-button" onclick="showDocument('terms')">Terms of Service</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Privacy Policy -->
+        <div id="privacy" class="document active">
+            <div class="print-info">
+                📄 You can print or download this document using your browser's print function (Ctrl+P or Cmd+P)
+            </div>
+
+            <h2>Privacy Policy</h2>
+            <p><strong>Effective Date:</strong> January 1, 2025</p>
+
+            <div class="info-box">
+                <p><strong>Summary:</strong> We collect information to provide our services. We respect your privacy, encrypt your data, and never sell your information. You have rights to access, correct, or delete your data.</p>
+            </div>
+
+            <div class="toc">
+                <h3>Quick Navigation</h3>
+                <ol>
+                    <li><a href="#privacy-intro">Introduction</a></li>
+                    <li><a href="#privacy-collect">Information We Collect</a></li>
+                    <li><a href="#privacy-use">How We Use Your Information</a></li>
+                    <li><a href="#privacy-share">How We Share Your Information</a></li>
+                    <li><a href="#privacy-rights">Your Privacy Rights</a></li>
+                    <li><a href="#privacy-security">Data Security</a></li>
+                    <li><a href="#privacy-gdpr">GDPR Rights</a></li>
+                    <li><a href="#privacy-contact">Contact Us</a></li>
+                </ol>
+            </div>
+
+            <h3 id="privacy-intro">Introduction</h3>
+            <p>Welcome to the Permaculture Network ("we," "us," "our," or "Company"). We are committed to protecting your privacy and ensuring you have a positive experience on our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information.</p>
+
+            <h3 id="privacy-collect">Information We Collect</h3>
+            <h4>Information You Provide Directly</h4>
+            <ul>
+                <li><strong>Account Registration:</strong> Email address, full name, password, location, phone number (optional), website/social media links</li>
+                <li><strong>Profile Information:</strong> Bio, avatar/photo, skills, interests, looking for, visibility settings</li>
+                <li><strong>Project & Resource Information:</strong> Project details, images, geographic coordinates, contact information</li>
+                <li><strong>Communication:</strong> Messages, support requests, feedback, comments</li>
+                <li><strong>Payment Information:</strong> Handled securely by third-party providers (we don't store this)</li>
+            </ul>
+
+            <h4>Information Collected Automatically</h4>
+            <ul>
+                <li><strong>Technical Information:</strong> IP address, browser type, pages visited, time spent, search queries</li>
+                <li><strong>Location Data:</strong> Geographic coordinates from your profile, location-based searches</li>
+                <li><strong>Cookies & Similar Technologies:</strong> Session cookies, preference cookies, analytics cookies</li>
+            </ul>
+
+            <h3 id="privacy-use">How We Use Your Information</h3>
+            <ul>
+                <li><strong>Service Delivery:</strong> Creating accounts, delivering features, processing transactions</li>
+                <li><strong>Communication:</strong> Service announcements, policy updates, support responses</li>
+                <li><strong>Enhancement:</strong> Personalizing content, analyzing usage, improving services</li>
+                <li><strong>Networking:</strong> Connecting you with other users, recommending projects and resources</li>
+                <li><strong>Marketing:</strong> Newsletters and announcements (with your consent)</li>
+                <li><strong>Legal & Safety:</strong> Compliance, fraud prevention, security, legal requests</li>
+            </ul>
+
+            <h3 id="privacy-share">How We Share Your Information</h3>
+            <h4>Public Information</h4>
+            <p>Information you mark as public will be visible to all users and potentially search engines. This includes your name, bio, skills, interests, and projects.</p>
+
+            <h4>Service Providers</h4>
+            <p>We share necessary information with third-party providers (Supabase, email services, payment processors) who are contractually bound to protect your information.</p>
+
+            <h4>Legal Requirements</h4>
+            <p>We may disclose information if required by law or to protect safety, rights, and property.</p>
+
+            <h4>Aggregated & De-Identified Data</h4>
+            <p>We may share anonymized data for research, analytics, and improvements.</p>
+
+            <h3 id="privacy-rights">Your Privacy Rights & Choices</h3>
+            <h4>Access & Portability</h4>
+            <p>You can request a copy of all data we hold about you. Email: <code>privacy@permaculturenetwork.org</code></p>
+
+            <h4>Correction & Updates</h4>
+            <p>Update your profile information anytime through your account settings.</p>
+
+            <h4>Deletion</h4>
+            <p>Request deletion of your account and associated data. This is processed within 30 days. Go to Account Settings > Delete Account.</p>
+
+            <h4>Privacy Settings</h4>
+            <p>Control the visibility of your information:</p>
+            <ul>
+                <li>Make your profile public or private</li>
+                <li>Choose which information is visible</li>
+                <li>Opt-out of recommendations</li>
+                <li>Control location sharing</li>
+            </ul>
+
+            <h4>Communications Preferences</h4>
+            <ul>
+                <li>Unsubscribe from marketing emails (one-click link in every email)</li>
+                <li>Opt-out of push notifications</li>
+                <li>Manage communication frequency</li>
+                <li>Disable activity notifications</li>
+            </ul>
+
+            <h3 id="privacy-security">Data Security</h3>
+            <p>We implement comprehensive security measures:</p>
+            <ul>
+                <li><strong>Encryption:</strong> HTTPS/TLS for all data in transit</li>
+                <li><strong>Authentication:</strong> Secure login with bcrypt hashing</li>
+                <li><strong>Access Control:</strong> Role-based restrictions and row-level security</li>
+                <li><strong>Firewalls:</strong> Network-level protection</li>
+                <li><strong>Monitoring:</strong> Real-time security monitoring</li>
+                <li><strong>Regular Audits:</strong> Security assessments and penetration testing</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Important:</strong> While we implement robust security, no system is 100% secure. You are responsible for maintaining confidentiality of your login credentials.</p>
+            </div>
+
+            <h3 id="privacy-gdpr">GDPR Rights (EU Users)</h3>
+            <p>If you are in the European Union, you have additional rights:</p>
+            <ul>
+                <li><strong>Right to Access:</strong> Request access to your personal data</li>
+                <li><strong>Right to Rectification:</strong> Correct inaccurate information</li>
+                <li><strong>Right to Erasure:</strong> Request deletion ("right to be forgotten")</li>
+                <li><strong>Right to Restrict Processing:</strong> Limit how we use your data</li>
+                <li><strong>Right to Data Portability:</strong> Receive data in portable format</li>
+                <li><strong>Right to Object:</strong> Oppose certain processing</li>
+                <li><strong>Right to Lodge a Complaint:</strong> File with your data protection authority</li>
+            </ul>
+
+            <h3 id="privacy-contact">Contact Us</h3>
+            <p><strong>Privacy Inquiries:</strong></p>
+            <ul>
+                <li>Email: <code>privacy@permaculturenetwork.org</code></li>
+                <li>Data Protection Officer: <code>dpo@permaculturenetwork.org</code></li>
+            </ul>
+
+            <p><strong>Response Time:</strong> We respond to privacy requests within 30 days.</p>
+
+            <div class="last-updated">
+                Last Updated: January 1, 2025
+            </div>
+        </div>
+
+        <!-- Terms of Service -->
+        <div id="terms" class="document">
+            <div class="print-info">
+                📄 You can print or download this document using your browser's print function (Ctrl+P or Cmd+P)
+            </div>
+
+            <h2>Terms of Service</h2>
+            <p><strong>Effective Date:</strong> January 1, 2025</p>
+
+            <div class="info-box">
+                <p><strong>Summary:</strong> By using our platform, you agree to follow our rules. This includes being respectful, not posting harmful content, and respecting others' rights. We can remove content or suspend accounts that violate these terms.</p>
+            </div>
+
+            <div class="toc">
+                <h3>Quick Navigation</h3>
+                <ol>
+                    <li><a href="#terms-agreement">Agreement to Terms</a></li>
+                    <li><a href="#terms-license">Use License</a></li>
+                    <li><a href="#terms-accounts">User Accounts</a></li>
+                    <li><a href="#terms-content">User-Generated Content</a></li>
+                    <li><a href="#terms-acceptable">Acceptable Use Policy</a></li>
+                    <li><a href="#terms-ip">Intellectual Property</a></li>
+                    <li><a href="#terms-payments">Payments & Pricing</a></li>
+                    <li><a href="#terms-disclaimers">Disclaimers</a></li>
+                    <li><a href="#terms-contact">Contact Information</a></li>
+                </ol>
+            </div>
+
+            <h3 id="terms-agreement">Agreement to Terms</h3>
+            <p>By accessing and using the Permaculture Network platform, you agree to be bound by these Terms of Service. If you do not agree, please do not use this service.</p>
+
+            <h3 id="terms-license">Use License</h3>
+            <h4>What You Can Do</h4>
+            <p>We grant you a limited, non-exclusive license to use the Platform for personal, non-commercial purposes.</p>
+
+            <h4>What You Cannot Do</h4>
+            <ul>
+                <li>Modify or copy Platform content</li>
+                <li>Use the Platform for commercial purposes without permission</li>
+                <li>Attempt to reverse engineer or hack the Platform</li>
+                <li>Remove copyright or trademark notices</li>
+                <li>Use the Platform to transmit malware or spam</li>
+                <li>Use automated bots or scrapers</li>
+                <li>Interfere with Platform operation or security</li>
+                <li>Use for illegal activities</li>
+            </ul>
+
+            <h3 id="terms-accounts">User Accounts & Responsibilities</h3>
+            <h4>Requirements</h4>
+            <ul>
+                <li>You must be at least 18 years old to create an account</li>
+                <li>Provide accurate and current information</li>
+                <li>Maintain confidentiality of your password</li>
+                <li>Accept responsibility for account activities</li>
+                <li>Notify us of unauthorized access immediately</li>
+            </ul>
+
+            <h4>Account Suspension</h4>
+            <p>We may suspend or terminate your account if you:</p>
+            <ul>
+                <li>Violate these Terms</li>
+                <li>Engage in abusive, fraudulent, or illegal conduct</li>
+                <li>Harm other users or the Platform</li>
+                <li>Provide false or misleading information</li>
+            </ul>
+
+            <h3 id="terms-content">User-Generated Content</h3>
+            <p>You are responsible for any content you create. By posting content, you represent that:</p>
+            <ul>
+                <li>You own or have rights to use the content</li>
+                <li>You have obtained necessary permissions from third parties</li>
+                <li>The content does not infringe on others' rights</li>
+                <li>The content does not violate laws or our Terms</li>
+                <li>The content is not defamatory, false, or misleading</li>
+            </ul>
+
+            <p>By posting, you grant us a non-exclusive, worldwide license to use, display, and distribute your content.</p>
+
+            <h3 id="terms-acceptable">Acceptable Use Policy</h3>
+            <h4>Prohibited Content</h4>
+            <p>You may not post:</p>
+            <ul>
+                <li>Illegal content or content promoting illegal activities</li>
+                <li>Violence, threats, harassment, or abuse</li>
+                <li>Hate speech or discrimination</li>
+                <li>Sexual or obscene content</li>
+                <li>Content promoting self-harm</li>
+                <li>Misinformation or disinformation</li>
+                <li>Private information without consent</li>
+                <li>Malware or malicious code</li>
+                <li>Spam or unauthorized advertising</li>
+                <li>Copyright or trademark infringement</li>
+            </ul>
+
+            <h4>Prohibited Conduct</h4>
+            <ul>
+                <li>Impersonating others</li>
+                <li>Creating multiple accounts to evade suspensions</li>
+                <li>Phishing for private information</li>
+                <li>Harassment, stalking, or intimidation</li>
+                <li>Discrimination or demeaning behavior</li>
+                <li>Misleading or deceiving users</li>
+                <li>Pyramid schemes or fraudulent offers</li>
+                <li>Unauthorized access attempts</li>
+            </ul>
+
+            <h3 id="terms-ip">Intellectual Property Rights</h3>
+            <p>All Platform content (design, code, text, logos, features) is owned by or licensed to Permaculture Network and protected by intellectual property laws.</p>
+
+            <p>We grant you a limited license to view Platform content for personal use only. You may not:</p>
+            <ul>
+                <li>Download or reproduce substantial portions</li>
+                <li>Create derivative works</li>
+                <li>Distribute or resell content</li>
+                <li>Use content for commercial purposes</li>
+            </ul>
+
+            <h3 id="terms-payments">Payments & Pricing</h3>
+            <p>If applicable:</p>
+            <ul>
+                <li>Pricing is displayed before purchase</li>
+                <li>Prices are subject to change with notice</li>
+                <li>Taxes are your responsibility</li>
+                <li>Payments processed by third-party providers</li>
+                <li>Refund requests must be within 30 days</li>
+                <li>Subscriptions renew automatically unless cancelled</li>
+            </ul>
+
+            <h3 id="terms-disclaimers">Disclaimers & Limitation of Liability</h3>
+            <h4>As-Is Disclaimer</h4>
+            <p><strong>THE PLATFORM IS PROVIDED "AS IS" WITHOUT WARRANTIES.</strong> We disclaim all express and implied warranties including merchantability, fitness for purpose, and accuracy.</p>
+
+            <h4>No Guarantees</h4>
+            <p>We do not guarantee:</p>
+            <ul>
+                <li>Continuous, uninterrupted access</li>
+                <li>Error-free operation</li>
+                <li>Security (though we implement best practices)</li>
+                <li>Accuracy of user-generated content</li>
+            </ul>
+
+            <h4>Limitation of Liability</h4>
+            <p><strong>WE ARE NOT LIABLE FOR:</strong> Lost profits, lost data, lost opportunity, indirect damages, consequential damages, or punitive damages.</p>
+
+            <p><strong>LIABILITY CAP:</strong> Our total liability is limited to the amount you paid us in the past 12 months (or $100 if you haven't paid).</p>
+
+            <h3 id="terms-contact">Contact Information</h3>
+            <ul>
+                <li><strong>General Support:</strong> <code>support@permaculturenetwork.org</code></li>
+                <li><strong>Legal & Compliance:</strong> <code>legal@permaculturenetwork.org</code></li>
+                <li><strong>Abuse & Violations:</strong> <code>abuse@permaculturenetwork.org</code></li>
+                <li><strong>Response Time:</strong> 5 business days</li>
+            </ul>
+
+            <h4>Jurisdiction & Governing Law</h4>
+            <p>These Terms are governed by the laws of Portugal and the European Union. You agree to submit to the jurisdiction of Portuguese courts for any legal proceedings.</p>
+
+            <div class="last-updated">
+                Last Updated: January 1, 2025
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <a href="/" class="btn btn-secondary">← Back to Platform</a>
+            <button onclick="window.print()" class="btn btn-primary">🖨️ Print / Download</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Permaculture Network. All rights reserved.</p>
+        <p>
+            <a href="/">Home</a> | 
+            <a href="mailto:legal@permaculturenetwork.org">Legal Contact</a> | 
+            <a href="mailto:privacy@permaculturenetwork.org">Privacy Officer</a>
+        </p>
+    </footer>
+
+    <script>
+        function showDocument(docName) {
+            // Hide all documents
+            const documents = document.querySelectorAll('.document');
+            documents.forEach(doc => doc.classList.remove('active'));
+
+            // Hide all tab buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected document
+            document.getElementById(docName).classList.add('active');
+
+            // Highlight selected button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Add click handler to all tab buttons
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                showDocument(this.getAttribute('onclick').match(/'([^']+)'/)[1]);
+            });
+        });
+    </script>
+</body>
+</html>

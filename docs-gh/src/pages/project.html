@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - Permaculture Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f0;
+            color: #2c3e50;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: white;
+            border-bottom: 2px solid #e0e7e9;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d8659;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2d8659;
+            border: 2px solid #2d8659;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f7f5;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* ============ BREADCRUMB ============ */
+        .breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: #2d8659;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============ PROJECT HEADER ============ */
+        .project-header {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #2d8659 0%, #3d9970 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        .project-info {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #556b6f;
+        }
+
+        .meta-item i {
+            color: #2d8659;
+            font-size: 1.2rem;
+        }
+
+        .project-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: #f0f7f5;
+            color: #2d8659;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .project-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #556b6f;
+            margin-bottom: 1rem;
+        }
+
+        /* ============ GRID LAYOUT ============ */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============ SECTION CARD ============ */
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a5f3f;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e7e9;
+        }
+
+        .section-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #556b6f;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.35rem 0.7rem;
+            background: #e8f4f0;
+            color: #2d8659;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        /* ============ MAP ============ */
+        #map {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            margin-top: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* ============ CONTACT SECTION ============ */
+        .contact-info {
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e0e7e9;
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-item a {
+            color: #2d8659;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============ ACTIONS ============ */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        /* ============ LOADING ============ */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e0e7e9;
+            border-top-color: #2d8659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ ERROR ============ */
+        .error-container {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .error-text {
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-content">
+            <a href="/dashboard" class="logo">
+                <span>🌱</span>
+                <span>Permaculture Network</span>
+            </a>
+            <div class="header-actions">
+                <a href="/dashboard" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="main-container">
+        <!-- ============ BREADCRUMB ============ -->
+        <div class="breadcrumb">
+            <a href="/dashboard">Projects</a>
+            <span>&gt;</span>
+            <span id="breadcrumbTitle">Project</span>
+        </div>
+
+        <!-- ============ LOADING STATE ============ -->
+        <div id="loadingState" class="loading-container">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- ============ ERROR STATE ============ -->
+        <div id="errorState" class="error-container" style="display: none;">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <p class="error-text">Could not load project. Please try again.</p>
+            <a href="/dashboard" class="btn btn-primary" style="margin-top: 1.5rem;">
+                <i class="fas fa-arrow-left"></i> Return to Dashboard
+            </a>
+        </div>
+
+        <!-- ============ PROJECT CONTENT ============ -->
+        <div id="projectContent" style="display: none;">
+            <!-- ============ PROJECT HEADER ============ -->
+            <div class="project-header">
+                <div class="project-image" id="projectImage">🌱</div>
+                <div class="project-info">
+                    <h1 class="project-title" id="projectTitle">Loading...</h1>
+                    
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="projectLocation">Location</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span id="projectYear">Year</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span id="projectCreator">Creator</span>
+                        </div>
+                    </div>
+
+                    <div class="project-badges" id="projectBadges"></div>
+
+                    <p class="project-description" id="projectDescription">
+                        Loading description...
+                    </p>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="favoriteBtn">
+                            <i class="fas fa-heart"></i> Save Project
+                        </button>
+                        <button class="btn btn-secondary" id="shareBtn">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ CONTENT GRID ============ -->
+            <div class="project-grid">
+                <!-- ============ LEFT COLUMN ============ -->
+                <div>
+                    <!-- ============ TECHNIQUES ============ -->
+                    <div class="section-card" id="techniquesCard" style="display: none;">
+                        <h2 class="section-title">
+                            <i class="fas fa-leaf"></i> Techniques
+                        </h2>
+                        <div class="tags" id="techniquesTags"></div>
+                    </div>
+
+                    <!-- ============ FOCUS AREAS ============ -->
+                    <div class="section-card" id="focusCard" style="display: none; margin-top: 2rem;">
+                        <h2 class="section-title">
+                            <i class="fas fa-target"></i> Focus Areas
+                        </h2>
+                        <div class="tags" id="focusTags"></div>
+                    </div>
+
+                    <!-- ============ PLANTS & SPECIES ============ -->
+                    <div class="section-card" id="plantsCard" style="display: none; margin-top: 2rem;">
+                        <h2 class="section-title">
+                            <i class="fas fa-leaf"></i> Plants & Species
+                        </h2>
+                        <div class="tags" id="plantsTags"></div>
+                    </div>
+                </div>
+
+                <!-- ============ RIGHT COLUMN ============ -->
+                <div>
+                    <!-- ============ MAP ============ -->
+                    <div class="section-card" id="mapCard" style="display: none;">
+                        <h2 class="section-title">
+                            <i class="fas fa-map"></i> Location
+                        </h2>
+                        <div id="map"></div>
+                    </div>
+
+                    <!-- ============ CONTACT INFORMATION ============ -->
+                    <div class="section-card" id="contactCard" style="display: none; margin-top: 2rem;">
+                        <h2 class="section-title">
+                            <i class="fas fa-info-circle"></i> Contact
+                        </h2>
+                        <div class="contact-info" id="contactInfo"></div>
+                    </div>
+
+                    <!-- ============ ABOUT PROJECT ============ -->
+                    <div class="section-card" id="aboutCard" style="display: none; margin-top: 2rem;">
+                        <h2 class="section-title">
+                            <i class="fas fa-info-circle"></i> About
+                        </h2>
+                        <div class="section-content">
+                            <p><strong>Founded:</strong> <span id="foundedYear">N/A</span></p>
+                            <p><strong>Status:</strong> <span id="projectStatus">Active</span></p>
+                            <p><strong>Open to Visitors:</strong> <span id="visitorsInfo">Check contact for details</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script src="../js/i18n-translations.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
+    <script>
+        let projectId = null;
+        let projectData = null;
+        let map = null;
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Get project ID from URL
+            projectId = new URLSearchParams(window.location.search).get('id');
+            
+            if (!projectId) {
+                showError();
+                return;
+            }
+
+            // Load project data
+            await loadProject();
+        });
+
+        // ============ LOAD PROJECT ============
+        async function loadProject() {
+            try {
+                const results = await supabase.getAll('projects', {
+                    select: '*',
+                    where: 'id',
+                    operator: 'eq',
+                    value: projectId
+                });
+
+                if (!results || results.length === 0) {
+                    showError();
+                    return;
+                }
+
+                projectData = results[0];
+                renderProject();
+            } catch (error) {
+                console.error('Error loading project:', error);
+                showError();
+            }
+        }
+
+        // ============ RENDER PROJECT ============
+        function renderProject() {
+            // Hide loading, show content
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('projectContent').style.display = 'block';
+
+            // Title
+            document.getElementById('projectTitle').textContent = projectData.name;
+            document.getElementById('breadcrumbTitle').textContent = projectData.name;
+
+            // Meta information
+            document.getElementById('projectLocation').textContent = projectData.region || 'Location not specified';
+            document.getElementById('projectYear').textContent = new Date(projectData.created_at).getFullYear();
+            document.getElementById('projectCreator').textContent = projectData.created_by || 'Community';
+
+            // Description
+            document.getElementById('projectDescription').textContent = projectData.description || 'No description available';
+
+            // Project type badge
+            const badgesContainer = document.getElementById('projectBadges');
+            badgesContainer.innerHTML = `
+                <span class="badge">${projectData.project_type || 'Project'}</span>
+                <span class="badge">${projectData.status === 'active' ? '✓ Active' : 'Inactive'}</span>
+            `;
+
+            // Techniques
+            if (projectData.techniques && projectData.techniques.length > 0) {
+                document.getElementById('techniquesCard').style.display = 'block';
+                document.getElementById('techniquesTags').innerHTML = projectData.techniques
+                    .map(t => `<span class="tag">${escapeHtml(t)}</span>`)
+                    .join('');
+            }
+
+            // Focus areas
+            if (projectData.ecological_focus && projectData.ecological_focus.length > 0) {
+                document.getElementById('focusCard').style.display = 'block';
+                document.getElementById('focusTags').innerHTML = projectData.ecological_focus
+                    .map(f => `<span class="tag">${escapeHtml(f)}</span>`)
+                    .join('');
+            }
+
+            // Plants & species
+            if (projectData.plants_species && projectData.plants_species.length > 0) {
+                document.getElementById('plantsCard').style.display = 'block';
+                document.getElementById('plantsTags').innerHTML = projectData.plants_species
+                    .map(p => `<span class="tag">${escapeHtml(p)}</span>`)
+                    .join('');
+            }
+
+            // Contact information
+            if (projectData.contact_email || projectData.website || projectData.social_media) {
+                document.getElementById('contactCard').style.display = 'block';
+                let contactHTML = '';
+                
+                if (projectData.contact_email) {
+                    contactHTML += `
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:${projectData.contact_email}">${escapeHtml(projectData.contact_email)}</a>
+                        </div>
+                    `;
+                }
+
+                if (projectData.website) {
+                    contactHTML += `
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <a href="${projectData.website}" target="_blank">${escapeHtml(projectData.website)}</a>
+                        </div>
+                    `;
+                }
+
+                if (projectData.social_media) {
+                    const social = projectData.social_media;
+                    if (social.instagram) {
+                        contactHTML += `
+                            <div class="contact-item">
+                                <i class="fab fa-instagram"></i>
+                                <a href="https://instagram.com/${social.instagram}" target="_blank">@${escapeHtml(social.instagram)}</a>
+                            </div>
+                        `;
+                    }
+                }
+
+                document.getElementById('contactInfo').innerHTML = contactHTML;
+            }
+
+            // Map
+            if (projectData.latitude && projectData.longitude) {
+                document.getElementById('mapCard').style.display = 'block';
+                setTimeout(() => initializeMap(), 100);
+            }
+
+            // About section
+            document.getElementById('aboutCard').style.display = 'block';
+            document.getElementById('foundedYear').textContent = projectData.founded_year || new Date(projectData.created_at).getFullYear();
+            document.getElementById('projectStatus').textContent = projectData.status === 'active' ? 'Active' : 'Inactive';
+            document.getElementById('visitorsInfo').textContent = projectData.open_to_visitors ? projectData.visitor_info || 'Open to visitors' : 'Not open to visitors';
+
+            // Button events
+            document.getElementById('favoriteBtn').addEventListener('click', favoriteProject);
+            document.getElementById('shareBtn').addEventListener('click', shareProject);
+        }
+
+        // ============ INITIALIZE MAP ============
+        function initializeMap() {
+            if (map) return;
+
+            map = L.map('map').setView([projectData.latitude, projectData.longitude], 12);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            L.marker([projectData.latitude, projectData.longitude])
+                .addTo(map)
+                .bindPopup(`<strong>${projectData.name}</strong><br>${projectData.region}`);
+        }
+
+        // ============ FAVORITE PROJECT ============
+        function favoriteProject() {
+            alert('Feature coming soon! Bookmark this project.');
+        }
+
+        // ============ SHARE PROJECT ============
+        function shareProject() {
+            const url = window.location.href;
+            const text = `Check out ${projectData.name} on Permaculture Network: ${url}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: projectData.name,
+                    text: projectData.description,
+                    url: url
+                });
+            } else {
+                alert('Share URL: ' + url);
+            }
+        }
+
+        // ============ SHOW ERROR ============
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        // ============ UTILITY ============
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="common.dashboard">Dashboard - Permaculture Network</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f0;
+            color: #2c3e50;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: white;
+            border-bottom: 2px solid #e0e7e9;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d8659;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-header {
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-header {
+            background: linear-gradient(135deg, #2d8659 0%, #1a5f3f 100%);
+            color: white;
+        }
+
+        .btn-primary-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 134, 89, 0.3);
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d8659;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            box-shadow: 0 2px 8px rgba(45, 134, 89, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 2px solid #e0e7e9;
+            border-radius: 8px;
+            min-width: 200px;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            background: none;
+            border: none;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown-menu a:hover,
+        .dropdown-menu button:hover {
+            background: #f0f7f5;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* ============ FILTERS & TABS ============ */
+        .filters-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.65rem 1.5rem;
+            border: 2px solid #e0e7e9;
+            background: white;
+            color: #556b6f;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-tab.active {
+            background: #2d8659;
+            color: white;
+            border-color: #2d8659;
+        }
+
+        .filter-tab:hover {
+            border-color: #2d8659;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            max-width: 800px;
+        }
+
+        @media (max-width: 768px) {
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.65rem;
+            border: 2px solid #e0e7e9;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        /* ============ CARDS GRID ============ */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #2d8659 0%, #3d9970 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a5f3f;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            color: #95a5a6;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.65rem;
+            background: #f0f7f5;
+            color: #2d8659;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: #556b6f;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            background: #e8f4f0;
+            color: #2d8659;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .card-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: 2px solid #e0e7e9;
+            background: white;
+            color: #2d8659;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .card-btn:hover {
+            border-color: #2d8659;
+            background: #f0f7f5;
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #e0e7e9;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-text {
+            color: #95a5a6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ============ LOADING ============ */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e0e7e9;
+            border-top-color: #2d8659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">🌱</span>
+                <span data-i18n="splash.title">Permaculture Network</span>
+            </a>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    data-i18n-placeholder="common.search"
+                    placeholder="Search projects..."
+                    aria-label="Search projects"
+                >
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-header btn-primary-header" id="newProjectBtn" data-i18n="common.projects">
+                    <i class="fas fa-plus"></i> New Project
+                </button>
+
+                <div class="user-menu">
+                    <div class="user-avatar" id="userAvatar" title="User menu">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="/profile" id="profileLink" data-i18n="common.profile">My Profile</a>
+                        <a href="/projects" data-i18n="common.projects">My Projects</a>
+                        <a href="/settings" data-i18n="common.settings">Settings</a>
+                        <button id="logoutBtn" data-i18n="btn.logout">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="main-container">
+        <!-- ============ FILTERS ============ -->
+        <div class="filters-section">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-type="all" data-i18n="common.projects">
+                    All Projects
+                </button>
+                <button class="filter-tab" data-type="permaculture" data-i18n="common.community">
+                    Permaculture
+                </button>
+                <button class="filter-tab" data-type="agroforestry">
+                    Agroforestry
+                </button>
+                <button class="filter-tab" data-type="resources" data-i18n="common.resources">
+                    Resources
+                </button>
+            </div>
+
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="distanceFilter">Distance</label>
+                    <select id="distanceFilter">
+                        <option value="5">5 km</option>
+                        <option value="10">10 km</option>
+                        <option value="25">25 km</option>
+                        <option value="50" selected>50 km</option>
+                        <option value="100">100 km</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="typeFilter">Type</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="permaculture">Permaculture</option>
+                        <option value="agroforestry">Agroforestry</option>
+                        <option value="aquaponics">Aquaponics</option>
+                        <option value="community-garden">Community Garden</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sortFilter">Sort By</label>
+                    <select id="sortFilter">
+                        <option value="recent">Most Recent</option>
+                        <option value="distance">Closest</option>
+                        <option value="name">Name A-Z</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CARDS GRID ============ -->
+        <div class="cards-container" id="cardsContainer">
+            <div class="empty-state">
+                <div class="loading"></div>
+                <p data-i18n="common.loading">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script src="../js/i18n-translations.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script>
+        // ============ PAGE STATE ============
+        let currentUser = null;
+        let allProjects = [];
+        let filteredProjects = [];
+        let currentFilter = 'all';
+
+        // ============ INITIALIZATION ============
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Check authentication
+            currentUser = await supabase.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = '/auth';
+                return;
+            }
+
+            // Update UI with user info
+            updateUserUI();
+            
+            // Load projects
+            await loadProjects();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Update translations in DOM
+            updateTranslationsInDOM();
+        });
+
+        // ============ UPDATE USER UI ============
+        function updateUserUI() {
+            const userEmail = currentUser.email || 'User';
+            const initials = userEmail.substring(0, 2).toUpperCase();
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('userAvatar').title = userEmail;
+        }
+
+        // ============ LOAD PROJECTS ============
+        async function loadProjects() {
+            try {
+                allProjects = await supabase.getAll('projects', {
+                    select: '*',
+                    where: 'status',
+                    operator: 'eq',
+                    value: 'active'
+                });
+
+                filteredProjects = allProjects;
+                renderCards();
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                showEmptyState('Error loading projects. Please try again.');
+            }
+        }
+
+        // ============ RENDER CARDS ============
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            
+            if (filteredProjects.length === 0) {
+                showEmptyState('No projects found');
+                return;
+            }
+
+            container.innerHTML = filteredProjects.map(project => `
+                <div class="card" data-id="${project.id}">
+                    <div class="card-image">
+                        <span>${project.project_type === 'permaculture' ? '🌱' : '🌍'}</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">${escapeHtml(project.name)}</div>
+                        <div class="card-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(project.region || 'Location')}</span>
+                            <span><i class="fas fa-calendar"></i> ${new Date(project.created_at).getFullYear()}</span>
+                        </div>
+                        <div class="card-badge">${project.project_type}</div>
+                        <p class="card-description">${escapeHtml(project.description?.substring(0, 100) + '...' || 'No description')}</p>
+                        <div class="card-tags">
+                            ${(project.techniques || []).slice(0, 3).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+                        </div>
+                        <div class="card-footer">
+                            <button class="card-btn" onclick="viewProject('${project.id}')">
+                                View
+                            </button>
+                            <button class="card-btn" onclick="favoriteProject('${project.id}')">
+                                <i class="fas fa-heart"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============ SHOW EMPTY STATE ============
+        function showEmptyState(message = 'No projects found') {
+            document.getElementById('cardsContainer').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🌱</div>
+                    <h3 class="empty-state-title">${message}</h3>
+                    <p class="empty-state-text">Try adjusting your filters or search terms</p>
+                </div>
+            `;
+        }
+
+        // ============ SETUP EVENT LISTENERS ============
+        function setupEventListeners() {
+            // Filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.dataset.type;
+                    applyFilters();
+                });
+            });
+
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                applyFilters();
+            });
+
+            // Filter controls
+            document.getElementById('distanceFilter').addEventListener('change', applyFilters);
+            document.getElementById('typeFilter').addEventListener('change', applyFilters);
+            document.getElementById('sortFilter').addEventListener('change', applyFilters);
+
+            // User menu
+            document.getElementById('userAvatar').addEventListener('click', () => {
+                document.getElementById('dropdownMenu').classList.toggle('active');
+            });
+
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+
+            // New project button
+            document.getElementById('newProjectBtn').addEventListener('click', () => {
+                window.location.href = '/projects/new';
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.user-menu')) {
+                    document.getElementById('dropdownMenu').classList.remove('active');
+                }
+            });
+        }
+
+        // ============ APPLY FILTERS ============
+        function applyFilters() {
+            let filtered = allProjects;
+
+            // Type filter
+            const typeFilter = document.getElementById('typeFilter').value;
+            if (typeFilter) {
+                filtered = filtered.filter(p => p.project_type === typeFilter);
+            }
+
+            // Search filter
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm) ||
+                    p.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Sort
+            const sortBy = document.getElementById('sortFilter').value;
+            if (sortBy === 'name') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortBy === 'recent') {
+                filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            }
+
+            filteredProjects = filtered;
+            renderCards();
+        }
+
+        // ============ UTILITY FUNCTIONS ============
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function viewProject(projectId) {
+            window.location.href = `/project/${projectId}`;
+        }
+
+        function favoriteProject(projectId) {
+            alert('Feature coming soon!');
+        }
+
+        async function logout() {
+            await supabase.signOut();
+            window.location.href = '/auth';
+        }
+
+        // ============ UPDATE TRANSLATIONS ============
+        function updateTranslationsInDOM() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                element.textContent = i18n.t(key);
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                element.placeholder = i18n.t(key);
+            });
+        }
+
+        // Listen for language changes
+        window.addEventListener('languageChanged', updateTranslationsInDOM);
+    </script>
+</body>
+</html>
