@@ -49,8 +49,41 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.70 - 2025-11-26 23:27:40
+**Commit:** `24d975b`
+
+
+
 ## Version 1.0.69 - 2025-11-26 23:17:17
 **Commit:** `86278c6`
+
+### 2025-11-27 - Update PWA documentation for current deployment paths
+
+**Commit:** pending
+
+**Issue:**
+Documentation and quick-start guides referenced single-path service worker setup and were missing the mobile-web-app-capable meta guidance, which no longer matched the code.
+
+**Root Cause:**
+- Docs were written before multi-path SW fallback and meta tag updates.
+
+**Solution:**
+- Updated GitHub Pages readiness, deployment, installation quick start, and testing docs to:
+  - Note SW fallback order and logging
+  - Mention added `mobile-web-app-capable` tag on all wiki pages
+  - Adjust expected version info
+- Added note in local test results about benign initial 404s before fallback success.
+
+**Files Changed:**
+- GITHUB_PAGES_READY.md
+- docs/GITHUB_PAGES_DEPLOYMENT.md
+- docs/processes/GITHUB_PAGES_INSTALLATION_QUICK_START.md
+- docs/testing/GITHUB_PAGES_PWA_TESTING.md
+- docs/testing/PWA_LOCAL_TEST_RESULTS.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 
 
