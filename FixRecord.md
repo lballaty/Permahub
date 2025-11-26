@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.67 - 2025-11-26 19:47:41
+**Commit:** `da73c0f`
+
+
+
 ## Version 1.0.66 - 2025-11-26 19:46:01
 **Commit:** `3cafab6`
 
@@ -4815,6 +4820,50 @@ Implemented complete PWA infrastructure:
 - docs/processes/PWA_INSTALLATION_GUIDE.md
 - docs/testing/PWA_LOCAL_TEST_RESULTS.md
 - docs/GITHUB_PAGES_DEPLOYMENT.md
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+
+### 2025-11-26 - Add PWA meta tags and fix paths in all wiki pages
+
+**Commit:** (pending)
+
+**Issue:**
+All 20 wiki HTML pages needed PWA integration for installability and manifest linking. Pages also needed relative paths for GitHub Pages compatibility.
+
+**Solution:**
+Added to all wiki HTML pages:
+- PWA Manifest links with relative paths (../../manifest.json)
+- iOS app capability meta tags (apple-mobile-web-app-capable)
+- Android web app capability tags (mobile-web-app-capable)
+- Theme color configuration for browser UI (#2d8659)
+- Windows tile icon path configuration
+- Service Worker registration script inclusion
+- Fixed all relative paths for GitHub Pages deployment
+
+**Files Changed:**
+- src/wiki/wiki-home.html
+- src/wiki/wiki-guides.html
+- src/wiki/wiki-page.html
+- src/wiki/wiki-editor.html
+- src/wiki/wiki-events.html
+- src/wiki/wiki-map.html
+- src/wiki/wiki-favorites.html
+- src/wiki/wiki-login.html
+- src/wiki/wiki-signup.html
+- src/wiki/wiki-forgot-password.html
+- src/wiki/wiki-reset-password.html
+- src/wiki/wiki-admin.html
+- src/wiki/wiki-issues.html
+- src/wiki/wiki-about.html
+- src/wiki/wiki-deleted-content.html
+- src/wiki/wiki-my-content.html
+- src/wiki/wiki-privacy.html
+- src/wiki/wiki-settings.html
+- src/wiki/wiki-terms.html
+- src/wiki/wiki-unsubscribe.html
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
 
