@@ -12,8 +12,12 @@
  */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
+    // Pick correct SW path for localhost vs GitHub Pages
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const swPath = isGitHubPages ? '/Permahub/sw.js' : '../../sw.js';
+
     navigator.serviceWorker
-      .register('/src/sw.js')
+      .register(swPath)
       .then((registration) => {
         console.log('[PWA] Service Worker registered:', registration.scope);
 
@@ -140,48 +144,51 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slideInRight {
-    from {
-      transform: translateX(400px);
-      opacity: 0;
+// Add CSS animations (guard to avoid duplicates)
+if (!document.getElementById('pwa-animations-style')) {
+  const style = document.createElement('style');
+  style.id = 'pwa-animations-style';
+  style.textContent = `
+    @keyframes slideInRight {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
 
-  @keyframes slideOutRight {
-    from {
-      transform: translateX(0);
-      opacity: 1;
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
     }
-    to {
-      transform: translateX(400px);
-      opacity: 0;
-    }
-  }
 
-  @keyframes slideDown {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-`;
-document.head.appendChild(style);
+  `;
+  document.head.appendChild(style);
+}
 
 /**
  * Check if app is running as installed PWA
  */
-export function isInstalledPWA() {
+function isInstalledPWA() {
   // Check if running in standalone mode
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
   const isIOSStandalone = window.navigator.standalone === true;
@@ -192,7 +199,7 @@ export function isInstalledPWA() {
 /**
  * Get installation status
  */
-export function getInstallationStatus() {
+function getInstallationStatus() {
   if (isInstalledPWA()) {
     return 'installed';
   }
@@ -204,5 +211,11 @@ export function getInstallationStatus() {
 
   return 'not-supported';
 }
+
+// Expose helpers for non-module usage
+window.PWA = {
+  isInstalledPWA,
+  getInstallationStatus
+};
 
 console.log('[PWA] Registration script loaded');

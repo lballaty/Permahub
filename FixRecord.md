@@ -49,8 +49,37 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.66 - 2025-11-26 23:02:58
+**Commit:** `b2dcf5a`
+
+
+
 ## Version 1.0.65 - 2025-11-22 15:22:52
-**Commit:** `PENDING`
+**Commit:** `b2dcf5a`
+
+### 2025-11-26 - Make PWA registration work for GitHub Pages and dev
+
+**Commit:** pending
+
+**Issue:**
+PWA registration script failed in browsers because it used ES module exports and a hard-coded service worker path that only worked locally. This caused "Unexpected token export" errors and service worker registration failures on GitHub Pages.
+
+**Root Cause:**
+- `export` keywords in `pwa-register.js` while the script is loaded as a regular `<script>` (non-module)
+- Service worker path hard-coded to `/src/sw.js`, which does not exist on GitHub Pages
+- CSS animations style injected multiple times when the script was reloaded
+
+**Solution:**
+- Remove `export` keywords and attach helper functions to `window.PWA` for non-module usage
+- Dynamically choose service worker path: `/Permahub/sw.js` on GitHub Pages, `../../sw.js` locally
+- Add a style element guard to avoid injecting duplicate animation CSS
+
+**Files Changed:**
+- src/wiki/js/pwa-register.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 
 
