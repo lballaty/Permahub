@@ -11,37 +11,50 @@
  * Business Purpose: Enables offline caching, faster loading, and installability
  */
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    // Pick correct SW path for localhost vs GitHub Pages
+  window.addEventListener('load', async () => {
     const isGitHubPages = window.location.hostname.includes('github.io');
-    const swPath = isGitHubPages ? '/Permahub/sw.js' : '../../sw.js';
+    const possiblePaths = isGitHubPages
+      ? ['/Permahub/sw.js']
+      : [
+          // Common dev/server paths
+          '../../sw.js',
+          '/src/sw.js',
+          '/sw.js'
+        ];
 
-    navigator.serviceWorker
-      .register(swPath)
-      .then((registration) => {
-        console.log('[PWA] Service Worker registered:', registration.scope);
+    let registration = null;
+    for (const swPath of possiblePaths) {
+      try {
+        registration = await navigator.serviceWorker.register(swPath);
+        console.log('[PWA] Service Worker registered:', registration.scope, 'path:', swPath);
+        break;
+      } catch (err) {
+        console.warn(`[PWA] Service Worker registration failed for ${swPath}:`, err);
+      }
+    }
 
-        // Check for updates every 60 seconds
-        setInterval(() => {
-          registration.update();
-        }, 60000);
+    if (!registration) {
+      console.error('[PWA] Service Worker registration failed for all known paths');
+      return;
+    }
 
-        // Listen for service worker updates
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
+    // Check for updates every 60 seconds
+    setInterval(() => {
+      registration.update();
+    }, 60000);
 
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New version available
-              console.log('[PWA] New version available');
-              showUpdateNotification();
-            }
-          });
-        });
-      })
-      .catch((error) => {
-        console.error('[PWA] Service Worker registration failed:', error);
+    // Listen for service worker updates
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing;
+
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          // New version available
+          console.log('[PWA] New version available');
+          showUpdateNotification();
+        }
       });
+    });
 
     // Handle offline/online status
     window.addEventListener('online', () => {

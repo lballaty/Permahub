@@ -49,17 +49,44 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.67 - 2025-11-26 23:08:14
+**Commit:** `023f017`
+
+
+
 ## Version 1.0.66 - 2025-11-26 23:02:58
 **Commit:** `b2dcf5a`
 
+### 2025-11-26 - Add fallback service worker paths for dev/GitHub Pages
 
+**Commit:** pending
+
+**Issue:**
+Service Worker registration failed locally with 404 because the script was looked up at `/sw.js`, while the actual file lives under `src/sw.js`. GH Pages also needs the `/Permahub/sw.js` path. Without fallbacks, the PWA failed to register.
+
+**Root Cause:**
+- Hard-coded single service worker path that did not match all environments
+- No retry/fallback logic when the initial registration path returned 404
+
+**Solution:**
+- Add environment-aware path selection:
+  - GitHub Pages: try `/Permahub/sw.js`
+  - Local/dev: try `../../sw.js`, `/src/sw.js`, then `/sw.js`
+- Attempt paths in order until registration succeeds; log per-path failures
+
+**Files Changed:**
+- src/wiki/js/pwa-register.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
 
 ## Version 1.0.65 - 2025-11-22 15:22:52
 **Commit:** `b2dcf5a`
 
 ### 2025-11-26 - Make PWA registration work for GitHub Pages and dev
 
-**Commit:** pending
+**Commit:** `ee846cc`
 
 **Issue:**
 PWA registration script failed in browsers because it used ES module exports and a hard-coded service worker path that only worked locally. This caused "Unexpected token export" errors and service worker registration failures on GitHub Pages.
