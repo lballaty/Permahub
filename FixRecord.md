@@ -49,6 +49,27 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.76 - 2025-11-27 00:48:27
+**Commit:** `pending`
+
+### 2025-11-27 - Include wiki pages in GitHub Pages publish output
+
+**Issue:**
+Published site on gh-pages was missing wiki pages.
+
+**Root Cause:**
+- Publish script only synced Vite-built dist/ into docs-gh/, never copying src/wiki/.
+
+**Solution:**
+- Updated publish script to copy src/wiki/ into docs-gh/wiki/ as part of the publish step (and push flow).
+
+**Files Changed:**
+- scripts/publish-pages.sh
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.75 - 2025-11-27 00:31:13
 **Commit:** `pending`
 

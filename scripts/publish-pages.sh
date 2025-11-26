@@ -51,6 +51,9 @@ rm -rf "$ROOT/docs-gh"
 mkdir -p "$ROOT/docs-gh"
 rsync -a --delete "$ROOT/dist/" "$ROOT/docs-gh/"
 
+echo "📄 Copying wiki pages into docs-gh/wiki/..."
+rsync -a --delete "$ROOT/src/wiki/" "$ROOT/docs-gh/wiki/"
+
 echo "✅ docs-gh/ updated with latest build."
 
 if $DO_PUSH; then
