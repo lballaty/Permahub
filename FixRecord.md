@@ -72,6 +72,27 @@ Wiki pages were still missing from the GitHub Pages deployment.
 
 ---
 
+## Version 1.0.78 - 2025-11-27 01:04:00
+**Commit:** `pending`
+
+### 2025-11-27 - Copy runtime assets for wiki Pages deployment
+
+**Issue:**
+Wiki pages on GitHub Pages 404'd for shared JS, manifest, and SW files.
+
+**Root Cause:**
+- Publish script copied wiki HTML but not the referenced runtime assets (js/config/supabase-client/version-manager, manifest.json, sw.js).
+
+**Solution:**
+- Updated publish script to copy src/js/ into docs-gh/js/, copy manifest.json, and sw.js into docs-gh/.
+
+**Files Changed:**
+- scripts/publish-pages.sh
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.76 - 2025-11-27 00:48:27
 **Commit:** `pending`
 

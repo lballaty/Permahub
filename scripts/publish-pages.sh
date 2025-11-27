@@ -54,6 +54,16 @@ rsync -a --delete "$ROOT/dist/" "$ROOT/docs-gh/"
 echo "📄 Copying wiki pages into docs-gh/wiki/..."
 rsync -a --delete "$ROOT/src/wiki/" "$ROOT/docs-gh/wiki/"
 
+echo "📦 Copying shared JS and manifest for wiki runtime..."
+mkdir -p "$ROOT/docs-gh/js"
+rsync -a --delete "$ROOT/src/js/" "$ROOT/docs-gh/js/"
+if [ -f "$ROOT/public/manifest.json" ]; then
+  cp "$ROOT/public/manifest.json" "$ROOT/docs-gh/manifest.json"
+fi
+if [ -f "$ROOT/src/sw.js" ]; then
+  cp "$ROOT/src/sw.js" "$ROOT/docs-gh/sw.js"
+fi
+
 echo "✅ docs-gh/ updated with latest build."
 
 if $DO_PUSH; then
