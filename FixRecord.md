@@ -95,6 +95,27 @@ Vercel `npm ci` failed because `package-lock.json` was gitignored and absent in 
 
 ---
 
+## Version 1.0.72 - 2025-11-27 09:25:41
+**Commit:** `pending`
+
+### 2025-11-27 - Copy wiki assets into dist for Vercel
+
+**Issue:**
+Vercel deploys only the Vite-built pages; wiki HTML/JS/manifest/SW were missing from dist.
+
+**Root Cause:**
+- build script only ran `vite build`, leaving out `src/wiki/`, shared JS, manifest, and sw.js.
+
+**Solution:**
+- Added a build step to copy wiki (`src/wiki/`), shared JS, manifest, and sw.js into `dist/` after Vite build.
+
+**Files Changed:**
+- package.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.69 - 2025-11-26 23:17:17
 **Commit:** `86278c6`
 
