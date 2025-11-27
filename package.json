@@ -1,13 +1,13 @@
 {
   "name": "permahub",
-  "version": "1.0.71",
+  "version": "1.0.72",
   "type": "module",
   "description": "A global platform connecting permaculture practitioners, projects, and sustainable living communities",
   "scripts": {
     "dev": "vite",
     "dev:cloud": "VITE_USE_CLOUD_DB=true vite",
     "dev:local": "VITE_USE_CLOUD_DB=false vite",
-    "build": "vite build",
+    "build": "vite build && npm run build:copy-wiki",
     "preview": "vite preview",
     "test": "npm run test:smoke && npm run test:unit && npm run test:integration",
     "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
@@ -52,7 +52,8 @@
     "verify:seed:events": "node scripts/verify-seed-file.js supabase/to-be-seeded/004_future_events_seed.sql",
     "verify:seed:all": "npm run verify:seed:madeira && npm run verify:seed:verified && npm run verify:seed:events",
     "deploy:gh-pages": "gh-pages -d dist",
-    "postinstall": "simple-git-hooks"
+    "postinstall": "simple-git-hooks",
+    "build:copy-wiki": "rsync -a --delete src/wiki/ dist/wiki/ && rsync -a --delete src/js/ dist/js/ && cp src/manifest.json dist/manifest.json && cp src/sw.js dist/sw.js"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run lint && npm run test:smoke",
