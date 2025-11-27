@@ -73,6 +73,28 @@ Need Vercel-friendly build settings without GitHub Pages base path issues.
 
 ---
 
+## Version 1.0.71 - 2025-11-27 02:58:25
+**Commit:** `pending`
+
+### 2025-11-27 - Track lockfile for Vercel npm ci
+
+**Issue:**
+Vercel `npm ci` failed because `package-lock.json` was gitignored and absent in the build.
+
+**Root Cause:**
+- `.gitignore` excluded `package-lock.json`, so the lockfile wasn’t in the repo and `npm ci` aborted on Vercel.
+
+**Solution:**
+- Removed the ignore entry for `package-lock.json` and added the lockfile to the branch so `npm ci` can run.
+
+**Files Changed:**
+- .gitignore
+- package-lock.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.69 - 2025-11-26 23:17:17
 **Commit:** `86278c6`
 
