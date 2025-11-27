@@ -27,7 +27,7 @@ try {
 // Handle both module and non-module contexts
 const PACKAGE_VERSION = (() => {
   try {
-    return (typeof import !== 'undefined' && import.meta?.env?.VITE_APP_VERSION) || '1.0.68';
+    return (typeof import.meta !== 'undefined' && import.meta?.env?.VITE_APP_VERSION) || '1.0.68';
   } catch (e) {
     return '1.0.68';
   }
@@ -35,7 +35,7 @@ const PACKAGE_VERSION = (() => {
 
 const BUILD_TIME = (() => {
   try {
-    return (typeof import !== 'undefined' && import.meta?.env?.VITE_BUILD_TIME) || new Date().toISOString();
+    return (typeof import.meta !== 'undefined' && import.meta?.env?.VITE_BUILD_TIME) || new Date().toISOString();
   } catch (e) {
     return new Date().toISOString();
   }
@@ -43,7 +43,7 @@ const BUILD_TIME = (() => {
 
 const COMMIT_HASH = (() => {
   try {
-    return (typeof import !== 'undefined' && import.meta?.env?.VITE_COMMIT_HASH) || 'dev';
+    return (typeof import.meta !== 'undefined' && import.meta?.env?.VITE_COMMIT_HASH) || 'dev';
   } catch (e) {
     return 'dev';
   }
@@ -75,8 +75,8 @@ console.log(`📦 Version: ${VERSION}`);
 console.log(`📝 Commit: ${COMMIT_HASH}`);
 console.log(`📅 Build: ${BUILD_TIME}`);
 try {
-  const mode = typeof import !== 'undefined' && import.meta?.env?.MODE ? import.meta.env.MODE : 'production';
-  const supabaseUrl = typeof import !== 'undefined' && import.meta?.env?.VITE_SUPABASE_URL ? import.meta.env.VITE_SUPABASE_URL : 'https://mcbxbaggjaxqfdvmrqsc.supabase.co';
+  const mode = typeof import.meta !== 'undefined' && import.meta?.env?.MODE ? import.meta.env.MODE : 'production';
+  const supabaseUrl = typeof import.meta !== 'undefined' && import.meta?.env?.VITE_SUPABASE_URL ? import.meta.env.VITE_SUPABASE_URL : 'https://mcbxbaggjaxqfdvmrqsc.supabase.co';
   console.log(`🔗 Environment: ${mode}`);
   console.log(`🌐 Supabase: ${supabaseUrl}`);
 } catch (e) {

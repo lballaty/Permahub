@@ -137,6 +137,27 @@ Manifest.json wasn’t copied to docs-gh/ because it lives under src/, not publi
 
 ---
 
+## Version 1.0.81 - 2025-11-27 01:27:16
+**Commit:** `pending`
+
+### 2025-11-27 - Fix version manager syntax on Pages
+
+**Issue:**
+version-manager.js threw a syntax error on GitHub Pages when parsed as an ES module.
+
+**Root Cause:**
+- Used `typeof import !== 'undefined'` with optional chaining; `import` is a reserved keyword in modules, causing a parse error.
+
+**Solution:**
+- Switched guards to `typeof import.meta !== 'undefined'` for all env reads to keep the module parse-safe in the browser.
+
+**Files Changed:**
+- src/js/version-manager.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.76 - 2025-11-27 00:48:27
 **Commit:** `pending`
 
