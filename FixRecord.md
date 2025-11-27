@@ -137,6 +137,32 @@ Vercel build failed with exit 127 because `rsync` is not available in the build 
 
 ---
 
+## Version 1.0.74 - 2025-11-27 10:20:22
+**Commit:** `pending`
+
+### 2025-11-27 - Fix Vercel wiki paths and version guards
+
+**Issue:**
+Wiki on Vercel 404'd manifest/SW, SW precache failed, and version-manager crashed when import.meta was undefined.
+
+**Root Cause:**
+- Wiki pages referenced `../manifest.json` and SW fallback paths that didn’t work on Vercel.
+- PWA register tried `/src/sw.js` first; version-manager assumed import.meta existed.
+
+**Solution:**
+- Point wiki manifests to `/manifest.json` and add SW path fallbacks with `/sw.js` first (Vercel/root).
+- Guard version-manager env reads when import.meta is undefined.
+
+**Files Changed:**
+- src/wiki/js/pwa-register.js
+- src/js/version-manager.js
+- src/wiki/wiki-*.html
+- src/wiki/offline.html
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.69 - 2025-11-26 23:17:17
 **Commit:** `86278c6`
 

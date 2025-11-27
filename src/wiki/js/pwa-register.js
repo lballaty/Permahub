@@ -16,10 +16,9 @@ if ('serviceWorker' in navigator) {
     const possiblePaths = isGitHubPages
       ? ['/Permahub/sw.js']
       : [
-          // Common dev/server paths (ordered by most likely)
-          '/src/sw.js',
-          '../../sw.js',
-          '/sw.js'
+          '/sw.js',       // Vercel/root deploys
+          '/src/sw.js',   // dev server fallback
+          '../../sw.js'   // legacy fallback
         ];
 
     let registration = null;
