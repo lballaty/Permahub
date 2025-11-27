@@ -116,6 +116,27 @@ Deployment guide and published artifacts were out of sync with the new wiki/runt
 
 ---
 
+## Version 1.0.80 - 2025-11-27 01:17:14
+**Commit:** `pending`
+
+### 2025-11-27 - Fix manifest source in publish script
+
+**Issue:**
+Manifest.json wasn’t copied to docs-gh/ because it lives under src/, not public/.
+
+**Root Cause:**
+- Publish script copied manifest.json from public/, but the actual file is src/manifest.json.
+
+**Solution:**
+- Update publish script to copy src/manifest.json into docs-gh/ alongside runtime assets.
+
+**Files Changed:**
+- scripts/publish-pages.sh
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.76 - 2025-11-27 00:48:27
 **Commit:** `pending`
 
