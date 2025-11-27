@@ -158,6 +158,30 @@ version-manager.js threw a syntax error on GitHub Pages when parsed as an ES mod
 
 ---
 
+## Version 1.0.82 - 2025-11-27 01:30:43
+**Commit:** `pending`
+
+### 2025-11-27 - Add cloud/local log and footer translation
+
+**Issue:**
+Needed clearer runtime logging for DB target and a missing footer translation caused console warnings on Pages.
+
+**Root Cause:**
+- Supabase client logged full config without a concise cloud/local indicator or version.
+- `wiki.footer.unsubscribe` key was missing in translations (e.g., cs), triggering warnings.
+
+**Solution:**
+- Added a concise console log showing cloud/local DB mode and app version.
+- Added the missing footer unsubscribe translation entries.
+
+**Files Changed:**
+- src/js/supabase-client.js
+- src/wiki/js/wiki-i18n.js
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.76 - 2025-11-27 00:48:27
 **Commit:** `pending`
 

@@ -885,7 +885,10 @@ class SupabaseClient {
 }
 
 // ============ INITIALIZE GLOBAL CLIENT ============
-console.log('🔧 Initializing Supabase Client with config:', SUPABASE_CONFIG);
+const appVersion = (typeof import.meta !== 'undefined' && import.meta?.env?.VITE_APP_VERSION) || 'unknown';
+console.log(
+  `🔧 Initializing Supabase Client: ${SUPABASE_CONFIG.isUsingCloud ? 'cloud' : 'local'} db | version ${appVersion}`
+);
 const supabase = new SupabaseClient(SUPABASE_CONFIG);
 
 // Auto-restore session on page load

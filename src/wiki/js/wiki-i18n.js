@@ -910,6 +910,7 @@ const wikiI18n = {
       'wiki.footer.report_issue': 'Report Issue',
       'wiki.footer.reportIssue': 'Report Issue',
       'wiki.footer.terms': 'Terms',
+      'wiki.footer.unsubscribe': 'Unsubscribe',
     },
 
     // ============ PORTUGUESE (pt) ============
@@ -1878,6 +1879,7 @@ const wikiI18n = {
       'wiki.footer.report_issue': 'Reportar Problema',
       'wiki.footer.reportIssue': 'Reportar Problema',
       'wiki.footer.terms': 'Termos',
+      'wiki.footer.unsubscribe': 'Cancelar subscrição',
       'wiki.footer.copyright_admin': '© 2025 Wiki Comunitária Permahub',
       'wiki.footer.copyright_issues': '© 2025 Wiki Comunitária Permahub',
     },
@@ -5293,6 +5295,7 @@ const wikiI18n = {
       'wiki.footer.report_issue': 'Nahlásit problém',
       'wiki.footer.reportIssue': 'Nahlásit problém',
       'wiki.footer.terms': 'Podmínky',
+      'wiki.footer.unsubscribe': 'Odhlásit odběr',
 
       'wiki.categories.agroforestry-systems': 'Agrolesní Systémy',
       'wiki.categories.animal-care': 'Péče o Zvířata',
