@@ -49,6 +49,52 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.70 - 2025-11-27 02:09:47
+**Commit:** `pending`
+
+### 2025-11-27 - Prepare Vercel deployment branch
+
+**Issue:**
+Need Vercel-friendly build settings without GitHub Pages base path issues.
+
+**Root Cause:**
+- Vite base was hardcoded for GitHub Pages (`/Permahub/`), breaking paths when deploying at root on Vercel.
+- No Vercel config to standardize build/output commands.
+
+**Solution:**
+- Toggle Vite base to `/` when `VERCEL=1`, keep `/Permahub/` for GH Pages production, `/` for local dev.
+- Added `vercel.json` specifying install/build/output for Vercel.
+
+**Files Changed:**
+- vite.config.js
+- vercel.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
+## Version 1.0.71 - 2025-11-27 02:58:25
+**Commit:** `pending`
+
+### 2025-11-27 - Track lockfile for Vercel npm ci
+
+**Issue:**
+Vercel `npm ci` failed because `package-lock.json` was gitignored and absent in the build.
+
+**Root Cause:**
+- `.gitignore` excluded `package-lock.json`, so the lockfile wasn’t in the repo and `npm ci` aborted on Vercel.
+
+**Solution:**
+- Removed the ignore entry for `package-lock.json` and added the lockfile to the branch so `npm ci` can run.
+
+**Files Changed:**
+- .gitignore
+- package-lock.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.69 - 2025-11-26 23:17:17
 **Commit:** `86278c6`
 

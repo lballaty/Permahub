@@ -74,7 +74,11 @@ export default defineConfig({
   // Base path for GitHub Pages deployment
   // When deploying to GitHub Pages at https://username.github.io/Permahub/
   // Use '/Permahub/' as base. For local dev, this is automatically handled.
-  base: process.env.NODE_ENV === 'production' ? '/Permahub/' : '/',
+  base: process.env.VERCEL === '1'
+    ? '/'
+    : process.env.NODE_ENV === 'production'
+      ? '/Permahub/'
+      : '/',
 
   // Add custom logging plugin
   plugins: [viteLogger()],
