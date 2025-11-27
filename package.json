@@ -1,6 +1,6 @@
 {
   "name": "permahub",
-  "version": "1.0.72",
+  "version": "1.0.73",
   "type": "module",
   "description": "A global platform connecting permaculture practitioners, projects, and sustainable living communities",
   "scripts": {
@@ -53,7 +53,7 @@
     "verify:seed:all": "npm run verify:seed:madeira && npm run verify:seed:verified && npm run verify:seed:events",
     "deploy:gh-pages": "gh-pages -d dist",
     "postinstall": "simple-git-hooks",
-    "build:copy-wiki": "rsync -a --delete src/wiki/ dist/wiki/ && rsync -a --delete src/js/ dist/js/ && cp src/manifest.json dist/manifest.json && cp src/sw.js dist/sw.js"
+    "build:copy-wiki": "rm -rf dist/wiki dist/js && mkdir -p dist/wiki dist/js && cp -R src/wiki/. dist/wiki/ && cp -R src/js/. dist/js/ && cp src/manifest.json dist/manifest.json && cp src/sw.js dist/sw.js"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run lint && npm run test:smoke",

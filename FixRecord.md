@@ -116,6 +116,27 @@ Vercel deploys only the Vite-built pages; wiki HTML/JS/manifest/SW were missing 
 
 ---
 
+## Version 1.0.73 - 2025-11-27 10:09:29
+**Commit:** `pending`
+
+### 2025-11-27 - Make wiki copy step portable (no rsync)
+
+**Issue:**
+Vercel build failed with exit 127 because `rsync` is not available in the build image.
+
+**Root Cause:**
+- build:copy-wiki used `rsync`, which isn’t installed in Vercel’s minimal environment.
+
+**Solution:**
+- Replaced `rsync` with POSIX-compatible `rm/mkdir/cp` commands to copy wiki, shared JS, manifest, and sw into `dist/`.
+
+**Files Changed:**
+- package.json
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.69 - 2025-11-26 23:17:17
 **Commit:** `86278c6`
 
