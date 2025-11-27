@@ -26,19 +26,30 @@ Your Permahub Wiki is now properly configured to work on GitHub Pages with full 
 
 ## 🚀 How to Deploy to GitHub Pages
 
-### Step 1: Build the Project
+### Deploy with one command
 
 ```bash
-./scripts/publish-pages.sh
+./scripts/publish-pages.sh --push
 ```
 
 What it does:
 - Builds the site (`npm run build`)
-- Syncs the build output from `dist/` into `docs-gh/` (keeps your existing docs/ intact)
+- Syncs the build output from `dist/` into `docs-gh/`
+- Copies wiki pages (`src/wiki/`) into `docs-gh/wiki/`
+- Copies shared runtime files into publish output:
+  - `src/js/` → `docs-gh/js/`
+  - `public/manifest.json` → `docs-gh/manifest.json`
+  - `src/sw.js` → `docs-gh/sw.js`
+- Pushes `docs-gh/` to the `gh-pages` branch (hooks skipped)
 
-One-time GitHub Pages setting:
-- Source: `main` branch
-- Folder: `/docs-gh`
+After publish:
+- Commit the generated `docs-gh/` to `main` to keep the tree clean, then `git push origin main`.
+- Pages source (one-time setting): Branch `gh-pages`, Folder `/`.
+
+If you want to inspect before pushing to `gh-pages`, run without `--push`; then manually push with:
+```
+SKIP_SIMPLE_GIT_HOOKS=1 git subtree push --prefix docs-gh origin gh-pages
+```
 
 ---
 
@@ -140,22 +151,19 @@ if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
 
 ## 📁 File Structure on GitHub Pages
 
-When deployed, your files are at:
+When deployed, files are served from the `gh-pages` branch root:
 
 ```
 https://lballaty.github.io/Permahub/
-├── src/
-│   ├── manifest.json          ← PWA manifest
-│   ├── sw.js                  ← Service Worker
-│   ├── assets/
-│   │   └── icons/             ← App icons (8 sizes)
-│   ├── js/
-│   │   ├── supabase-client.js
-│   │   └── pwa-register.js
-│   └── wiki/
-│       ├── wiki-home.html     ← Your main page
-│       ├── js/
-│       └── css/
+├── index.html, … (built app pages under src/pages/)
+├── wiki/                      ← Wiki HTML, JS, CSS
+│   ├── wiki-home.html
+│   ├── js/…
+│   └── css/…
+├── js/                        ← Shared runtime (supabase-client.js, config.js, version-manager.js, etc.)
+├── manifest.json              ← PWA manifest
+├── sw.js                      ← Service Worker
+└── assets/…                   ← Hashed assets from Vite build
 ```
 
 **Key URLs:**

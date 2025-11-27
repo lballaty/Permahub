@@ -93,6 +93,29 @@ Wiki pages on GitHub Pages 404'd for shared JS, manifest, and SW files.
 
 ---
 
+## Version 1.0.79 - 2025-11-27 01:11:51
+**Commit:** `pending`
+
+### 2025-11-27 - Document publish flow and refresh artifacts
+
+**Issue:**
+Deployment guide and published artifacts were out of sync with the new wiki/runtime copy workflow.
+
+**Root Cause:**
+- Docs still referenced the old main/docs-gh setup and lacked the current `--push` flow to gh-pages.
+
+**Solution:**
+- Updated deployment guide with the current publish-pages script usage, gh-pages branch, and expected file layout.
+- Refreshed docs-gh build artifacts after adding runtime copies.
+
+**Files Changed:**
+- docs/GITHUB_PAGES_DEPLOYMENT.md
+- docs-gh/**
+
+**Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+
 ## Version 1.0.76 - 2025-11-27 00:48:27
 **Commit:** `pending`
 
