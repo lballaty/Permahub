@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.75 - 2025-11-29 09:46:36
+**Commit:** `a134f39`
+
+
+
 ## Version 1.0.70 - 2025-11-27 02:09:47
 **Commit:** `pending`
 
@@ -4984,5 +4989,33 @@ Implemented a comprehensive three-layer enforcement system:
 - docs/testing/README.md (updated with enforcement links)
 
 **Author:** Libor Ballaty <libor@arionetworks.com>
+
+---
+### 2025-11-29 - Fix Vercel Build Crash in Version Manager
+
+**Commit:** (pending)
+
+**Issue:**
+Vercel deployments were crashing with "Cannot read properties of undefined (reading 'MODE')" error in version-manager.js at line 188. This prevented the entire application from loading when deployed to Vercel, though it worked fine in local dev mode.
+
+**Root Cause:**
+In [src/js/version-manager.js:188](src/js/version-manager.js#L188), the code directly accessed `import.meta.env.MODE` without checking if `import.meta.env` was available. While the top of the file has guards for this (line 19), line 188 skipped these guards:
+
+```javascript
+alert(`...Environment: ${import.meta.env.MODE || 'development'}`)
+```
+
+In Vercel builds, `import.meta.env` is not conditionally available in all contexts, causing a crash.
+
+**Solution:**
+1. Changed line 188 to use the guarded `MODE` variable instead of directly accessing `import.meta.env.MODE`
+2. Removed unused `major` and `minor` variables from semantic version parsing (line 27)
+
+The fix ensures all access to potentially undefined `import.meta.env` goes through the guard check at line 19.
+
+**Files Changed:**
+- [src/js/version-manager.js](src/js/version-manager.js) - Line 27 and 188
+
+**Author:** Claude Code <noreply@anthropic.com>
 
 ---
