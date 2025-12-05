@@ -49,6 +49,11 @@ How it was fixed
 ---
 ```
 
+## Version 1.0.76 - 2025-12-05 17:48:49
+**Commit:** `56b8f0f`
+
+
+
 ## Version 1.0.75 - 2025-11-29 09:46:36
 **Commit:** `a134f39`
 
@@ -5015,6 +5020,25 @@ The fix ensures all access to potentially undefined `import.meta.env` goes throu
 
 **Files Changed:**
 - [src/js/version-manager.js](src/js/version-manager.js) - Line 27 and 188
+
+**Author:** Claude Code <noreply@anthropic.com>
+
+---
+### 2025-12-05 - Remove unsafe import.meta.env access in wiki-home.js
+
+**Commit:** (pending)
+
+**Issue:**
+wiki-home.js was crashing with "Cannot read properties of undefined (reading 'VITE_SUPABASE_URL')" in Vercel deployments. This debug line tried to access `import.meta.env.VITE_SUPABASE_URL` directly without checking if `import.meta.env` was available.
+
+**Root Cause:**
+Line 27 of wiki-home.js directly accessed `import.meta.env.VITE_SUPABASE_URL` for a debug console.log statement. In Vercel builds, `import.meta.env` is not always available, causing the crash.
+
+**Solution:**
+Removed the debug logging line that tried to access the environment variable. The actual Supabase configuration is already properly handled by config.js which has fallback values and auto-detection based on hostname, so this debug line was unnecessary.
+
+**Files Changed:**
+- [src/wiki/js/wiki-home.js](src/wiki/js/wiki-home.js) - Line 27
 
 **Author:** Claude Code <noreply@anthropic.com>
 
