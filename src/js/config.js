@@ -67,37 +67,61 @@ function shouldUseCloudDatabase() {
 
 /**
  * Supabase Configuration
- * Automatically detects environment and uses appropriate credentials
+ * Environment-driven configuration for FOSS compliance
+ *
+ * Configuration strategy:
+ * - CLOUD/PRODUCTION: MUST set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+ * - LOCAL DEVELOPMENT: Auto-detected (uses local Supabase CLI instance)
  *
  * Can be overridden with VITE_USE_CLOUD_DB environment variable:
- * - VITE_USE_CLOUD_DB=true → Force cloud database (even on localhost)
+ * - VITE_USE_CLOUD_DB=true → Force cloud database (requires env vars)
  * - VITE_USE_CLOUD_DB=false → Force local database
  * - Not set → Auto-detect based on hostname
  *
- * LOCAL (localhost): Uses local Supabase instance (http://127.0.0.1:3000)
- * CLOUD (production): Uses cloud Supabase instance (mcbxbaggjaxqfdvmrqsc.supabase.co)
- *
  * NOTE: Anon key is safe to expose in frontend - it's meant to be public.
- * Service role key has been REMOVED for security - it should never be in frontend code.
+ * Service role key should NEVER be in frontend code - backend only!
+ *
+ * See .env.example for full configuration options.
  */
 const useCloud = shouldUseCloudDatabase();
 
-export const SUPABASE_CONFIG = {
-  url: useCloud
-    ? 'https://mcbxbaggjaxqfdvmrqsc.supabase.co'
-    : 'http://127.0.0.1:3000',  // Local Supabase API port (from supabase/config.toml)
+// Get configuration from environment variables
+const cloudUrl = getEnv('VITE_SUPABASE_URL', '');
+const cloudAnonKey = getEnv('VITE_SUPABASE_ANON_KEY', '');
 
-  anonKey: useCloud
-    ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1jYnhiYWdnamF4cWZkdm1ycXNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MDE4NDYsImV4cCI6MjA3ODA3Nzg0Nn0.agjLGl7uW0S1tGgivGBVthHWAgw0YxHjJNLHkhsViO0'  // Cloud anon key (safe to expose)
-    : 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',  // Local dev anon key (from supabase status)
+// Local development defaults (used when running `supabase start`)
+const LOCAL_SUPABASE_URL = 'http://127.0.0.1:3000';
+const LOCAL_SUPABASE_ANON_KEY = getEnv('VITE_LOCAL_SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0');
+
+// Validate cloud configuration if cloud is being used
+if (useCloud && (!cloudUrl || !cloudAnonKey)) {
+  console.error('❌ ERROR: Cloud database requested but environment variables not set!');
+  console.error('   Required: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+  console.error('   See .env.example for configuration template.');
+  console.error('   Falling back to local development mode...');
+}
+
+export const SUPABASE_CONFIG = {
+  // Use cloud config if available and requested, otherwise use local
+  url: (useCloud && cloudUrl) ? cloudUrl : LOCAL_SUPABASE_URL,
+  anonKey: (useCloud && cloudAnonKey) ? cloudAnonKey : LOCAL_SUPABASE_ANON_KEY,
 
   // Export helper to check which database is being used
-  isUsingCloud: useCloud
+  isUsingCloud: useCloud && cloudUrl && cloudAnonKey
 };
 
-// Warn if using fallback values in production
+// Production safety check
 if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.PROD) {
-  if (!import.meta.env.VITE_SUPABASE_URL) {
-    console.warn('⚠️ WARNING: Using fallback Supabase URL in production. Set VITE_SUPABASE_URL environment variable.');
+  if (!cloudUrl || !cloudAnonKey) {
+    console.error('❌ PRODUCTION ERROR: Supabase environment variables not configured!');
+    console.error('   Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your deployment platform.');
+    console.error('   Application may not function correctly.');
   }
+}
+
+// Development info logging
+if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV) {
+  console.log(`🔧 Supabase Config: ${SUPABASE_CONFIG.isUsingCloud ? 'CLOUD' : 'LOCAL'}`);
+  console.log(`   URL: ${SUPABASE_CONFIG.url}`);
+  console.log(`   Anon Key: ${SUPABASE_CONFIG.anonKey.substring(0, 20)}...`);
 }
