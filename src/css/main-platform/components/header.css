@@ -1,0 +1,42 @@
+/**
+ * Header Component
+ * Permaculture Network
+ *
+ * Main site header with gradient background and sticky positioning.
+ * Used across multiple pages for consistent branding.
+ */
+
+/* ============================================================
+   HEADER - Main Navigation
+   ============================================================ */
+
+header {
+  background: var(--bg-gradient-green);
+  color: var(--white);
+  padding: var(--space-8);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+header h1 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-2);
+}
+
+header p {
+  font-size: var(--text-base);
+  opacity: 0.9;
+}
+
+/* ============================================================
+   RESPONSIVE - Mobile
+   ============================================================ */
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: var(--text-2xl);
+  }
+}

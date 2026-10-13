@@ -1,0 +1,28 @@
+/**
+ * Footer Component
+ * Permaculture Network
+ *
+ * Site footer with copyright, links, and contact information.
+ */
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+  background: var(--gray-900);
+  color: var(--white);
+  text-align: center;
+  padding: var(--space-8);
+  margin-top: var(--space-12);
+  font-size: var(--text-sm);
+}
+
+footer a {
+  color: var(--success-bg-light);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
