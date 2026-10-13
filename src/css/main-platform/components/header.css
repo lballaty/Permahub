@@ -32,11 +32,66 @@ header p {
 }
 
 /* ============================================================
+   HEADER CONTENT VARIANT (for app pages)
+   ============================================================ */
+
+header.app-header {
+  background: var(--bg-card);
+  border-bottom: var(--border-width-thick) solid var(--border-color);
+  padding: var(--space-4) var(--space-8);
+  box-shadow: var(--shadow-md);
+  color: var(--gray-900);
+}
+
+.header-content {
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.logo {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.logo:hover {
+  color: var(--primary-dark);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+/* ============================================================
    RESPONSIVE - Mobile
    ============================================================ */
 
 @media (max-width: 768px) {
   header h1 {
     font-size: var(--text-2xl);
+  }
+
+  header.app-header {
+    padding: var(--space-4);
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .logo {
+    font-size: var(--text-xl);
   }
 }

@@ -49,6 +49,27 @@
   background: var(--bg-active);
 }
 
+/* Header Button Variant */
+.btn-header {
+  padding: var(--input-padding-y) var(--space-6);
+  background: var(--bg-gradient-green);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: var(--transition-all);
+  font-size: var(--text-base);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btn-header:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green);
+}
+
 /* ============================================================
    BUTTON GROUP
    ============================================================ */

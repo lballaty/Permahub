@@ -1,16 +1,30 @@
-/* ============ CARDS GRID ============ */
+/**
+ * Card Components
+ * Permaculture Network
+ *
+ * Reusable card containers for content sections.
+ */
+
+/* ============================================================
+   CARDS GRID
+   ============================================================ */
+
 .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-8);
 }
 
+/* ============================================================
+   BASE CARD
+   ============================================================ */
+
 .card {
-    background: var(--surface);
+    background: var(--white);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-all);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -18,13 +32,13 @@
 
 .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-xl);
 }
 
 .card-image {
     width: 100%;
     height: 180px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    background: var(--bg-gradient-green);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,7 +54,7 @@
 
 .card-title {
     font-size: var(--text-xl);
-    font-weight: 600;
+    font-weight: var(--font-semibold);
     color: var(--primary-dark);
     margin-bottom: var(--space-2);
 }
@@ -50,24 +64,24 @@
     gap: var(--space-2);
     margin-bottom: var(--space-3);
     font-size: var(--text-sm);
-    color: var(--text-muted);
+    color: var(--gray-700);
 }
 
 .card-badge {
     display: inline-block;
     padding: var(--space-1) var(--space-3);
-    background: var(--primary-light);
+    background: var(--primary-lighter);
     color: var(--primary);
     border-radius: var(--radius-sm);
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: var(--font-semibold);
 }
 
 .card-description {
-    color: var(--text-secondary);
+    color: var(--gray-700);
     font-size: var(--text-base);
     margin-bottom: var(--space-4);
-    line-height: 1.4;
+    line-height: var(--leading-snug);
     flex: 1;
 }
 
@@ -76,15 +90,6 @@
     flex-wrap: wrap;
     gap: var(--space-2);
     margin-bottom: var(--space-4);
-}
-
-.tag {
-    display: inline-block;
-    padding: var(--space-2) var(--space-3);
-    background: var(--bg-accent);
-    color: var(--primary);
-    border-radius: var(--radius-sm);
-    font-size: var(--text-xs);
 }
 
 .card-footer {
@@ -96,23 +101,174 @@
 .card-btn {
     flex: 1;
     padding: var(--space-3);
-    border: 2px solid var(--border);
-    background: var(--surface);
+    border: 2px solid var(--border-color);
+    background: var(--white);
     color: var(--primary);
     border-radius: var(--radius-md);
-    font-weight: 600;
+    font-weight: var(--font-semibold);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-all);
     font-size: var(--text-sm);
 }
 
 .card-btn:hover {
     border-color: var(--primary);
-    background: var(--primary-light);
+    background: var(--primary-lighter);
 }
+
+/* ============================================================
+   SECTION CARD (for project.html)
+   ============================================================ */
+
+.section-card {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-lg);
+}
+
+.section-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--primary-dark);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.section-title i {
+    color: var(--primary);
+    font-size: var(--text-lg);
+}
+
+.section-content {
+    font-size: var(--text-md);
+    line-height: var(--leading-normal);
+    color: var(--gray-700);
+}
+
+.section-content p {
+    margin-bottom: var(--space-4);
+}
+
+.section-content strong {
+    color: var(--gray-900);
+    font-weight: var(--font-semibold);
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+
+.contact-info {
+    margin-top: var(--space-4);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.contact-item:last-child {
+    border-bottom: none;
+}
+
+.contact-item i {
+    color: var(--primary);
+    font-size: var(--text-lg);
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.contact-item a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition-base);
+}
+
+.contact-item a:hover {
+    text-decoration: underline;
+    color: var(--primary-dark);
+}
+
+/* ============================================================
+   PROJECT CARD VARIANTS
+   ============================================================ */
+
+.project-image {
+    width: 100%;
+    height: 300px;
+    background: var(--bg-gradient-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+}
+
+.project-meta {
+    display: flex;
+    gap: var(--space-8);
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--gray-700);
+}
+
+.meta-item i {
+    color: var(--primary);
+    font-size: var(--text-xl);
+}
+
+/* ============================================================
+   MAP CONTAINER
+   ============================================================ */
+
+#map {
+    width: 100%;
+    height: 300px;
+    border-radius: var(--radius-xl);
+    margin-top: var(--space-4);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================ */
 
 @media (max-width: 768px) {
     .cards-container {
         grid-template-columns: 1fr;
+    }
+
+    .section-card {
+        padding: var(--space-4);
+    }
+
+    .section-title {
+        font-size: var(--text-lg);
+    }
+
+    .project-image {
+        height: 200px;
+        font-size: 3rem;
+    }
+
+    .project-meta {
+        gap: var(--space-4);
+    }
+
+    #map {
+        height: 250px;
     }
 }
