@@ -52,6 +52,17 @@
   --gray-100: #f5f5f0; /* Lightest */
   --gray-50: #fafbfc;
 
+  /* Tailwind-style Grays (for personalized dashboard) */
+  --gray-tw-900: #1a202c;
+  --gray-tw-800: #2d3748;
+  --gray-tw-700: #4a5568;
+  --gray-tw-600: #718096;
+  --gray-tw-500: #a0aec0;
+  --gray-tw-400: #cbd5e0;
+  --gray-tw-300: #e2e8f0;
+  --gray-tw-200: #edf2f7;
+  --gray-tw-100: #f7fafc;
+
   /* White */
   --white: #ffffff;
 

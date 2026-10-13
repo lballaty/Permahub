@@ -1,0 +1,79 @@
+/* ============ DASHBOARD CUSTOMIZATION PANEL ============ */
+
+.customization-panel {
+  position: fixed;
+  right: -350px;
+  top: 0;
+  width: 350px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: right var(--transition-base);
+  z-index: var(--z-modal);
+  overflow-y: auto;
+}
+
+.customization-panel.open {
+  right: 0;
+}
+
+.customization-header {
+  padding: var(--space-5);
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customization-content {
+  padding: var(--space-5);
+}
+
+.customization-section {
+  margin-bottom: var(--space-6);
+}
+
+.customization-section-title {
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-3);
+  color: var(--gray-700);
+}
+
+.widget-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--gray-300);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+
+.toggle-switch.active {
+  background: var(--primary);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--white);
+  border-radius: var(--radius-full);
+  top: 2px;
+  left: 2px;
+  transition: left var(--transition-base);
+}
+
+.toggle-switch.active::after {
+  left: 22px;
+}

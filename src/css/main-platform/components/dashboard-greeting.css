@@ -1,0 +1,84 @@
+/* ============ DASHBOARD GREETING / HEADER ============ */
+
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-300);
+  padding: var(--space-4) 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Greeting Section */
+.greeting {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-bold);
+  font-size: var(--text-xl);
+}
+
+.greeting-text h1 {
+  font-size: var(--text-2xl);
+  color: var(--gray-tw-900);
+  margin-bottom: 2px;
+}
+
+.greeting-text .subtitle {
+  font-size: var(--text-sm);
+  color: var(--gray-tw-600);
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.header-btn {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--gray-300);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  transition: var(--transition-all);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.header-btn:hover {
+  background: var(--gray-100);
+  border-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+}

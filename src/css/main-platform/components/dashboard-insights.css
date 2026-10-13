@@ -1,0 +1,65 @@
+/* ============ DASHBOARD INSIGHTS PANEL ============ */
+
+.insights-panel {
+  background: var(--bg-gradient-green);
+  color: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.insights-title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.insight-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.insight-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.insight-value {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-1);
+}
+
+.insight-label {
+  font-size: var(--text-sm);
+  opacity: 0.9;
+}
+
+.insight-trend {
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.trend-up {
+  color: #4ade80;
+}
+
+.trend-down {
+  color: #f87171;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .insight-cards {
+    grid-template-columns: 1fr;
+  }
+}
