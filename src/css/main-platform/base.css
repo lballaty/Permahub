@@ -1,0 +1,295 @@
+/**
+ * Base Styles - Main Platform
+ * Permaculture Network
+ *
+ * Foundation styles for the body and root elements.
+ * Imported after reset.css and before components.
+ */
+
+/* ============================================================
+   BODY - Default Styles
+   ============================================================ */
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--gray-900);
+  background: var(--bg-page);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   BODY MODIFIERS - Page-Specific Backgrounds
+   ============================================================ */
+
+/* Gradient background (used by some pages like landing) */
+body.has-gradient {
+  background: var(--bg-gradient-page);
+}
+
+/* Auth page specific background */
+body.auth-page {
+  background: var(--bg-gradient-green-auth);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--gray-900);
+}
+
+/* Full-height flex layout (for centered content) */
+body.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
+
+.main-container {
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* Container variants */
+.main-container.narrow {
+  max-width: var(--max-width-narrow);
+}
+
+.main-container.form {
+  max-width: var(--max-width-form);
+}
+
+.main-container.content {
+  max-width: var(--max-width-content);
+}
+
+/* Remove horizontal padding on mobile for full-bleed */
+@media (max-width: 768px) {
+  .main-container.full-bleed-mobile {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+
+section {
+  padding: var(--space-12) 0;
+}
+
+section.compact {
+  padding: var(--space-8) 0;
+}
+
+section.spacious {
+  padding: var(--space-16) 0;
+}
+
+/* Section headers */
+.section-header {
+  margin-bottom: var(--space-8);
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+}
+
+.section-subtitle {
+  font-size: var(--text-lg);
+  color: var(--gray-600);
+  max-width: 600px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  section {
+    padding: var(--space-8) 0;
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+  }
+
+  .section-subtitle {
+    font-size: var(--text-base);
+  }
+}
+
+/* ============================================================
+   DIVIDERS
+   ============================================================ */
+
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-color),
+    transparent
+  );
+  margin: var(--space-8) 0;
+}
+
+hr.thick {
+  height: 2px;
+  background: var(--border-color);
+}
+
+/* Decorative divider with gradient */
+.divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  margin: var(--space-4) auto;
+}
+
+/* ============================================================
+   LOADING STATES
+   ============================================================ */
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-12);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-top-color: var(--primary);
+  }
+}
+
+/* ============================================================
+   EMPTY STATES
+   ============================================================ */
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+  grid-column: 1 / -1; /* Span all columns in grid */
+}
+
+.empty-icon {
+  font-size: var(--text-5xl);
+  color: var(--gray-400);
+  margin-bottom: var(--space-4);
+}
+
+.empty-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--gray-700);
+  margin-bottom: var(--space-2);
+}
+
+.empty-text {
+  font-size: var(--text-base);
+  color: var(--gray-500);
+  max-width: 400px;
+  margin: 0 auto var(--space-6);
+}
+
+/* ============================================================
+   ALERTS & MESSAGES
+   ============================================================ */
+
+.alert {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid currentColor;
+  margin-bottom: var(--space-4);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert-success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-left-color: var(--success);
+}
+
+.alert-error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-left-color: var(--error);
+}
+
+.alert-warning {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  border-left-color: var(--warning);
+}
+
+.alert-info {
+  background: var(--info-bg);
+  color: var(--info-text);
+  border-left-color: var(--info);
+}
+
+/* ============================================================
+   RESPONSIVE UTILITIES
+   ============================================================ */
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+.show-mobile {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
