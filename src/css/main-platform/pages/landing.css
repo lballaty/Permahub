@@ -1,0 +1,189 @@
+/* ============================================
+   LANDING PAGE (index.html)
+   Home page with eco-themes, hero, and dashboard
+   ============================================ */
+
+/* Page Background */
+body.landing-page {
+    background: linear-gradient(135deg, #f5f5f0 0%, #e8f4f0 100%);
+    min-height: 100vh;
+}
+
+/* Main Container */
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+}
+
+/* ============================================
+   SECTION HEADERS
+   ============================================ */
+
+.section-header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a5f3f;
+}
+
+.section-subtitle {
+    color: #95a5a6;
+    font-size: 1rem;
+}
+
+/* Section Controls */
+.section-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid #e0e7e9;
+    background: white;
+    color: #2d8659;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.control-btn:hover {
+    border-color: #2d8659;
+    background: #f0f7f5;
+}
+
+.control-btn.active {
+    background: #2d8659;
+    color: white;
+    border-color: #2d8659;
+}
+
+/* ============================================
+   CARDS GRID
+   ============================================ */
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* ============================================
+   HERO BUTTONS (Landing-specific variants)
+   ============================================ */
+
+.btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: white;
+    color: #2d8659;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: #2d8659;
+}
+
+/* ============================================
+   CARD ACTIONS (Landing-specific)
+   ============================================ */
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.card-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border: 2px solid #e0e7e9;
+    background: white;
+    color: #2d8659;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.card-btn:hover {
+    border-color: #2d8659;
+    background: #f0f7f5;
+}
+
+.card-btn.primary {
+    background: #2d8659;
+    color: white;
+    border-color: #2d8659;
+}
+
+.card-btn.primary:hover {
+    background: #1a5f3f;
+}
+
+.card-btn-remove {
+    width: 35px;
+    padding: 0;
+    background: white;
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+.card-btn-remove:hover {
+    background: #f8f0f0;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

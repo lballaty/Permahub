@@ -1,0 +1,433 @@
+/**
+ * Core Accessibility Styles
+ * Permaculture Network Platform
+ *
+ * Critical accessibility features that must be included in ALL pages.
+ * These styles ensure WCAG AA compliance and usable experience for all users.
+ *
+ * Features:
+ * - Focus management with visible indicators
+ * - Reduced motion support for vestibular disorders
+ * - High contrast mode support
+ * - Skip links for keyboard navigation
+ * - Screen reader utilities
+ * - Keyboard navigation helpers
+ */
+
+/* ============================================================
+   FOCUS MANAGEMENT - Visible focus indicators for keyboard users
+   ============================================================ */
+
+/**
+ * Global focus styles
+ * Provides clear visual feedback for keyboard navigation
+ * WCAG 2.4.7 (Level AA): Focus Visible
+ */
+*:focus {
+  outline: 2px solid var(--focus-color, #2d8659);
+  outline-offset: 2px;
+}
+
+/**
+ * Enhanced focus for interactive elements
+ * Uses focus-visible to show outline only for keyboard (not mouse clicks)
+ */
+*:focus-visible {
+  outline: 3px solid var(--focus-color, #2d8659);
+  outline-offset: 3px;
+}
+
+/**
+ * Remove outline for mouse users, keep for keyboard
+ * Modern browsers support :focus-visible
+ */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/**
+ * Button focus styles with shadow
+ */
+button:focus-visible,
+.btn:focus-visible,
+a.btn:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="button"]:focus-visible {
+  box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.3);
+  outline: 2px solid var(--focus-color, #2d8659);
+  outline-offset: 2px;
+}
+
+/**
+ * Link focus styles
+ */
+a:focus-visible {
+  outline: 2px dashed var(--focus-color, #2d8659);
+  outline-offset: 3px;
+  text-decoration: underline;
+}
+
+/**
+ * Input/textarea focus styles
+ */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--focus-color, #2d8659);
+  outline-offset: 0;
+  box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+}
+
+/* ============================================================
+   REDUCED MOTION - Support for users with vestibular disorders
+   ============================================================ */
+
+/**
+ * Respect user's motion preferences
+ * WCAG 2.3.3 (Level AAA): Animation from Interactions
+ * Critical for users with vestibular disorders, epilepsy, or motion sensitivity
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Remove parallax effects */
+  .parallax,
+  .scroll-animation {
+    transform: none !important;
+  }
+
+  /* Keep essential loading spinners but make them static */
+  .loading-spinner,
+  .spinner {
+    animation: none !important;
+    border-top-color: currentColor;
+  }
+}
+
+/* ============================================================
+   HIGH CONTRAST MODE - Support for users who need high contrast
+   ============================================================ */
+
+/**
+ * High contrast mode support
+ * Ensures text remains readable in high contrast settings
+ */
+@media (prefers-contrast: high) {
+  :root {
+    /* Increase contrast ratios */
+    --text-contrast-ratio: 21; /* WCAG AAA */
+  }
+
+  /* Ensure all borders are visible */
+  button,
+  input,
+  textarea,
+  select,
+  .card,
+  .modal {
+    border: 2px solid currentColor;
+  }
+
+  /* Ensure focus is always visible */
+  *:focus,
+  *:focus-visible {
+    outline: 3px solid currentColor !important;
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================================
+   SKIP LINKS - Allow keyboard users to skip repetitive content
+   ============================================================ */
+
+/**
+ * Skip to main content link
+ * WCAG 2.4.1 (Level A): Bypass Blocks
+ * Allows keyboard users to skip navigation and jump to main content
+ */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color, #2d8659);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-weight: 600;
+  z-index: 10000;
+  border-radius: 0 0 4px 0;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid white;
+  outline-offset: -4px;
+}
+
+/* ============================================================
+   SCREEN READER UTILITIES - Content for screen readers only
+   ============================================================ */
+
+/**
+ * Visually hidden but accessible to screen readers
+ * Use for adding context that's implied visually but needed for AT
+ */
+.sr-only,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/**
+ * Reveal visually hidden content on focus (for skip links)
+ */
+.sr-only-focusable:focus,
+.visually-hidden-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ============================================================
+   KEYBOARD NAVIGATION - Enhanced keyboard interaction
+   ============================================================ */
+
+/**
+ * Ensure interactive elements are keyboard accessible
+ */
+[tabindex="-1"]:focus {
+  outline: none; /* Only for programmatic focus, not keyboard */
+}
+
+/**
+ * Make non-interactive elements with click handlers keyboard accessible
+ * (Should use button/link instead, but this helps legacy code)
+ */
+[onclick]:not(button):not(a):not(input):not(select):not(textarea) {
+  cursor: pointer;
+}
+
+/* Add warning for missing role */
+[onclick]:not([role]):not(button):not(a):not(input):not(select):not(textarea) {
+  /* Consider adding role="button" and tabindex="0" in HTML */
+}
+
+/* ============================================================
+   TOUCH TARGET SIZE - Ensure tap targets are large enough
+   ============================================================ */
+
+/**
+ * WCAG 2.5.5 (Level AAA): Target Size
+ * Minimum 44x44px touch targets for mobile accessibility
+ */
+@media (pointer: coarse) {
+  button,
+  .btn,
+  a.btn,
+  input[type="submit"],
+  input[type="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* For small buttons, add padding to meet size requirement */
+  button.small,
+  .btn.small {
+    padding: 12px 16px;
+  }
+}
+
+/* ============================================================
+   COLOR CONTRAST - Ensure readable text
+   ============================================================ */
+
+/**
+ * Helper classes for ensuring WCAG AA contrast (4.5:1 minimum)
+ */
+.text-on-light {
+  color: #212529; /* 16.1:1 ratio on white */
+}
+
+.text-on-dark {
+  color: #ffffff; /* 21:1 ratio on black */
+}
+
+.text-muted {
+  color: #6c757d; /* 4.6:1 ratio on white - meets AA */
+}
+
+/* Warning: Don't use muted text on colored backgrounds without checking contrast */
+
+/* ============================================================
+   FOCUS TRAP - For modals and dialogs
+   ============================================================ */
+
+/**
+ * When a modal is open, ensure focus stays within it
+ * This is typically handled by JavaScript, but we provide visual feedback
+ */
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+/* ============================================================
+   FORM ACCESSIBILITY - Enhanced form element states
+   ============================================================ */
+
+/**
+ * Required field indicator
+ * Use aria-required="true" in HTML
+ */
+input[required],
+textarea[required],
+select[required] {
+  /* Visual indicator handled by HTML or label */
+}
+
+/**
+ * Invalid field states
+ * Use aria-invalid="true" in HTML when validation fails
+ */
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: #dc3545;
+  outline-color: #dc3545;
+}
+
+input[aria-invalid="true"]:focus,
+textarea[aria-invalid="true"]:focus,
+select[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+/**
+ * Disabled form elements
+ * Ensure they're clearly not interactive
+ */
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   LIVE REGIONS - For dynamic content updates
+   ============================================================ */
+
+/**
+ * Announce dynamic updates to screen readers
+ * Use aria-live="polite" or aria-live="assertive" in HTML
+ */
+[aria-live] {
+  /* Screen readers will announce changes to this region */
+}
+
+/* ============================================================
+   PRINT ACCESSIBILITY
+   ============================================================ */
+
+/**
+ * Print-friendly styles
+ */
+@media print {
+  /* Show skip links and nav in print for reference */
+  .skip-link {
+    position: static;
+    display: block;
+  }
+
+  /* Ensure links are visible in print */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Don't print decorative images */
+  img[alt=""],
+  img:not([alt]) {
+    display: none;
+  }
+}
+
+/* ============================================================
+   USAGE NOTES
+   ============================================================
+
+   This file provides the foundation. Each page should also:
+
+   1. Add semantic HTML landmarks:
+      <header role="banner">
+      <nav role="navigation">
+      <main role="main">
+      <footer role="contentinfo">
+
+   2. Add ARIA labels where needed:
+      <button aria-label="Search projects">
+      <div role="alert" aria-live="polite">
+
+   3. Use heading hierarchy properly:
+      h1 (one per page) → h2 → h3 (no skipping levels)
+
+   4. Add alt text to all images:
+      <img src="..." alt="Description">
+
+   5. Label all form inputs:
+      <label for="email">Email</label>
+      <input id="email" type="email" required aria-required="true">
+
+   6. Use proper button types:
+      <button type="button"> (not type="submit" unless in form)
+
+   7. Include skip link at top of page:
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+
+   ============================================================ */

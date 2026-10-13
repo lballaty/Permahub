@@ -1,0 +1,65 @@
+/**
+ * Resources Page
+ * Permaculture Network
+ *
+ * Page-specific styles for the resources listing and search page.
+ */
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
+
+.main-container {
+  max-width: var(--max-width-main);
+  margin: var(--space-8) auto;
+  padding: 0 var(--space-4);
+}
+
+/* ============================================================
+   SEARCH BAR
+   ============================================================ */
+
+.search-bar {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: var(--input-padding-y) var(--input-padding-x) var(--input-padding-y) 2.5rem;
+  border: var(--border-width-thick) solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  transition: var(--transition-all);
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.search-bar i {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-500);
+  pointer-events: none;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .main-container {
+    margin: var(--space-6) auto;
+    padding: 0 var(--space-4);
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
+}

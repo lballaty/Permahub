@@ -1,0 +1,98 @@
+/**
+ * Button Components
+ * Permaculture Network
+ *
+ * Button styles and variants for actions and navigation.
+ * Includes primary, secondary, and grouped layouts.
+ */
+
+/* ============================================================
+   BUTTON BASE STYLES
+   ============================================================ */
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: var(--transition-all);
+  text-transform: uppercase;
+  font-size: var(--text-sm);
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+/* ============================================================
+   BUTTON VARIANTS
+   ============================================================ */
+
+.btn-primary {
+  background: var(--bg-gradient-green);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-active);
+}
+
+/* Header Button Variant */
+.btn-header {
+  padding: var(--input-padding-y) var(--space-6);
+  background: var(--bg-gradient-green);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: var(--transition-all);
+  font-size: var(--text-base);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btn-header:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green);
+}
+
+/* ============================================================
+   BUTTON GROUP
+   ============================================================ */
+
+.button-group {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   RESPONSIVE - Mobile
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}

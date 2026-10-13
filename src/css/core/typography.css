@@ -1,0 +1,408 @@
+/**
+ * Typography System
+ * Permaculture Network Platform
+ *
+ * Font scales, line heights, and text utilities.
+ * Uses CSS custom properties for easy theming.
+ */
+
+/* ============================================================
+   FONT FAMILIES
+   ============================================================ */
+
+:root {
+  /* System font stack - optimized for each platform */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono',
+    'Courier New', monospace;
+
+  /* Default font family */
+  --font-base: var(--font-sans);
+}
+
+/* ============================================================
+   FONT SIZES - Modular scale (1.25 ratio)
+   ============================================================ */
+
+:root {
+  /* Base size (16px default, respects user preference) */
+  --text-base: 1rem;
+
+  /* Type scale */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-md: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 3.75rem; /* 60px */
+
+  /* Heading sizes (can be different from text scale) */
+  --heading-1: var(--text-5xl);
+  --heading-2: var(--text-4xl);
+  --heading-3: var(--text-3xl);
+  --heading-4: var(--text-2xl);
+  --heading-5: var(--text-xl);
+  --heading-6: var(--text-lg);
+}
+
+/* Responsive heading sizes for mobile */
+@media (max-width: 768px) {
+  :root {
+    --heading-1: var(--text-4xl);
+    --heading-2: var(--text-3xl);
+    --heading-3: var(--text-2xl);
+    --heading-4: var(--text-xl);
+    --heading-5: var(--text-lg);
+    --heading-6: var(--text-md);
+  }
+}
+
+/* ============================================================
+   LINE HEIGHTS
+   ============================================================ */
+
+:root {
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Default line heights by element type */
+  --leading-heading: var(--leading-tight);
+  --leading-body: var(--leading-normal);
+}
+
+/* ============================================================
+   FONT WEIGHTS
+   ============================================================ */
+
+:root {
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+}
+
+/* ============================================================
+   LETTER SPACING
+   ============================================================ */
+
+:root {
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+}
+
+/* ============================================================
+   BASE TYPOGRAPHY STYLES
+   ============================================================ */
+
+body {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  font-weight: var(--font-normal);
+}
+
+/* ============================================================
+   HEADINGS
+   ============================================================ */
+
+h1 {
+  font-size: var(--heading-1);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2 {
+  font-size: var(--heading-2);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+}
+
+h3 {
+  font-size: var(--heading-3);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-heading);
+}
+
+h4 {
+  font-size: var(--heading-4);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-heading);
+}
+
+h5 {
+  font-size: var(--heading-5);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-heading);
+}
+
+h6 {
+  font-size: var(--heading-6);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-heading);
+}
+
+/* ============================================================
+   PARAGRAPHS & INLINE ELEMENTS
+   ============================================================ */
+
+p {
+  margin-bottom: 1rem;
+}
+
+strong,
+b {
+  font-weight: var(--font-bold);
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+mark {
+  background-color: #fff3cd;
+  padding: 0.125rem 0.25rem;
+  border-radius: 2px;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: #f5f5f5;
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+
+a {
+  color: var(--link-color, #2d8659);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--link-hover-color, #1a5f3f);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   LISTS
+   ============================================================ */
+
+/* Restore list styles when inside prose/content */
+.prose ul,
+.content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose ol,
+.content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose li,
+.content li {
+  margin-bottom: 0.5rem;
+}
+
+.prose li > ul,
+.prose li > ol,
+.content li > ul,
+.content li > ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   BLOCKQUOTES
+   ============================================================ */
+
+blockquote {
+  border-left: 4px solid var(--primary-color, #2d8659);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #555;
+}
+
+/* ============================================================
+   HORIZONTAL RULES
+   ============================================================ */
+
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.1),
+    transparent
+  );
+  margin: 2rem 0;
+}
+
+/* ============================================================
+   TEXT UTILITIES
+   ============================================================ */
+
+/* Alignment */
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+/* Weight */
+.font-light {
+  font-weight: var(--font-light);
+}
+
+.font-normal {
+  font-weight: var(--font-normal);
+}
+
+.font-medium {
+  font-weight: var(--font-medium);
+}
+
+.font-semibold {
+  font-weight: var(--font-semibold);
+}
+
+.font-bold {
+  font-weight: var(--font-bold);
+}
+
+/* Size */
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-base {
+  font-size: var(--text-base);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+.text-2xl {
+  font-size: var(--text-2xl);
+}
+
+/* Transform */
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+/* Decoration */
+.underline {
+  text-decoration: underline;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+/* Truncate */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Line clamp */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

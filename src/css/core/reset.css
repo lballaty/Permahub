@@ -1,0 +1,194 @@
+/**
+ * CSS Reset & Normalize
+ * Permaculture Network Platform
+ *
+ * Consistent baseline styles across all browsers.
+ * Based on modern CSS reset principles.
+ */
+
+/* ============================================================
+   BOX SIZING - Use border-box everywhere
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   MARGIN & PADDING RESET
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   HTML & BODY BASELINE
+   ============================================================ */
+
+html {
+  /* Respect user's font size preferences */
+  font-size: 100%;
+  /* Smooth scrolling (can be disabled by prefers-reduced-motion) */
+  scroll-behavior: smooth;
+  /* Better text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Minimum height for sticky footers */
+  min-height: 100vh;
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  /* Better line height for readability */
+  line-height: 1.6;
+  /* Text rendering optimization */
+  text-rendering: optimizeSpeed;
+}
+
+/* ============================================================
+   TYPOGRAPHY RESET
+   ============================================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.2;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* ============================================================
+   LIST RESET
+   ============================================================ */
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ============================================================
+   LINK RESET
+   ============================================================ */
+
+a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+/* ============================================================
+   BUTTON RESET
+   ============================================================ */
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+textarea {
+  /* Allow vertical resize only */
+  resize: vertical;
+}
+
+/* ============================================================
+   MEDIA ELEMENTS
+   ============================================================ */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   TABLE RESET
+   ============================================================ */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ============================================================
+   MISC RESETS
+   ============================================================ */
+
+/* Remove default fieldset styles */
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+/* Remove default legend styles */
+legend {
+  padding: 0;
+}
+
+/* Remove spinners from number inputs (optional - can be overridden) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Remove search input cancel button */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* ============================================================
+   ACCESSIBILITY - Don't remove focus outline
+   ============================================================ */
+
+/*
+ * IMPORTANT: We intentionally DON'T include:
+ * *:focus { outline: none; }
+ *
+ * Focus outlines are critical for keyboard accessibility.
+ * Custom focus styles are defined in accessibility.css
+ */

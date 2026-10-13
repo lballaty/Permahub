@@ -1,0 +1,83 @@
+/* ============================================
+   ITEM TYPE SELECTOR COMPONENT
+   Grid-based selector for item types
+   ============================================ */
+
+/* Item Type Grid */
+.item-type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+/* Item Type Button */
+.item-type-btn {
+    padding: 1.5rem;
+    border: 2px solid var(--border-color, #e0e7e9);
+    background: var(--bg-light, #f9f9f9);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-primary, #2c3e50);
+}
+
+.item-type-btn:hover {
+    border-color: var(--color-primary, #2d8659);
+    background: var(--bg-white, white);
+    transform: translateY(-2px);
+}
+
+.item-type-btn.selected {
+    background: var(--color-primary, #2d8659);
+    color: var(--text-white, white);
+    border-color: var(--color-primary, #2d8659);
+}
+
+.item-type-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Category Grid (similar pattern) */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+}
+
+/* Category Button */
+.category-btn {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color, #e0e7e9);
+    background: var(--bg-white, white);
+    color: var(--text-primary, #2c3e50);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+    border-color: var(--color-primary, #2d8659);
+}
+
+.category-btn.selected {
+    background: var(--color-primary, #2d8659);
+    color: var(--text-white, white);
+    border-color: var(--color-primary, #2d8659);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .item-type-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

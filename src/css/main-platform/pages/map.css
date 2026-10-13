@@ -1,0 +1,437 @@
+/**
+ * Map Page Styles
+ * Permaculture Network
+ *
+ * Page-specific styles for the map view with Leaflet integration.
+ * Handles the map container, sidebar, and Leaflet popup customizations.
+ */
+
+/* ============================================================
+   HEADER CUSTOMIZATION - Map Page
+   ============================================================ */
+
+/* Map page uses white header instead of gradient */
+header {
+  background: var(--bg-card);
+  border-bottom: var(--border-width-thick) solid var(--border-color);
+  padding: var(--space-4) var(--space-8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+
+.header-content {
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.logo {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ============================================================
+   VIEW TOGGLE BUTTONS
+   ============================================================ */
+
+.view-toggle {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.view-btn {
+  padding: var(--input-padding-y) var(--space-4);
+  border: var(--border-width-thick) solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--gray-700);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: var(--font-semibold);
+  transition: var(--transition-all);
+  font-size: var(--text-sm);
+}
+
+.view-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.view-btn:hover {
+  border-color: var(--primary);
+}
+
+/* ============================================================
+   LOCATION BUTTON
+   ============================================================ */
+
+.location-btn {
+  padding: var(--input-padding-y) var(--space-4);
+  background: var(--bg-gradient-green);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: var(--font-semibold);
+  transition: var(--transition-all);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.location-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green);
+}
+
+/* ============================================================
+   MAP CONTAINER LAYOUT
+   ============================================================ */
+
+.map-container {
+  display: flex;
+  height: calc(100vh - 70px);
+  margin-top: 70px;
+  gap: 0;
+}
+
+#map {
+  flex: 1;
+  height: 100%;
+  position: relative;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.sidebar {
+  width: 350px;
+  background: var(--bg-card);
+  border-right: var(--border-width-thick) solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.sidebar-header {
+  padding: var(--space-6);
+  border-bottom: var(--border-width-thick) solid var(--border-color);
+  background: linear-gradient(135deg, var(--primary-lighter) 0%, var(--primary-lightest) 100%);
+}
+
+.sidebar-title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--primary-dark);
+  margin-bottom: var(--space-4);
+}
+
+/* Filter-specific styles for map sidebar */
+.filter-label {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: var(--input-padding-y) var(--input-padding-x);
+  border: var(--border-width-thick) solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-family: var(--font-family);
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--shadow-focus);
+}
+
+/* ============================================================
+   FILTER TAGS
+   ============================================================ */
+
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.tag-btn {
+  padding: var(--space-2) var(--space-3);
+  background: var(--primary-lighter);
+  border: var(--border-width-thick) solid var(--border-color);
+  color: var(--primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  transition: var(--transition-all);
+}
+
+.tag-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.tag-btn:hover {
+  border-color: var(--primary);
+}
+
+/* ============================================================
+   SIDEBAR CONTENT
+   ============================================================ */
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.results-header {
+  font-weight: var(--font-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+/* ============================================================
+   ITEM CARDS
+   ============================================================ */
+
+.item-card {
+  padding: var(--space-4);
+  background: var(--bg-hover);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-3);
+  border-left: 4px solid var(--primary);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.item-card:hover,
+.item-card.active {
+  background: var(--bg-card);
+  box-shadow: var(--shadow-md);
+  transform: translateX(4px);
+}
+
+.item-title {
+  font-weight: var(--font-bold);
+  color: var(--primary-dark);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+}
+
+.item-info {
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.item-distance {
+  font-weight: var(--font-semibold);
+  color: var(--primary);
+  font-size: var(--text-sm);
+}
+
+.item-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.action-btn {
+  flex: 1;
+  padding: var(--space-2);
+  border: none;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  transition: var(--transition-all);
+}
+
+.action-btn:hover {
+  background: var(--primary-dark);
+}
+
+.action-btn-secondary {
+  background: var(--gray-300);
+  color: var(--gray-900);
+}
+
+.action-btn-secondary:hover {
+  background: var(--gray-400);
+}
+
+/* ============================================================
+   MAP CONTROLS
+   ============================================================ */
+
+.map-control {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  box-shadow: var(--shadow-md);
+  margin: var(--space-2);
+}
+
+.control-btn {
+  padding: var(--space-3);
+  border: none;
+  background: var(--primary-lighter);
+  color: var(--primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  transition: var(--transition-all);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.control-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* ============================================================
+   LEAFLET POPUP CUSTOMIZATION
+   ============================================================ */
+
+/* Override Leaflet's default popup styles */
+.leaflet-popup-content-wrapper {
+  background: var(--bg-card) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--bg-card) !important;
+}
+
+.popup-content {
+  padding: var(--space-2) 0;
+}
+
+.popup-title {
+  font-weight: var(--font-bold);
+  color: var(--primary-dark);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-2);
+}
+
+.popup-info {
+  font-size: var(--text-sm);
+  color: var(--gray-700);
+  margin-bottom: var(--space-1);
+}
+
+.popup-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.popup-btn {
+  flex: 1;
+  padding: var(--space-2);
+  border: none;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-decoration: none;
+  text-align: center;
+}
+
+.popup-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* ============================================================
+   RESPONSIVE - Mobile & Tablet
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Stack map and sidebar vertically on mobile */
+  .map-container {
+    flex-direction: column;
+    height: calc(100vh - 60px);
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 40%;
+    border-right: none;
+    border-top: var(--border-width-thick) solid var(--border-color);
+    /* Ensure sidebar is at bottom */
+    order: 2;
+  }
+
+  #map {
+    height: 60%;
+    /* Ensure map is at top */
+    order: 1;
+  }
+
+  /* Adjust header for mobile */
+  header {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .header-content {
+    gap: var(--space-2);
+  }
+
+  .logo {
+    font-size: var(--text-base);
+  }
+
+  .view-btn,
+  .location-btn {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  /* Reduce sidebar padding on mobile */
+  .sidebar-header {
+    padding: var(--space-4);
+  }
+
+  .sidebar-content {
+    padding: var(--space-3);
+  }
+}
