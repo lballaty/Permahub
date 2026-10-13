@@ -1,0 +1,88 @@
+/* ============================================
+   MESSAGES COMPONENT
+   Success and error message styles
+   ============================================ */
+
+/* Success Message */
+.success-message {
+    background: var(--bg-success, #d4edda);
+    border: 2px solid var(--color-success, #28a745);
+    color: var(--text-success, #155724);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: none;
+    font-weight: 500;
+}
+
+.success-message.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+.success-message i {
+    margin-right: 0.5rem;
+}
+
+/* Error Message */
+.error-message {
+    background: var(--bg-error, #f8d7da);
+    border: 2px solid var(--color-error, #e74c3c);
+    color: var(--text-error, #721c24);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: none;
+    font-weight: 500;
+}
+
+.error-message.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+.error-message i {
+    margin-right: 0.5rem;
+}
+
+/* Info Message */
+.info-message {
+    background: var(--bg-info, #d1ecf1);
+    border: 2px solid var(--color-info, #17a2b8);
+    color: var(--text-info, #0c5460);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.info-message i {
+    margin-right: 0.5rem;
+}
+
+/* Warning Message */
+.warning-message {
+    background: var(--bg-warning, #fff3cd);
+    border: 2px solid var(--color-warning, #ffc107);
+    color: var(--text-warning, #856404);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.warning-message i {
+    margin-right: 0.5rem;
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
