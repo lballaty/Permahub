@@ -222,7 +222,7 @@
     setInterval(() => {
       if (navigator.onLine) {
         // Try to fetch a small resource to verify real connectivity
-        fetch('/src/manifest.json', {
+        fetch('/manifest.json', {
           method: 'HEAD',
           cache: 'no-cache'
         })

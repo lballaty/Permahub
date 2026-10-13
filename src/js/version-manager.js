@@ -15,13 +15,16 @@
 
 import { SUPABASE_CONFIG } from './config.js';
 
-// Get version from package.json (injected by Vite)
-const PACKAGE_VERSION = import.meta.env.VITE_APP_VERSION || '1.0.0';
-const BUILD_TIME = import.meta.env.VITE_BUILD_TIME || new Date().toISOString();
-const COMMIT_HASH = import.meta.env.VITE_COMMIT_HASH || 'dev';
+// Get version from package.json (injected by Vite) with guards for non-module contexts
+const hasImportMeta = typeof import.meta !== 'undefined' && import.meta.env;
+const PACKAGE_VERSION = hasImportMeta ? import.meta.env.VITE_APP_VERSION : '1.0.0';
+const BUILD_TIME = hasImportMeta ? import.meta.env.VITE_BUILD_TIME : new Date().toISOString();
+const COMMIT_HASH = hasImportMeta ? import.meta.env.VITE_COMMIT_HASH : 'dev';
+const MODE = hasImportMeta ? (import.meta.env.MODE || 'production') : 'production';
+const SUPABASE_URL = hasImportMeta ? (import.meta.env.VITE_SUPABASE_URL || 'https://mcbxbaggjaxqfdvmrqsc.supabase.co') : 'https://mcbxbaggjaxqfdvmrqsc.supabase.co';
 
 // Parse semantic version to get patch number
-const [major, minor, patch] = PACKAGE_VERSION.split('.').map(Number);
+const [, , patch] = PACKAGE_VERSION.split('.').map(Number);
 
 // Format build time for display
 const buildDate = new Date(BUILD_TIME);
@@ -45,8 +48,8 @@ console.log(`%c🚀 ${VERSION_DISPLAY}`, 'color: #2ecc71; font-weight: bold; fon
 console.log(`📦 Version: ${VERSION}`);
 console.log(`📝 Commit: ${COMMIT_HASH}`);
 console.log(`📅 Build: ${BUILD_TIME}`);
-console.log(`🔗 Environment: ${import.meta.env.MODE || 'development'}`);
-console.log(`🌐 Supabase: ${import.meta.env.VITE_SUPABASE_URL || 'http://127.0.0.1:3000'}`);
+console.log(`🔗 Environment: ${MODE}`);
+console.log(`🌐 Supabase: ${SUPABASE_URL}`);
 console.log('─'.repeat(60));
 
 /**
@@ -181,7 +184,7 @@ export function displayVersionBadge() {
 
   // Click to show details
   versionBadge.addEventListener('click', () => {
-    alert(`${VERSION_DISPLAY}\n\nVersion: ${VERSION}\nCommit: ${COMMIT_HASH}\nBuild Time: ${BUILD_TIME}\nEnvironment: ${import.meta.env.MODE || 'development'}`);
+    alert(`${VERSION_DISPLAY}\n\nVersion: ${VERSION}\nCommit: ${COMMIT_HASH}\nBuild Time: ${BUILD_TIME}\nEnvironment: ${MODE}`);
   });
 
   // Assemble container
