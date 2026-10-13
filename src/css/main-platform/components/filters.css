@@ -1,0 +1,122 @@
+/**
+ * Filters Component
+ * Permaculture Network
+ *
+ * Filter panels, sections, and controls used across the platform.
+ */
+
+/* ============================================================
+   FILTERS PANEL
+   ============================================================ */
+
+.filters-panel {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+    box-shadow: var(--shadow-md);
+}
+
+.filters-section {
+    background: var(--surface);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   FILTER SECTION
+   ============================================================ */
+
+.filter-section {
+    margin-bottom: var(--space-8);
+}
+
+.filter-section:last-child {
+    margin-bottom: 0;
+}
+
+.filter-title {
+    font-size: var(--text-md);
+    font-weight: var(--font-bold);
+    color: var(--primary-dark);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border-width-thick) solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* ============================================================
+   FILTER CONTROLS
+   ============================================================ */
+
+.filter-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-2);
+    color: var(--gray-900);
+    font-size: var(--text-sm);
+}
+
+.filter-group select,
+.filter-group input {
+    padding: var(--input-padding-y) var(--input-padding-x);
+    border: var(--border-width-thick) solid var(--input-border-color);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-family: var(--font-family);
+    background: var(--input-bg);
+    color: var(--gray-900);
+    transition: var(--transition-all);
+}
+
+.filter-group select:hover,
+.filter-group input:hover {
+    border-color: var(--input-border-color-hover);
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: var(--input-border-color-focus);
+    box-shadow: var(--shadow-focus);
+}
+
+.filter-group select:disabled,
+.filter-group input:disabled {
+    background: var(--input-bg-disabled);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .filters-panel {
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+    }
+
+    .filter-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-section {
+        margin-bottom: var(--space-6);
+    }
+}

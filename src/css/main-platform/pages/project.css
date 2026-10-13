@@ -1,0 +1,126 @@
+/**
+ * Project Page Styles
+ * Permaculture Network
+ *
+ * Page-specific styles for individual project detail pages.
+ */
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
+
+.main-container {
+  max-width: var(--max-width-content);
+  margin: var(--space-8) auto;
+  padding: 0 var(--space-4);
+}
+
+/* ============================================================
+   PROJECT HEADER
+   ============================================================ */
+
+.project-header {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--space-8);
+}
+
+.project-info {
+  padding: var(--space-8);
+}
+
+.project-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--primary-dark);
+  margin-bottom: var(--space-2);
+}
+
+.project-description {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--gray-700);
+  margin-bottom: var(--space-4);
+}
+
+/* ============================================================
+   PROJECT GRID
+   ============================================================ */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+/* Spacing between stacked cards */
+.project-grid > div > .section-card {
+  margin-bottom: var(--space-8);
+}
+
+.project-grid > div > .section-card:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   ACTION BUTTONS
+   ============================================================ */
+
+.action-buttons {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.action-buttons .btn {
+  flex: 1;
+}
+
+/* ============================================================
+   RESPONSIVE LAYOUT
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .main-container {
+    margin: var(--space-4) auto;
+    padding: 0 var(--space-3);
+  }
+
+  .project-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .project-info {
+    padding: var(--space-4);
+  }
+
+  .project-title {
+    font-size: var(--text-2xl);
+  }
+
+  .project-description {
+    font-size: var(--text-base);
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .project-grid > div > .section-card {
+    margin-bottom: var(--space-4);
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .action-buttons .btn {
+    flex: none;
+    width: 100%;
+  }
+}

@@ -1,0 +1,123 @@
+/**
+ * Badges & Tags Component
+ * Permaculture Network
+ *
+ * Small labels for categories, status, and metadata.
+ */
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+
+.badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: var(--primary-lighter);
+  color: var(--primary);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+/* Badge variants */
+.badge.success {
+  background: var(--success-bg-light);
+  color: var(--success-text-alt);
+}
+
+.badge.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.badge.warning {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.badge.info {
+  background: var(--info-bg);
+  color: var(--info-text);
+}
+
+/* Badge container */
+.project-badges,
+.badge-list {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+/* ============================================================
+   TAGS
+   ============================================================ */
+
+.tag {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  background: var(--primary-lightest);
+  color: var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+/* Tag variants */
+.tag.outlined {
+  background: transparent;
+  border: 1px solid var(--primary);
+}
+
+.tag.dark {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* Tags container */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+/* Interactive tags (clickable/removable) */
+.tag.interactive {
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.tag.interactive:hover {
+  background: var(--primary);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.tag.removable {
+  padding-right: 0.4rem;
+}
+
+.tag.removable .remove-icon {
+  margin-left: 0.3rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.tag.removable .remove-icon:hover {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .badge {
+    font-size: var(--text-xs);
+    padding: 0.3rem 0.6rem;
+  }
+
+  .tag {
+    font-size: var(--text-xs);
+    padding: 0.3rem 0.6rem;
+  }
+}

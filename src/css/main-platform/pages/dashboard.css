@@ -1,0 +1,19 @@
+/* ============ DASHBOARD PAGE ============ */
+.main-container {
+    max-width: 1400px;
+    margin: var(--space-8) auto;
+    padding: 0 var(--space-4);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        margin: var(--space-4) auto;
+    }
+}

@@ -1,0 +1,53 @@
+/**
+ * Breadcrumb Component
+ * Permaculture Network
+ *
+ * Navigation breadcrumb for showing page hierarchy.
+ */
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+
+.breadcrumb {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-base);
+}
+
+.breadcrumb a {
+  color: var(--primary);
+  text-decoration: none;
+  margin: 0 var(--space-2);
+  transition: var(--transition-base);
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+  color: var(--primary-dark);
+}
+
+.breadcrumb a:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Separator styling */
+.breadcrumb span:not(a) {
+  color: var(--gray-500);
+  margin: 0 var(--space-2);
+}
+
+/* Current page (not a link) */
+.breadcrumb .current {
+  color: var(--gray-700);
+  font-weight: var(--font-medium);
+}
+
+/* Responsive - smaller text on mobile */
+@media (max-width: 768px) {
+  .breadcrumb {
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+  }
+}
